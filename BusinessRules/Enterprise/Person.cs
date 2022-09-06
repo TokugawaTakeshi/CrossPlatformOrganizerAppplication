@@ -38,7 +38,7 @@ namespace BusinessRules.Enterprise
     }
 
 
-    internal Person Clone()
+    public Person Clone()
     {
       return new Person(ID, Name, Email, PhoneNumber)
       {
