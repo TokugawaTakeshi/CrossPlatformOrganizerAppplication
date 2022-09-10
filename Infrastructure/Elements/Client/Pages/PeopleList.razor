@@ -1,0 +1,80 @@
+﻿@page "/people_list"
+
+@using BusinessRules.Enterprise
+@using Gateways
+
+
+<h1>People list</h1>
+
+@if (isWaitingForFirstRetrievingOfPeople || arePeopleBeingRetrievedNow)
+{
+  <p>Loading</p>
+}
+else if (isPeopleRetrievingErrorOccurred)
+{
+  <p>Error</p>
+}
+else
+{
+    <table class="table table-striped">
+    
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">PhoneNumber</th>
+        <th scope="col">Age</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+    
+      @foreach (Person person in people)
+      {
+        <tr>
+          <td>@person.Name</td>
+          <td>@person.Email</td>
+          <td>@person.PhoneNumber</td>
+          <td>@person.Age</td>
+        </tr>  
+      }
+
+    </tbody>
+  </table>
+}
+
+
+@code
+{
+
+  private IPersonGateway personGateway = ClientDependencies.Injector.gateways().Person;
+  
+  private List<Person> people;
+  
+  private bool isWaitingForFirstRetrievingOfPeople = true;
+  private bool arePeopleBeingRetrievedNow;
+  private bool isPeopleRetrievingErrorOccurred;
+
+  protected override async Task OnInitializedAsync()
+  {
+
+    try
+    {
+
+      isWaitingForFirstRetrievingOfPeople = false;
+      arePeopleBeingRetrievedNow = true;
+      isPeopleRetrievingErrorOccurred = false;
+      
+      people = await personGateway.RetrieveAll();
+      
+      Console.WriteLine(people);
+      
+    }
+    catch
+    {
+      isPeopleRetrievingErrorOccurred = true;
+    }
+	  
+	  arePeopleBeingRetrievedNow = false;
+  }
+}

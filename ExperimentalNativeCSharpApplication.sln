@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gateways", "Gateways\Gatewa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDataSource", "Infrastructure\Elements\MockDataSource\MockDataSource.csproj", "{E8646560-666E-40A0-A61E-353ECE805A53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Infrastructure\Elements\Client\Client.csproj", "{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Infrastructure\Elements\Client\Client.csproj", "{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
