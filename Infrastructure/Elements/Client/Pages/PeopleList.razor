@@ -10,71 +10,112 @@
 {
   <p>Loading</p>
 }
+
 else if (isPeopleRetrievingErrorOccurred)
 {
-  <p>Error</p>
+  <div class="alert alert-danger" role="alert">
+    大変申し訳ございません、データ取得中問題が発生しました。
+    <br>
+    <a class="btn btn-primary" href="#" role="button">取得再試験</a>
+  </div>
 }
+
+else if (totalPeopleCount == 0)
+{
+  <div class="alert alert-info" role="alert">
+    現在、人が一名も登録されちえません。
+    <br>
+    <a class="btn btn-primary" href="#" role="button">登録しましょう</a>
+  </div>
+}
+
+else if (totalPeopleCountInSelection == 0)
+{
+  <div class="alert alert-info" role="alert">
+    検索・フィルタリングと合っている人はいません。
+    <br>
+   <button class="btn btn-primary" type="submit">フィルタリングをリセット</button>
+  </div>
+}
+
 else
 {
-    <table class="table table-striped">
+  
+  <div class="container">
     
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">PhoneNumber</th>
-        <th scope="col">Age</th>
-      </tr>
-    </thead>
+    @foreach (Person person in peopleSelectionActualForCurrentPaginationPage)
+    {
+      <PersonCard Person="person"/>  
+    }
     
-    <tbody>
-    
-      @foreach (Person person in people)
-      {
-        <tr>
-          <td>@person.Name</td>
-          <td>@person.Email</td>
-          <td>@person.PhoneNumber</td>
-          <td>@person.Age</td>
-        </tr>  
-      }
-
-    </tbody>
-  </table>
+  </div>
 }
 
 
 @code
 {
 
-  private IPersonGateway personGateway = ClientDependencies.Injector.gateways().Person;
+  private readonly IPersonGateway personGateway = ClientDependencies.Injector.gateways().Person;
   
-  private List<Person> people;
+  private uint totalPeopleCount;
+  private uint totalPeopleCountInSelection;
+  
+  private List<Person> peopleSelectionActualForCurrentPaginationPage;
   
   private bool isWaitingForFirstRetrievingOfPeople = true;
   private bool arePeopleBeingRetrievedNow;
   private bool isPeopleRetrievingErrorOccurred;
 
+  private uint peopleCurrentPaginationPage = 1;
+  private readonly uint PEOPLE_COUNT_PER_PAGINATION_PAGE = 20;
+
+  
   protected override async Task OnInitializedAsync()
   {
+    await RetrievePeopleSelection();
+  }
+  
+
+  private async Task RetrievePeopleSelection()
+  {
+
+    IPersonGateway.SelectionRetrieving.ResponseData responseData;
+    
+    isWaitingForFirstRetrievingOfPeople = false;
+    arePeopleBeingRetrievedNow = true;
+    isPeopleRetrievingErrorOccurred = false;
 
     try
     {
 
-      isWaitingForFirstRetrievingOfPeople = false;
-      arePeopleBeingRetrievedNow = true;
-      isPeopleRetrievingErrorOccurred = false;
-      
-      people = await personGateway.RetrieveAll();
-      
-      Console.WriteLine(people);
-      
+      responseData = await personGateway.RetrieveSelection(
+        new IPersonGateway.SelectionRetrieving.RequestParameters(
+          paginationPageNumber: peopleCurrentPaginationPage,
+          itemsCountPerPaginationPage: PEOPLE_COUNT_PER_PAGINATION_PAGE,
+          filteringByName: ""
+          )
+        );
+
     }
-    catch
+    catch (Exception exception)
     {
+     
+      Console.WriteLine(exception);
       isPeopleRetrievingErrorOccurred = true;
+      return;
+      
     }
-	  
-	  arePeopleBeingRetrievedNow = false;
+    finally
+    {
+      
+      arePeopleBeingRetrievedNow = false;
+      
+    }
+    
+    
+    peopleSelectionActualForCurrentPaginationPage = responseData.SelectionItemsOfSpecifiedPaginationPage;
+    totalPeopleCount = responseData.TotalItemsCount;
+    totalPeopleCountInSelection = responseData.TotalItemsCountInSelection;
+    
   }
 }

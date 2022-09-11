@@ -19,7 +19,7 @@ namespace Gateways
 
         public readonly uint PaginationPageNumber;
         public readonly uint ItemsCountPerPaginationPage;
-        public readonly string? FilteringByName = null;
+        public readonly string? FilteringByName;
 
         public RequestParameters(
           uint paginationPageNumber,
