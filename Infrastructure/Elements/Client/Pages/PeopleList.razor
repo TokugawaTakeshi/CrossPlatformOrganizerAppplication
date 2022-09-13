@@ -8,7 +8,10 @@
 
 @if (isWaitingForFirstRetrievingOfPeople || arePeopleBeingRetrievedNow)
 {
-  <p>Loading</p>
+  @foreach (uint unused in new uint[5])
+  {
+    <PersonCardLoadingPlaceholder />  
+  }
 }
 
 else if (isPeopleRetrievingErrorOccurred)
@@ -16,7 +19,11 @@ else if (isPeopleRetrievingErrorOccurred)
   <div class="alert alert-danger" role="alert">
     大変申し訳ございません、データ取得中問題が発生しました。
     <br>
-    <a class="btn btn-primary" href="#" role="button">取得再試験</a>
+    <button 
+      type="button"
+      class="btn btn-secondary mt-1" 
+      @onclick="() => RetrievePeopleSelection()"
+    >取得再試験</button>
   </div>
 }
 
@@ -66,7 +73,8 @@ else
   private bool arePeopleBeingRetrievedNow;
   private bool isPeopleRetrievingErrorOccurred;
 
-  private uint peopleCurrentPaginationPage = 1;
+  private uint currentPeoplePaginationPageNumber = 1;
+  private string currentFilteringByFullOrPartialName = "";
   private readonly uint PEOPLE_COUNT_PER_PAGINATION_PAGE = 20;
 
   
@@ -76,7 +84,12 @@ else
   }
   
 
-  private async Task RetrievePeopleSelection()
+  private async Task RetrievePeopleSelection(
+	#nullable enable
+    uint? paginationPageNumber = null,
+    string? filteringByName = null
+	#nullable disable
+  )
   {
 
     IPersonGateway.SelectionRetrieving.ResponseData responseData;
@@ -85,16 +98,19 @@ else
     arePeopleBeingRetrievedNow = true;
     isPeopleRetrievingErrorOccurred = false;
 
+    currentPeoplePaginationPageNumber = paginationPageNumber ?? currentPeoplePaginationPageNumber;
+    currentFilteringByFullOrPartialName = filteringByName ?? currentFilteringByFullOrPartialName;
+
     try
     {
 
-      responseData = await personGateway.RetrieveSelection(
+	    responseData = await personGateway.RetrieveSelection(
         new IPersonGateway.SelectionRetrieving.RequestParameters(
-          paginationPageNumber: peopleCurrentPaginationPage,
+          paginationPageNumber: currentPeoplePaginationPageNumber,
           itemsCountPerPaginationPage: PEOPLE_COUNT_PER_PAGINATION_PAGE,
-          filteringByName: ""
-          )
-        );
+          filteringByName: currentFilteringByFullOrPartialName 
+        )
+      );
 
     }
     catch (Exception exception)
