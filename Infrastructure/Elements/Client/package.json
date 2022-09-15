@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "Static preview building": "rimraf StaticPreview/.Build & yda build --selectiveExecution StaticPreview --mode STATIC_PREVIEW"
+  },
+  "dependencies": {
+    "@yamato-daiwa/automation": "../../../../../InHouseDevelopment/YamatoDaiwaAutomation/MainPackage",
+    "@yamato-daiwa/frontend": "../../../../../InHouseDevelopment/YamatoDaiwaFrontend/CoreLibrary/Package"
+  },
+  "devDependencies": {
+    "rimraf": "3.0.2"
+  }
+}

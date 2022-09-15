@@ -1,0 +1,40 @@
+mixin TaskCard(properties, statesSimulations)
+
+  -
+
+    statesSimulations = statesSimulations ?? {}
+
+    const {
+      task,
+      rootElementTag = "div"
+    } = properties
+
+    const {} = statesSimulations
+
+
+  #{rootElementTag}.TaskCard&attributes(attributes)(
+    tabindex="0"
+  )
+
+    span.TaskCard-Checkbox(
+      role="checkbox"
+      aria-checked= String(getRandomBoolean())
+      tabindex="0"
+    )
+      +CheckboxIcon__Unchecked--YDF_Icon.TaskCard-Checkbox-Icon
+
+
+    .TaskCard-Title= task.title
+
+    if getRandomBoolean()
+
+      .TaskCard-BadgesFlow
+
+        +Badge--YDF({
+          value: "Test",
+          decoration: Badge__YDF.DecorativeVariations.veryCatchy
+        })
+
+    if getRandomBoolean()
+
+      p.TaskCard-Description= task.description

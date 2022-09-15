@@ -1,0 +1,119 @@
+.TasksGroupsTreeManager
+
+  &-Title
+
+    font-size 18px
+
+    font-weight bold
+    color: ShadesOfGray__39ColorsW3C_Palette[12]
+
+
+  &-List
+
+    PositionalRelationship({
+      definitions: (".TasksGroupsTreeManager-Title" { retireFromIt: { y: 8px }, pushItFromSelf: { y: 16px } })
+    })
+
+
+    &-Item
+
+      &:has(.TasksGroupsTreeManager-List-Item-CollapsingToggle)
+
+        display grid
+        grid-template-areas "COLLAPSING_TOGGLE LINK_BUTTON" "CHILD_LIST CHILD_LIST"
+        grid-template-columns auto minmax(0, 1fr)
+        column-gap 6px
+
+
+      &-LinkButton
+
+        display flex
+        align-items center
+        column-gap 6px
+
+        Paddings({
+          horizontalSymmetric: 4px,
+          verticalSymmetric: 4px
+        })
+
+        grid-area LINK_BUTTON
+
+
+        &:hover
+
+          background: MaterialDesignColors.amber.P100
+
+
+        &:focus
+
+          box-shadow: inset 0 0 4px 2px MaterialDesignColors.amber.P300
+
+
+        &:active
+
+          background: MaterialDesignColors.amber.P400
+
+
+        &__Selected
+
+          background: MaterialDesignColors.red.P100
+
+
+      &-Icon
+
+        width 20px
+
+        fill: ShadesOfGray__39ColorsW3C_Palette[20]
+
+        flex-shrink 0
+
+
+      &-Label
+
+        MultiLineTextElementOverflowSafetyWithoutExtraSpaceCausedByLineHeight({ fontSize: 14px, lineSpacing: 4px })
+
+        color: ShadesOfGray__39ColorsW3C_Palette[12]
+
+
+      &-CollapsingToggle
+
+        EQUAL_WIDTH_AND_HEIGHT = 20px
+
+        ButtonLikeElementsPrimer()
+
+        display inline-flex
+        border-radius: buildCalcExpression("${EQUAL_WIDTH_AND_HEIGHT}/2", { EQUAL_WIDTH_AND_HEIGHT: EQUAL_WIDTH_AND_HEIGHT })
+
+        grid-area COLLAPSING_TOGGLE
+        align-self center
+
+        cursor pointer
+
+
+        &:focus
+
+          box-shadow: 0 0 3px 4px MaterialDesignColors.yellow.P700
+
+
+        &-Icon
+
+          height EQUAL_WIDTH_AND_HEIGHT
+
+          fill: ShadesOfGray__39ColorsW3C_Palette[24]
+
+
+          ../:hover &
+
+            fill: ShadesOfGray__39ColorsW3C_Palette[12]
+
+
+          ../:active &
+
+            fill: ShadesOfGray__39ColorsW3C_Palette[16]
+
+
+      >.TasksGroupsTreeManager-List
+
+        padding-left 8px
+
+        grid-area CHILD_LIST

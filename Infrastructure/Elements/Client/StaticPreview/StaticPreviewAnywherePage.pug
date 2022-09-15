@@ -1,0 +1,36 @@
+extends ../node_modules/@yamato-daiwa/frontend/PagesTemplates/StaticPreviewAnywherePage.pug
+
+
+block append Metadata
+
+  -
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = "実験様アプリ　静的プレビュー";
+
+
+block append TableOfContents
+
+  h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
+
+  h2.AnywherePage-PagesGroupHeading 入件箱
+
+  +PageLink({
+    label: "項目一覧",
+    URI: "Inbox/ItemsList/InboxItemsListPage.html",
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })
+  //- URI: "@Pages/Inbox/ItemsList/InboxItemsListPage"
+
+  +PageLink({
+    label: "項目一覧",
+    URI: "Timeline/TimelinePage.html",
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })
+  //- URI: "@Pages/Timeline/Timeline"
+
+  +PageLink({
+    label: "トド一覧",
+    URI: "Task/List/TasksListPage.html",
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })
+  //- URI: "@Pages/Task/List/TasksListPage"

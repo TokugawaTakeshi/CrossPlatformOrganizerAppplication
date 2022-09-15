@@ -1,0 +1,77 @@
+projectBuilding:
+
+  commonSettings:
+
+    selectiveExecutions:
+
+      StaticPreview:
+
+        tasksAndSourceFilesSelection:
+
+          markupProcessing: [ StaticPreview, Pages ]
+          stylesProcessing: [ All ]
+
+        browserLiveReloadingSetupID: StaticPreview
+
+      Application:
+
+        tasksAndSourceFilesSelection:
+
+          stylesProcessing: [ All ]
+          ECMA_ScriptLogicProcessing: [ Pages, FrontServerEntryPoint ]
+
+
+  markupProcessing:
+
+    staticPreview:
+
+      stateDependentPagesVariationsSpecificationFileRelativePath: StaticPreview/PagesStateDependentVariations.yaml
+
+    entryPointsGroups:
+
+      StaticPreview:
+
+        topDirectoryRelativePath: StaticPreview
+        partialsRecognition:
+          excludeSubdirectoriesWithPrefixes: "_"
+          excludeFilesWithPrefixes: "_"
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: StaticPreview/.Build
+
+      Pages:
+
+        topDirectoryRelativePath: Pages
+        partialsRecognition:
+          excludeSubdirectoriesWithPrefixes: "_"
+          excludeFilesWithPrefixes: "_"
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: StaticPreview/.Build
+
+
+  stylesProcessing:
+
+    entryPointsGroups:
+
+      All:
+
+        singleEntryPointRelativePath: Resources/Styles.styl
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: StaticPreview/.Build
+          LOCAL_DEVELOPMENT:
+            outputTopDirectoryRelativePath: wwwroot
+          PRODUCTION:
+            outputTopDirectoryRelativePath: wwwroot
+
+
+  browserLiveReloading:
+
+    StaticPreview:
+
+      targetFilesRootDirectoryRelativePath: StaticPreview/.Build
+      customStartingFilenameWithExtension: StaticPreviewAnywherePage.html

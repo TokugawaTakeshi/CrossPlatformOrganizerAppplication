@@ -1,0 +1,34 @@
+mixin TaskEditor(properties, statesSimulations)
+
+  -
+
+    properties = properties ?? {}
+    statesSimulations = statesSimulations ?? {}
+
+    const {
+
+    } = properties
+
+    const {
+      readOnlyMode = false
+    } = statesSimulations
+
+
+  form.TaskEditor&attributes(attributes)
+
+    +TextBox--YDF({
+      label: "見出し",
+      guidance: "〇〇～〇〇文字を入力して下さい。"
+    })
+
+    +TextBox--YDF({
+      label: "詳細",
+      guidance: "〇〇～〇〇文字を入力して下さい。",
+      multiline: true
+    })
+
+    +Button--YDF({
+      HTML_Type: Button__YDF.HTML_Types.inputSubmit,
+      label: "送信"
+    })
+

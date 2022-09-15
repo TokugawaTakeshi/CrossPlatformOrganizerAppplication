@@ -55,4 +55,9 @@
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Inbox\ItemsList" />
+    <Folder Include="StaticPreview\.Build" />
+  </ItemGroup>
+
 </Project>
