@@ -1,15 +1,37 @@
-﻿namespace Utils.Pagination
+﻿namespace Utils.Pagination;
+
+
+public class PaginationCollection<TItem>
 {
-  public class PaginationCollection<Item>
+
+  public readonly uint PagesCount;
+
+  public List<List<TItem>> PagesContent = new List<List<TItem>>();
+
+  public PaginationCollection(
+    List<TItem> flatCollection,
+    uint itemsCountPerPaginationPage,
+    byte pagesNumerationFrom = 1
+  )
   {
+      
+    uint pagesCount = (uint)Math.Ceiling((double)flatCollection.Count / itemsCountPerPaginationPage);
 
-    public readonly uint PagesCount;
+    uint elementStartingPositionForCurrentPage = 0;
+    uint elementEndingPositionForCurrentPage = itemsCountPerPaginationPage;
 
-    public List<List<Item>> PagesContent = new List<List<Item>>();
+    uint lastPageNumber = pagesNumerationFrom == 0 ? pagesCount : pagesCount + 1;
 
-    public PaginationCollection(uint pagesCount)
+    for (int pageNumber = pagesNumerationFrom; pageNumber < lastPageNumber; pageNumber++)
     {
-      PagesCount = pagesCount;
+
+      PagesContent[pageNumber] = flatCollection.
+        GetRange((int)elementStartingPositionForCurrentPage, (int)elementEndingPositionForCurrentPage);
+
+      elementStartingPositionForCurrentPage = elementStartingPositionForCurrentPage + itemsCountPerPaginationPage;
+      elementEndingPositionForCurrentPage = elementStartingPositionForCurrentPage + itemsCountPerPaginationPage;
     }
+
+    PagesCount = pagesCount;
   }
 }
