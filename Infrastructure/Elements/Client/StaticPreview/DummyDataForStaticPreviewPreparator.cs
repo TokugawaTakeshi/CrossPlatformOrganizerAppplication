@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 public class DummyDataForStaticPreviewPreparator
 {
 
+  private static readonly string OUTPUT_FILE_NAME_WITH_EXTENSION = "StaticPreviewDummyData.json";
+
   public static void Prepare()
   {
     
@@ -16,7 +18,10 @@ public class DummyDataForStaticPreviewPreparator
 
     DummyData dummyData = new(people: mockDataSource.People);
     
-    StreamWriter streamWriter = new StreamWriter(path: "StaticPreviewDummyData.json", append: false);
+    StreamWriter streamWriter = new StreamWriter(
+      path: Path.Combine(Directory.GetCurrentDirectory(), OUTPUT_FILE_NAME_WITH_EXTENSION), 
+      append: false
+    );
     
     streamWriter.Write(JsonConvert.SerializeObject(dummyData));
     

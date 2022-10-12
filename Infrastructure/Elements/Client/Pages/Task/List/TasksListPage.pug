@@ -18,11 +18,16 @@ block append Requirements
 
 block append SpecificContent
 
-  .TasksListPage-SpecificContent.MainLayout-DynamicContentFillingChildenElement
+  .TasksListPage-SpecificContent.MainLayout-DynamicContentFillingChildrenElement
 
     +TasksGroupsTreeManager.TasksListPage-TasksGroupsThreeManager
 
-    +TasksManager.TasksListPage-TasksManager
+    +TasksManager({
+      loading: TasksListPageStatesSimulations.loading,
+      error: TasksListPageStatesSimulations.error,
+      noItems: TasksListPageStatesSimulations.noItems,
+      noSearchResults: TasksListPageStatesSimulations.noSearchResults
+    }).TasksListPage-TasksManager
 
     +TaskEditor.TasksListPage-TaskEditor
 

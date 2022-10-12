@@ -32,9 +32,13 @@ mixin TaskCard(properties, statesSimulations)
 
         +Badge--YDF({
           value: "Test",
-          decoration: Badge__YDF.DecorativeVariations.veryCatchy
+          geometry: Badge__YDF.GeometricVariations.borderless,
+          decoration: Badge__YDF.DecorativeVariations.veryCatchyBright
         })
 
     if getRandomBoolean()
 
       p.TaskCard-Description= task.description
+
+
+include LoadingPlaceholder/TaskCard-LoadingPlaceholder.pug

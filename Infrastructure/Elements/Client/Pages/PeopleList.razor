@@ -78,13 +78,13 @@ else
   private readonly uint PEOPLE_COUNT_PER_PAGINATION_PAGE = 20;
 
   
-  protected override async Task OnInitializedAsync()
+  protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
     await RetrievePeopleSelection();
   }
   
 
-  private async Task RetrievePeopleSelection(
+  private async System.Threading.Tasks.Task RetrievePeopleSelection(
 	#nullable enable
     uint? paginationPageNumber = null,
     string? filteringByName = null

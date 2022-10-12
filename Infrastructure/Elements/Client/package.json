@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "Static preview building": "rimraf StaticPreview/.Build & yda build --selectiveExecution StaticPreview --mode STATIC_PREVIEW"
+    "Static preview building": "rimraf StaticPreview/.Build & yda build --selectiveExecution StaticPreview --mode STATIC_PREVIEW",
+    "Production building": "yda build --selectiveExecution Application --mode PRODUCTION"
   },
   "dependencies": {
     "@yamato-daiwa/automation": "../../../../../InHouseDevelopment/YamatoDaiwaAutomation/MainPackage",

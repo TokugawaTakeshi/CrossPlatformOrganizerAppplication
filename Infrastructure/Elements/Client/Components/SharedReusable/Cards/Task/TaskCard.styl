@@ -43,9 +43,35 @@
     grid-area CHECKBOX
 
 
+    &:hover
+
+      background alpha(goldenrod, 25%)
+
+
+    &:active
+
+      background alpha(crimson, 25%)
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 24px,
+        height: 24px,
+        borderRadius: 8px
+      })
+
+      pointer-events none
+
+
     &-Icon
 
       height 24px
+
+
+      ../:focus &
+
+        box-shadow: 0 0 5px 2px orangered
 
 
   &-Title
@@ -61,6 +87,15 @@
     +whenItGoingLast()
 
       grid-row span 3
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 30%,
+        height: 24px,
+        borderRadius: 8px
+      })
 
 
   &-BadgesFlow
@@ -89,3 +124,12 @@
           (".TaskCard-Title" { y: 6px })\
           (".TaskCard-BadgesFlow" { y: 4px })
     })
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 80%,
+        height: 18px,
+        borderRadius: 8px
+      })

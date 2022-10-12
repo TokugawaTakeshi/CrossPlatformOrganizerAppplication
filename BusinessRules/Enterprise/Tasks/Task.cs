@@ -1,4 +1,4 @@
-﻿namespace BusinessRules.Enterprise;
+﻿namespace BusinessRules.Enterprise.Tasks;
 
 
 public class Task

@@ -1,0 +1,51 @@
+mixin TasksManager(statesSimulations)
+
+  -
+
+    statesSimulations = statesSimulations ?? {}
+
+    const {
+      loading = false,
+      error = false,
+      noItems = false,
+      noSearchResults = false
+    } = statesSimulations
+
+
+  .TasksManager&attributes(attributes)
+
+    if loading
+
+      .TasksManager-List
+
+        each cardNumber in Array.from(new Array(12).keys())
+
+          +TaskCard-LoadingPlaceholder
+
+    else if error
+
+      +AttentionBox--YDF({
+        decoration: AttentionBox__YDF.DecorativeVariations.error,
+        hasPrependedSVG_Icon: true
+      }).TasksManager-AttentionBox
+
+        p 情報取得中不具合が発生しました。
+
+        +Button--YDF({
+          HTML_Type: Button__YDF.HTML_Types.regular,
+          label: "再試験",
+        }).TasksManager-AttentionBox-Button
+
+    else
+
+      ul.TasksManager-List&attributes(attributes)
+
+        each cardNumber in Array.from(new Array(12).keys())
+
+          +TaskCard({
+            task: {
+              title: getRandomString({ minimalCharactersCount: 2, maximalCharactersCount: 25 }),
+              description: getRandomString({ minimalCharactersCount: 10, maximalCharactersCount: 255 })
+            },
+            rootElementTag: "li"
+          })

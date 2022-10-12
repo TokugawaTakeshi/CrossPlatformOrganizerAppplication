@@ -18,7 +18,6 @@ projectBuilding:
         tasksAndSourceFilesSelection:
 
           stylesProcessing: [ All ]
-          ECMA_ScriptLogicProcessing: [ Pages, FrontServerEntryPoint ]
 
 
   markupProcessing:
@@ -65,13 +64,18 @@ projectBuilding:
             outputTopDirectoryRelativePath: StaticPreview/.Build
           LOCAL_DEVELOPMENT:
             outputTopDirectoryRelativePath: wwwroot
+            revisioning: { disable: true }
+
           PRODUCTION:
             outputTopDirectoryRelativePath: wwwroot
+            revisioning: { disable: true }
 
 
   browserLiveReloading:
 
     StaticPreview:
 
-      targetFilesRootDirectoryRelativePath: StaticPreview/.Build
-      customStartingFilenameWithExtension: StaticPreviewAnywherePage.html
+      localServer:
+
+        rootDirectoryRelativePath: StaticPreview/.Build
+        customStartingFileNameWithExtension: StaticPreviewAnywherePage.html

@@ -1,3 +1,15 @@
+Pages/Task/List/TasksListPage:
+
+  stateObjectTypeVariableName: "TasksListPageStatesSimulations"
+
+  variations:
+
+    __Loading: { loading: true }
+    __Error: { error: true }
+    __NoItems: { noItems: true }
+    __NoSearchResults: { noSearchResults: true }
+
+
 Pages/Inbox/ItemsList/InboxItemsListPage:
 
   stateObjectTypeVariableName: "InboxItemsListPageStatesSimulations"

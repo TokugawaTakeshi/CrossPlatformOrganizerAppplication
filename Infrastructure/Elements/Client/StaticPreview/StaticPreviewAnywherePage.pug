@@ -28,9 +28,13 @@ block append TableOfContents
   })
   //- URI: "@Pages/Timeline/Timeline"
 
-  +PageLink({
-    label: "トド一覧",
-    URI: "Task/List/TasksListPage.html",
+  +PageLinksGroup({
+    title: "課題一覧",
+    linksData: [
+      { label: "通常表示", URI: "@Pages/Task/List/TasksListPage" },
+      { label: "ロード中表示", URI: "@Pages/Task/List/TasksListPage__Loading" },
+      { label: "エラー発生表示", URI: "@Pages/Task/List/TasksListPage__Error" },
+      { label: "検索結果無い表示", URI: "@Pages/Task/List/TasksListPage__NoSearchResults" },
+    ],
     progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
   })
-  //- URI: "@Pages/Task/List/TasksListPage"
