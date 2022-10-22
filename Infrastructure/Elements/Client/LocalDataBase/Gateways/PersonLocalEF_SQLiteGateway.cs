@@ -10,8 +10,7 @@ namespace Client.LocalDataBase.Gateways;
 public class PersonLocalEF_SQLiteGateway : IPersonGateway
 {
   
-  // TODO 再利用方法を考える https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/6
-  private readonly LocalDataBaseContext _dataBaseContext = new LocalDataBaseContext(); 
+  private readonly LocalDataBaseContext _dataBaseContext = LocalDataBaseContext.GetInstance(); 
   
   // TODO エラーを修正する
   public Task<List<Person>> RetrieveAll()

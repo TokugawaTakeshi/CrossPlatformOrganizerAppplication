@@ -1,6 +1,7 @@
 ﻿using BusinessRules.Enterprise;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Client.LocalDataBase.Models;
@@ -18,6 +19,7 @@ public class PersonModel : Person
   [Required]
   public string Name;
   
+  [Index(IsUnique = true)]
   [Required]
   public string Email { get; set; }
   
@@ -27,12 +29,11 @@ public class PersonModel : Person
   public byte? Age { get; set; }
   
   public PersonModel(
-    uint ID,
     string name,
     string email,
     string phoneNumber
   ) : base(
-     ID,
+     ID, // データベースから自動的に割り当てられたIDを取る
      name,
      email,
      phoneNumber
