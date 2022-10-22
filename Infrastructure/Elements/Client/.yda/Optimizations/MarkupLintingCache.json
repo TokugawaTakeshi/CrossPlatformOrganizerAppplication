@@ -1,7 +1,7 @@
 {
   "Components/Components.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-10-07T08:07:34.095Z"
+    "modificationDatetime__ISO_8601": "2022-10-14T06:44:43.087Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
@@ -62,5 +62,9 @@
   "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCard-LoadingPlaceholder.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2022-10-12T02:56:58.137Z"
+  },
+  "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-10-15T03:02:03.134Z"
   }
 }

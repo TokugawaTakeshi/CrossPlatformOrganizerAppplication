@@ -38,14 +38,11 @@ mixin TasksManager(statesSimulations)
 
     else
 
-      ul.TasksManager-List&attributes(attributes)
+      ul.TasksManager-List
 
-        each cardNumber in Array.from(new Array(12).keys())
+        each task in DummyData.tasks
 
           +TaskCard({
-            task: {
-              title: getRandomString({ minimalCharactersCount: 2, maximalCharactersCount: 25 }),
-              description: getRandomString({ minimalCharactersCount: 10, maximalCharactersCount: 255 })
-            },
+            task,
             rootElementTag: "li"
           })

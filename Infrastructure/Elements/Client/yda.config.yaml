@@ -26,6 +26,11 @@ projectBuilding:
 
       stateDependentPagesVariationsSpecificationFileRelativePath: StaticPreview/PagesStateDependentVariations.yaml
 
+      importsFromStaticDataFiles:
+
+        - importedVariableName: DummyData
+          fileRelativePath: StaticPreview/StaticPreviewDummyData.json
+
     entryPointsGroups:
 
       StaticPreview:
@@ -73,9 +78,11 @@ projectBuilding:
 
   browserLiveReloading:
 
-    StaticPreview:
+    setups:
 
-      localServer:
+      StaticPreview:
 
-        rootDirectoryRelativePath: StaticPreview/.Build
-        customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
+        localServer:
+
+          rootDirectoryRelativePath: StaticPreview/.Build
+          customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
