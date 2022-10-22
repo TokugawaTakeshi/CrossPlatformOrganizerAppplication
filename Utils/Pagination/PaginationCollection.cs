@@ -5,33 +5,53 @@ public class PaginationCollection<TItem>
 {
 
   public readonly uint PagesCount;
-
-  public List<List<TItem>> PagesContent = new List<List<TItem>>();
+  
+  private readonly TItem[][] _pagesContent;
+  
 
   public PaginationCollection(
     List<TItem> flatCollection,
-    uint itemsCountPerPaginationPage,
-    byte pagesNumerationFrom = 1
+    uint itemsCountPerPaginationPage
   )
   {
-      
+    
     uint pagesCount = (uint)Math.Ceiling((double)flatCollection.Count / itemsCountPerPaginationPage);
 
     uint elementStartingPositionForCurrentPage = 0;
     uint elementEndingPositionForCurrentPage = itemsCountPerPaginationPage;
 
-    uint lastPageNumber = pagesNumerationFrom == 0 ? pagesCount : pagesCount + 1;
+    _pagesContent = new TItem[pagesCount][];
 
-    for (int pageNumber = pagesNumerationFrom; pageNumber < lastPageNumber; pageNumber++)
+    for (uint pageIndex = 0; pageIndex < pagesCount; pageIndex++)
     {
-
-      PagesContent[pageNumber] = flatCollection.
-        GetRange((int)elementStartingPositionForCurrentPage, (int)elementEndingPositionForCurrentPage);
-
+      _pagesContent[pageIndex] = flatCollection.
+        GetRange((int)elementStartingPositionForCurrentPage, (int)elementEndingPositionForCurrentPage).
+        ToArray();
+      
       elementStartingPositionForCurrentPage = elementStartingPositionForCurrentPage + itemsCountPerPaginationPage;
       elementEndingPositionForCurrentPage = elementStartingPositionForCurrentPage + itemsCountPerPaginationPage;
     }
 
     PagesCount = pagesCount;
+  }
+  
+  public TItem[] GetItemsArrayOfPageWithIndex(uint targetIndex)
+  {
+    return _pagesContent[targetIndex];
+  }
+
+  public TItem[] GetItemsArrayOfPageWithNumber(uint targetPageNumber)
+  {
+    return _pagesContent[targetPageNumber - 1];
+  }
+  
+  public List<TItem> GetItemsListOfPageWithIndex(uint targetIndex)
+  {
+    return _pagesContent[targetIndex].ToList();
+  }
+
+  public List<TItem> GetItemsListOfPageWithNumber(uint targetPageNumber)
+  {
+    return _pagesContent[targetPageNumber - 1].ToList();
   }
 }
