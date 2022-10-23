@@ -46,7 +46,7 @@ public class PersonMockGateway : IPersonGateway
         if (!String.IsNullOrEmpty(requestParameters.FilteringByName))
         {
           filteredItems = mockDataSource.People.Where(
-            Person => Person.Name.Contains(requestParameters.FilteringByName)
+            person => person.Name.Contains(requestParameters.FilteringByName)
           ).ToList();
         }
         else
