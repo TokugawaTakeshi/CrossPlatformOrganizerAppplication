@@ -54,10 +54,10 @@ public class PersonMockGateway : IPersonGateway
           filteredItems = _mockDataSource.People;
         }
 
-        List<Person> itemsActualForRequestedPaginationPage = new PaginationCollection(
+        List<Person> itemsActualForRequestedPaginationPage = new PaginationCollection<Person>(
           filteredItems, requestParameters.ItemsCountPerPaginationPage
         ).GetItemsListOfPageWithNumber(requestParameters.PaginationPageNumber);
-
+        
         return new IPersonGateway.SelectionRetrieving.ResponseData(
           totalItemsCount: Convert.ToUInt32(_mockDataSource.People.Count),
           totalItemsCountInSelection: Convert.ToUInt32(filteredItems.Count),
