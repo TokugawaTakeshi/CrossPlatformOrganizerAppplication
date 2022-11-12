@@ -20,8 +20,7 @@ mixin TaskCard(properties, statesSimulations)
       role="checkbox"
       aria-checked= String(getRandomBoolean())
       tabindex="0"
-    )
-      +CheckboxIcon__Unchecked--YDF_Icon.TaskCard-Checkbox-Icon
+    ): +Checkbox__Unchecked--YDF_Icon.TaskCard-Checkbox-Icon
 
 
     .TaskCard-Title= task.title
