@@ -1,4 +1,4 @@
-﻿<div class="TasksGroupsTreeManager" class="@CustomClass">
+﻿<div class="TasksGroupsTreeManager @RootElementAdditionalCssClasses">
   
   <div class="TasksGroupsTreeManager-Title">自動生成群</div>
   
@@ -24,6 +24,10 @@
 
 
 @code {
+
   [Parameter]
-  public string CustomClass { get; set; }       
+  public string[] AdditionalCSS_Classes { get; set; }
+
+  private string RootElementAdditionalCssClasses => String.Join(' ', AdditionalCSS_Classes);
+
 }
