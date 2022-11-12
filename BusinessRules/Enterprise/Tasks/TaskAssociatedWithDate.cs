@@ -10,4 +10,5 @@ public class TaskAssociatedWithDate : Task
   {
     AssociatedDate = associatedDate;
   }
+  
 }
