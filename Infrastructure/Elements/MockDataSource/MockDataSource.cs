@@ -1,5 +1,8 @@
 ﻿using BusinessRules.Enterprise;
+using Task = BusinessRules.Enterprise.Tasks.Task;
+
 using Gateways;
+
 using MockDataSource.Collections;
 using MockDataSource.Entities;
 
@@ -10,47 +13,56 @@ namespace MockDataSource;
 public class MockDataSource
 {
 
-  private static MockDataSource selfSoleInstance;
+  /* === データ ======================================================================================================= */
+  public readonly List<Person> People;
+  public readonly List<Task> Tasks;
 
+  
+  /* === 初期化 ======================================================================================================= */
+  private static MockDataSource? _selfSoleInstance;
 
   public static MockDataSource GetInstance()
   {
 
-    if (selfSoleInstance == null)
+    if (_selfSoleInstance == null)
     {
-      selfSoleInstance = new MockDataSource();
+      _selfSoleInstance = new MockDataSource();
       Console.WriteLine("Mock data source has been initialized.");
     }
 
-    return selfSoleInstance;
+    return _selfSoleInstance;
+    
   }
-
-
+  
   private MockDataSource()
   {
+    
     People = PeopleCollectionsMocker.Generate(new List<PeopleCollectionsMocker.Subset> {
       new PeopleCollectionsMocker.Subset { Quantity = 10 },
       new PeopleCollectionsMocker.Subset { Quantity = 10, NamePrefix = "SEARCH_TEST-" }
     });
+    
+    Tasks = new List<Task>(
+      TasksCollectionsMocker.Generate(new [] {
+        new TasksCollectionsMocker.Subset(quantity: 10),
+        new TasksCollectionsMocker.Subset(quantity: 10) { Quantity = 10, AllOptionals = true }
+      })
+    );
+
   }
 
 
-  /* === 人 ======================================================================================================= */
-  public readonly List<Person> People;
 
-
-  /* --- 取得 ----------------------------------------------------------------------------------------------------- */
+  /* === 人 ========================================================================================================= */
   public List<Person> RetrieveAllPeople()
   {
     return People;
   }
 
-
-  /* --- 追加 ------------------------------------------------------------------------------------------------------ */
   public IPersonGateway.Adding.ResponseData AddPerson(IPersonGateway.Adding.RequestData requestData)
   {
 
-    Person newPerson = PersonMocker.GenerateEntity(new PersonMocker.Options
+    Person newPerson = PersonMocker.Generate(new PersonMocker.Options
     {
       Name = requestData.Name,
       Age = requestData.Age,
@@ -63,8 +75,6 @@ public class MockDataSource
     return new IPersonGateway.Adding.ResponseData(newPerson.ID);
   }
 
-
-  /* --- 編集 ----------------------------------------------------------------------------------------------------- */
   public void UpdatePerson(IPersonGateway.Updating.RequestData requestData)
   {
 
@@ -76,9 +86,16 @@ public class MockDataSource
     targetPerson.Age = requestData.Age;
   }
 
-  /* --- 削除 ----------------------------------------------------------------------------------------------------- */
   public void DeletePerson(uint targetPersonID)
   {
     People.RemoveAll(person => person.ID == targetPersonID);
   }
+  
+  
+  /* === 課題 ======================================================================================================= */
+  public Task[] RetrieveAllTasks()
+  {
+    return Tasks.ToArray();
+  }
+
 }

@@ -4,11 +4,7 @@
 public class TaskAssociatedWithDate : Task
 {
   
+  // TODO required
   public DateOnly AssociatedDate { get; set; }
-  
-  public TaskAssociatedWithDate(string title, DateOnly associatedDate) : base(title)
-  {
-    AssociatedDate = associatedDate;
-  }
   
 }

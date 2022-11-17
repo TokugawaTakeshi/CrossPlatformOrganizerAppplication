@@ -1,4 +1,4 @@
-<div class="TasksGroupsTreeManager @RootElementAdditionalCSS_Classes">
+<div class="TasksGroupsTreeManager @SpaceSeparatedAdditionalCSS_Classes">
   
   <div class="TasksGroupsTreeManager-Title">自動生成群</div>
   
@@ -6,14 +6,14 @@
     
     <li class="TasksGroupsTreeManager-List-Item">
       <a href="#" class="TasksGroupsTreeManager-List-Item-LinkButton">
-        <SVG_Icons.Calendar.CalendarIcon__Date class="TasksGroupsTreeManager-List-Item-Icon"/>
+        <CalendarIcon__Date SpaceSeparatedAdditionalCSS_Classes="TasksGroupsTreeManager-List-Item-Icon"/>
         <span class="TasksGroupsTreeManager-List-Item-Label">日付連想</span> 
       </a>
     </li>
     
     <li class="TasksGroupsTreeManager-List-Item">
       <a href="#" class="TasksGroupsTreeManager-List-Item-LinkButton">
-        <SVG_Icons.Calendar.CalendarIcon__Time class="TasksGroupsTreeManager-List-Item-Icon" />
+        <CalendarIcon__Time SpaceSeparatedAdditionalCSS_Classes="TasksGroupsTreeManager-List-Item-Icon" />
         <span class="TasksGroupsTreeManager-List-Item-Label">日付連想</span> 
       </a>
     </li>
@@ -26,8 +26,6 @@
 @code {
 
   [Parameter]
-  public string[] AdditionalCSS_Classes { get; set; } = {};
-
-  private string RootElementAdditionalCSS_Classes => string.Join(' ', AdditionalCSS_Classes);
+  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
 
 }

@@ -4,12 +4,7 @@
 public class TaskAssociatedWithDateTime : Task
 {
  
+  // TODO required
   public DateTime AssociatedDateTime { get; set; }
-
-
-  public TaskAssociatedWithDateTime(string title, DateTime associatedDateTime) : base(title)
-  {
-    AssociatedDateTime = associatedDateTime;
-  }
   
 }
