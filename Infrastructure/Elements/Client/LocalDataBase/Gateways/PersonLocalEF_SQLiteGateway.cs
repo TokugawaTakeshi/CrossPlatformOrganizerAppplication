@@ -6,7 +6,6 @@ using Client.LocalDataBase.Models;
 namespace Client.LocalDataBase.Gateways;
 
 
-// TODO パフォーマンス対策を行う https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/5
 public class PersonLocalEF_SQLiteGateway : IPersonGateway
 {
   
@@ -14,8 +13,7 @@ public class PersonLocalEF_SQLiteGateway : IPersonGateway
   
   public Task<List<Person>> RetrieveAll()
   {
-    // TODO 何をやったか、理解する https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/7
-    return Task.FromResult(_dataBaseContext.PeopleModels.Select(_ => (Person)_).ToList());
+    return Task.FromResult(_dataBaseContext.PeopleModels.Select(personModel => (Person)personModel).ToList());
   }
 
   // TODO 相談の上実装 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/8
@@ -41,16 +39,23 @@ public class PersonLocalEF_SQLiteGateway : IPersonGateway
       totalItemsCount: (uint)_dataBaseContext.PeopleModels.Count(),
       totalItemsCountInSelection: (uint)filteredItems.Count,
       selectionItemsOfSpecifiedPaginationPage: filteredItems.
-        Skip((int)(requestParameters.PaginationPageNumber * requestParameters.ItemsCountPerPaginationPage)).
-        Take((int)requestParameters.ItemsCountPerPaginationPage).
-        Select(_ => (Person)_).ToList())
+          Skip((int)(requestParameters.PaginationPageNumber * requestParameters.ItemsCountPerPaginationPage)).
+          Take((int)requestParameters.ItemsCountPerPaginationPage).
+          Select(personModel => (Person)personModel).ToList())
     );
   }
 
   // TODO 相談の上実装　https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/3
   public Task<IPersonGateway.Adding.ResponseData> Add(IPersonGateway.Adding.RequestData requestData)
   {
-    _dataBaseContext.Add(new PersonModel());
+    // TODO ID は?
+    _dataBaseContext.Add(
+      new PersonModel(
+        name: requestData.Name,
+        email: requestData.Email,
+        phoneNumber: requestData.PhoneNumber
+      ) { Age = requestData.Age }
+    );
     throw new NotImplementedException();
   }
 

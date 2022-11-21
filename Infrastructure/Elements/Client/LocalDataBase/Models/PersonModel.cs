@@ -9,6 +9,7 @@ namespace Client.LocalDataBase.Models;
 
 // TODO 情報収集の上完成 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/3
 [Table("People")]
+[Index(nameof(Email), IsUnique = true)]
 public class PersonModel : Person
 {
   
@@ -19,7 +20,6 @@ public class PersonModel : Person
   [Required]
   public string Name;
   
-  [Index(IsUnique = true)]
   [Required]
   public string Email { get; set; }
   
