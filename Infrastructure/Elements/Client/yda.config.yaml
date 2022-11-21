@@ -1,0 +1,88 @@
+projectBuilding:
+
+  commonSettings:
+
+    selectiveExecutions:
+
+      StaticPreview:
+
+        tasksAndSourceFilesSelection:
+
+          markupProcessing: [ StaticPreview, Pages ]
+          stylesProcessing: [ All ]
+
+        browserLiveReloadingSetupID: StaticPreview
+
+      Application:
+
+        tasksAndSourceFilesSelection:
+
+          stylesProcessing: [ All ]
+
+
+  markupProcessing:
+
+    staticPreview:
+
+      stateDependentPagesVariationsSpecificationFileRelativePath: StaticPreview/PagesStateDependentVariations.yaml
+
+      importsFromStaticDataFiles:
+
+        - importedVariableName: DummyData
+          fileRelativePath: StaticPreview/StaticPreviewDummyData.json
+
+    entryPointsGroups:
+
+      StaticPreview:
+
+        topDirectoryRelativePath: StaticPreview
+        partialsRecognition:
+          excludeSubdirectoriesWithPrefixes: "_"
+          excludeFilesWithPrefixes: "_"
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: StaticPreview/.Build
+
+      Pages:
+
+        topDirectoryRelativePath: Pages
+        partialsRecognition:
+          excludeSubdirectoriesWithPrefixes: "_"
+          excludeFilesWithPrefixes: "_"
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: StaticPreview/.Build
+
+
+  stylesProcessing:
+
+    entryPointsGroups:
+
+      All:
+
+        singleEntryPointRelativePath: Resources/Styles.styl
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: StaticPreview/.Build
+          LOCAL_DEVELOPMENT:
+            outputTopDirectoryRelativePath: wwwroot
+            revisioning: { disable: true }
+
+          PRODUCTION:
+            outputTopDirectoryRelativePath: wwwroot
+            revisioning: { disable: true }
+
+
+  browserLiveReloading:
+
+    setups:
+
+      StaticPreview:
+
+        localServer:
+
+          rootDirectoryRelativePath: StaticPreview/.Build
+          customStartingFileNameWithExtension: StaticPreviewAnywherePage.html

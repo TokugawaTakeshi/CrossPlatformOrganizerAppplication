@@ -127,10 +127,10 @@ namespace Gateways
       }
     }
 
-    Task Update(Updating.RequestData requestData);
+    System.Threading.Tasks.Task Update(Updating.RequestData requestData);
 
 
     /* === 削除 ====================================================================================================== */
-    Task Delete(uint targetPersonID);
+    System.Threading.Tasks.Task Delete(uint targetPersonID);
   }
 }

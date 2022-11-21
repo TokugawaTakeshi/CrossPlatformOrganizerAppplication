@@ -1,0 +1,74 @@
+{
+  "Components/Components.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T05:43:47.932Z"
+  },
+  "StaticPreview/StaticPreviewAnywherePage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T05:43:47.940Z"
+  },
+  "Layouts/Main/MainLayout.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.638Z"
+  },
+  "Pages/Timeline/TimelinePage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T06:10:27.176Z"
+  },
+  "Components/SharedReusable/NavigationMenu/NavigationMenu.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.637Z"
+  },
+  "Components/SharedSingletons/Header/Header.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.637Z"
+  },
+  "Pages/Inbox/ItemsList/InboxItemsListPage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.640Z"
+  },
+  "Pages/ToDos/List/ToDosListPage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-09-23T02:57:26.167Z"
+  },
+  "Components/SharedReusable/TasksGroupsTreeManager/TasksGroupsTreeManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-09-26T04:30:32.209Z"
+  },
+  "Components/SharedReusable/Cards/Task/TaskCard.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T06:09:07.480Z"
+  },
+  "Components/SharedReusable/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T05:43:47.934Z"
+  },
+  "Components/SharedReusable/Managers/Taks/TasksManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-10-06T05:41:43.617Z"
+  },
+  "Pages/Task/List/TasksListPage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T06:12:49.793Z"
+  },
+  "Components/SharedReusable/Editors/Task/TaskEditor.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.634Z"
+  },
+  "Components/SharedReusable/Managers/Tacks/TasksManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-10-13T03:07:36.848Z"
+  },
+  "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCard-LoadingPlaceholder.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.632Z"
+  },
+  "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-10T10:32:30.635Z"
+  },
+  "Components/SharedSingletons/ModalDialog/ModalDialog.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-12T05:43:47.935Z"
+  }
+}

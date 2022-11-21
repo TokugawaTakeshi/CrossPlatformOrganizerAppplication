@@ -11,7 +11,8 @@ public partial class App : Application
 
     ClientDependencies.Injector.SetDependencies(new ClientDependencies (
       gateways: new ClientDependencies.Gateways (
-        person: new PersonMockGateway()
+        person: new PersonMockGateway(),
+        task: new TaskMockGateway()
       )
     ));
     

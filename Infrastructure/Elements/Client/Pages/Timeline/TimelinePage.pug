@@ -1,0 +1,39 @@
+extends ../../Layouts/Main/MainLayout.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = "Inbox items";
+
+    styleSheetsURIs = [ "@All" ];
+
+
+block append Requirements
+
+  include ../../Components/Components.pug
+
+
+block append SpecificContent
+
+  .Timeline
+
+    .Timeline-Item.Timeline-Item__Fixed
+
+      .Timeline-Item-Title 〇〇会社との会議
+
+      .Timeline-Item-ActionBar
+
+        span.Timeline-Item-Badge
+          +Bell__Filled--YDF_Icon.Timeline-Item-Badge-Icon
+          span.Timeline-Item-Badge-Label 固定日時
+
+        span.Timeline-Item-TimeLabel 10:30
+
+        +Button--YDF({
+          geometry: Button__YDF.GeometricVariations.small
+        }).Timeline-Item-Button
+          +Menu__ThreeDots__Vertical--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label 様々操作

@@ -1,0 +1,39 @@
+mixin ModalDialog(properties, statesSimulations)
+
+  -
+
+    properties = properties ?? {}
+    statesSimulations = statesSimulations ?? {}
+
+    const {
+      title,
+      noDismissingButton = false
+    } = properties
+
+    const {
+
+    } = statesSimulations
+
+
+  .ModalDialog(
+    role="dialog"
+    tabindex="-1"
+  )&attributes(attributes)
+
+    .ModalDialog-Body.ModalDialog-Body__FillingOfScreenWithSmallGapGeometry(
+      role="document"
+    )
+
+      if title || !noDismissingButton
+
+        .ModalDialog-Header
+
+          .ModalDialog-Title= title
+
+          +Button--YDF({
+            geometry: Button__YDF.GeometricVariations.small
+          }).ModalDialog-DismissingButton
+            +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label 閉じる
+
+      block

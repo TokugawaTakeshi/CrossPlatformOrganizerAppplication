@@ -1,0 +1,140 @@
+.TaskCard
+
+  display grid
+  grid-template-areas\
+      "CHECKBOX TITLE"\
+      "CHECKBOX BADGES_FLOW"\
+      "CHECKBOX DESCRIPTION"
+
+  grid-template-columns auto minmax(0, 1fr)
+  column-gap 12px
+  align-items center
+
+  border-radius 4px
+  padding 12px 14px
+
+  background white
+  box-shadow 0 0 3px 1px alpha(black, 0.25)
+  outline none
+
+
+  &:hover
+
+    box-shadow: 0 0 5px 2px goldenrod
+    transition box-shadow 0.75s
+
+
+  &:focus
+
+    box-shadow: 0 0 5px 2px orangered
+
+
+  &:active
+
+    box-shadow: 0 0 5px 2px crimson
+
+
+  &__LoadingPlaceholder
+
+    pointer-events none
+
+
+  &-Checkbox
+
+    display flex
+
+    cursor pointer
+
+    grid-area CHECKBOX
+
+
+    &:hover
+
+      background alpha(goldenrod, 25%)
+
+
+    &:active
+
+      background alpha(crimson, 25%)
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 24px,
+        height: 24px,
+        borderRadius: 8px
+      })
+
+      pointer-events none
+
+
+    &-Icon
+
+      height 24px
+
+
+      ../:focus &
+
+        box-shadow: 0 0 5px 2px orangered
+
+
+  &-Title
+
+    MultiLineTextElementOverflowSafetyWithoutExtraSpaceCausedByLineHeight({ fontSize: 16px, lineSpacing: 4px })
+
+    font-weight bold
+    color: ShadesOfGray__39ColorsW3C_Palette[12]
+
+    grid-area TITLE
+
+
+    +whenItGoingLast()
+
+      grid-row span 3
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 30%,
+        height: 24px,
+        borderRadius: 8px
+      })
+
+
+  &-BadgesFlow
+
+    display flex
+    flex-wrap wrap
+    row-gap 4px
+    column-gap 6px
+
+    grid-area BADGES_FLOW
+    margin-top 4px
+
+    >*
+
+      flex 0 0 auto
+
+
+  &-Description
+
+    MultiLineTextElementOverflowSafetyWithoutExtraSpaceCausedByLineHeight({ fontSize: 14px, lineSpacing: 4px })
+
+    grid-area DESCRIPTION
+
+    retireFrom({
+      definitions:\
+          (".TaskCard-Title" { y: 6px })\
+          (".TaskCard-BadgesFlow" { y: 4px })
+    })
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 80%,
+        height: 18px,
+        borderRadius: 8px
+      })

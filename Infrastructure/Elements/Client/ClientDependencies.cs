@@ -5,7 +5,7 @@ using Gateways;
 
 internal class ClientDependencies {
 
-  public Gateways gateways;
+  public readonly Gateways gateways;
 
   public ClientDependencies(Gateways gateways)
   {
@@ -14,11 +14,13 @@ internal class ClientDependencies {
 
   public class Gateways {
     
-    public IPersonGateway Person;
+    public readonly IPersonGateway Person;
+    public readonly ITasksGateway Task;
 
-    public Gateways(IPersonGateway person)
+    public Gateways(IPersonGateway person, ITasksGateway task)
     {
       Person = person;
+      Task = task;
     }
   }
   

@@ -1,0 +1,37 @@
+extends ../../../Layouts/Main/MainLayout.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = "トド一覧 ｜ やまとダイワ几帳面さ";
+
+    styleSheetsURIs = [ "@All" ];
+
+
+block append Requirements
+
+  include ../../../Components/Components.pug
+
+
+block append SpecificContent
+
+  .TasksListPage-SpecificContent.MainLayout-DynamicContentFillingChildrenElement
+
+    +TasksGroupsTreeManager.TasksListPage-TasksGroupsThreeManager
+
+    +TasksManager({
+      loading: TasksListPageStatesSimulations.loading,
+      error: TasksListPageStatesSimulations.error,
+      noItems: TasksListPageStatesSimulations.noItems,
+      noSearchResults: TasksListPageStatesSimulations.noSearchResults
+    }).TasksListPage-TasksManager
+
+    +TaskEditor.TasksListPage-TaskEditor
+
+    //-
+      +ModalDialog({
+        title: "課題を編集"
+      })

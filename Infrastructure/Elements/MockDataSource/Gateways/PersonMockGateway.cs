@@ -10,7 +10,7 @@ namespace MockDataSource.Gateways;
 public class PersonMockGateway : IPersonGateway
 {
 
-  private readonly MockDataSource mockDataSource = MockDataSource.getInstance();
+  private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
 
 
   public Task<List<Person>> RetrieveAll()
@@ -46,7 +46,7 @@ public class PersonMockGateway : IPersonGateway
         if (!String.IsNullOrEmpty(requestParameters.FilteringByName))
         {
           filteredItems = mockDataSource.People.Where(
-            person => person.Name.Contains(requestParameters.FilteringByName)
+            Person => Person.Name.Contains(requestParameters.FilteringByName)
           ).ToList();
         }
         else
@@ -91,7 +91,7 @@ public class PersonMockGateway : IPersonGateway
     );
   }
 
-  public Task Update(IPersonGateway.Updating.RequestData requestData)
+  public System.Threading.Tasks.Task Update(IPersonGateway.Updating.RequestData requestData)
   {
     return MockGatewayHelper.SimulateDataSubmitting<IPersonGateway.Updating.RequestData, object>(
       requestData,
@@ -107,7 +107,7 @@ public class PersonMockGateway : IPersonGateway
     );
   }
 
-  public Task Delete(uint targetPersonID)
+  public System.Threading.Tasks.Task Delete(uint targetPersonID)
   {
     return MockGatewayHelper.SimulateDataSubmitting<uint, object>(
       targetPersonID,

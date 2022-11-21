@@ -1,0 +1,50 @@
+mixin TasksGroupsTreeManager
+
+  .TasksGroupsTreeManager&attributes(attributes)
+
+    .TasksGroupsTreeManager-Title 自動生成群
+
+    ul.TasksGroupsTreeManager-List
+
+      li.TasksGroupsTreeManager-List-Item
+        a.TasksGroupsTreeManager-List-Item-LinkButton(href="#")
+          +Calendar__Date--YDF_Icon.TasksGroupsTreeManager-List-Item-Icon
+          span.TasksGroupsTreeManager-List-Item-Label 日付連想
+
+      li.TasksGroupsTreeManager-List-Item
+        a.TasksGroupsTreeManager-List-Item-LinkButton(href="#")
+          +Calendar__Time--YDF_Icon.TasksGroupsTreeManager-List-Item-Icon
+          span.TasksGroupsTreeManager-List-Item-Label 日時連想
+
+      li.TasksGroupsTreeManager-List-Item
+        a.TasksGroupsTreeManager-List-Item-LinkButton(href="#")
+          +Location__BottomCircle--YDF_Icon.TasksGroupsTreeManager-List-Item-Icon
+          span.TasksGroupsTreeManager-List-Item-Label 場所
+
+
+    .TasksGroupsTreeManager-Title カスタム整理
+
+    ul.TasksGroupsTreeManager-List
+
+      li.TasksGroupsTreeManager-List-Item
+
+        button.TasksGroupsTreeManager-List-Item-CollapsingToggle(
+          type="button"
+          aria-label="Collapse"
+        ): +Triangle__Upward__Circled__Filled--YDF_Icon.TasksGroupsTreeManager-List-Item-CollapsingToggle-Icon
+
+        a.TasksGroupsTreeManager-List-Item-LinkButton(href="#")
+          +Folder__Filled--YDF_Icon.TasksGroupsTreeManager-List-Item-Icon
+          span.TasksGroupsTreeManager-List-Item-Label カスタム群1
+
+        ul.TasksGroupsTreeManager-List
+
+          li.TasksGroupsTreeManager-List-Item
+            a.TasksGroupsTreeManager-List-Item-LinkButton(href="#")
+              +Folder__Filled--YDF_Icon.TasksGroupsTreeManager-List-Item-Icon
+              span.TasksGroupsTreeManager-List-Item-Label カスタム群1-1
+
+          li.TasksGroupsTreeManager-List-Item
+            a.TasksGroupsTreeManager-List-Item-LinkButton(href="#")
+              +Folder__Filled--YDF_Icon.TasksGroupsTreeManager-List-Item-Icon
+              span.TasksGroupsTreeManager-List-Item-Label カスタム群1-2

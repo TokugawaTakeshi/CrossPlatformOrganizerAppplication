@@ -1,0 +1,31 @@
+<div class="TasksGroupsTreeManager @SpaceSeparatedAdditionalCSS_Classes">
+  
+  <div class="TasksGroupsTreeManager-Title">自動生成群</div>
+  
+  <ul class="TasksGroupsTreeManager-List">
+    
+    <li class="TasksGroupsTreeManager-List-Item">
+      <a href="#" class="TasksGroupsTreeManager-List-Item-LinkButton">
+        <CalendarIcon__Date SpaceSeparatedAdditionalCSS_Classes="TasksGroupsTreeManager-List-Item-Icon"/>
+        <span class="TasksGroupsTreeManager-List-Item-Label">日付連想</span> 
+      </a>
+    </li>
+    
+    <li class="TasksGroupsTreeManager-List-Item">
+      <a href="#" class="TasksGroupsTreeManager-List-Item-LinkButton">
+        <CalendarIcon__Time SpaceSeparatedAdditionalCSS_Classes="TasksGroupsTreeManager-List-Item-Icon" />
+        <span class="TasksGroupsTreeManager-List-Item-Label">日付連想</span> 
+      </a>
+    </li>
+    
+  </ul>
+  
+</div>
+
+
+@code {
+
+  [Parameter]
+  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+
+}

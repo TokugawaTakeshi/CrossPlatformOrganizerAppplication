@@ -1,0 +1,38 @@
+extends ../node_modules/@yamato-daiwa/frontend/PagesTemplates/StaticPreviewAnywherePage.pug
+
+
+block append Metadata
+
+  -
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = "実験様アプリ　静的プレビュー";
+
+
+block append TableOfContents
+
+  h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
+
+  h2.AnywherePage-PagesGroupHeading 入件箱
+
+  +PageLink({
+    label: "項目一覧",
+    URI: "@Pages/Inbox/ItemsList/InboxItemsListPage",
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })
+
+  +PageLink({
+    label: "時系列表",
+    URI: "@Pages/Timeline/TimelinePage",
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })
+
+  +PageLinksGroup({
+    title: "課題一覧",
+    linksData: [
+      { label: "通常表示", URI: "@Pages/Task/List/TasksListPage" },
+      { label: "ロード中表示", URI: "@Pages/Task/List/TasksListPage__Loading" },
+      { label: "エラー発生表示", URI: "@Pages/Task/List/TasksListPage__Error" },
+      { label: "検索結果無い表示", URI: "@Pages/Task/List/TasksListPage__NoSearchResults" },
+    ],
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })

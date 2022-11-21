@@ -1,0 +1,90 @@
+.Timeline
+
+  padding 12px 8px
+
+
+  &-Item
+
+    border-left-width 4px
+    border-radius 4px
+
+    Paddings({
+      left: 8px,
+      right: 8px,
+      verticalSymmetric: 6px
+    })
+
+    border-left-style solid
+    box-shadow 0 0 4px 2px alpha(black, 0.25)
+
+
+    &__Fixed
+
+      border-left-color #D50000
+
+
+    &-Title
+
+      MultiLineTextElementOverflowSafetyWithoutExtraSpaceCausedByLineHeight({ fontSize: 16px, lineHeight: 1.2 })
+
+      font-weight bold
+      color ShadesOfGray__39ColorsW3C_Palette[16]
+
+
+    &-ActionBar
+
+      display flex
+      align-items center
+
+      margin-top 4px
+
+
+    &-Badge
+
+      display inline-flex
+      align-items center
+
+      Paddings({
+        horizontalSymmetric: 4px,
+        verticalSymmetric: 4px,
+        verticalUpwardShifting: 1px
+      })
+
+      border-radius 60px
+
+
+      /.Timeline-Item__Fixed &
+
+        background #FFCDD2
+
+
+      &-Icon
+
+        height 16px
+        fill #D50000
+
+        margin-left 6px
+
+
+      &-Label
+
+        font-weight bold
+        color #D50000
+
+        margin-left 4px
+        margin-right 6px
+
+
+    &-TimeLabel
+
+      font-size 16px
+
+      font-weight bold
+      color ShadesOfGray__39ColorsW3C_Palette[16]
+
+      margin-left 6px
+
+
+    &-Button
+
+      margin-left auto
