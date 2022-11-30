@@ -13,4 +13,6 @@ public class Task
 
   public List<Task> Subtasks { get; set; } = new();
 
+  public bool IsComplete { get; set; } = false;
+
 }

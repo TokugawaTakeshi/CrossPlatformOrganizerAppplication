@@ -14,13 +14,18 @@ mixin ModalDialog(properties, statesSimulations)
 
     } = statesSimulations
 
+    const rootElementModifierCSS_Classes = [
+      "ModalDialog__FillingOfScreenWithSmallGapGeometry"
+    ];
+
 
   .ModalDialog(
     role="dialog"
     tabindex="-1"
+    class= rootElementModifierCSS_Classes
   )&attributes(attributes)
 
-    .ModalDialog-Body.ModalDialog-Body__FillingOfScreenWithSmallGapGeometry(
+    .ModalDialog-Body(
       role="document"
     )
 

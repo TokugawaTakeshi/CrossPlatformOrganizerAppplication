@@ -23,7 +23,7 @@ mixin TaskCard(properties, statesSimulations)
     ): +Checkbox__Unchecked--YDF_Icon.TaskCard-Checkbox-Icon
 
 
-    .TaskCard-Title= task.title
+    .TaskCard-Title= task.Title
 
     if getRandomBoolean()
 
@@ -37,7 +37,7 @@ mixin TaskCard(properties, statesSimulations)
 
     if getRandomBoolean()
 
-      p.TaskCard-Description= task.description
+      p.TaskCard-Description= task.Description
 
 
 include LoadingPlaceholder/TaskCard-LoadingPlaceholder.pug

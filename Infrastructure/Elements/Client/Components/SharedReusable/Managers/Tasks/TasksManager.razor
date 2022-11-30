@@ -1,4 +1,7 @@
-﻿<div class="TasksManager @SpaceSeparatedAdditionalCSS_Classes">
+﻿@using Task = BusinessRules.Enterprise.Tasks.Task
+
+
+<div class="TasksManager @SpaceSeparatedAdditionalCSS_Classes">
   
   @if (isTasksRetrievingInProgressOrNotStartedYet)
   {
@@ -10,44 +13,22 @@
     </div>  
   }
   
-</div>
-
-
-@code {
-
-  [Parameter]
-  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
-
-
-  private List<BusinessRules.Enterprise.Tasks.Task> _tasks = new(); 
-  
-  private bool _isWaitingForTasksSelectionRetrieving = true;
-  private bool _isTasksSelectionBeingRetrievedNow = false;
-  private bool _isTasksSelectionRetrievingErrorOccurred = false;
-  
-  
-  private bool isTasksRetrievingInProgressOrNotStartedYet => 
-      _isWaitingForTasksSelectionRetrieving || _isTasksSelectionBeingRetrievedNow;
-  
-  protected override async System.Threading.Tasks.Task OnInitializedAsync()
+  else if (_isTasksSelectionRetrievingErrorOccurred)
   {
-
-    _isTasksSelectionBeingRetrievedNow = true;
-    _isWaitingForTasksSelectionRetrieving = false;
-    _isTasksSelectionRetrievingErrorOccurred = false;
-    
-    try
-    {
-      _tasks = (await ClientDependencies.Injector.gateways().Task.RetrieveAll()).ToList();
-    }
-    catch (Exception e)
-    {
-      Console.WriteLine(e);
-      _isTasksSelectionRetrievingErrorOccurred = true;
-    }
-
-    _isTasksSelectionBeingRetrievedNow = false;
-    
+    <div>エラー</div>  
   }
 
-}
+  else
+  {
+    <ul class="TasksManager-List">
+      @foreach (Task task in _tasks)
+      {
+        <TaskCard 
+          TargetTask=@task
+          RootElementTag="li"
+        />
+      }
+    </ul>
+  }
+  
+</div>
