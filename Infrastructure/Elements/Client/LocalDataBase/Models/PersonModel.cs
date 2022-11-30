@@ -33,10 +33,19 @@ public class PersonModel : Person
     string email,
     string phoneNumber
   ) : base(
-     ID, // データベースから自動的に割り当てられたIDを取る
+     ID: GenerateTemporaryID(),
      name,
      email,
      phoneNumber
   ) {}
 
+
+  private static uint _counterForTemporaryIdGenerating = 1; 
+  
+  private static uint GenerateTemporaryID()
+  {
+    _counterForTemporaryIdGenerating++;
+    return _counterForTemporaryIdGenerating;
+  } 
+  
 }
