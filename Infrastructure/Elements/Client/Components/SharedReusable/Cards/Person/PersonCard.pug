@@ -1,0 +1,30 @@
+mixin PersonCard(properties)
+
+  -
+
+    const {
+      targetPerson,
+      rootElementTag = "div"
+    } = properties
+
+
+  #{rootElementTag}.PersonCard&attributes(attributes)(
+    tabindex="0"
+  )
+
+    dl.PersonCard-Metadata
+
+      dt.PersonCard-Metadata-Key 氏名
+      dd.PersonCard-Metadata-Value= targetPerson.Name
+
+      dt.PersonCard-Metadata-Key メール
+      dd.PersonCard-Metadata-Value= targetPerson.Email
+
+      dt.PersonCard-Metadata-Key 電話番号
+      dd.PersonCard-Metadata-Value= targetPerson.PhoneNumber
+
+      dt.PersonCard-Metadata-Key 年齢
+      dd.PersonCard-Metadata-Value= `${ targetPerson.Age }歳`
+
+      
+include LoadingPlaceholder/PersonCardLoadingPlaceholder.pug

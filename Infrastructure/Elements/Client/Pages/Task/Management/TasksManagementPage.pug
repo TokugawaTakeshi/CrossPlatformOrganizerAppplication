@@ -1,0 +1,44 @@
+extends ../../../Layouts/Main/MainLayout.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = "課題管理 ｜ やまとダイワ几帳面さ";
+
+    styleSheetsURIs = [ "@All" ];
+
+
+block append Requirements
+
+  include ../../../Components/Components.pug
+
+
+block append SpecificContent
+
+  .TasksManagementPage-SpecificContent.MainLayout-DynamicContentFillingChildrenElement
+
+    +TasksGroupsTreeManager.TasksManagementPage-TasksGroupsThreeManager
+
+    +TasksManager({
+      loading: TasksManagementPageStatesSimulations.loading,
+      error: TasksManagementPageStatesSimulations.error,
+      noItems: TasksManagementPageStatesSimulations.noItems,
+      noSearchResults: TasksManagementPageStatesSimulations.noSearchResults
+    }).TasksManagementPage-TasksManager
+    
+    //- targetTask: DummyData.tasks[0],
+    +TaskManager(
+      {
+        targetTask: DummyData.tasks[0],
+        activationGuidance: "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+      },
+      { editingMode: true }
+    ).TasksManagementPage-TaskManager
+
+    //-
+      +ModalDialog({
+        title: "課題を編集"
+      })

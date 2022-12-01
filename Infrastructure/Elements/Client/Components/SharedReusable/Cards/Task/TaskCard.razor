@@ -1,28 +1,32 @@
 ﻿<Dynamic
   Tag="@RootElementTag"
-  class="TaskCard"
+  class="TaskCard @SpaceSeparatedAdditionalCSS_Classes"
   tabindex="0"
 >
-  
+
   <span
     class="TaskCard-Checkbox"
     role="checkbox"
     tabindex="0"
     aria-checked="@(TargetTask.IsComplete)"
   >
-    
+
     @if (TargetTask.IsComplete)
+    {
+      <Checkbox__Checked SpaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
+    }
+    else
     {
       <Checkbox__Unchecked SpaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
     }
-    
+
   </span>
-  
+
   <div class="TaskCard-Title"> @TargetTask.Title </div>
-  
-  @if (TargetTask.Description != null)
+
+  @if (!String.IsNullOrEmpty(TargetTask.Description))
   {
-    <div class="TaskCard-Description"> @TargetTask.Description </div>  
+    <div class="TaskCard-Description"> @TargetTask.Description </div>
   }
-  
+
 </Dynamic>

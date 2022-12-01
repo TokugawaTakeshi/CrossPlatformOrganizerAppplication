@@ -1,18 +1,6 @@
-Pages/Task/List/TasksListPage:
+Pages/Task/Management/TasksManagementPage:
 
-  stateObjectTypeVariableName: "TasksListPageStatesSimulations"
-
-  variations:
-
-    __Loading: { loading: true }
-    __Error: { error: true }
-    __NoItems: { noItems: true }
-    __NoSearchResults: { noSearchResults: true }
-
-
-Pages/Inbox/ItemsList/InboxItemsListPage:
-
-  stateObjectTypeVariableName: "InboxItemsListPageStatesSimulations"
+  stateObjectTypeVariableName: "TasksManagementPageStatesSimulations"
 
   variations:
 
@@ -22,9 +10,9 @@ Pages/Inbox/ItemsList/InboxItemsListPage:
     __NoSearchResults: { noSearchResults: true }
 
 
-Pages/Timeline/TimelinePage:
+Pages/Person/Management/PeopleManagementPage:
 
-  stateObjectTypeVariableName: "TimelinePageStatesSimulations"
+  stateObjectTypeVariableName: "PeopleManagementPageStatesSimulations"
 
   variations:
 

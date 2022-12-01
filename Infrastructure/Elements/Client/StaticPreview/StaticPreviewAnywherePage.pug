@@ -14,25 +14,26 @@ block append TableOfContents
 
   h2.AnywherePage-PagesGroupHeading 入件箱
 
-  +PageLink({
-    label: "項目一覧",
-    URI: "@Pages/Inbox/ItemsList/InboxItemsListPage",
-    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
-  })
-
-  +PageLink({
-    label: "時系列表",
-    URI: "@Pages/Timeline/TimelinePage",
+  +PageLinksGroup({
+    title: "課題管理",
+    linksData: [
+      { label: "通常表示", URI: "@Pages/Task/Management/TasksManagementPage" },
+      { label: "ロード中表示", URI: "@Pages/Task/Management/TasksManagementPage__Loading" },
+      { label: "エラー発生表示", URI: "@Pages/Task/Management/TasksManagementPage__Error" },
+      { label: "件が無い表示", URI: "@Pages/Task/Management/TasksManagementPage__NoItems" },
+      { label: "検索結果無い表示", URI: "@Pages/Task/Management/TasksManagementPage__NoSearchResults" }
+    ],
     progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
   })
 
   +PageLinksGroup({
-    title: "課題一覧",
+    title: "人管理",
     linksData: [
-      { label: "通常表示", URI: "@Pages/Task/List/TasksListPage" },
-      { label: "ロード中表示", URI: "@Pages/Task/List/TasksListPage__Loading" },
-      { label: "エラー発生表示", URI: "@Pages/Task/List/TasksListPage__Error" },
-      { label: "検索結果無い表示", URI: "@Pages/Task/List/TasksListPage__NoSearchResults" },
+      { label: "通常表示", URI: "@Pages/Person/Management/PeopleManagementPage" },
+      { label: "ロード中表示", URI: "@Pages/Person/Management/PeopleManagementPage__Loading" },
+      { label: "エラー発生表示", URI: "@Pages/Person/Management/PeopleManagementPage__Error" },
+      { label: "件が無い表示", URI: "@Pages/Person/Management/PeopleManagementPage__NoItems" },
+      { label: "検索結果無い表示", URI: "@Pages/Person/Management/PeopleManagementPage__NoSearchResults" },
     ],
     progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
   })

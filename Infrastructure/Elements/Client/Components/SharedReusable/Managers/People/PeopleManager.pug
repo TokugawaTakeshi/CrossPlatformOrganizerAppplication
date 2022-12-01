@@ -1,23 +1,23 @@
-mixin TasksManager(statesSimulations)
+mixin PeopleManager(statesSimulations)
 
   - statesSimulations = statesSimulations ?? {}
 
-  .TasksManager&attributes(attributes)
+  .PeopleManager&attributes(attributes)
 
     if statesSimulations.loading
 
-      .TasksManager-CardsFlow
+      .PeopleManager-CardsFlow
 
         each cardNumber in Array.from(new Array(12).keys())
 
-          +TaskCardLoadingPlaceholder
-
+          +PersonCardLoadingPlaceholder
+        
     else if statesSimulations.error
 
       +AttentionBox--YDF({
         decoration: AttentionBox__YDF.DecorativeVariations.error,
         hasPrependedSVG_Icon: true
-      }).TasksManager-AttentionBox
+      }).PeopleManager-AttentionBox
 
         p 情報取得中不具合が発生しました。
 
@@ -25,27 +25,27 @@ mixin TasksManager(statesSimulations)
           HTML_Type: Button__YDF.HTML_Types.regular,
           label: "再試験",
         }).AttentionBox-CenteredBottomButton
-      
+        
     else if statesSimulations.noItems
 
       +AttentionBox--YDF({
         decoration: AttentionBox__YDF.DecorativeVariations.guidance,
         hasPrependedSVG_Icon: true
-      }).TasksManager-AttentionBox
+      }).PeopleManager-AttentionBox
 
-        p 現在、課題が一件も登録させていません。
+        p 現在、人が一件も登録させていません。
 
         +Button--YDF({
           HTML_Type: Button__YDF.HTML_Types.regular,
-          label: "早速追加しましょう！",
+          label: "早速登録しましょう！",
         }).AttentionBox-CenteredBottomButton
-
+        
     else if statesSimulations.noSearchResults
 
       +AttentionBox--YDF({
         decoration: AttentionBox__YDF.DecorativeVariations.guidance,
         hasPrependedSVG_Icon: true
-      }).TasksManager-AttentionBox
+      }).PeopleManager-AttentionBox
 
         p 検索結果と合っている件はありません。
 
@@ -56,11 +56,11 @@ mixin TasksManager(statesSimulations)
 
     else
 
-      ul.TasksManager-CardsFlow
+      ul.PeopleManager-CardsFlow
 
-        each task in DummyData.tasks
+        each person in DummyData.people
 
-          +TaskCard({
-            task,
+          +PersonCard({
+            targetPerson: person,
             rootElementTag: "li"
           })

@@ -1,6 +1,5 @@
 ﻿@page "/people_list"
 
-@using BusinessRules.Enterprise
 @using Gateways
 
 
@@ -50,7 +49,7 @@ else
   
   <div class="container">
     
-    @foreach (Person person in peopleSelectionActualForCurrentPaginationPage)
+    @foreach (BusinessRules.Enterprise.Person person in peopleSelectionActualForCurrentPaginationPage)
     {
       <PersonCard Person="person"/>  
     }
@@ -67,7 +66,7 @@ else
   private uint totalPeopleCount;
   private uint totalPeopleCountInSelection;
   
-  private List<Person> peopleSelectionActualForCurrentPaginationPage;
+  private List<BusinessRules.Enterprise.Person> peopleSelectionActualForCurrentPaginationPage;
   
   private bool isWaitingForFirstRetrievingOfPeople = true;
   private bool arePeopleBeingRetrievedNow;

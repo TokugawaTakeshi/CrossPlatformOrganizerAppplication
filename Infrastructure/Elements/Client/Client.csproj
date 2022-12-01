@@ -62,7 +62,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\SharedReusable\Cards\Person" />
+    <Folder Include="Components\SharedReusable\Managers\People" />
     <Folder Include="StaticPreview\.Build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Unchecked.razor" />
   </ItemGroup>
 
 </Project>

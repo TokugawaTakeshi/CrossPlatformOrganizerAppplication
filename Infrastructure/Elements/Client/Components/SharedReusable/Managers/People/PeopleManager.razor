@@ -1,0 +1,34 @@
+@using BusinessRules.Enterprise
+
+
+<div class="PeopleManager @SpaceSeparatedAdditionalCSS_Classes">
+
+  @if (isPeopleSelectionRetrievingInProgressOrNotStartedYet)
+  {
+    <div class="PeopleManager-CardsFlow">
+      @for (uint cardNumber = 0; cardNumber < 12; cardNumber++)
+      {
+        <PersonCardLoadingPlaceholder/>
+      }
+    </div>  
+  }
+  
+  else if (_isPeopleSelectionRetrievingErrorOccurred)
+  {
+    <div>エラー</div>  
+  }
+  
+  else
+    {
+      <ul class="PeopleManager-CardsFlow">
+        @foreach (Person person in _people)
+        {
+          <PersonCard 
+            TargetPerson=@person
+            RootElementTag="li"
+          />
+        }
+      </ul>
+    }
+  
+</div>

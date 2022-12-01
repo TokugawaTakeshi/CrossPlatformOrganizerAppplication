@@ -15,11 +15,11 @@ internal abstract class TaskMocker
 
     uint ID = options.ID ?? GenerateID();
     
-    string title = options.Title ?? RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum()).Generate();
+    string title = options.Title ?? RandomizerFactory.GetRandomizer(new FieldOptionsTextWords { Min = 1, Max = 10 }).Generate();
 
     string? description;
     
-    if (options.Description == null || options.AllOptionals) 
+    if (options.Description == null || options.AllOptionals)
     {
       description = RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum()).Generate();
     } else

@@ -1,19 +1,26 @@
 ﻿@using System.Net.Http
+
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+
 @using Client
-@using Client.Shared
-@using Client.Components.PersonCard
+
+@using Client.Components.SharedReusable.Cards.Person
+@using Client.Components.SharedReusable.Cards.Person.LoadingPlaceholder
 @using Client.Components.SharedReusable.Cards.Task
 @using Client.Components.SharedReusable.Cards.Task.LoadingPlaceholder
 @using Client.Components.SharedReusable.NavigationMenu
+@using Client.Components.SharedReusable.Managers.People
+@using Client.Components.SharedReusable.Managers.Person
 @using Client.Components.SharedReusable.Managers.TasksGroupsTree
 @using Client.Components.SharedReusable.Managers.Tasks
 @using Client.Components.SharedSingletons.Header
+
 @using Client.Layouts.Main
+
 @using Client.SVG_Icons.Calendar
 @using Client.SVG_Icons.Checkbox
 @using Client.SVG_Icons.Folder

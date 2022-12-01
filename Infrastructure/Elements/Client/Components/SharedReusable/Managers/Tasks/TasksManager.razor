@@ -5,7 +5,7 @@
   
   @if (isTasksRetrievingInProgressOrNotStartedYet)
   {
-    <div class="TasksManager-List">
+    <div class="TasksManager-CardsFlow">
       @for (uint cardNumber = 0; cardNumber < 12; cardNumber++)
       {
         <TaskCardLoadingPlaceholder />  
@@ -20,7 +20,7 @@
 
   else
   {
-    <ul class="TasksManager-List">
+    <ul class="TasksManager-CardsFlow">
       @foreach (Task task in _tasks)
       {
         <TaskCard 

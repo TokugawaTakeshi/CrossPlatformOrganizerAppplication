@@ -9,6 +9,8 @@ public partial class TaskCard : ComponentBase
 
   [Parameter] public BusinessRules.Enterprise.Tasks.Task TargetTask { get; set; }
   
+  [Parameter] public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  
   [Parameter] public string RootElementTag { get; set; } = "div";
   
 }

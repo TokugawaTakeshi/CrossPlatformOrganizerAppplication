@@ -20,8 +20,8 @@ public class PersonMockGateway : IPersonGateway
       getResponseData: mockDataSource.RetrieveAllPeople,
       new MockGatewayHelper.SimulationOptions
       {
-        MinimalPendingPeriod__Seconds = 1,
-        MaximalPendingPeriod__Seconds = 2,
+        MinimalPendingPeriod__Seconds = 2,
+        MaximalPendingPeriod__Seconds = 3,
         MustSimulateError = false,
         GatewayName = nameof(PersonMockGateway),
         TransactionName = "RetrievingOfAll"

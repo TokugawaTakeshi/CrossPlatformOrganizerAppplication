@@ -5,24 +5,15 @@ mixin NavigationMenu
     ul
 
       li
-
         a.NavigationMenu-Link(
-          href="#"
-        )
-          +Inbox--YDF_Icon.NavigationMenu-Link-Icon
-          span.NavigationMenu-Link-Label 入件箱
-
-      li
-        a.NavigationMenu-Link(
-          href="#"
-        )
-          +Timeline--YDF_Icon.NavigationMenu-Link-Icon
-          span.NavigationMenu-Link-Label 時事流
-
-
-      li
-        a.NavigationMenu-Link(
-          href="#"
+          href="@Pages/Task/Management/TasksManagementPage"
         )
           +Checklist--YDF_Icon.NavigationMenu-Link-Icon
           span.NavigationMenu-Link-Label 課題
+
+      li
+        a.NavigationMenu-Link(
+          href="@Pages/Person/Management/PeopleManagementPage"
+        )
+          +Person__Clock__Rectangled__Filled--YDF_Icon.NavigationMenu-Link-Icon
+          span.NavigationMenu-Link-Label 人

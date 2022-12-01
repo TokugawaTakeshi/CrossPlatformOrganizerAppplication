@@ -9,15 +9,18 @@ CrossBrowserStylesReset()
 InitialGlobalCSS_Rules()
 
 
+@require "../Components/SharedReusable/Cards/Person/PersonCard.styl"
 @require "../Components/SharedReusable/Cards/Task/TaskCard.styl"
-
-@require "../Components/SharedReusable/Editors/Task/TaskEditor.styl"
 
 @require "../Components/SharedReusable/Controls/Button.styl"
 @require "../Components/SharedReusable/Controls/TextBox.styl"
 @require "../Components/SharedReusable/Controls/CompoundControlShell.styl"
 
 @require "../Components/SharedReusable/NavigationMenu/NavigationMenu.styl"
+
+@require "../Components/SharedReusable/Managers/People/PeopleManager.styl"
+@require "../Components/SharedReusable/Managers/Person/PersonManager.styl"
+@require "../Components/SharedReusable/Managers/Task/TaskManager.styl"
 @require "../Components/SharedReusable/Managers/Tasks/TasksManager.styl"
 @require "../Components/SharedReusable/Managers/TasksGroupsTree/TasksGroupsTreeManager.styl"
 
@@ -29,9 +32,8 @@ InitialGlobalCSS_Rules()
 
 @require "../Layouts/Main/MainLayout.styl"
 
-@require "../Pages/Inbox/ItemsList/InboxItemsListPage.styl"
-@require "../Pages/Task/List/TasksListPage.styl"
-@require "../Pages/Timeline/TimelinePage.styl"
+@require "../Pages/Task/Management/TasksManagementPage.styl"
+@require "../Pages/Person/Management/PeopleManagementPage.styl"
 
 
 // .Blazor アプリ

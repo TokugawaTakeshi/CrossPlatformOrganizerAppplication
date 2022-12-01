@@ -1,74 +1,70 @@
 {
   "Components/Components.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.331Z"
+    "modificationDatetime__ISO_8601": "2022-12-08T06:20:09.282Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.349Z"
+    "modificationDatetime__ISO_8601": "2022-12-07T05:51:05.046Z"
   },
   "Layouts/Main/MainLayout.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.340Z"
   },
-  "Pages/Timeline/TimelinePage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.344Z"
-  },
-  "Components/SharedReusable/NavigationMenu/NavigationMenu.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.338Z"
-  },
   "Components/SharedSingletons/Header/Header.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.339Z"
   },
-  "Pages/Inbox/ItemsList/InboxItemsListPage.pug": {
+  "Components/SharedSingletons/ModalDialog/ModalDialog.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.342Z"
+    "modificationDatetime__ISO_8601": "2022-11-30T10:59:22.027Z"
   },
-  "Pages/ToDos/List/ToDosListPage.pug": {
+  "Components/SharedReusable/NavigationMenu/NavigationMenu.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-09-23T02:57:26.167Z"
+    "modificationDatetime__ISO_8601": "2022-12-05T07:00:03.952Z"
   },
-  "Components/SharedReusable/TasksGroupsTreeManager/TasksGroupsTreeManager.pug": {
+  "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-09-26T04:30:32.209Z"
+    "modificationDatetime__ISO_8601": "2022-12-10T04:51:56.078Z"
   },
-  "Components/SharedReusable/Cards/Task/TaskCard.pug": {
+  "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.333Z"
+    "modificationDatetime__ISO_8601": "2022-12-08T06:21:29.893Z"
   },
-  "Components/SharedReusable/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
+  "Components/SharedReusable/Cards/Person/PersonCard.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-30T07:25:53.518Z"
-  },
-  "Components/SharedReusable/Managers/Taks/TasksManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-10-06T05:41:43.617Z"
-  },
-  "Pages/Task/List/TasksListPage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-22T07:11:25.714Z"
+    "modificationDatetime__ISO_8601": "2022-12-09T06:52:03.889Z"
   },
   "Components/SharedReusable/Editors/Task/TaskEditor.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.335Z"
+    "modificationDatetime__ISO_8601": "2022-12-02T06:46:41.515Z"
   },
-  "Components/SharedReusable/Managers/Tacks/TasksManager.pug": {
+  "Components/SharedReusable/Managers/People/PeopleManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-10-13T03:07:36.848Z"
+    "modificationDatetime__ISO_8601": "2022-12-07T05:40:10.051Z"
   },
-  "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCard-LoadingPlaceholder.pug": {
+  "Components/SharedReusable/Cards/Task/TaskCard.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.332Z"
+    "modificationDatetime__ISO_8601": "2022-12-08T05:59:15.466Z"
+  },
+  "Components/SharedReusable/Managers/Person/PersonManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-10T04:51:56.088Z"
   },
   "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.336Z"
+    "modificationDatetime__ISO_8601": "2022-12-07T05:40:10.060Z"
   },
-  "Components/SharedSingletons/ModalDialog/ModalDialog.pug": {
+  "Components/SharedReusable/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-30T07:25:53.519Z"
+    "modificationDatetime__ISO_8601": "2022-11-30T10:59:22.026Z"
+  },
+  "Components/SharedReusable/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-07T05:58:25.777Z"
+  },
+  "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-07T05:02:26.961Z"
   }
 }

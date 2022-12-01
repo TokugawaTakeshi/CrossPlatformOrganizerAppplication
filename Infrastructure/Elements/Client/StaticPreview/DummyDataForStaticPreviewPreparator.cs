@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
+﻿namespace Client.StaticPreview;
+
+
+using System.Diagnostics;
 using Task = BusinessRules.Enterprise.Tasks.Task;
-
-namespace Client.StaticPreview;
-
-
 using BusinessRules.Enterprise;
 using MockDataSource;
 using Newtonsoft.Json;

@@ -38,8 +38,8 @@ public class MockDataSource
   {
     
     People = PeopleCollectionsMocker.Generate(new List<PeopleCollectionsMocker.Subset> {
-      new PeopleCollectionsMocker.Subset { Quantity = 10 },
-      new PeopleCollectionsMocker.Subset { Quantity = 10, NamePrefix = "SEARCH_TEST-" }
+      new() { Quantity = 10 },
+      new() { Quantity = 10, NamePrefix = "SEARCH_TEST-" }
     });
     
     Tasks = new List<Task>(
