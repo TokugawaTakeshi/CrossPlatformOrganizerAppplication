@@ -1,5 +1,7 @@
-﻿using BusinessRules.Enterprise;
+﻿using CommonSolution.Entities;
+
 using MockDataSource.Entities;
+using MockDataSource.Utils;
 
 
 namespace MockDataSource.Collections;
@@ -8,32 +10,35 @@ namespace MockDataSource.Collections;
 internal abstract class PeopleCollectionsMocker
 {
 
-  public static List<Person> Generate(List<Subset> order)
+  public static IEnumerable<Person> Generate(IEnumerable<Subset> order)
   {
 
-    List<Person> accumulatingCollection = new List<Person>();
+    List<Person> accumulatingCollection = new();
 
     foreach (Subset subset in order)
     {
       for (uint itemNumber = 0; itemNumber < subset.Quantity; itemNumber++)
       {
-        accumulatingCollection.Add(PersonMocker.Generate(new PersonMocker.Options
-        {
-          NamePrefix = subset.NamePrefix,
-          AllOptionals = subset.AllOptionals
-        }));
+        accumulatingCollection.Add(PersonMocker.Generate(
+          preDefines: null,
+          new PersonMocker.Options
+          {
+            FamilyNamePrefix = subset.FamilyNamePrefix,
+            NullablePropertiesDecisionStrategy = subset.NullablePropertiesDecisionStrategy
+          }
+        ));
       }
     }
 
-    return accumulatingCollection;
+    return accumulatingCollection.ToArray();
     
   }
 
-  public class Subset
+  public struct Subset
   {
-    internal uint Quantity;
-    internal bool AllOptionals = true;
-    internal string? NamePrefix;
+    internal required uint Quantity { get; init; }
+    internal required DataMocking.NullablePropertiesDecisionStrategies NullablePropertiesDecisionStrategy { get; init; }
+    internal string? FamilyNamePrefix { get; init; }
   }
   
 }

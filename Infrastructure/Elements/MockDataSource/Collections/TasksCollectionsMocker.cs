@@ -1,25 +1,31 @@
-﻿using MockDataSource.Entities;
-using Task = BusinessRules.Enterprise.Tasks.Task;
+﻿using Task = CommonSolution.Entities.Task.Task;
+
+using MockDataSource.Entities;
+using MockDataSource.Utils;
+
 
 namespace MockDataSource.Collections;
 
 
-internal class TasksCollectionsMocker
+internal abstract class TasksCollectionsMocker
 {
 
-  public static Task[] Generate(Subset[] order)
+  public static IEnumerable<Task> Generate(IEnumerable<Subset> order)
   {
 
-    List<Task> accumulatingCollection = new List<Task>();
+    List<Task> accumulatingCollection = new();
 
     foreach (Subset subset in order)
     {
       for (uint itemNumber = 0; itemNumber < subset.Quantity; itemNumber++)
       {
-        accumulatingCollection.Add(TaskMocker.Generate(new TaskMocker.Options()
-        {
-          AllOptionals = subset.AllOptionals
-        }));
+        accumulatingCollection.Add(TaskMocker.Generate(
+          preDefines: null,
+          new TaskMocker.Options
+          {
+            NullablePropertiesDecisionStrategy = subset.NullablePropertiesDecisionStrategy
+          }
+        ));
       }
     }
 
@@ -30,13 +36,8 @@ internal class TasksCollectionsMocker
   
   public struct Subset
   {
-    internal uint Quantity;
-    internal bool AllOptionals = false;
-
-    public Subset(uint quantity) : this()
-    {
-      Quantity = quantity;
-    }
+    internal required uint Quantity { get; init; }
+    internal required DataMocking.NullablePropertiesDecisionStrategies NullablePropertiesDecisionStrategy { get; init; }
   }
   
 }

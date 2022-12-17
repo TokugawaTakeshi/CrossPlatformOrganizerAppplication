@@ -1,10 +1,12 @@
-﻿using BusinessRules.Enterprise;
-using Task = BusinessRules.Enterprise.Tasks.Task;
-
-using Gateways;
+﻿using CommonSolution.Entities;
+using CommonSolution.Gateways;
+using Task = CommonSolution.Entities.Task.Task;
 
 using MockDataSource.Collections;
 using MockDataSource.Entities;
+using MockDataSource.Utils;
+
+using System.Diagnostics;
 
 
 namespace MockDataSource;
@@ -18,7 +20,7 @@ public class MockDataSource
   public readonly List<Task> Tasks;
 
   
-  /* === 初期化 ======================================================================================================= */
+  /* === 初期化 ====================================================================================================== */
   private static MockDataSource? _selfSoleInstance;
 
   public static MockDataSource GetInstance()
@@ -27,7 +29,7 @@ public class MockDataSource
     if (_selfSoleInstance == null)
     {
       _selfSoleInstance = new MockDataSource();
-      Console.WriteLine("Mock data source has been initialized.");
+      Debug.WriteLine("Mock data source has been initialized.");
     }
 
     return _selfSoleInstance;
@@ -37,56 +39,90 @@ public class MockDataSource
   private MockDataSource()
   {
     
-    People = PeopleCollectionsMocker.Generate(new List<PeopleCollectionsMocker.Subset> {
-      new() { Quantity = 10 },
-      new() { Quantity = 10, NamePrefix = "SEARCH_TEST-" }
-    });
-    
-    Tasks = new List<Task>(
-      TasksCollectionsMocker.Generate(new [] {
-        new TasksCollectionsMocker.Subset(quantity: 10),
-        new TasksCollectionsMocker.Subset(quantity: 10) { Quantity = 10, AllOptionals = true }
-      })
-    );
+    People = PeopleCollectionsMocker.Generate(new PeopleCollectionsMocker.Subset[] {
+      new()
+      {
+        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll, 
+        Quantity = 5
+      },
+      new()
+      {
+        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbability,
+        Quantity = 5
+      },
+      new()
+      {
+        FamilyNamePrefix = "SEARCH_TEST-", 
+        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbability,
+        Quantity = 5
+      }
+    }).ToList();
+
+    Tasks = TasksCollectionsMocker.Generate(new TasksCollectionsMocker.Subset[] {
+      new()
+      {
+        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
+        Quantity = 5
+      },
+      new()
+      {
+        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbability,
+        Quantity = 5
+      }
+    }).ToList();
 
   }
 
 
-
   /* === 人 ========================================================================================================= */
-  public List<Person> RetrieveAllPeople()
+  public Person[] RetrieveAllPeople()
   {
-    return People;
+    return People.ToArray();
   }
 
   public IPersonGateway.Adding.ResponseData AddPerson(IPersonGateway.Adding.RequestData requestData)
   {
 
-    Person newPerson = PersonMocker.Generate(new PersonMocker.Options
-    {
-      Name = requestData.Name,
-      Age = requestData.Age,
-      EmailAddress = requestData.Email,
-      PhoneNumber = requestData.PhoneNumber
-    });
+    Person newPerson = PersonMocker.Generate(
+      new PersonMocker.PreDefines 
+      {
+        FamilyName = requestData.FamilyName,
+        GivenName = requestData.GivenName,
+        Age = requestData.Age,
+        EmailAddress = requestData.EmailAddress,
+        PhoneNumber = requestData.PhoneNumber
+      },
+      new PersonMocker.Options
+      {
+        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined
+      }
+    );
 
     People.Insert(0, newPerson);
 
-    return new IPersonGateway.Adding.ResponseData(newPerson.ID);
+    return new IPersonGateway.Adding.ResponseData { AddedPersonID = newPerson.ID };
+    
   }
 
   public void UpdatePerson(IPersonGateway.Updating.RequestData requestData)
   {
 
-    Person targetPerson = People.Find(person => person.ID == requestData.ID);
+    Person? targetPerson = People.Find(person => person.ID == requestData.ID);
 
-    targetPerson.Name = requestData.Name;
-    targetPerson.Email = requestData.Email;
-    targetPerson.PhoneNumber = requestData.PhoneNumber;
+    if (targetPerson == null)
+    {
+      throw new InvalidDataException($"ID「${ requestData.ID }」の人が発見されず。");
+    }
+
+    targetPerson.FamilyName = requestData.FamilyName;
+    targetPerson.GivenName = requestData.GivenName;
     targetPerson.Age = requestData.Age;
+    targetPerson.EmailAddress = requestData.EmailAddress;
+    targetPerson.PhoneNumber = requestData.PhoneNumber;
+    
   }
 
-  public void DeletePerson(uint targetPersonID)
+  public void DeletePerson(string targetPersonID)
   {
     People.RemoveAll(person => person.ID == targetPersonID);
   }
@@ -96,6 +132,57 @@ public class MockDataSource
   public Task[] RetrieveAllTasks()
   {
     return Tasks.ToArray();
+  }
+
+  public ITaskGateway.Adding.ResponseData AddTask(ITaskGateway.Adding.RequestData requestData)
+  {
+
+    Task newTask = TaskMocker.Generate(
+      new TaskMocker.PreDefines
+      {
+        Title = requestData.Title,
+        Description = requestData.Description,
+        Subtasks = requestData.SubtasksIDs == null ? 
+          null : Tasks.FindAll(task => requestData.SubtasksIDs.Any(task.ID.Contains)) 
+      },
+      new TaskMocker.Options()
+      {
+        NullablePropertiesDecisionStrategy =
+          DataMocking.NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined
+      }
+    );
+    
+    Tasks.Insert(0, newTask);
+
+    return new ITaskGateway.Adding.ResponseData() { AddedTaskID = newTask.ID };
+
+  }
+
+  public void UpdateTask(ITaskGateway.Updating.RequestData requestData)
+  {
+
+    Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
+
+    if (targetTask == null)
+    {
+      throw new InvalidDataException($"ID「${ requestData.ID }」の課題が発見されず。");
+    }
+
+    targetTask.Title = requestData.Title;
+    targetTask.Description = requestData.Description;
+
+    if (requestData.SubtasksIDs != null)
+    {
+      targetTask.Subtasks = Tasks.FindAll(task => requestData.SubtasksIDs.Any(task.ID.Contains));
+    }
+
+    targetTask.IsComplete = requestData.IsComplete;
+
+  }
+
+  public void DeleteTask(string targetTaskID)
+  {
+    Tasks.RemoveAll(tasks => tasks.ID == targetTaskID);
   }
 
 }

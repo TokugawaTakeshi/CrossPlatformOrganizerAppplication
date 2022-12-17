@@ -1,5 +1,6 @@
-﻿using BusinessRules.Enterprise;
-using Gateways;
+﻿using CommonSolution.Entities;
+using CommonSolution.Gateways;
+
 using MockDataSource.Utils;
 using Utils.Pagination;
 
@@ -13,9 +14,9 @@ public class PersonMockGateway : IPersonGateway
   private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
 
 
-  public Task<List<Person>> RetrieveAll()
+  public Task<Person[]> RetrieveAll()
   {
-    return MockGatewayHelper.SimulateDataRetrieving<object, List<Person>>(
+    return MockGatewayHelper.SimulateDataRetrieving<object, Person[]>(
       requestParameters: null,
       getResponseData: mockDataSource.RetrieveAllPeople,
       new MockGatewayHelper.SimulationOptions
@@ -33,36 +34,34 @@ public class PersonMockGateway : IPersonGateway
     IPersonGateway.SelectionRetrieving.RequestParameters requestParameters
   )
   {
-
-    return MockGatewayHelper.SimulateDataRetrieving<
-      IPersonGateway.SelectionRetrieving.RequestParameters,
-      IPersonGateway.SelectionRetrieving.ResponseData
-    >(
-      requestParameters: null,
+    return MockGatewayHelper.SimulateDataRetrieving(
+      requestParameters,
       getResponseData: () => {
 
-        List<Person> filteredItems;
+        Person[] filteredPeople;
 
-        if (!String.IsNullOrEmpty(requestParameters.FilteringByName))
+        if (!String.IsNullOrEmpty(requestParameters.SearchingByFullOrPartialName))
         {
-          filteredItems = mockDataSource.People.Where(
-            Person => Person.Name.Contains(requestParameters.FilteringByName)
-          ).ToList();
+          filteredPeople = mockDataSource.People.Where(
+            person => person.FamilyName.Contains(requestParameters.SearchingByFullOrPartialName)
+          ).ToArray();
         }
         else
         {
-          filteredItems = mockDataSource.People;
+          filteredPeople = mockDataSource.People.ToArray();
         }
 
-        List<Person> itemsActualForRequestedPaginationPage = PaginationHelper.SplitListToPaginationCollection(
-          filteredItems, requestParameters.ItemsCountPerPaginationPage
+        List<Person> itemsOfTargetPaginationPage = PaginationHelper.SplitListToPaginationCollection(
+          filteredPeople, requestParameters.ItemsCountPerPaginationPage
         ).PagesContent[(int)requestParameters.PaginationPageNumber];
 
-        return new IPersonGateway.SelectionRetrieving.ResponseData(
-          totalItemsCount: Convert.ToUInt32(mockDataSource.People.Count),
-          totalItemsCountInSelection: Convert.ToUInt32(filteredItems.Count),
-          selectionItemsOfSpecifiedPaginationPage: itemsActualForRequestedPaginationPage
-        );
+        return new IPersonGateway.SelectionRetrieving.ResponseData
+        {
+          ItemsOfTargetPaginationPage = itemsOfTargetPaginationPage,
+          TotalItemsCountInSelection = Convert.ToUInt32(filteredPeople.Count),
+          TotalItemsCount = Convert.ToUInt32(mockDataSource.People.Count)
+        };
+        
       },
       new MockGatewayHelper.SimulationOptions
       {
@@ -91,11 +90,15 @@ public class PersonMockGateway : IPersonGateway
     );
   }
 
-  public System.Threading.Tasks.Task Update(IPersonGateway.Updating.RequestData requestData)
+  public Task Update(IPersonGateway.Updating.RequestData requestData)
   {
     return MockGatewayHelper.SimulateDataSubmitting<IPersonGateway.Updating.RequestData, object>(
       requestData,
-      getResponseData: () => null,
+      getResponseData: () =>
+      {
+        mockDataSource.UpdatePerson(requestData);
+        return null;
+      },
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
@@ -107,9 +110,9 @@ public class PersonMockGateway : IPersonGateway
     );
   }
 
-  public System.Threading.Tasks.Task Delete(uint targetPersonID)
+  public Task Delete(string targetPersonID)
   {
-    return MockGatewayHelper.SimulateDataSubmitting<uint, object>(
+    return MockGatewayHelper.SimulateDataSubmitting<string, object>(
       targetPersonID,
       getResponseData: () => null,
       new MockGatewayHelper.SimulationOptions

@@ -1,6 +1,8 @@
-﻿using RandomDataGenerator.FieldOptions;
+﻿using Task = CommonSolution.Entities.Task.Task;
+
+using MockDataSource.Utils;
+using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
-using Task = BusinessRules.Enterprise.Tasks.Task;
 
 
 namespace MockDataSource.Entities;
@@ -9,54 +11,55 @@ namespace MockDataSource.Entities;
 internal abstract class TaskMocker
 {
 
+  public struct PreDefines
+  {
+    internal string? ID { get; init; }
+    internal string? Title { get; init; }
+    internal string? Description { get; init; }
+    internal List<Task>? Subtasks { get; init; }
+    internal bool IsComplete { get; init; } 
+  }
+  
+  public struct Options
+  {
+    internal required DataMocking.NullablePropertiesDecisionStrategies NullablePropertiesDecisionStrategy { get; init; }
+  }
 
-  public static Task Generate(Options options)
+  
+  public static Task Generate(PreDefines? preDefines, Options options)
   {
 
-    uint ID = options.ID ?? GenerateID();
-    
-    string title = options.Title ?? RandomizerFactory.GetRandomizer(new FieldOptionsTextWords { Min = 1, Max = 10 }).Generate();
+    string ID = preDefines?.ID ?? GenerateID();
 
-    string? description;
-    
-    if (options.Description == null || options.AllOptionals)
-    {
-      description = RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum()).Generate();
-    } else
-    {
-      description = options.Description;
-    }
+    string title =
+        preDefines?.Title ??
+        RandomizerFactory.GetRandomizer(new FieldOptionsTextWords { Min = 1, Max = 10 }).Generate() + "";
 
-
-    List<Task>? subtasks = options.Subtasks;
+    string? description = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionOptions<string?>
+      {
+        PreDefinedValue = preDefines?.Description,
+        RandomValueGenerator = () => RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum()).Generate(),
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    );
 
     return new Task
     {
       ID = ID,
       Title = title,
-      Description = description,
-      Subtasks = subtasks
+      Description = description
     };
 
   }
   
-  public struct Options
-  {
-    internal uint? ID;
-    internal string? Title;
-    internal string? TitlePrefix;
-    internal string? Description;
-    internal List<Task>? Subtasks;
-    internal bool AllOptionals;
-  }
-  
   
   private static uint counterForID_Generating;
-  
-  private static uint GenerateID()
+
+  private static string GenerateID()
   {
     counterForID_Generating++;
-    return counterForID_Generating;
+    return $"TASK-{counterForID_Generating}__GENERATED";
   }
   
 }

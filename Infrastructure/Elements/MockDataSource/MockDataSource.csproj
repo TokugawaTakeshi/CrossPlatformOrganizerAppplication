@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BusinessRules\BusinessRules.csproj" />
-    <ProjectReference Include="..\..\..\Gateways\Gateways.csproj" />
+    <ProjectReference Include="..\..\..\CommonSolution\CommonSolution.csproj" />
     <ProjectReference Include="..\..\..\Utils\Utils.csproj" />
   </ItemGroup>
 

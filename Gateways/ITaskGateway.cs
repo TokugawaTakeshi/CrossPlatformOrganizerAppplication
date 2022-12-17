@@ -4,7 +4,7 @@
 namespace Gateways;
 
 
-public interface ITasksGateway
+public interface ITaskGateway
 {
   System.Threading.Tasks.Task<Task[]> RetrieveAll();
 }

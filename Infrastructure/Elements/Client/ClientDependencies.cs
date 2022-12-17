@@ -15,9 +15,9 @@ internal class ClientDependencies {
   public class Gateways {
     
     public readonly IPersonGateway Person;
-    public readonly ITasksGateway Task;
+    public readonly ITaskGateway Task;
 
-    public Gateways(IPersonGateway person, ITasksGateway task)
+    public Gateways(IPersonGateway person, ITaskGateway task)
     {
       Person = person;
       Task = task;
