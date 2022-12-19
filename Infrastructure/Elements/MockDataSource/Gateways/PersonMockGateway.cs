@@ -51,9 +51,9 @@ public class PersonMockGateway : IPersonGateway
           filteredPeople = mockDataSource.People.ToArray();
         }
 
-        List<Person> itemsOfTargetPaginationPage = PaginationHelper.SplitListToPaginationCollection(
+        List<Person> itemsOfTargetPaginationPage = new PaginationCollection<Person>(
           filteredPeople, requestParameters.ItemsCountPerPaginationPage
-        ).PagesContent[(int)requestParameters.PaginationPageNumber];
+        ).GetItemsListOfPageWithNumber(requestParameters.PaginationPageNumber);
 
         return new IPersonGateway.SelectionRetrieving.ResponseData
         {
