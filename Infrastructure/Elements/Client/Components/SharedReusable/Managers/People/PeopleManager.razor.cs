@@ -11,8 +11,8 @@ public partial class PeopleManager : ComponentBase
   [Parameter]
   public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
 
-  
-  private List<BusinessRules.Enterprise.Person> _people = new();
+
+  private CommonSolution.Entities.Person[] _people = Array.Empty<CommonSolution.Entities.Person>();
   
   private bool _isWaitingForPeopleSelectionRetrieving = true;
   private bool _isPeopleSelectionBeingRetrievedNow = false;

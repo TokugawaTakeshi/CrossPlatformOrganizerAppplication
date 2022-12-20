@@ -27,7 +27,7 @@ public abstract class DataMocking
     {
       NullablePropertiesDecisionStrategies.mustGenerateAll => options.PreDefinedValue ?? options.RandomValueGenerator(),
       NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined => options.PreDefinedValue,
-      _ => RandomValuesGenerator.GetRandomBoolean() ? options.RandomValueGenerator() : null
+      _ => RandomValuesGenerator.GetRandomBoolean() ? options.RandomValueGenerator() : default
     };
   }
 

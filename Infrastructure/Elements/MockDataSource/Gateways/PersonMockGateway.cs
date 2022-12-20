@@ -51,14 +51,14 @@ public class PersonMockGateway : IPersonGateway
           filteredPeople = mockDataSource.People.ToArray();
         }
 
-        List<Person> itemsOfTargetPaginationPage = new PaginationCollection<Person>(
+        Person[] itemsOfTargetPaginationPage = new PaginationCollection<Person>(
           filteredPeople, requestParameters.ItemsCountPerPaginationPage
-        ).GetItemsListOfPageWithNumber(requestParameters.PaginationPageNumber);
+        ).GetItemsArrayOfPageWithNumber(requestParameters.PaginationPageNumber);
 
         return new IPersonGateway.SelectionRetrieving.ResponseData
         {
           ItemsOfTargetPaginationPage = itemsOfTargetPaginationPage,
-          TotalItemsCountInSelection = Convert.ToUInt32(filteredPeople.Count),
+          TotalItemsCountInSelection = Convert.ToUInt32(filteredPeople.Length),
           TotalItemsCount = Convert.ToUInt32(mockDataSource.People.Count)
         };
         
@@ -72,6 +72,7 @@ public class PersonMockGateway : IPersonGateway
         TransactionName = "RetrievingOfSelection"
       }
     );
+    
   }
 
   public Task<IPersonGateway.Adding.ResponseData> Add(IPersonGateway.Adding.RequestData requestData)

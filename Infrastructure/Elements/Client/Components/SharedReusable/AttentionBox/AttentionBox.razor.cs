@@ -54,7 +54,7 @@ public partial class AttentionBox : ComponentBase
     get
     {
 
-      List<string> rootElementModifierCSS_Classes = new List<string>();
+      List<string> rootElementModifierCSS_Classes = new();
 
       if (Enum.GetNames(typeof(StandardThemes)).Length > 1 && !AreThemesExternal)
       {

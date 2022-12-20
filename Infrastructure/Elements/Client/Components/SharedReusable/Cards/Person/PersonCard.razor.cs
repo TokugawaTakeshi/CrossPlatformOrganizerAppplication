@@ -7,7 +7,7 @@ namespace Client.Components.SharedReusable.Cards.Person;
 public partial class PersonCard : ComponentBase
 {
 
-  [Parameter] public BusinessRules.Enterprise.Person TargetPerson { get; set; }
+  [Parameter] public CommonSolution.Entities.Person TargetPerson { get; set; }
   
   [Parameter] public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
   

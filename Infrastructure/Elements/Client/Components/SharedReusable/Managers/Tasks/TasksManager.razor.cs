@@ -12,7 +12,7 @@ public partial class TasksManager : ComponentBase
   public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
-  private List<BusinessRules.Enterprise.Tasks.Task> _tasks = new(); 
+  private CommonSolution.Entities.Task.Task[] _tasks = Array.Empty<CommonSolution.Entities.Task.Task>(); 
   
   private bool _isWaitingForTasksSelectionRetrieving = true;
   private bool _isTasksSelectionBeingRetrievedNow = false;
@@ -31,7 +31,7 @@ public partial class TasksManager : ComponentBase
     
     try
     {
-      _tasks = (await ClientDependencies.Injector.gateways().Task.RetrieveAll()).ToList();
+      _tasks = await ClientDependencies.Injector.gateways().Task.RetrieveAll();
     }
     catch (Exception e)
     {

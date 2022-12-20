@@ -52,14 +52,14 @@ public class TaskMockGateway : ITaskGateway
           filteredTasks = mockDataSource.Tasks.ToArray();
         }
 
-        List<Task> itemsOfTargetPaginationPage = PaginationHelper.SplitListToPaginationCollection(
+        Task[] itemsOfTargetPaginationPage = new PaginationCollection<Task>(
           filteredTasks, requestParameters.ItemsCountPerPaginationPage
-        ).PagesContent[(int) requestParameters.PaginationPageNumber];
+        ).GetItemsArrayOfPageWithNumber(requestParameters.PaginationPageNumber);
 
         return new ITaskGateway.SelectionRetrieving.ResponseData
         {
           ItemsOfTargetPaginationPage = itemsOfTargetPaginationPage,
-          TotalItemsCountInSelection = Convert.ToUInt32(filteredPeople.Count),
+          TotalItemsCountInSelection = Convert.ToUInt32(filteredTasks.Length),
           TotalItemsCount = Convert.ToUInt32(mockDataSource.People.Count)
         };
         
@@ -73,6 +73,7 @@ public class TaskMockGateway : ITaskGateway
         TransactionName = "RetrievingOfSelection"
       }
     );
+    
   }
 
   public Task<ITaskGateway.Adding.ResponseData> Add(ITaskGateway.Adding.RequestData requestData)

@@ -1,0 +1,18 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="モックデータ生成" type="DotNetStaticMethod" factoryName=".NET Static Method">
+    <option name="EXE_PATH" value="C:\Users\Takeshi Tokugawa\AppData\Local\JetBrains\Toolbox\apps\Rider\ch-0\223.7571.232\lib\ReSharperHost\JetLauncherILc.exe" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Automation/DummyDataForStaticPreviewPreparator/bin/Debug/net7.0" />
+    <option name="PASS_PARENT_ENVS" value="1" />
+    <option name="USE_EXTERNAL_CONSOLE" value="0" />
+    <option name="USE_MONO" value="0" />
+    <option name="RUNTIME_ARGUMENTS" value="" />
+    <option name="PROJECT_PATH" value="$PROJECT_DIR$/Automation/DummyDataForStaticPreviewPreparator/DummyDataForStaticPreviewPreparator.csproj" />
+    <option name="PROJECT_TFM" value="net7.0" />
+    <option name="CLASS_NAME" value="DummyDataForStaticPreviewPreparator.DummyDataForStaticPreviewPreparator" />
+    <option name="METHOD_NAME" value="Main" />
+    <method v="2">
+      <option name="Build" />
+    </method>
+  </configuration>
+</component>

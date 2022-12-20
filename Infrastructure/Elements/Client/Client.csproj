@@ -50,8 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BusinessRules\BusinessRules.csproj" />
-    <ProjectReference Include="..\..\..\Gateways\Gateways.csproj" />
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 

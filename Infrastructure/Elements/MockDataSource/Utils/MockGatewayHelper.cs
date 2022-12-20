@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics;
+using Newtonsoft.Json;
 using Utils.Exceptions;
 
 
@@ -13,11 +14,12 @@ internal abstract class MockGatewayHelper
 
   public class SimulationOptions
   {
-    public byte MinimalPendingPeriod__Seconds = MINIMAL_PENDING_PERIOD__SECONDS;
-    public byte MaximalPendingPeriod__Seconds = MAXIMAL_PENDING_PERIOD__SECONDS;
-    public bool MustSimulateError = false;
-    public string GatewayName;
-    public string TransactionName;
+    public byte MinimalPendingPeriod__Seconds { get; init; } = MINIMAL_PENDING_PERIOD__SECONDS;
+    public byte MaximalPendingPeriod__Seconds { get; init; } = MAXIMAL_PENDING_PERIOD__SECONDS;
+    public bool MustSimulateError { get; init; }
+    public bool MustLogResponseData { get; init; }
+    public required string GatewayName { get; init; }
+    public required string TransactionName { get; init; }
   }
 
 
@@ -41,8 +43,8 @@ internal abstract class MockGatewayHelper
 
     TResponseData responseData = getResponseData();
 
-    Console.WriteLine(
-      $"{options.GatewayName}.{options.TransactionName}、下記のリクエスト引数付きのデータ仮取得完了。\n" +
+    Debug.WriteLine(
+      $"{ options.GatewayName }.{ options.TransactionName }、下記のリクエスト引数付きのデータ仮取得完了。\n" +
       JsonConvert.SerializeObject(requestParameters)
     );
 
@@ -76,4 +78,5 @@ internal abstract class MockGatewayHelper
 
     return responseData;
   }
+  
 }

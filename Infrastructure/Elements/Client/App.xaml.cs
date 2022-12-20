@@ -9,12 +9,16 @@ public partial class App : Application
   public App()
   {
 
-    ClientDependencies.Injector.SetDependencies(new ClientDependencies (
-      gateways: new ClientDependencies.Gateways (
-        person: new PersonMockGateway(),
-        task: new TaskMockGateway()
-      )
-    ));
+    ClientDependencies.Injector.SetDependencies(
+      new ClientDependencies
+      {
+        gateways = new ClientDependencies.Gateways
+        {
+          Person = new PersonMockGateway(),
+          Task = new TaskMockGateway()
+        }
+      }
+    );
     
     InitializeComponent();
 
