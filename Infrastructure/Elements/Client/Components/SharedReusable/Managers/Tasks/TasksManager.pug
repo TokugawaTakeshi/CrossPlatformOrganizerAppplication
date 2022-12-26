@@ -22,9 +22,8 @@ mixin TasksManager(statesSimulations)
         p 情報取得中不具合が発生しました。
 
         +Button--YDF({
-          HTML_Type: Button__YDF.HTML_Types.regular,
-          label: "再試験",
-        }).AttentionBox-CenteredBottomButton
+          label: "再試験"
+        }).AttentionBox--YDF-CenteredButton
       
     else if statesSimulations.noItems
 
@@ -36,9 +35,9 @@ mixin TasksManager(statesSimulations)
         p 現在、課題が一件も登録させていません。
 
         +Button--YDF({
-          HTML_Type: Button__YDF.HTML_Types.regular,
           label: "早速追加しましょう！",
-        }).AttentionBox-CenteredBottomButton
+          decoration: Button__YDF.DecorativeVariations.accented
+        }).AttentionBox--YDF-CenteredButton
 
     else if statesSimulations.noSearchResults
 
@@ -50,15 +49,14 @@ mixin TasksManager(statesSimulations)
         p 検索結果と合っている件はありません。
 
         +Button--YDF({
-          HTML_Type: Button__YDF.HTML_Types.regular,
           label: "検索条件をリセット",
-        }).AttentionBox-CenteredBottomButton
+        }).AttentionBox--YDF-CenteredButton
 
     else
 
       ul.TasksManager-CardsFlow
 
-        each task in DummyData.tasks
+        each task in DummyData.Tasks
 
           +TaskCard({
             task,

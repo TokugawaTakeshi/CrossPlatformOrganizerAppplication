@@ -1,50 +1,42 @@
-namespace Client;
+using CommonSolution.Gateways;
 
-using Gateways;
+
+namespace Client;
 
 
 internal class ClientDependencies {
 
-  public readonly Gateways gateways;
+  public required Gateways gateways { get; init; }
 
-  public ClientDependencies(Gateways gateways)
-  {
-    this.gateways = gateways;
-  }
-
-  public class Gateways {
-    
-    public readonly IPersonGateway Person;
-    public readonly ITaskGateway Task;
-
-    public Gateways(IPersonGateway person, ITaskGateway task)
-    {
-      Person = person;
-      Task = task;
-    }
+  public struct Gateways {
+    public required IPersonGateway Person { get; init; }
+    public required ITaskGateway Task { get; init; }
   }
   
   public abstract class Injector {
 
-    private static ClientDependencies dependencies;
+    private static ClientDependencies _dependencies;
 
     public static void SetDependencies(ClientDependencies dependencies) {
-      Injector.dependencies = dependencies;
+      _dependencies = dependencies;
     }
 
 
     private static ClientDependencies getDependencies() {
 
-      if (dependencies == null) {
+      if (_dependencies == null) {
         throw new NullReferenceException("ClientDependenciesは初期化されなかった。");
       }
 
 
-      return dependencies;
+      return _dependencies;
+      
     }
 
     public static Gateways gateways() {
       return getDependencies().gateways;
     }
+    
   }
+  
 }

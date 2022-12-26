@@ -7,6 +7,7 @@ namespace Client.Components.SharedReusable.AttentionBox;
 
 public partial class AttentionBox : ComponentBase
 {
+  
   [Parameter]
   public string Theme { get; set; }
 
@@ -25,6 +26,9 @@ public partial class AttentionBox : ComponentBase
   [Parameter]
   public bool HasDismissingButton { get; set; }
   
+  [Parameter]
+  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  
   
   public enum StandardThemes
   {
@@ -38,8 +42,6 @@ public partial class AttentionBox : ComponentBase
 
   public enum StandardDecorativeVariations
   {
-    importantInfo,
-    secondaryInfo,
     notice,
     error,
     warning,
@@ -49,31 +51,32 @@ public partial class AttentionBox : ComponentBase
   }
 
 
+  private void OnClickDismissingButton()
+  {
+    
+  }
+  
   private string rootElementModifierCSS_Classes
   {
     get
     {
 
-      List<string> rootElementModifierCSS_Classes = new();
-
-      if (Enum.GetNames(typeof(StandardThemes)).Length > 1 && !AreThemesExternal)
-      {
-        rootElementModifierCSS_Classes.Add($"AttentionBox--YDF__${ Theme.ToLowerCamel() }Theme");
-      }
-
-      if (Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1)
-      {
-        rootElementModifierCSS_Classes.Add($"AttentionBox--YDF__${ Geometry.ToLowerCamel() }Geometry");
-      }
-      
-      if (Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1)
-      {
-        rootElementModifierCSS_Classes.Add($"AttentionBox--YDF__${ Decoration.ToLowerCamel() }Decoration");
-      }
-
-      
-      return String.Join(" ", rootElementModifierCSS_Classes);
+      return new List<string>().
+          AddElementToEndIf(
+            $"AttentionBox--YDF__${ Theme.ToLowerCamel() }Theme",
+            _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !AreThemesExternal
+          ).
+          AddElementToEndIf(
+            $"AttentionBox--YDF__${ Geometry.ToLowerCamel() }Geometry",
+            _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
+          ).
+          AddElementToEndIf(
+            $"AttentionBox--YDF__${ Decoration.ToLowerCamel() }Decoration",
+            _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
+          ).
+          StringifyEachElementAndJoin("");
 
     }
   }
+  
 }

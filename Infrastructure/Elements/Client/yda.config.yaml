@@ -86,3 +86,5 @@ projectBuilding:
 
           rootDirectoryRelativePath: StaticPreview/.Build
           customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
+          
+        openInBrowsers: chrome

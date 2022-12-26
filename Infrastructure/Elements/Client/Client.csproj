@@ -66,6 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="Components\SharedReusable\Badge\BadgeLoadingPlaceholder.razor" />
     <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Unchecked.razor" />
   </ItemGroup>
 

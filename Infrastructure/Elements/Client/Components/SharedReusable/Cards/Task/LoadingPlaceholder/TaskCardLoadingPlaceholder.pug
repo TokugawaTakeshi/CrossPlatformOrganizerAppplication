@@ -8,4 +8,8 @@ mixin TaskCardLoadingPlaceholder
 
     .TaskCard-BadgesFlow
 
+      each index in Array.from(new Array(2))
+        
+        +Badge--YDF-LoadingPlaceholder({ geometry: geometricVariation })
+
     .TaskCard-Description.TaskCard-Description__LoadingPlaceholder

@@ -1,6 +1,26 @@
 ﻿<div
-  class="AttentionBox--YDF @rootElementModifierCSS_Classes"
+  class="AttentionBox--YDF @rootElementModifierCSS_Classes @SpaceSeparatedAdditionalCSS_Classes"
   role="alert"
 >
+ 
+  @* @switch (Decoration) *@
+  @* { *@
+  @*   case AttentionBox.StandardDecorativeVariations.error: *@
+  @*     <div class="AttentionBox--YDF-SVG_Icon"></div> *@
+  @*     break; *@
+  @* *@
+  @* } *@
+  
+  <div class="AttentionBox--YDF-MainSection">
+    
+  </div>
+  
+  <button
+    class="AttentionBox--YDF-DismissingButton"
+    type="button"
+    @onclick="OnClickDismissingButton"
+  >
+    <MultiplicationSign__Boxed__Filled/>
+  </button>
   
 </div>

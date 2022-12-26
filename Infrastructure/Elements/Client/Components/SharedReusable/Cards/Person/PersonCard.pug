@@ -15,16 +15,19 @@ mixin PersonCard(properties)
     dl.PersonCard-Metadata
 
       dt.PersonCard-Metadata-Key 氏名
-      dd.PersonCard-Metadata-Value= targetPerson.Name
+      dd.PersonCard-Metadata-Value= `${ targetPerson.FamilyName }${ targetPerson.GivenName }`
 
-      dt.PersonCard-Metadata-Key メール
-      dd.PersonCard-Metadata-Value= targetPerson.Email
+      if targetPerson.EmailAddress
+        dt.PersonCard-Metadata-Key メール
+        dd.PersonCard-Metadata-Value= targetPerson.EmailAddress
 
-      dt.PersonCard-Metadata-Key 電話番号
-      dd.PersonCard-Metadata-Value= targetPerson.PhoneNumber
+      if targetPerson.PhoneNumber
+        dt.PersonCard-Metadata-Key 電話番号
+        dd.PersonCard-Metadata-Value= targetPerson.PhoneNumber
 
-      dt.PersonCard-Metadata-Key 年齢
-      dd.PersonCard-Metadata-Value= `${ targetPerson.Age }歳`
+      if targetPerson.Age
+        dt.PersonCard-Metadata-Key 年齢
+        dd.PersonCard-Metadata-Value= `${ targetPerson.Age }歳`
 
       
 include LoadingPlaceholder/PersonCardLoadingPlaceholder.pug

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Task = CommonSolution.Entities.Task.Task;
 
+
 namespace DummyDataForStaticPreviewPreparator;
 
 
@@ -28,7 +29,7 @@ public class DummyDataForStaticPreviewPreparator
       path: Path.Combine(solutionPath, "Infrastructure", "Elements", "Client", "StaticPreview"), 
       append: false
     );
-    
+
     streamWriter.Write(JsonConvert.SerializeObject(dummyData));
     
     streamWriter.Close();

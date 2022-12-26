@@ -1,4 +1,4 @@
-﻿<Dynamic
+﻿<li
   Tag="@RootElementTag"
   class="TaskCard @SpaceSeparatedAdditionalCSS_Classes"
   tabindex="0"
@@ -8,7 +8,7 @@
     class="TaskCard-Checkbox"
     role="checkbox"
     tabindex="0"
-    aria-checked="@(TargetTask.IsComplete)"
+    aria-checked="@TargetTask.IsComplete"
   >
 
     @if (TargetTask.IsComplete)
@@ -29,4 +29,4 @@
     <div class="TaskCard-Description"> @TargetTask.Description </div>
   }
 
-</Dynamic>
+</li>

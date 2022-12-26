@@ -12,34 +12,34 @@ public partial class PeopleManager : ComponentBase
   public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
-  private CommonSolution.Entities.Person[] _people = Array.Empty<CommonSolution.Entities.Person>();
+  private CommonSolution.Entities.Person[] people = Array.Empty<CommonSolution.Entities.Person>();
   
-  private bool _isWaitingForPeopleSelectionRetrieving = true;
-  private bool _isPeopleSelectionBeingRetrievedNow = false;
-  private bool _isPeopleSelectionRetrievingErrorOccurred = false;
+  private bool isWaitingForPeopleSelectionRetrieving = true;
+  private bool isPeopleSelectionBeingRetrievedNow = false;
+  private bool isPeopleSelectionRetrievingErrorOccurred = false;
   
-  private bool isPeopleSelectionRetrievingInProgressOrNotStartedYet => 
-    _isWaitingForPeopleSelectionRetrieving || _isPeopleSelectionBeingRetrievedNow;
+  private bool isPeopleSelectionRetrievingInProgressOrHasNotStartedYet => 
+      isWaitingForPeopleSelectionRetrieving || isPeopleSelectionBeingRetrievedNow;
 
   
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
 
-    _isWaitingForPeopleSelectionRetrieving = false;
-    _isPeopleSelectionBeingRetrievedNow = true;
-    _isPeopleSelectionRetrievingErrorOccurred = false;
+    isWaitingForPeopleSelectionRetrieving = false;
+    isPeopleSelectionBeingRetrievedNow = true;
+    isPeopleSelectionRetrievingErrorOccurred = false;
 
     try
     {
-      _people = await ClientDependencies.Injector.gateways().Person.RetrieveAll();
+      people = await ClientDependencies.Injector.gateways().Person.RetrieveAll();
     }
     catch (Exception e)
     {
       Debug.WriteLine(e);
-      _isPeopleSelectionRetrievingErrorOccurred = true;
+      isPeopleSelectionRetrievingErrorOccurred = true;
     }
 
-    _isPeopleSelectionBeingRetrievedNow = false;
+    isPeopleSelectionBeingRetrievedNow = false;
 
   }
   

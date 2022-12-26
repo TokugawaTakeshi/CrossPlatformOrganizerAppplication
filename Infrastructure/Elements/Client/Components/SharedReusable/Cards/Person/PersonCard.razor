@@ -1,4 +1,4 @@
-<Dynamic 
+<li 
   Tag="@RootElementTag" 
   class="PersonCard @SpaceSeparatedAdditionalCSS_Classes"
   tabindex="0"
@@ -7,17 +7,26 @@
   <dl class="PersonCard-Metadata">
     
     <dt>氏名</dt>
-    <dd> @TargetPerson.FamilyName </dd>
+    <dd> @TargetPerson.FamilyName @TargetPerson.GivenName </dd>
     
-    <dt>メール</dt>
-    <dd> @TargetPerson.EmailAddress </dd>
-    
-    <dt>電話番号</dt>
-    <dd> @TargetPerson.PhoneNumber </dd>
-    
-    <dt>年齢</dt>
-    <dd> @TargetPerson.Age </dd>
+    @if (!String.IsNullOrEmpty(@TargetPerson.EmailAddress))
+    {
+      <dt>メール</dt>
+      <dd> @TargetPerson.EmailAddress </dd>  
+    }
+
+    @if (!String.IsNullOrEmpty(@TargetPerson.PhoneNumber))
+    {
+      <dt>電話番号</dt>
+      <dd> @TargetPerson.PhoneNumber </dd>  
+    }
+
+    @if (@TargetPerson.Age != null)
+    {
+      <dt>年齢</dt>
+      <dd> @TargetPerson.Age </dd>  
+    }
     
   </dl>
   
-</Dynamic>
+</li>

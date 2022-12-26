@@ -1,7 +1,7 @@
 .PersonCard
 
   border-radius 4px
-  padding 12px 14px
+  padding 12px 8px
 
   background white
   box-shadow 0 0 3px 1px alpha(black, 0.25)
@@ -10,18 +10,20 @@
 
   &:hover
 
-    box-shadow: 0 0 5px 2px goldenrod
+    box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.bright
     transition box-shadow 0.75s
 
 
   &:focus
 
-    box-shadow: 0 0 5px 2px orangered
+    box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.light
+    transition none
 
 
   &:active
 
-    box-shadow: 0 0 5px 2px crimson
+    box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.mediumDark
+    transition none
     
 
   &__LoadingPlaceholder
@@ -32,9 +34,8 @@
   &-Metadata
 
     display grid
-    grid-template-columns auto minmax(0, 1fr)
-    column-gap 12px
-    row-gap 12px
+    grid-template-columns minmax(60px, auto) minmax(0, 1fr)
+    gap 12px
 
 
     &-Key

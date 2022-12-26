@@ -12,7 +12,7 @@
   align-items start
 
   border-radius 4px
-  padding 12px 14px
+  padding 12px
 
   background white
   box-shadow 0 0 3px 1px alpha(black, 0.25)
@@ -20,18 +20,20 @@
 
   &:hover
 
-    box-shadow: 0 0 5px 2px goldenrod
+    box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.bright
     transition box-shadow 0.75s
 
 
   &:focus
 
-    box-shadow: 0 0 5px 2px orangered
+    box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.light
+    transition none
 
 
   &:active
 
-    box-shadow: 0 0 5px 2px crimson
+    box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.mediumDark
+    transition none
 
 
   &__LoadingPlaceholder
@@ -46,25 +48,24 @@
     cursor pointer
 
     grid-area CHECKBOX
+    align-self center
 
 
     &:hover
 
-      background alpha(goldenrod, 25%)
+      background YDF_ColorPalette.skyBlue.pastelLight
 
 
     &:active
 
-      background alpha(crimson, 25%)
+      background YDF_ColorPalette.skyBlue.pastelBright
 
 
-    &__LoadingPlaceholder
-
-      LoadingPlaceholder({
-        width: 24px,
-        height: 24px,
-        borderRadius: 8px
-      })
+    +addLoadingPlaceholderModifierClass({
+      width: 24px,
+      height: 24px,
+      borderRadius: 4px
+    })
 
       pointer-events none
 
@@ -76,15 +77,19 @@
 
       ../:focus &
 
-        box-shadow: 0 0 5px 2px orangered
+        box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.light
 
 
   &-Title
 
-    MultiLineTextElementOverflowSafetyWithoutExtraSpaceCausedByLineHeight({ fontSize: 16px, lineSpacing: 4px })
+    applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+      fontSize: 16px,
+      lineSpacing: 4px,
+      mustAllowWordBreakingAnywhere: true
+    })
 
     font-weight bold
-    color: ShadesOfGray__39ColorsW3C_Palette[12]
+    color: ShadesOfGray__39ColorsW3C_Palette[16]
 
     grid-area TITLE
 
@@ -94,13 +99,11 @@
       grid-row span 3
 
 
-    &__LoadingPlaceholder
-
-      LoadingPlaceholder({
-        width: 30%,
-        height: 24px,
-        borderRadius: 8px
-      })
+    addLoadingPlaceholderModifierClass({
+      width: 40%,
+      height: 16px,
+      borderRadius: 4px
+    })
 
 
   &-BadgesFlow
@@ -113,6 +116,7 @@
     grid-area BADGES_FLOW
     margin-top 6px
 
+    
     >*
 
       flex 0 0 auto
@@ -120,8 +124,14 @@
 
   &-Description
 
-    MultiLineTextElementOverflowSafetyWithoutExtraSpaceCausedByLineHeight({ fontSize: 14px, lineSpacing: 4px })
+    applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+      fontSize: 14px,
+      lineSpacing: 4px,
+      mustAllowWordBreakingAnywhere: true
+    })
 
+    color: ShadesOfGray__39ColorsW3C_Palette[12]
+    
     grid-area DESCRIPTION
 
     retireFrom({
@@ -130,11 +140,9 @@
           (".TaskCard-BadgesFlow" { y: 12px })
     })
 
-
-    &__LoadingPlaceholder
-
-      LoadingPlaceholder({
-        width: 80%,
-        height: 18px,
-        borderRadius: 8px
-      })
+    
+    addLoadingPlaceholderModifierClass({
+      width: 80%,
+      height: 14px,
+      borderRadius: 4px
+    })
