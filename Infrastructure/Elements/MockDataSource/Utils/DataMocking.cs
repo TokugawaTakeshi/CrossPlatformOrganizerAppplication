@@ -14,20 +14,22 @@ public abstract class DataMocking
     mustSkipIfHasNotBeenPreDefined
   }
   
-  public struct NullablePropertiesDecisionOptions<TPropertyType>
+  public struct NullablePropertiesDecisionSourceDataAndOptions<TPropertyType>
   {
     public required NullablePropertiesDecisionStrategies Strategy { get; init; }
     public required Func<TPropertyType> RandomValueGenerator { get; init; }
     public TPropertyType? PreDefinedValue { get; init; }
   }
   
-  public static TValueType? DecideOptionalValue<TValueType>(NullablePropertiesDecisionOptions<TValueType> options)
+  public static TValueType? DecideOptionalValue<TValueType>(
+    NullablePropertiesDecisionSourceDataAndOptions<TValueType> sourceDataAndOptions
+  ) 
   {
-    return options.Strategy switch
+    return sourceDataAndOptions.Strategy switch
     {
-      NullablePropertiesDecisionStrategies.mustGenerateAll => options.PreDefinedValue ?? options.RandomValueGenerator(),
-      NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined => options.PreDefinedValue,
-      _ => RandomValuesGenerator.GetRandomBoolean() ? options.RandomValueGenerator() : default
+      NullablePropertiesDecisionStrategies.mustGenerateAll => sourceDataAndOptions.PreDefinedValue ?? sourceDataAndOptions.RandomValueGenerator(),
+      NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined => sourceDataAndOptions.PreDefinedValue,
+      _ => RandomValuesGenerator.GetRandomBoolean() ? sourceDataAndOptions.RandomValueGenerator() : default
     };
   }
 

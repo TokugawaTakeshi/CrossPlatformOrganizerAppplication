@@ -12,8 +12,12 @@ block append TableOfContents
 
   h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
 
-  h2.AnywherePage-PagesGroupHeading 入件箱
-
+  +PageLink({
+    label: "日読み",
+    URI: "@Pages/Calendar/CalendarPage",
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })
+  
   +PageLinksGroup({
     title: "課題管理",
     linksData: [

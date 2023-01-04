@@ -53,14 +53,12 @@ mixin PersonManager(properties, statesSimulations)
       if viewingMode
       
         +Button--YDF({
-          geometry: Button__YDF.GeometricVariations.small,
           disabled: !targetPerson
         })
           +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label 編集
         
       +Button--YDF({
-        geometry: Button__YDF.GeometricVariations.small,
         disabled: !targetPerson
       })
         +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
@@ -72,16 +70,19 @@ mixin PersonManager(properties, statesSimulations)
       dl.PersonManager-Metadata
       
         dt 名前
-        dd= targetPerson ? targetPerson.Name : "" 
+        dd= targetPerson ? `${ targetPerson.FamilyName }${ targetPerson.GivenName }` : ""
         
-        dt メール
-        dd= targetPerson ? targetPerson.Email : ""
+        if targetPerson && targetPerson.EmailAddress
+          dt メール
+          dd= targetPerson.EmailAddress
         
-        dt 電話
-        dd= targetPerson ? targetPerson.PhoneNumber : ""
+        if targetPerson && targetPerson.PhoneNumber
+          dt 電話
+          dd= targetPerson.PhoneNumber
         
-        dt 年齢
-        dd= targetPerson ? `${ targetPerson.Age }歳` : ""
+        if targetPerson && targetPerson.Age
+          dt 年齢
+          dd= `${ targetPerson.Age }歳`
       
     else
       
@@ -120,14 +121,14 @@ mixin PersonManager(properties, statesSimulations)
         .PersonManager-ActionBar
 
           +Button--YDF({
+            label: "保存",
+            HTML_Type: Button__YDF.HTML_Types.inputSubmit,
+            decoration: Button__YDF.DecorativeVariations.accented,
+            disabled: !targetPerson
+          })
+          
+          +Button--YDF({
             disabled: !targetPerson
           })
             +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
             span.Button--YDF-Label 編集を止める
-          
-          +Button--YDF({
-            HTML_Type: Button__YDF.HTML_Types.inputSubmit,
-            decoration: Button__YDF.DecorativeVariations.accented,
-            label: "保存",
-            disabled: !targetPerson
-          })

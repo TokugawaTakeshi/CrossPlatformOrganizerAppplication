@@ -1,0 +1,55 @@
+﻿extends ../../Layouts/Main/MainLayout.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = "日読み ｜ やまとダイワ几帳面さ";
+
+    styleSheetsURIs = [ "@All" ];
+
+
+block append Requirements
+
+  include ../../Components/Components.pug
+
+
+block append SpecificContent
+
+  .CalendarPage-SpecificContent.MainLayout-DynamicContentFillingChildrenElement
+    
+    table.CalendarPage-DaysMatrix
+      
+      thead
+        tr
+          th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 日
+          th.CalendarPage-DayTitleCell(scope="col") 月
+          th.CalendarPage-DayTitleCell(scope="col") 火
+          th.CalendarPage-DayTitleCell(scope="col") 水
+          th.CalendarPage-DayTitleCell(scope="col") 木
+          th.CalendarPage-DayTitleCell(scope="col") 金
+          th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 土
+    
+      tbody
+        
+        -
+
+          const weekRowsData = twoDimensionalizeArray({
+            targetFlatArray: CalendarBuilder.generateDataFor42DaysMatrix({
+              targetYear: 2023,
+              targetMonthNumber__numerationFrom1: 1
+            }),
+            // TODO YDFが更新されたら、elementsCountPerNestedArray
+            elementsPerNestedArray: 7
+          });
+
+        each weekRowData in weekRowsData
+          
+          tr
+            each dayCellData in weekRowData
+              td: button.CalendarPage-DaySelectingButton(
+                type="button"
+              )= dayCellData.dayOfMonth
+          

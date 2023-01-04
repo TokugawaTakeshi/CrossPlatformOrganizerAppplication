@@ -1,0 +1,46 @@
+﻿.CalendarPage
+  
+  &-SpecificContent
+
+    background: TemporaryHighlighting.red.o10
+
+    
+  &-DaysMatrix
+
+    background: TemporaryHighlighting.yellow.o10
+    
+    table-layout fixed
+    width 100%
+    height 100%
+    
+  
+  &-DayTitleCell
+
+    width percentage(1/7)
+
+    Paddings({
+      verticalSymmetric: 10px,
+      verticalUpwardShifting: 1px
+    })
+    font-size 14px
+
+    text-align center
+    color ShadesOfGray__39ColorsW3C_Palette[6]
+
+    
+    &__Holiday
+
+      color #C65151
+      
+  
+  &-DaySelectingButton
+
+    ButtonLikeElementsPrimer()
+
+    width 100%
+    height 100%
+    Paddings({
+      verticalSymmetric: 10px,
+      verticalUpwardShifting: 1px
+    })
+    font-size 14px

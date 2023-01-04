@@ -17,43 +17,36 @@ public partial class Badge : ComponentBase
   [Parameter]
   public bool ForbidMultiLine { get; set; }
   
+  
+  public enum StandardThemes
+  {
+    regular
+  }
+  
   [Parameter]
   public string Theme { get; set; }
 
   [Parameter]
   public bool AreThemesExternal { get; set; }
   
-  [Parameter]
-  public string Geometry { get; set; }
-  
-  [Parameter]
-  public GeometricModifiers[] geometricModifiers { get; set; }
-  
-  [Parameter]
-  public string Decoration { get; set; }
-  
-  [Parameter]
-  public DecorativeModifiers[] decorativeModifiers { get; set; }
-  
-  [Parameter]
-  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
-
-
-  public enum StandardThemes
-  {
-    regular
-  }
   
   public enum StandardGeometricVariations
   {
     regular
   }
   
+  [Parameter]
+  public string Geometry { get; set; }
+  
   public enum GeometricModifiers
   {
     pillShape
   }
-
+  
+  [Parameter]
+  public GeometricModifiers[] geometricModifiers { get; set; }
+  
+  
   public enum StandardDecorativeVariations
   {
     veryCatchyBright,
@@ -72,10 +65,20 @@ public partial class Badge : ComponentBase
     achromaticPastel
   }
   
+  [Parameter]
+  public string Decoration { get; set; }
+  
   public enum DecorativeModifiers
   {
     bordersDisguising
   }
+  
+  [Parameter]
+  public DecorativeModifiers[] decorativeModifiers { get; set; }
+
+  
+  [Parameter]
+  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
 
   
   private string rootElementModifierCSS_Classes
@@ -84,28 +87,28 @@ public partial class Badge : ComponentBase
     {
 
       return new List<string>().
-            AddElementToEndIf("Badge--YDF__SingleLineMode", _ => ForbidMultiLine).
-            AddElementToEndIf(
-              $"Badge--YDF__${ Theme.ToLowerCamel() }Theme",
-              _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !AreThemesExternal
-            ).
-            AddElementToEndIf(
-              $"Badge--YDF__${ Geometry.ToLowerCamel() }Geometry",
-              _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
-            ).
-            AddElementToEndIf(
-              "Badge--YDF__PllShapeGeometricModifier", 
-              _ => geometricModifiers.Contains(GeometricModifiers.pillShape)
-            ).
-            AddElementToEndIf(
-              $"AttentionBox--YDF__${ Decoration.ToLowerCamel() }Decoration",
-              _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
-            ).
-            AddElementToEndIf(
-              "Badge--YDF__BordersDisguisingDecorativeModifier", 
-              _ => decorativeModifiers.Contains(DecorativeModifiers.bordersDisguising)
-            ).
-            StringifyEachElementAndJoin("");
+          AddElementToEndIf("Badge--YDF__SingleLineMode", _ => ForbidMultiLine).
+          AddElementToEndIf(
+            $"Badge--YDF__${ Theme.ToLowerCamel() }Theme",
+            _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !AreThemesExternal
+          ).
+          AddElementToEndIf(
+            $"Badge--YDF__${ Geometry.ToLowerCamel() }Geometry",
+            _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
+          ).
+          AddElementToEndIf(
+            "Badge--YDF__PllShapeGeometricModifier", 
+            _ => geometricModifiers.Contains(GeometricModifiers.pillShape)
+          ).
+          AddElementToEndIf(
+            $"AttentionBox--YDF__${ Decoration.ToLowerCamel() }Decoration",
+            _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
+          ).
+          AddElementToEndIf(
+            "Badge--YDF__BordersDisguisingDecorativeModifier", 
+            _ => decorativeModifiers.Contains(DecorativeModifiers.bordersDisguising)
+          ).
+          StringifyEachElementAndJoin("");
 
     }
   }

@@ -8,17 +8,40 @@ namespace Client.Components.SharedReusable.AttentionBox;
 public partial class AttentionBox : ComponentBase
 {
   
+  public enum StandardThemes
+  {
+    regular
+  }
+  
   [Parameter]
   public string Theme { get; set; }
 
   [Parameter]
   public bool AreThemesExternal { get; set; }
   
+  
+  public enum StandardGeometricVariations
+  {
+    regular
+  }
+  
   [Parameter]
   public string Geometry { get; set; }
   
+  
+  public enum StandardDecorativeVariations
+  {
+    notice,
+    error,
+    warning,
+    success,
+    guidance,
+    question
+  }
+  
   [Parameter]
   public string Decoration { get; set; }
+  
   
   [Parameter]
   public bool HasPrependedSVG_Icon { get; set; }
@@ -29,27 +52,6 @@ public partial class AttentionBox : ComponentBase
   [Parameter]
   public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
   
-  
-  public enum StandardThemes
-  {
-    regular
-  }
-  
-  public enum StandardGeometricVariations
-  {
-    regular
-  }
-
-  public enum StandardDecorativeVariations
-  {
-    notice,
-    error,
-    warning,
-    success,
-    guidance,
-    question
-  }
-
 
   private void OnClickDismissingButton()
   {

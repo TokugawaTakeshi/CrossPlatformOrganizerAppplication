@@ -1,11 +1,11 @@
 {
   "Components/Components.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-10T08:14:17.161Z"
+    "modificationDatetime__ISO_8601": "2023-01-05T04:24:34.025Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-10T08:14:17.189Z"
+    "modificationDatetime__ISO_8601": "2023-01-05T03:59:53.396Z"
   },
   "Layouts/Main/MainLayout.pug": {
     "issues": [],
@@ -25,11 +25,11 @@
   },
   "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:34:27.763Z"
+    "modificationDatetime__ISO_8601": "2023-01-04T02:27:14.793Z"
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:43:48.065Z"
+    "modificationDatetime__ISO_8601": "2023-01-05T04:07:07.642Z"
   },
   "Components/SharedReusable/Cards/Person/PersonCard.pug": {
     "issues": [],
@@ -41,7 +41,7 @@
   },
   "Components/SharedReusable/Managers/People/PeopleManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:46:08.987Z"
+    "modificationDatetime__ISO_8601": "2023-01-05T04:09:11.818Z"
   },
   "Components/SharedReusable/Cards/Task/TaskCard.pug": {
     "issues": [],
@@ -49,7 +49,7 @@
   },
   "Components/SharedReusable/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-10T08:14:17.174Z"
+    "modificationDatetime__ISO_8601": "2023-01-04T02:29:50.990Z"
   },
   "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
     "issues": [],
@@ -65,10 +65,18 @@
   },
   "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-10T08:14:17.164Z"
+    "modificationDatetime__ISO_8601": "2022-12-27T07:35:46.616Z"
   },
   "Components/SharedReusable/Managers/Task/TaskManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-10T08:14:17.175Z"
+    "modificationDatetime__ISO_8601": "2023-01-05T04:07:29.958Z"
+  },
+  "Components/SharedReusable/Controls/CompoundControlShell/CompoundControlShell.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-28T06:23:25.780Z"
+  },
+  "Pages/Calendar/CalendarPage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-01-07T03:43:25.451Z"
   }
 }

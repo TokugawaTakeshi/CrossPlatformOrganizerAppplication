@@ -16,7 +16,7 @@
   &-ActionBar
 
     display flex
-    justify-content flex-end
+    flex-direction row-reverse
     column-gap 8px
 
     retireFrom({ definitions: (".PersonManager-Heading" { y: 8px }) (".PersonManager-Guidance" { y: 6px }) })
@@ -26,7 +26,7 @@
   
     display grid
     grid-template-columns auto minmax(0, 1fr)
-    gap 12px 6px
+    gap 12px 8px
 
     margin-top 12px
     
@@ -36,13 +36,22 @@
       text-align right
       font-weight bold
       
+      
+    dd
+
+      applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+        fontSize: 14px,
+        lineSpacing: 4px,
+        mustAllowWordBreakingAnywhere: true
+      }) 
+
 
   &-Form
 
-    margin-top 12px
+    margin-top 16px
 
 
   &-Control
 
-    retireFromElementWithSameSelector({ y: 8px })
-    pushTargetFromSelf({ targetElementSelector: ".PersonManager-ActionBar", y: 8px })
+    retireFromElementWithSameSelector({ y: 12px })
+    pushTargetFromSelf({ targetElementSelector: ".PersonManager-ActionBar", y: 16px })

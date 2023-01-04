@@ -45,7 +45,7 @@ internal abstract class PersonMocker
         RandomizerFactory.GetRandomizer(new FieldOptionsFirstName()).Generate() + "";
     
     byte? age = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionOptions<byte?>
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<byte?>
       {
         PreDefinedValue = preDefines?.Age,
         RandomValueGenerator = () => RandomValuesGenerator.GetRandomByte(minimalValue: 7, maximalValue: 110),
@@ -54,7 +54,7 @@ internal abstract class PersonMocker
     );
     
     string? emailAddress = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionOptions<string?>
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>
       {
         PreDefinedValue = preDefines?.EmailAddress,
         RandomValueGenerator = RandomValuesGenerator.GetRandomEmailAddress,
@@ -63,7 +63,7 @@ internal abstract class PersonMocker
     );
 
     string? phoneNumber = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionOptions<string?>()
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>()
       {
         PreDefinedValue = preDefines?.PhoneNumber,
         RandomValueGenerator = RandomValuesGenerator.GenerateRandomJapanesePhoneNumber,

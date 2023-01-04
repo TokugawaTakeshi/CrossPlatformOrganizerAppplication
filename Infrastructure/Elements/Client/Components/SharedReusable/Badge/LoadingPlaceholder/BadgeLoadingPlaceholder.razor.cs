@@ -1,8 +1,12 @@
-﻿@using Utils
-<div class="Badge Badge__LoadingPlaceholder @SpaceSeparatedAdditionalCSS_Classes"></div>
+﻿using Microsoft.AspNetCore.Components;
+using Utils;
 
 
-@code {
+namespace Client.Components.SharedReusable.Badge.LoadingPlaceholder;
+
+
+public partial class BadgeLoadingPlaceholder : ComponentBase
+{
 
   [Parameter]
   public string Geometry { get; set; }

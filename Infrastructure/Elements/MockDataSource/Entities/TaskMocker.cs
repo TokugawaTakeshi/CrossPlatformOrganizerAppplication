@@ -36,7 +36,7 @@ internal abstract class TaskMocker
         RandomizerFactory.GetRandomizer(new FieldOptionsTextWords { Min = 1, Max = 10 }).Generate() + "";
 
     string? description = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionOptions<string?>
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>
       {
         PreDefinedValue = preDefines?.Description,
         RandomValueGenerator = () => RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum()).Generate(),

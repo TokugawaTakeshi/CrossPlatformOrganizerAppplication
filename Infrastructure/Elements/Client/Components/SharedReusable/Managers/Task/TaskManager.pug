@@ -53,14 +53,12 @@ mixin TaskManager(properties, statesSimulations)
       if viewingMode
 
         +Button--YDF({
-          geometry: Button__YDF.GeometricVariations.small,
           disabled: !targetTask
         })
           +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label 編集
 
       +Button--YDF({
-        geometry: Button__YDF.GeometricVariations.small,
         disabled: !targetTask
       })
         +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
@@ -74,8 +72,9 @@ mixin TaskManager(properties, statesSimulations)
         dt 見出し
         dd= targetTask ? targetTask.Title : ""
 
-        dt 記述
-        dd= targetTask ? targetTask.Description : ""
+        if targetTask && targetTask.Description
+          dt 記述
+          dd= targetTask.Description
 
     else
 
@@ -99,14 +98,14 @@ mixin TaskManager(properties, statesSimulations)
         .TaskManager-ActionBar
 
           +Button--YDF({
-            disabled: !targetTask
-          })
-            +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
-            span.Button--YDF-Label 編集を止める
-
-          +Button--YDF({
             HTML_Type: Button__YDF.HTML_Types.inputSubmit,
             decoration: Button__YDF.DecorativeVariations.accented,
             label: "保存",
             disabled: !targetTask
           })
+          
+          +Button--YDF({
+            disabled: !targetTask
+          })
+            +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label 編集を止める
