@@ -37,7 +37,19 @@ block append SpecificContent
       { editingMode: true }
     ).TasksManagementPage-TaskManager
 
-    //-
-      +ModalDialog({
+    +ModalDialog--YDF(
+      {
         title: "課題を編集"
-      })
+      },
+      {
+        mustDisplay: false
+      }
+    )
+
+      +TaskManager(
+        {
+          targetTask: DummyData.Tasks[0],
+          activationGuidance: "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        },
+        { editingMode: true }
+      )

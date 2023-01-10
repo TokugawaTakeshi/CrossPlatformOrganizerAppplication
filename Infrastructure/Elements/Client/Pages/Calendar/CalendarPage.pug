@@ -1,5 +1,30 @@
 ﻿extends ../../Layouts/Main/MainLayout.pug
 
+block Data
+
+  -
+    const tabsData = {
+      monthOverview: {
+        tabHTML_ID: "MONTH_OVERVIEW--TAB",
+        panelHTML_ID: "MONTH_OVERVIEW--TAB_PANEL",
+        isInitiallySelected: false,
+        label: "月"
+      },
+      weekOverview: {
+        tabHTML_ID: "WEEK_OVERVIEW--TAB",
+        panelHTML_ID: "WEEK_OVERVIEW--TAB_PANEL",
+        isInitiallySelected: false,
+        label: "週"
+      },
+      dayOverview: {
+        tabHTML_ID: "DAY_OVERVIEW--TAB",
+        panelHTML_ID: "DAY_OVERVIEW--TAB_PANEL",
+        isInitiallySelected: true,
+        label: "日"
+      }
+      
+    };
+
 
 block append Metadata
 
@@ -20,36 +45,73 @@ block append SpecificContent
 
   .CalendarPage-SpecificContent.MainLayout-DynamicContentFillingChildrenElement
     
-    table.CalendarPage-DaysMatrix
+    +TabsList--YDF({ accessibilityGuidance: "日読みの表示を選択する" })
+      +Tab--YDF(tabsData.monthOverview)
+      +Tab--YDF(tabsData.weekOverview)
+      +Tab--YDF(tabsData.dayOverview)
       
-      thead
-        tr
-          th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 日
-          th.CalendarPage-DayTitleCell(scope="col") 月
-          th.CalendarPage-DayTitleCell(scope="col") 火
-          th.CalendarPage-DayTitleCell(scope="col") 水
-          th.CalendarPage-DayTitleCell(scope="col") 木
-          th.CalendarPage-DayTitleCell(scope="col") 金
-          th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 土
-    
-      tbody
-        
-        -
+    +TabPanel--YDF(tabsData.monthOverview)
 
-          const weekRowsData = twoDimensionalizeArray({
-            targetFlatArray: CalendarBuilder.generateDataFor42DaysMatrix({
-              targetYear: 2023,
-              targetMonthNumber__numerationFrom1: 1
-            }),
-            // TODO YDFが更新されたら、elementsCountPerNestedArray
-            elementsPerNestedArray: 7
-          });
-
-        each weekRowData in weekRowsData
+      table.CalendarPage-DaysMatrix
           
+        thead
           tr
-            each dayCellData in weekRowData
-              td: button.CalendarPage-DaySelectingButton(
-                type="button"
-              )= dayCellData.dayOfMonth
+            th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 日
+            th.CalendarPage-DayTitleCell(scope="col") 月
+            th.CalendarPage-DayTitleCell(scope="col") 火
+            th.CalendarPage-DayTitleCell(scope="col") 水
+            th.CalendarPage-DayTitleCell(scope="col") 木
+            th.CalendarPage-DayTitleCell(scope="col") 金
+            th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 土
+      
+        tbody
           
+          -
+    
+            const weekRowsData = twoDimensionalizeArray({
+              targetFlatArray: CalendarBuilder.generateDataFor42DaysMatrix({
+                targetYear: 2023,
+                targetMonthNumber__numerationFrom1: 1
+              }),
+              // TODO YDFが更新されたら、elementsCountPerNestedArray
+              elementsPerNestedArray: 7
+            });
+    
+          each weekRowData in weekRowsData
+            
+            tr
+              each dayCellData in weekRowData
+                td: button.CalendarPage-DaySelectingButton(
+                  type="button"
+                )
+                  
+                  span.CalendarPage-DaySelectingButton-Label= dayCellData.dayOfMonth
+                  
+                  if getRandomBoolean()
+                    
+                    +Calendar__Date--YDF_Icon.CalendarPage-DaySelectingButton-Icon
+                    
+                  if getRandomBoolean()
+                    
+                    +Calendar__Time--YDF_Icon.CalendarPage-DaySelectingButton-Icon
+                    
+                  if getRandomBoolean()
+                    
+                    +Folder__Stationery--YDF_Icon.CalendarPage-DaySelectingButton-Icon
+
+            
+    +TabPanel--YDF(tabsData.weekOverview)
+    
+      //-
+        
+      
+    +TabPanel--YDF(tabsData.dayOverview)
+
+      h1.CalendarPage-SpecificContent 日付閲覧
+      h2.CalendarPage-SpecificContent 時間連想課題
+              
+      h2.CalendarPage-SpecificContent 時間に結び付ていない課題
+      
+      //- ul.CalendarPage-SpecificContent
+        
+      

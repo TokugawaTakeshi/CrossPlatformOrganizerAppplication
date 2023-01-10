@@ -50,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Incubators\UtilsIncubator\UtilsIncubator.csproj" />
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
@@ -66,7 +67,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Components\SharedReusable\Badge\BadgeLoadingPlaceholder.razor" />
     <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Unchecked.razor" />
   </ItemGroup>
 

@@ -6,6 +6,13 @@ mixin NavigationMenu
 
       li
         a.NavigationMenu-Link(
+          href="@Pages/Calendar/CalendarPage"
+        )
+          +Calendar--YDF_Icon.NavigationMenu-Link-Icon
+          span.NavigationMenu-Link-Label 日読み
+      
+      li
+        a.NavigationMenu-Link(
           href="@Pages/Task/Management/TasksManagementPage"
         )
           +Checklist--YDF_Icon.NavigationMenu-Link-Icon
