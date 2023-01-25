@@ -46,8 +46,8 @@ public partial class CompoundControlShell : ComponentBase
 
   [Parameter]
   public IEnumerable<string> errorsMessages { get; set; } = Array.Empty<string>();
-  
-  
+
+
   public enum StandardThemes
   {
     regular

@@ -1,7 +1,7 @@
 {
   "Components/Components.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-01-05T04:24:34.025Z"
+    "modificationDatetime__ISO_8601": "2023-01-10T06:37:53.594Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
@@ -29,7 +29,7 @@
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-01-10T06:37:06.023Z"
+    "modificationDatetime__ISO_8601": "2023-01-17T07:08:39.862Z"
   },
   "Components/SharedReusable/Cards/Person/PersonCard.pug": {
     "issues": [],
@@ -76,14 +76,7 @@
     "modificationDatetime__ISO_8601": "2022-12-28T06:23:25.780Z"
   },
   "Pages/Calendar/CalendarPage.pug": {
-    "issues": [
-      {
-        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
-        "message": "Missing line feed at file end",
-        "sourceListing": "﻿extends ../../Layouts/Main/MainLayout.pug\n\nblock Data\n\n  -\n    const tabsData = {\n      monthOverview: {\n        tabHTML_ID: \"MONTH_OVERVIEW--TAB\",\n        panelHTML_ID: \"MONTH_OVERVIEW--TAB_PANEL\",\n        isInitiallySelected: false,\n        label: \"月\"\n      },\n      weekOverview: {\n        tabHTML_ID: \"WEEK_OVERVIEW--TAB\",\n        panelHTML_ID: \"WEEK_OVERVIEW--TAB_PANEL\",\n        isInitiallySelected: false,\n        label: \"週\"\n      },\n      dayOverview: {\n        tabHTML_ID: \"DAY_OVERVIEW--TAB\",\n        panelHTML_ID: \"DAY_OVERVIEW--TAB_PANEL\",\n        isInitiallySelected: true,\n        label: \"日\"\n      }\n      \n    };\n\n\nblock append Metadata\n\n  -\n\n    HTML_PAGE_LANGUAGE = \"ja\";\n    HTML_PAGE_TITLE = \"日読み ｜ やまとダイワ几帳面さ\";\n\n    styleSheetsURIs = [ \"@All\" ];\n\n\nblock append Requirements\n\n  include ../../Components/Components.pug\n\n\nblock append SpecificContent\n\n  .CalendarPage-SpecificContent.MainLayout-DynamicContentFillingChildrenElement\n    \n    +TabsList--YDF({ accessibilityGuidance: \"日読みの表示を選択する\" })\n      +Tab--YDF(tabsData.monthOverview)\n      +Tab--YDF(tabsData.weekOverview)\n      +Tab--YDF(tabsData.dayOverview)\n      \n    +TabPanel--YDF(tabsData.monthOverview)\n\n      table.CalendarPage-DaysMatrix\n          \n        thead\n          tr\n            th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope=\"col\") 日\n            th.CalendarPage-DayTitleCell(scope=\"col\") 月\n            th.CalendarPage-DayTitleCell(scope=\"col\") 火\n            th.CalendarPage-DayTitleCell(scope=\"col\") 水\n            th.CalendarPage-DayTitleCell(scope=\"col\") 木\n            th.CalendarPage-DayTitleCell(scope=\"col\") 金\n            th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope=\"col\") 土\n      \n        tbody\n          \n          -\n    \n            const weekRowsData = twoDimensionalizeArray({\n              targetFlatArray: CalendarBuilder.generateDataFor42DaysMatrix({\n                targetYear: 2023,\n                targetMonthNumber__numerationFrom1: 1\n              }),\n              // TODO YDFが更新されたら、elementsCountPerNestedArray\n              elementsPerNestedArray: 7\n            });\n    \n          each weekRowData in weekRowsData\n            \n            tr\n              each dayCellData in weekRowData\n                td: button.CalendarPage-DaySelectingButton(\n                  type=\"button\"\n                )\n                  \n                  span.CalendarPage-DaySelectingButton-Label= dayCellData.dayOfMonth\n                  \n                  if getRandomBoolean()\n                    \n                    +Calendar__Date--YDF_Icon.CalendarPage-DaySelectingButton-Icon\n                    \n                  if getRandomBoolean()\n                    \n                    +Calendar__Time--YDF_Icon.CalendarPage-DaySelectingButton-Icon\n                    \n                  if getRandomBoolean()\n                    \n                    +Folder__Stationery--YDF_Icon.CalendarPage-DaySelectingButton-Icon\n\n            \n    +TabPanel--YDF(tabsData.weekOverview)\n    \n      //-\n        \n      \n    +TabPanel--YDF(tabsData.dayOverview)\n\n      h1.CalendarPage-SpecificContent 日付閲覧\n      h2.CalendarPage-SpecificContent 時間連想課題\n              \n      h2.CalendarPage-SpecificContent 時間に結び付ていない課題\n      \n      //- ul.CalendarPage-SpecificContent\n        \n      ",
-        "lineNumber": 117
-      }
-    ],
-    "modificationDatetime__ISO_8601": "2023-01-09T07:22:05.536Z"
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-01-17T07:08:48.926Z"
   }
 }

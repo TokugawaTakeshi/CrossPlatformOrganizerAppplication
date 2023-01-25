@@ -1,0 +1,14 @@
+﻿<span class="Badge--YDF @rootElementModifierCSS_Classes @spaceSeparatedAdditionalCSS_Classes">
+  
+  <components>
+    <slot name="PrependedSVG_Icon"></slot>
+  </components>
+  
+  @if (!String.IsNullOrEmpty(key))
+  {
+    <span class="Badge--YDF-Key">@key</span>  
+  }
+  
+  <span class="Badge--YDF-Value">@value</span>
+  
+</span>

@@ -9,4 +9,9 @@ public static class StringExtensions
     return !String.IsNullOrEmpty(self);
   }
   
+  public static string ToLowerCamelCase(this string self)
+  {
+    return self.Insert(0, char.ToLowerInvariant(self[0]).ToString()).Remove(1, 1);
+  }
+  
 }

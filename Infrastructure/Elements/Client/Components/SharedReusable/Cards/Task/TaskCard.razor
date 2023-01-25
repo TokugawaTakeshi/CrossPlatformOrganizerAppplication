@@ -24,6 +24,13 @@
 
   <div class="TaskCard-Title"> @TargetTask.Title </div>
 
+  <div class="TaskCard-BadgesFlow">
+    <Badge
+      value="テスト"
+      geometricModifiers="@Badge.StandardDecorativeVariations.veryCatchyBright"
+    />
+  </div>
+  
   @if (!String.IsNullOrEmpty(TargetTask.Description))
   {
     <div class="TaskCard-Description"> @TargetTask.Description </div>

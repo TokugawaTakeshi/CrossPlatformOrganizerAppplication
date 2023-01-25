@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using FrontEndFramework.Components.Badge;
 
 
 namespace Client.Components.SharedReusable.Cards.Task;
@@ -13,4 +14,8 @@ public partial class TaskCard : ComponentBase
   
   [Parameter] public string RootElementTag { get; set; } = "div";
   
+  void Test()
+  {
+    
+  }
 }
