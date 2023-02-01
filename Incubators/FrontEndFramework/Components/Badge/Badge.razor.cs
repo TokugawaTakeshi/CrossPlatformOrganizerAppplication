@@ -12,10 +12,10 @@ public partial class Badge : ComponentBase
   public string? key { get; set; }
   
   [Parameter]
-  public required string  value { get; set; }
+  public required string value { get; set; }
   
   [Parameter]
-  public bool mustForbidMultiLine { get; set; }
+  public bool mustForceSingleLine { get; set; }
   
   
   public enum StandardThemes
@@ -72,8 +72,36 @@ public partial class Badge : ComponentBase
     achromaticPastel
   }
 
+  private string[] customDecorativeVariations = Array.Empty<string>();
+
+  public void defineNewDecorativeVariations(string[] newDecorativeVariations)
+  {
+    customDecorativeVariations = newDecorativeVariations;
+  } 
+
   [Parameter]
-  public required string decoration { get; set; } // TODO ① 正しく文字列と始末する
+  public required string decoration { get; set; }
+  
+  // [Parameter]
+  // public required string decoration
+  // {
+  //   get => _decoration;
+  //   set
+  //   {
+  //
+  //     if (
+  //       !value is StandardDecorativeVariations &&
+  //       !value is CustomDecorativeVariations
+  //     )
+  //     {
+  //       throw new Exception($"修飾的変形{value}は不明");
+  //     }
+  //
+  //
+  //     this._theme = value;
+  //
+  //   }
+  // }
   
   public enum DecorativeModifiers
   {
@@ -94,7 +122,7 @@ public partial class Badge : ComponentBase
     {
 
       return new List<string>().
-          AddElementToEndIf("Badge--YDF__SingleLineMode", _ => this.mustForbidMultiLine).
+          AddElementToEndIf("Badge--YDF__SingleLineMode", _ => this.mustForceSingleLine).
           AddElementToEndIf(
             $"Badge--YDF__${ this.theme.ToLowerCamelCase() }Theme",
             _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal

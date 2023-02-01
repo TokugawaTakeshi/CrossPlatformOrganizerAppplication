@@ -19,4 +19,8 @@
     <ProjectReference Include="..\UtilsIncubator\UtilsIncubator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Controls\Buttons\Plain\LoadingPlaceholder" />
+  </ItemGroup>
+
 </Project>

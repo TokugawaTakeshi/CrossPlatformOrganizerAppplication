@@ -13,9 +13,5 @@ public partial class TaskCard : ComponentBase
   [Parameter] public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
   
   [Parameter] public string RootElementTag { get; set; } = "div";
-  
-  void Test()
-  {
-    
-  }
+
 }

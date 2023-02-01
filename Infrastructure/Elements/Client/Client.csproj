@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Incubators\UtilsIncubator\UtilsIncubator.csproj" />
+    <ProjectReference Include="..\..\..\Incubators\FrontEndFramework\FrontEndFramework.csproj" />
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
