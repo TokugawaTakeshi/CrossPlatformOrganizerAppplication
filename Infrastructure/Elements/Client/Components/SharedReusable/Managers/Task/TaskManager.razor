@@ -1,3 +1,41 @@
-﻿<div class="TaskManager @SpaceSeparatedAdditionalCSS_Classes">
+﻿@using FrontEndFramework.Components.AttentionBox;
+@using FrontEndFramework.Components.Controls.Buttons.Plain;
+@using FrontEndFramework.Icons.Pencil;
+
+
+<div class="TaskManager @SpaceSeparatedAdditionalCSS_Classes">
+  
+  <div 
+    class="TaskManager-Heading"
+    id=@HEADING_ID
+  >
+    課題詳細
+  </div>
+  
+  @if (targetTask is null && !String.IsNullOrEmpty(activationGuidance))
+  {
+    <AttentionBox
+      spaceSeparatedAdditionalCSS_Classes="TaskManager-Guidance"
+      decoration=@AttentionBox.StandardDecorativeVariations.guidance
+      hasPrependedSVG_Icon
+    >
+      <p>@activationGuidance</p>
+    </AttentionBox>
+  }
+
+  
+  <div class="TaskManager-ActionBar">
+  
+    @if (isViewingMode)
+    {
+      <Button
+        disabled=@(targetTask is null)
+      >
+        <PencilIcon__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" /> 
+        <span class="Button--YDF-Label">編集</span>
+      </Button>
+    }
+
+  </div>
   
 </div>

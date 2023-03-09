@@ -16,10 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UtilsIncubator\UtilsIncubator.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="Components\AttentionBox\AttentionBox.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\Button.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
   </ItemGroup>

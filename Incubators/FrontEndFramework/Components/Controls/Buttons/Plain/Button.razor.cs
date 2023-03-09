@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using UtilsIncubator;
+using Utils;
 
 
 namespace FrontEndFramework.Components.Controls.Buttons.Plain;
@@ -8,6 +8,9 @@ namespace FrontEndFramework.Components.Controls.Buttons.Plain;
 public partial class Button : ComponentBase
 {
 
+  [Parameter]
+  public RenderFragment ChildContent { get; set; }
+  
   public enum HTML_Types
   {
     regular,
@@ -72,7 +75,7 @@ public partial class Button : ComponentBase
 
   protected static bool mustConsiderThemesAsExternal = false;
   
-  public void ConsiderThemesAsExternal()
+  public static void ConsiderThemesAsExternal()
   {
     Button.mustConsiderThemesAsExternal = true;
   }

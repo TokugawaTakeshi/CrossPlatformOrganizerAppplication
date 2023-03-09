@@ -28,7 +28,11 @@
     <Badge
       value="テスト"
       decoration="@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright"
-    />
+    >
+      <PrependedSVG_Icon>
+        <CalendarIcon__Time SpaceSeparatedAdditionalCSS_Classes="Badge--YDF-SVG_Icon" />
+      </PrependedSVG_Icon>  
+    </Badge>
   </div>
   
   @if (!String.IsNullOrEmpty(TargetTask.Description))

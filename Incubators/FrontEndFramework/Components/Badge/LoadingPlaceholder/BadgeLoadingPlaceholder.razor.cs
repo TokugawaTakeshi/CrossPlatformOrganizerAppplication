@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using UtilsIncubator;
+using Utils;
 
 
 namespace FrontEndFramework.Components.Badge.LoadingPlaceholder;

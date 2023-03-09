@@ -1,4 +1,4 @@
-﻿namespace UtilsIncubator;
+﻿namespace Utils;
 
 
 public static class StringExtensions

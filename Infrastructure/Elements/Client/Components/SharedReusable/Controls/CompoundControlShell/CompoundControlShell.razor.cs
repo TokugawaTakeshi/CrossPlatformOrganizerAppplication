@@ -90,15 +90,15 @@ public partial class CompoundControlShell : ComponentBase
       
       return new List<string>().
           AddElementToEndIf(
-            $"AttentionBox--YDF__${ Theme.ToLowerCamel() }Theme",
+            $"AttentionBox--YDF__${ Theme.ToUpperCamelCase() }Theme",
             _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !AreThemesExternal
           ).
           AddElementToEndIf(
-            $"AttentionBox--YDF__${ Geometry.ToLowerCamel() }Geometry",
+            $"AttentionBox--YDF__${ Geometry.ToUpperCamelCase() }Geometry",
             _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
           ).
           AddElementToEndIf(
-            $"AttentionBox--YDF__${ Decoration.ToLowerCamel() }Decoration",
+            $"AttentionBox--YDF__${ Decoration.ToUpperCamelCase() }Decoration",
             _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
           ).
           StringifyEachElementAndJoin("");

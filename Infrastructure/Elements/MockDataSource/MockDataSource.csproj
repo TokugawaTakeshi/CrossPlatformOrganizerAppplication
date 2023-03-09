@@ -8,12 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RandomDataGenerator.Net" Version="1.0.16" />
+    <PackageReference Include="RandomDataGenerator.Net" Version="1.0.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CommonSolution\CommonSolution.csproj" />
-    <ProjectReference Include="..\..\..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\..\..\Incubators\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>

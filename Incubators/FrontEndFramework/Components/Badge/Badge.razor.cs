@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
-using UtilsIncubator;
+using Utils;
 
 
 namespace FrontEndFramework.Components.Badge;
@@ -29,7 +29,7 @@ public partial class Badge : ComponentBase
 
   internal static bool mustConsiderThemesAsExternal = false;
 
-  public void ConsiderThemesAsExternal()
+  public static void ConsiderThemesAsExternal()
   {
     Badge.mustConsiderThemesAsExternal = true;
   }
@@ -44,7 +44,7 @@ public partial class Badge : ComponentBase
   }
 
   [Parameter]
-  public string geometry { get; set; } = Badge.StandardThemes.regular.ToString();
+  public string geometry { get; set; } = Badge.StandardGeometricVariations.regular.ToString();
   
   public enum GeometricModifiers
   {
@@ -106,7 +106,7 @@ public partial class Badge : ComponentBase
       }
 
       
-      throw new Exception($"Invalid decorative variation");
+      throw new Exception($"Invalid decorative variation for the component { nameof(Badge) }");
       
 
       // if (
@@ -140,6 +140,9 @@ public partial class Badge : ComponentBase
   public Badge.DecorativeModifiers[] decorativeModifiers { get; set; } = Array.Empty<Badge.DecorativeModifiers>();
 
 
+  [Parameter]
+  public RenderFragment? PrependedSVG_Icon { get; set; }
+  
   [Parameter]
   public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
