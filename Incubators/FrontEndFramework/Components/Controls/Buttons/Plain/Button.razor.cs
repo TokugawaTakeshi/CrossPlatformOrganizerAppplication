@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Components;
 using Utils;
 
 
@@ -8,9 +9,6 @@ namespace FrontEndFramework.Components.Controls.Buttons.Plain;
 public partial class Button : ComponentBase
 {
 
-  [Parameter]
-  public RenderFragment ChildContent { get; set; }
-  
   public enum HTML_Types
   {
     regular,
@@ -20,33 +18,9 @@ public partial class Button : ComponentBase
     inputReset
   }
 
-  // --- 一時的 ---------------------------------------------------------------------------------------------------------
   [Parameter] 
   public HTML_Types HTML_Type { get; set; } = HTML_Types.regular;
   
-  /*
-  private HTML_Types _HTML_Type = Button.HTML_Types.regular;
-  
-  [Parameter]
-  public HTML_Types HTML_Type
-  {
-    get => this._HTML_Type;
-    set
-    {
-
-      if (value is not Enum.GetNames<Button.HTML_Types>())
-      {
-        throw new Exception($"HTML_Type { value }は不明");  
-      }
-      
-      
-      this._HTML_Type = value;
-
-    }
-  }
-  */
-  
-  // -------------------------------------------------------------------------------------------------------------------
   
   [Parameter] 
   public string? label { get; set; }
@@ -62,6 +36,17 @@ public partial class Button : ComponentBase
   
   [Parameter] 
   public bool disabled { get; set; }
+  
+  
+  [Parameter]
+  public RenderFragment? PrependedSVG_Icon { get; set; }
+  
+  [Parameter]
+  public RenderFragment? AppendedSVG_Icon { get; set; }
+  
+  [Parameter]
+  public RenderFragment? LoneSVG_Icon { get; set; }
+  
   
   
   // < === TODO テーマ当たり始末方法が分かり次第着手 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34
@@ -148,9 +133,16 @@ public partial class Button : ComponentBase
 
   }
 
+  protected override void OnInitialized()
+  {
+    base.OnInitialized(); Debug.Write("===========");
+    Debug.Write(this.disabled);
+    
+  }
+  
   private void onClick()
   {
-    
+   
   }
   
   private string rootElementSpaceSeparatedClasses => new List<string>().

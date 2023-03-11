@@ -1,3 +1,32 @@
-﻿<button type="button">
-  @ChildContent
-</button>
+﻿@if (isButtonTheTagNameOfRootElement)
+{
+  <button 
+    type=@typeAttributeValueOfInputOrButtonElement
+    class="Button--YDF @spaceSeparatedAdditionalCSS_Classes"
+    aria-label=@accessibilityGuidance
+    disabled="@(disabled ? "disabled" : null)"
+    @onclick:preventDefault
+  >
+    
+    @if (PrependedSVG_Icon is not null)
+    {
+      @PrependedSVG_Icon
+    }
+    
+    @if (!String.IsNullOrEmpty(label))
+    {
+      <span class="Button--YDF-Label"> @label </span>  
+    }
+    
+    @if (AppendedSVG_Icon is not null)
+    {
+      @AppendedSVG_Icon
+    }
+    
+    @if (LoneSVG_Icon is not null)
+    {
+      @LoneSVG_Icon
+    }
+
+  </button>  
+}
