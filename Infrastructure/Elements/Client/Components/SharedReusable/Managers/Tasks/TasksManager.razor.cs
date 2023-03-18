@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 
+using Client.SharedStateManagers;
+
 
 namespace Client.Components.SharedReusable.Managers.Tasks;
 
@@ -12,7 +14,7 @@ public partial class TasksManager : ComponentBase
   public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
-  private CommonSolution.Entities.Task.Task[] _tasks = Array.Empty<CommonSolution.Entities.Task.Task>(); 
+  private CommonSolution.Entities.Task.Task[] _tasks = Array.Empty<CommonSolution.Entities.Task.Task>();
   
   private bool _isWaitingForTasksSelectionRetrieving = true;
   private bool _isTasksSelectionBeingRetrievedNow = false;
@@ -41,6 +43,12 @@ public partial class TasksManager : ComponentBase
 
     _isTasksSelectionBeingRetrievedNow = false;
     
+  }
+
+
+  private void onSelectTask(CommonSolution.Entities.Task.Task targetTask)
+  {
+    TasksSharedStateManager.currentlySelectedTask = targetTask;
   }
   
 }

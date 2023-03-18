@@ -2,10 +2,11 @@
 {
   <button 
     type=@typeAttributeValueOfInputOrButtonElement
-    class="Button--YDF @spaceSeparatedAdditionalCSS_Classes"
+    class="@rootElementSpaceSeparatedClasses @spaceSeparatedAdditionalCSS_Classes"
     aria-label=@accessibilityGuidance
-    disabled="@(disabled ? "disabled" : null)"
+    disabled=@disabled
     @onclick:preventDefault
+    @onclick="onClick"
   >
     
     @if (PrependedSVG_Icon is not null)

@@ -23,6 +23,7 @@
     <AdditionalFiles Include="Components\AttentionBox\AttentionBox.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\Button.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="Icons\Checkbox\CheckboxIcon__Checked.razor" />
   </ItemGroup>
 
 </Project>

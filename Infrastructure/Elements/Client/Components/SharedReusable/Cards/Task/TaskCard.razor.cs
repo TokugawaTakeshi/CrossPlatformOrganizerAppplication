@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Components;
 using FrontEndFramework.Components.Badge;
 
 
@@ -14,4 +15,12 @@ public partial class TaskCard : ComponentBase
   
   [Parameter] public string RootElementTag { get; set; } = "div";
 
+  [Parameter] public EventCallback<CommonSolution.Entities.Task.Task> onClick { get; set; }
+
+
+  private async System.Threading.Tasks.Task onClickOutermostElement()
+  {
+    await this.onClick.InvokeAsync(this.TargetTask);
+  }
+  
 }

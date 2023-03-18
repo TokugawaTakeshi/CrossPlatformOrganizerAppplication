@@ -1,6 +1,7 @@
 ﻿@using FrontEndFramework.Components.AttentionBox;
 @using FrontEndFramework.Components.Controls.Buttons.Plain;
 @using FrontEndFramework.Icons.Pencil;
+@using FrontEndFramework.Icons.TrashCan;
 
 
 <div class="TaskManager @SpaceSeparatedAdditionalCSS_Classes">
@@ -37,7 +38,44 @@
         </PrependedSVG_Icon>
       </Button>
     }
+    
+    <Button
+      disabled=@(targetTask is null)
+      label="削除"
+    >
+      <PrependedSVG_Icon>
+        <TrashCan__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
 
   </div>
+  
+  @if (isViewingMode)
+  {
+  
+    <dl class="TaskManager-Metadata">
+    
+      <dt>見出し</dt>
+      <dd>@(targetTask is not null ? targetTask.Title : "" )</dd>
+    
+      @if (targetTask?.Description != null)
+      {
+        <dt>記述</dt>
+        <dd>@targetTask.Description</dd>      
+      }
+    
+    </dl>
+    
+  }
+
+  else
+  {
+    <form
+      class="TaskManager-Form"
+      aria-labelledby=@HEADING_ID
+    >
+        
+    </form>  
+  }
   
 </div>

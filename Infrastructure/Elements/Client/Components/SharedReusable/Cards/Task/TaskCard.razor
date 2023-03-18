@@ -1,7 +1,10 @@
-﻿<li
-  Tag="@RootElementTag"
+﻿@using FrontEndFramework.Icons.Checkbox;
+
+
+<li
   class="TaskCard @SpaceSeparatedAdditionalCSS_Classes"
   tabindex="0"
+  @onclick="onClickOutermostElement"
 >
 
   <span
@@ -13,11 +16,11 @@
 
     @if (TargetTask.IsComplete)
     {
-      <Checkbox__Checked SpaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
+      <CheckboxIcon__Checked spaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
     }
     else
     {
-      <Checkbox__Unchecked SpaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
+      <CheckboxIcon__Unchecked spaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
     }
 
   </span>

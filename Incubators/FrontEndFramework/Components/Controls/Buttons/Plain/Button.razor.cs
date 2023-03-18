@@ -133,16 +133,9 @@ public partial class Button : ComponentBase
 
   }
 
-  protected override void OnInitialized()
-  {
-    base.OnInitialized(); Debug.Write("===========");
-    Debug.Write(this.disabled);
-    
-  }
-  
   private void onClick()
   {
-   
+    
   }
   
   private string rootElementSpaceSeparatedClasses => new List<string>().
@@ -152,15 +145,15 @@ public partial class Button : ComponentBase
         _ => (isAnchorTheTagNameOfRootElement || isNavLinkTheRootElement) && this.disabled
       ).
       AddElementToEndIf(
-        $"Button--YDF__${ this.theme.ToLowerCamelCase() }Theme",
+        $"Button--YDF__{ this.theme.ToUpperCamelCase() }Theme",
         _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !this.areThemesExternal
       ).
       AddElementToEndIf(
-        $"Button--YDF__${ this.geometry.ToLowerCamelCase() }Geometry",
+        $"Button--YDF__{ this.geometry.ToUpperCamelCase() }Geometry",
         _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
       ).
       AddElementToEndIf(
-        $"Button--YDF__${ this.decoration.ToLowerCamelCase() }Decoration",
+        $"Button--YDF__{ this.decoration.ToUpperCamelCase() }Decoration",
         _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
       ).
       StringifyEachElementAndJoin(" ");
