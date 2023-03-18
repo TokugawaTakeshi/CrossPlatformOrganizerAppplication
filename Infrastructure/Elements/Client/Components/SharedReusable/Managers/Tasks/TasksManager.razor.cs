@@ -11,25 +11,31 @@ public partial class TasksManager : ComponentBase
 {
 
   [Parameter]
-  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
   private CommonSolution.Entities.Task.Task[] _tasks = Array.Empty<CommonSolution.Entities.Task.Task>();
   
-  private bool _isWaitingForTasksSelectionRetrieving = true;
-  private bool _isTasksSelectionBeingRetrievedNow = false;
-  private bool _isTasksSelectionRetrievingErrorOccurred = false;
+  private bool isWaitingForTasksSelectionRetrieving = true;
+  private bool isTasksSelectionBeingRetrievedNow = false;
+  private bool isTasksSelectionRetrievingErrorOccurred = false;
   
   private bool isTasksRetrievingInProgressOrNotStartedYet => 
-      _isWaitingForTasksSelectionRetrieving || _isTasksSelectionBeingRetrievedNow;
+      isWaitingForTasksSelectionRetrieving || isTasksSelectionBeingRetrievedNow;
   
   
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
+    await this.retrieveTasks();
+  }
+
+
+  private async System.Threading.Tasks.Task retrieveTasks()
+  {
     
-    _isWaitingForTasksSelectionRetrieving = false;
-    _isTasksSelectionBeingRetrievedNow = true;
-    _isTasksSelectionRetrievingErrorOccurred = false;
+    isWaitingForTasksSelectionRetrieving = false;
+    isTasksSelectionBeingRetrievedNow = true;
+    isTasksSelectionRetrievingErrorOccurred = false;
     
     try
     {
@@ -38,13 +44,12 @@ public partial class TasksManager : ComponentBase
     catch (Exception e)
     {
       Debug.WriteLine(e);
-      _isTasksSelectionRetrievingErrorOccurred = true;
+      isTasksSelectionRetrievingErrorOccurred = true;
     }
 
-    _isTasksSelectionBeingRetrievedNow = false;
+    isTasksSelectionBeingRetrievedNow = false;
     
   }
-
 
   private void onSelectTask(CommonSolution.Entities.Task.Task targetTask)
   {

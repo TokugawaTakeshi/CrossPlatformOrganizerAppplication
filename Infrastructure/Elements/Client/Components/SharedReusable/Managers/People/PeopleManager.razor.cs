@@ -9,7 +9,7 @@ public partial class PeopleManager : ComponentBase
 {
 
   [Parameter]
-  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
   private CommonSolution.Entities.Person[] people = Array.Empty<CommonSolution.Entities.Person>();

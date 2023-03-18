@@ -7,7 +7,7 @@ public partial class TaskManager : ComponentBase
 {
 
   [Parameter]
-  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   [Parameter]
   public CommonSolution.Entities.Task.Task? targetTask { get; set; }

@@ -8,6 +8,6 @@ public partial class TextBox : ComponentBase
 {
 
   [Parameter]
-  public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
   
 }

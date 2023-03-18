@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Utils;
 
 
@@ -133,10 +134,9 @@ public partial class Button : ComponentBase
 
   }
 
-  private void onClick()
-  {
-    
-  }
+  [Parameter]
+  public EventCallback<MouseEventArgs> onClick { get; set; }
+  
   
   private string rootElementSpaceSeparatedClasses => new List<string>().
       AddElementsToEnd("Button--YDF").

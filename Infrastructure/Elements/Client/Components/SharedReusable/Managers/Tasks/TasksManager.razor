@@ -1,7 +1,10 @@
 ﻿@using Task = CommonSolution.Entities.Task.Task
 
+@using FrontEndFramework.Components.AttentionBox;
+@using FrontEndFramework.Components.Controls.Buttons.Plain;
 
-<div class="TasksManager @SpaceSeparatedAdditionalCSS_Classes">
+
+<div class="TasksManager @spaceSeparatedAdditionalCSS_Classes">
   
   @if (isTasksRetrievingInProgressOrNotStartedYet)
   {
@@ -13,9 +16,23 @@
     </div>  
   }
   
-  else if (_isTasksSelectionRetrievingErrorOccurred)
+  else if (isTasksSelectionRetrievingErrorOccurred)
   {
-    <div>エラー</div>  
+    <AttentionBox
+      spaceSeparatedAdditionalCSS_Classes="TasksManager-AttentionBox"
+      decoration=@AttentionBox.StandardDecorativeVariations.error
+      hasPrependedSVG_Icon
+    >
+
+      <p>情報取得中不具合が発生しました。</p>
+      
+      <Button
+        label="再試験"
+        spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+        onClick=@retrieveTasks
+      />
+      
+    </AttentionBox>
   }
 
   else

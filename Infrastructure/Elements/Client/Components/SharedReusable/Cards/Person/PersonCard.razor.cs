@@ -9,7 +9,7 @@ public partial class PersonCard : ComponentBase
 
   [Parameter] public CommonSolution.Entities.Person TargetPerson { get; set; }
   
-  [Parameter] public string SpaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   [Parameter] public string RootElementTag { get; set; } = "div";
 
