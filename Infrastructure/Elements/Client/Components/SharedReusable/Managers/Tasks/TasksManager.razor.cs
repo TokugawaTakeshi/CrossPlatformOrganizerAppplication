@@ -21,7 +21,7 @@ public partial class TasksManager : ComponentBase
   private bool isTasksSelectionRetrievingErrorOccurred = false;
   
   private bool isTasksRetrievingInProgressOrNotStartedYet => 
-      isWaitingForTasksSelectionRetrieving || isTasksSelectionBeingRetrievedNow;
+      this.isWaitingForTasksSelectionRetrieving || this.isTasksSelectionBeingRetrievedNow;
   
   
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
@@ -33,9 +33,9 @@ public partial class TasksManager : ComponentBase
   private async System.Threading.Tasks.Task retrieveTasks()
   {
     
-    isWaitingForTasksSelectionRetrieving = false;
-    isTasksSelectionBeingRetrievedNow = true;
-    isTasksSelectionRetrievingErrorOccurred = false;
+    this.isWaitingForTasksSelectionRetrieving = false;
+    this.isTasksSelectionBeingRetrievedNow = true;
+    this.isTasksSelectionRetrievingErrorOccurred = false;
     
     try
     {

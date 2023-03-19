@@ -21,7 +21,21 @@ public partial class TaskManager : ComponentBase
   private string ID = TaskManager.generateComponentID();
   private string HEADING_ID => $"{ this.ID }-HEADING";
   
+  
+  /* === 行動処理 ==================================================================================================== */
+  private void beginTaskEditing()
+  {
+    this.isViewingMode = false;
+  }
 
+  private void displayTaskDeletingConfirmationDialog()
+  {
+    // TODO
+  }
+  
+
+  /* === ルーチン ====================================================================================================== */
+  /* --- ID生成 ------------------------------------------------------------------------------------------------------ */
   private static uint counterForComponentID_Generating = 0;
   
   private static string generateComponentID()

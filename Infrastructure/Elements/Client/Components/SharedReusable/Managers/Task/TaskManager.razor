@@ -1,5 +1,6 @@
 ﻿@using FrontEndFramework.Components.AttentionBox;
 @using FrontEndFramework.Components.Controls.Buttons.Plain;
+@using FrontEndFramework.Components.Controls.TextBox;
 @using FrontEndFramework.Icons.Pencil;
 @using FrontEndFramework.Icons.TrashCan;
 
@@ -32,6 +33,7 @@
       <Button
         disabled=@(targetTask is null)
         label="編集"
+        onClick="beginTaskEditing"
       >
         <PrependedSVG_Icon>
           <PencilIcon__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
@@ -42,6 +44,7 @@
     <Button
       disabled=@(targetTask is null)
       label="削除"
+      onClick="displayTaskDeletingConfirmationDialog"
     >
       <PrependedSVG_Icon>
         <TrashCan__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
@@ -75,6 +78,19 @@
       aria-labelledby=@HEADING_ID
     >
         
+      <TextBox
+        label="見出し"
+        guidance="〇〇～〇〇文字を入力して下さい。"
+        spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
+      />
+      
+      <TextBox
+        label="記述"
+        guidance="〇〇～〇〇文字を入力して下さい。"
+        multiline
+        spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
+      />
+      
     </form>  
   }
   

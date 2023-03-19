@@ -57,7 +57,7 @@ public partial class Button : ComponentBase
   }
 
   [Parameter] 
-  public string theme { get; set; } = Button.StandardThemes.regular.ToString(); // TODO ① 正しく文字列と始末する
+  public string theme { get; set; } = Button.StandardThemes.regular.ToString();
 
   protected static bool mustConsiderThemesAsExternal = false;
   
@@ -78,7 +78,7 @@ public partial class Button : ComponentBase
   }
 
   [Parameter] 
-  public string geometry { get; set; } = Button.StandardGeometricVariations.regular.ToString(); // TODO ① 正しく文字列と始末する
+  public string geometry { get; set; } = Button.StandardGeometricVariations.regular.ToString();
 
   
   public enum StandardDecorativeVariations
@@ -89,7 +89,7 @@ public partial class Button : ComponentBase
   }
 
   [Parameter] 
-  public string decoration { get; set; } = Button.StandardDecorativeVariations.regular.ToString(); // TODO ① 正しく文字列と始末する
+  public string decoration { get; set; } = Button.StandardDecorativeVariations.regular.ToString();
   // > =================================================================================================================
   
   [Parameter]

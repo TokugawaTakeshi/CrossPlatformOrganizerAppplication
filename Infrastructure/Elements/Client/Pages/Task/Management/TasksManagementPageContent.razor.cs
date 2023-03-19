@@ -13,4 +13,10 @@ public partial class TasksManagementPageContent : ComponentBase
 
   private CommonSolution.Entities.Task.Task activeTask => TasksSharedStateManager.currentlySelectedTask;
 
+
+  protected override void OnInitialized()
+  {
+    TasksSharedStateManager.onStateChanged += StateHasChanged;
+  }
+  
 }
