@@ -22,7 +22,7 @@ internal sealed class TasksSharedStateManager
   public static async System.Threading.Tasks.Task retrieveTasks()
   {
 
-    if (TasksSharedStateManager.isTasksRetrievingInProgressOrNotStartedYet)
+    if (TasksSharedStateManager.isTasksSelectionBeingRetrievedNow)
     {
       return;      
     }
