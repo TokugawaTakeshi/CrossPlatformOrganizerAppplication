@@ -2,11 +2,12 @@
 
 @using FrontEndFramework.Components.AttentionBox;
 @using FrontEndFramework.Components.Controls.Buttons.Plain;
+@using Client.SharedStateManagers
 
 
 <div class="TasksManager @spaceSeparatedAdditionalCSS_Classes">
   
-  @if (isTasksRetrievingInProgressOrNotStartedYet)
+  @if (TasksSharedStateManager.isTasksRetrievingInProgressOrNotStartedYet)
   {
     <div class="TasksManager-CardsFlow">
       @for (uint cardNumber = 0; cardNumber < 12; cardNumber++)
@@ -16,7 +17,7 @@
     </div>  
   }
   
-  else if (isTasksSelectionRetrievingErrorOccurred)
+  else if (TasksSharedStateManager.isTasksSelectionRetrievingErrorOccurred)
   {
     <AttentionBox
       spaceSeparatedAdditionalCSS_Classes="TasksManager-AttentionBox"
@@ -29,7 +30,7 @@
       <Button
         label="再試験"
         spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
-        onClick=@retrieveTasks
+        onClick=@(TasksSharedStateManager.retrieveTasks)
       />
       
     </AttentionBox>
@@ -38,7 +39,7 @@
   else
   {
     <ul class="TasksManager-CardsFlow">
-      @foreach (Task task in _tasks)
+      @foreach (Task task in TasksSharedStateManager.tasks)
       {
         <TaskCard 
           TargetTask=@task

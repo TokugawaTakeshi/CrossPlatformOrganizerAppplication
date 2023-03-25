@@ -76,7 +76,7 @@ public partial class AttentionBox : ComponentBase
   public bool hasDismissingButton { get; set; }
 
   [Parameter]
-  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   [Parameter]
   public RenderFragment ChildContent { get; set; }

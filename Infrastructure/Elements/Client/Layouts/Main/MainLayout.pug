@@ -1,6 +1,22 @@
 extends ../../node_modules/@yamato-daiwa/frontend/PagesTemplates/RegularWebPage.pug
 
 
+block Requirements
+  
+  -
+    
+    class MainLayout {
+      
+      static mustDisplayDrawer = false;
+      
+      static displayDrawer() {
+        MainLayout.mustDisplayDrawer = true;
+        return MainLayout;
+      }
+      
+    }
+  
+
 block append PageContent
 
   .MainLayout
@@ -18,3 +34,9 @@ block append PageContent
     main.MainLayout-SpecificContent
 
       block SpecificContent
+
+    if MainLayout.mustDisplayDrawer
+
+      .MainLayout-DrawerOverlay
+        .MainLayout-Drawer
+          +NavigationMenu

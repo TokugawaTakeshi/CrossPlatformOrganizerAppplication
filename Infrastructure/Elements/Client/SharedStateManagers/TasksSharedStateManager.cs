@@ -10,7 +10,6 @@ internal sealed class TasksSharedStateManager
 {
 
   /* === 取得 ======================================================================================================= */
-  // TODO リアクティビチを導入
   public static CommonSolution.Entities.Task.Task[] tasks { get; private set; } = Array.Empty<CommonSolution.Entities.Task.Task>();
   
   public static bool isWaitingForTasksSelectionRetrieving { get; private set; } = true;
@@ -22,6 +21,12 @@ internal sealed class TasksSharedStateManager
   
   public static async System.Threading.Tasks.Task retrieveTasks()
   {
+
+    if (TasksSharedStateManager.isTasksRetrievingInProgressOrNotStartedYet)
+    {
+      return;      
+    }
+    
     
     TasksSharedStateManager.isWaitingForTasksSelectionRetrieving = false;
     TasksSharedStateManager.isTasksSelectionBeingRetrievedNow = true;
@@ -55,7 +60,7 @@ internal sealed class TasksSharedStateManager
   }
   
   
-  public static event Action onStateChanged;
+  public static event Action? onStateChanged;
 
   private static void NotifyStateChanged() => TasksSharedStateManager.onStateChanged?.Invoke();
 

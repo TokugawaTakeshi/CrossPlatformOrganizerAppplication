@@ -14,7 +14,7 @@ public class Task
   public bool IsComplete { get; set; } = false;
   
   public DateOnly? AssociatedDate { get; set; }
-  // public DateTime? AssociatedDateTime { get; set; }
+  public DateTime? AssociatedDateTime { get; set; }
   
   public Location? Location { get; set; }
 

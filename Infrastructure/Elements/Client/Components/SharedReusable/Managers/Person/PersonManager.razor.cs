@@ -8,7 +8,7 @@ public partial class PersonManager : ComponentBase
 {
 
   [Parameter]
-  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
   
 

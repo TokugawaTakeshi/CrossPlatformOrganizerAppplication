@@ -9,9 +9,9 @@ namespace Client.Components.SharedReusable.Cards.Task;
 public partial class TaskCard : ComponentBase
 {
 
-  [Parameter] public CommonSolution.Entities.Task.Task TargetTask { get; set; }
+  [Parameter] public required CommonSolution.Entities.Task.Task TargetTask { get; set; }
   
-  [Parameter] public string spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   [Parameter] public string RootElementTag { get; set; } = "div";
 

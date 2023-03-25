@@ -15,10 +15,8 @@
   grid-template-areas\
       "UPPER_FIXED_CONTENT_SLOT UPPER_FIXED_CONTENT_SLOT"\
       "SIDEBAR MAIN_CONTENT"
-
   grid-template-rows auto 1fr
 
-  //container-type inline-size
   height 100%
 
   position relative
@@ -46,11 +44,6 @@
     grid-area SIDEBAR
 
 
-    //@media container and (min-width: 600px)
-    //
-    //  background red
-
-
     +NarrowScreensConfiguration()
 
       overflow hidden
@@ -61,7 +54,7 @@
     overflow-y hidden
 
 
-  &-DynamicContentFillingChildrenElement
+  &-SpecificContentFillingElement
 
     height 100%
 
@@ -81,7 +74,8 @@
 
   &-Drawer
 
-    width 0.8*NARROWEST_SCREEN_WIDTH_UNIT
+    max-width NARROWEST_SCREEN_WIDTH_UNIT
+    width 90%
     height 100%
 
     background ShadesOfGray__39ColorsW3C_Palette[8]

@@ -45,7 +45,7 @@ public partial class CompoundControlShell : ComponentBase
   
   /* --- CSS -------------------------------------------------------------------------------------------------------- */
   [Parameter]
-  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   [Parameter]
   public string mainSlotSpaceSeparatedAdditionalCSS_Classes { get; set; }

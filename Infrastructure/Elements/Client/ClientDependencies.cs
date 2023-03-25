@@ -15,7 +15,7 @@ internal class ClientDependencies {
   
   public abstract class Injector {
 
-    private static ClientDependencies _dependencies;
+    private static ClientDependencies? _dependencies;
 
     public static void SetDependencies(ClientDependencies dependencies) {
       _dependencies = dependencies;

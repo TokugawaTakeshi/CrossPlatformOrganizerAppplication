@@ -22,7 +22,7 @@ public partial class BadgeLoadingPlaceholder : ComponentBase
   public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
   
   [Parameter]
-  public string spaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   
   private string rootElementModifierCSS_Classes
