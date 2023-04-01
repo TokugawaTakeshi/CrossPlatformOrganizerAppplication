@@ -16,7 +16,7 @@ public partial class TasksManager : ComponentBase
 
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
-    // TasksSharedStateManager.onStateChanged += StateHasChanged;
+    TasksSharedStateManager.onStateChanged += StateHasChanged;
     await TasksSharedStateManager.retrieveTasks();
   }
 

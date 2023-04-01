@@ -1,11 +1,11 @@
 ﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
 
 
-@inherits InputtableControl;
+@inherits InputtableControl
 
 
 <CompoundControlShell
-  spaceSeparatedAdditionalCSS_Classes="TextBox--YDF"
+  spaceSeparatedAdditionalCSS_Classes="@string.Concat("TextBox--YDF ", spaceSeparatedAdditionalCSS_Classes)"
   label=@label
   guidance=@guidance
 >

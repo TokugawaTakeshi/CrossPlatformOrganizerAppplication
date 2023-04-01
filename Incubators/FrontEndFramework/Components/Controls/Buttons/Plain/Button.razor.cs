@@ -111,6 +111,7 @@ public partial class Button : ComponentBase
 
   
   /* === Computing of the attributes ================================================================================ */
+  // TODO 適応させる https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/37
   private string? typeAttributeValueOfInputOrButtonElement {
 
     get
@@ -121,7 +122,7 @@ public partial class Button : ComponentBase
       }
       
 
-      return HTML_Type switch
+      return this.HTML_Type switch
       {
         HTML_Types.regular => "button",
         HTML_Types.submit => "submit",

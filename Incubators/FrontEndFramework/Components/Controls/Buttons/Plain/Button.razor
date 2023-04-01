@@ -31,3 +31,15 @@
 
   </button>  
 }
+
+else if (isInputTheTagNameOfRootElement)
+{
+  <input 
+    type=@typeAttributeValueOfInputOrButtonElement
+    class="@rootElementSpaceSeparatedClasses @spaceSeparatedAdditionalCSS_Classes"
+    value=@label
+    disabled=@disabled
+    @onclick:preventDefault
+    @onclick=@onClick
+  />  
+}

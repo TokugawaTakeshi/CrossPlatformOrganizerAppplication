@@ -30,9 +30,19 @@ public partial class TaskManager : ComponentBase
 
   private void displayTaskDeletingConfirmationDialog()
   {
-    // TODO
+    // TODO 次のプールリクエストに実装予定
   }
-  
+
+  private void updateTask()
+  {
+    // TODO 次のプールリクエストに実装予定
+  }
+
+  private void utilizeTaskEditing()
+  {
+    this.isViewingMode = true;
+  }
+
 
   /* === ルーチン ====================================================================================================== */
   /* --- ID生成 ------------------------------------------------------------------------------------------------------ */

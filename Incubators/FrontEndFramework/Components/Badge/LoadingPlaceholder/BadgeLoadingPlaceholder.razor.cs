@@ -32,11 +32,11 @@ public partial class BadgeLoadingPlaceholder : ComponentBase
 
       return new List<string>().
           AddElementToEndIf(
-            $"Badge--YDF__${ this.theme.ToLowerCamelCase() }Theme",
+            $"Badge--YDF__{ this.theme.ToLowerCamelCase() }Theme",
             _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal
           ).
           AddElementToEndIf(
-            $"Badge--YDF__${ this.geometry.ToLowerCamelCase() }Geometry",
+            $"Badge--YDF__{ this.geometry.ToLowerCamelCase() }Geometry",
             _ => Enum.GetNames(typeof(Badge.StandardGeometricVariations)).Length > 1
           ).
           AddElementToEndIf(

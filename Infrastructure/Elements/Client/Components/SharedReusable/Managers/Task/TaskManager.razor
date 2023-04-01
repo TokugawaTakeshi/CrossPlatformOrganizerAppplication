@@ -1,8 +1,9 @@
-﻿@using FrontEndFramework.Components.AttentionBox;
-@using FrontEndFramework.Components.Controls.Buttons.Plain;
-@using FrontEndFramework.Components.Controls.TextBox;
-@using FrontEndFramework.SVG_Icons.Pencil;
-@using FrontEndFramework.SVG_Icons.TrashCan;
+﻿@using FrontEndFramework.Components.AttentionBox
+@using FrontEndFramework.Components.Controls.Buttons.Plain
+@using FrontEndFramework.Components.Controls.TextBox
+@using FrontEndFramework.SVG_Icons.Pencil
+@using FrontEndFramework.SVG_Icons.TrashCan
+@using FrontEndFramework.SVG_Icons.MultiplicationSign
 
 
 <div class="TaskManager @spaceSeparatedAdditionalCSS_Classes">
@@ -90,6 +91,26 @@
         multiline
         spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
       />
+      
+      <div class="TaskManager-ActionBar">
+        
+        <Button
+          label="保存"
+          HTML_Type=@Button.HTML_Types.inputSubmit
+          decoration=@Button.StandardDecorativeVariations.accented.ToString()
+          onClick=@updateTask
+        />
+        
+        <Button
+          label="編集を止める"
+          onClick=@utilizeTaskEditing
+        >
+          <PrependedSVG_Icon>
+            <MultiplicationSignIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+          </PrependedSVG_Icon>
+        </Button>
+        
+      </div>
       
     </form>  
   }

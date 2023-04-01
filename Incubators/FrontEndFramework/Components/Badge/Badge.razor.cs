@@ -155,11 +155,11 @@ public partial class Badge : ComponentBase
       return new List<string>().
           AddElementToEndIf("Badge--YDF__SingleLineMode", _ => this.mustForceSingleLine).
           AddElementToEndIf(
-            $"Badge--YDF__${ this.theme.ToUpperCamelCase() }Theme",
+            $"Badge--YDF__{ this.theme.ToUpperCamelCase() }Theme",
             _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal
           ).
           AddElementToEndIf(
-            $"Badge--YDF__${ this.geometry.ToUpperCamelCase() }Geometry",
+            $"Badge--YDF__{ this.geometry.ToUpperCamelCase() }Geometry",
             _ => Enum.GetNames(typeof(Badge.StandardGeometricVariations)).Length > 1
           ).
           AddElementToEndIf(

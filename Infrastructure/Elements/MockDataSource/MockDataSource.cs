@@ -111,7 +111,7 @@ public class MockDataSource
 
     if (targetPerson == null)
     {
-      throw new InvalidDataException($"ID「${ requestData.ID }」の人が発見されず。");
+      throw new InvalidDataException($"ID「{ requestData.ID }」の人が発見されず。");
     }
 
     targetPerson.FamilyName = requestData.FamilyName;
@@ -165,7 +165,7 @@ public class MockDataSource
 
     if (targetTask == null)
     {
-      throw new InvalidDataException($"ID「${ requestData.ID }」の課題が発見されず。");
+      throw new InvalidDataException($"ID「{ requestData.ID }」の課題が発見されず。");
     }
 
     targetTask.Title = requestData.Title;

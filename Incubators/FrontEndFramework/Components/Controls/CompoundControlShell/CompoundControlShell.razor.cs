@@ -116,23 +116,23 @@ public partial class CompoundControlShell : ComponentBase
       
       return new List<string>().
           AddElementToEndIf(
-            $"CompoundControlShell--YDF__${ this.theme.ToUpperCamelCase() }Theme",
+            $"CompoundControlShell--YDF__{ this.theme.ToUpperCamelCase() }Theme",
             _ => Enum.GetNames(typeof(CompoundControlShell.StandardThemes)).Length > 1 && !this.areThemesExternal
           ).
           AddElementToEndIf(
-            $"CompoundControlShell--YDF__${ this.geometry.ToUpperCamelCase() }Geometry",
+            $"CompoundControlShell--YDF__{ this.geometry.ToUpperCamelCase() }Geometry",
             _ => Enum.GetNames(typeof(CompoundControlShell.StandardGeometricVariations)).Length > 1
           ).
           AddElementToEndIf(
-            $"CompoundControlShell--YDF__${ this.decoration.ToUpperCamelCase() }Decoration",
+            $"CompoundControlShell--YDF__{ this.decoration.ToUpperCamelCase() }Decoration",
             _ => Enum.GetNames(typeof(CompoundControlShell.StandardDecorativeVariations)).Length > 1
           ).
           AddElementToEndIf(
-            $"CompoundControlShell--YDF__${ this.decoration.ToUpperCamelCase() }__InvalidValueState",
+            $"CompoundControlShell--YDF__{ this.decoration.ToUpperCamelCase() }__InvalidValueState",
             _ => this.invalidInputHighlightingIfAnyValidationErrorsMessages && this.validationErrorsMessages.Length > 0
           ).
           AddElementToEndIf(
-            $"CompoundControlShell--YDF__${ this.decoration.ToUpperCamelCase() }__ValidValueState",
+            $"CompoundControlShell--YDF__{ this.decoration.ToUpperCamelCase() }__ValidValueState",
             _ => this.validValueHighlightingIfNoValidationErrorsMessages && this.validationErrorsMessages.Length == 0
           ).
           StringifyEachElementAndJoin("");

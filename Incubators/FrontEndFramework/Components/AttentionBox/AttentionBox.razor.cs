@@ -94,11 +94,11 @@ public partial class AttentionBox : ComponentBase
 
       return new List<string>().
           AddElementToEndIf(
-            $"AttentionBox--YDF__${ this.theme.ToUpperCamelCase() }Theme",
+            $"AttentionBox--YDF__{ this.theme.ToUpperCamelCase() }Theme",
             _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !this.areThemesExternal
           ).
           AddElementToEndIf(
-            $"AttentionBox--YDF__${ this.geometry.ToUpperCamelCase() }Geometry",
+            $"AttentionBox--YDF__{ this.geometry.ToUpperCamelCase() }Geometry",
             _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
           ).
           AddElementToEndIf(
