@@ -1,7 +1,22 @@
-﻿@using FrontEndFramework.Components.Badge;
-@using FrontEndFramework.SVG_Icons.Checkbox;
-@using FrontEndFramework.SVG_Icons.Calendar;
+﻿@using FrontEndFramework.Components.Badge
+@using FrontEndFramework.SVG_Icons.Checkbox
+@using FrontEndFramework.SVG_Icons.Calendar
+@using FrontEndFramework.Helpers
 
+
+@* TODO 解決する https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/20 *@
+@* <DynamicTag  *@
+@*   name="li" *@
+@*   attributes=@( *@
+@*     new Dictionary<string, object> { *@
+@*       { "class", $"TaskCard { spaceSeparatedAdditionalCSS_Classes }" }, *@
+@*       { "tabindex", "0" }, *@
+@*       { "@onclick", this.onClickOutermostElement } *@
+@*     } *@
+@*   ) *@
+@* > *@
+@*    *@
+@* </DynamicTag> *@
 
 <li
   class="TaskCard @spaceSeparatedAdditionalCSS_Classes"
