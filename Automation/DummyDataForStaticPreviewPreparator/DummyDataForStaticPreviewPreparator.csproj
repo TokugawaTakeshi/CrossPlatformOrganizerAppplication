@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Elements\MockDataSource\MockDataSource.csproj" />
+    <ProjectReference Include="..\..\Implementation\Elements\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
 </Project>

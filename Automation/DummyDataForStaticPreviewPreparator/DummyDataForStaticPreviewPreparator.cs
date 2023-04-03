@@ -1,6 +1,6 @@
 ﻿using CommonSolution.Entities;
 using Newtonsoft.Json;
-using Task = CommonSolution.Entities.Task.Task;
+using Task = CommonSolution.Entities.Task;
 
 
 namespace DummyDataForStaticPreviewPreparator;
@@ -26,7 +26,7 @@ public class DummyDataForStaticPreviewPreparator
     string solutionPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../"));
     
     StreamWriter streamWriter = new(
-      path: Path.Combine(solutionPath, "Infrastructure", "Elements", "Client", "StaticPreview"), 
+      path: Path.Combine(solutionPath, "Implementation", "Elements", "Client", "StaticPreview"), 
       append: false
     );
 

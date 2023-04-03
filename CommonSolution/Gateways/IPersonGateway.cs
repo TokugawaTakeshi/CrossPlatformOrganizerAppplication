@@ -1,4 +1,4 @@
-﻿using CommonSolution.Entities;
+﻿using Person = CommonSolution.Entities.Person;
 
 
 namespace CommonSolution.Gateways;

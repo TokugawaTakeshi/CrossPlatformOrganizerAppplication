@@ -1,0 +1,35 @@
+<li 
+  Tag="@rootElementTag" 
+  class="PersonCard @spaceSeparatedAdditionalCSS_Classes"
+  tabindex="0"
+  @onclick=@onClickOutermostElement
+>
+
+  @* TODO 動的タグ *@
+  
+  <dl class="PersonCard-Metadata">
+    
+    <dt>氏名</dt>
+    <dd>@targetPerson.FamilyName @targetPerson.GivenName</dd>
+    
+    @if (!String.IsNullOrEmpty(targetPerson.EmailAddress))
+    {
+      <dt>メール</dt>
+      <dd> @targetPerson.EmailAddress </dd>  
+    }
+
+    @if (!String.IsNullOrEmpty(targetPerson.PhoneNumber))
+    {
+      <dt>電話番号</dt>
+      <dd>@targetPerson.PhoneNumber</dd>  
+    }
+
+    @if (targetPerson.Age != null)
+    {
+      <dt>年齢</dt>
+      <dd> @targetPerson.Age</dd>  
+    }
+    
+  </dl>
+  
+</li>

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontServer", "Infrastructure\Elements\FrontServer\FrontServer.csproj", "{05A4E8F8-D4C1-4E41-97E3-DF71373E7BF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontServer", "Implementation\Elements\FrontServer\FrontServer.csproj", "{05A4E8F8-D4C1-4E41-97E3-DF71373E7BF7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDataSource", "Infrastructure\Elements\MockDataSource\MockDataSource.csproj", "{E8646560-666E-40A0-A61E-353ECE805A53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDataSource", "Implementation\Elements\MockDataSource\MockDataSource.csproj", "{E8646560-666E-40A0-A61E-353ECE805A53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Infrastructure\Elements\Client\Client.csproj", "{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Implementation\Elements\Client\Client.csproj", "{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{539580C9-A381-47FA-AA59-961D89488E0A} = {539580C9-A381-47FA-AA59-961D89488E0A}
 		{FA7F0AB1-1065-4E80-A3F1-3757F7F99B6F} = {FA7F0AB1-1065-4E80-A3F1-3757F7F99B6F}
