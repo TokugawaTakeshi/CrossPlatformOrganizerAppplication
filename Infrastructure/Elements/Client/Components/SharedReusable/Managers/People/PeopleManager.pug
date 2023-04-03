@@ -59,6 +59,6 @@ mixin PeopleManager(statesSimulations)
         each person in DummyData.People
 
           +PersonCard({
-            targetPerson: person,
+            person,
             rootElementTag: "li"
           })

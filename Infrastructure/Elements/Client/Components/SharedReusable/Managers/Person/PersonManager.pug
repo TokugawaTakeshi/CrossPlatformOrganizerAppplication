@@ -16,17 +16,17 @@ mixin PersonManager(properties, statesSimulations)
 
   - 
 
-    properties = properties ?? {}
-    statesSimulations = statesSimulations ?? {}
+    properties = properties ?? {};
+    statesSimulations = statesSimulations ?? {};
  
     const {
       targetPerson = null,
       activationGuidance
-    } = properties
+    } = properties;
  
     const {
       editingMode = false
-    } = statesSimulations
+    } = statesSimulations;
     
     const COMPONENT_ID = PersonManager.generateComponentID();
     const HEADING_ID = `${ COMPONENT_ID }-Heading`;
@@ -98,21 +98,18 @@ mixin PersonManager(properties, statesSimulations)
     
         +TextBox--YDF({
           label: "メール",
-          guidance: "〇〇～〇〇文字を入力して下さい。",
           HTML_Type: TextBox__YDF.HTML_Types.email,
           value: targetPerson ? targetPerson.Email : ""
         }).PersonManager-Control
     
         +TextBox--YDF({
           label: "電話",
-          guidance: "〇〇～〇〇文字を入力して下さい。",
           HTML_Type: TextBox__YDF.HTML_Types.phoneNumber,
           value: targetPerson ? targetPerson.PhoneNumber : ""
         }).PersonManager-Control
     
         +TextBox--YDF({
           label: "年齢",
-          guidance: "〇〇～〇〇文字を入力して下さい。",
           HTML_Type: TextBox__YDF.HTML_Types.number,
           value: targetPerson ? targetPerson.Age : ""
         }).PersonManager-Control

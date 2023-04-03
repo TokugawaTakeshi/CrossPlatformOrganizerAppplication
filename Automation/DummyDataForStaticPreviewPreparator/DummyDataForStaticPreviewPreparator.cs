@@ -1,6 +1,6 @@
 ﻿using CommonSolution.Entities;
 using Newtonsoft.Json;
-using Task = CommonSolution.Entities.Task.Task;
+using Task = CommonSolution.Entities.Task;
 
 
 namespace DummyDataForStaticPreviewPreparator;

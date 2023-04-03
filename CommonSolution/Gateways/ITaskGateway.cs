@@ -1,4 +1,4 @@
-﻿using Task = CommonSolution.Entities.Task.Task;
+﻿using Task = CommonSolution.Entities.Task;
 
 
 namespace CommonSolution.Gateways;

@@ -7,10 +7,18 @@ namespace Client.Components.SharedReusable.Cards.Person;
 public partial class PersonCard : ComponentBase
 {
 
-  [Parameter] public required CommonSolution.Entities.Person TargetPerson { get; set; }
+  [Parameter] public required CommonSolution.Entities.Person targetPerson { get; set; }
+  
+  [Parameter] public EventCallback<CommonSolution.Entities.Person> onClick { get; set; }
+
+  [Parameter] public string rootElementTag { get; set; } = "div";
   
   [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
-  [Parameter] public string RootElementTag { get; set; } = "div";
+  
+  private async System.Threading.Tasks.Task onClickOutermostElement()
+  {
+    await this.onClick.InvokeAsync(this.targetPerson);
+  }
 
 }

@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Client.SharedState;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
-
-using Client.SharedStateManagers;
 
 
 namespace Client.Components.SharedReusable.Managers.Tasks;
@@ -16,13 +15,14 @@ public partial class TasksManager : ComponentBase
 
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
-    TasksSharedStateManager.onStateChanged += StateHasChanged;
-    await TasksSharedStateManager.retrieveTasks();
+    TasksSharedState.onStateChanged += base.StateHasChanged;
+    await TasksSharedState.retrieveTasks();
   }
 
-  private void onSelectTask(CommonSolution.Entities.Task.Task targetTask)
+  
+  private void onSelectTask(CommonSolution.Entities.Task targetTask)
   {
-    TasksSharedStateManager.currentlySelectedTask = targetTask;
+    TasksSharedState.currentlySelectedTask = targetTask;
   }
   
 }

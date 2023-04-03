@@ -1,24 +1,27 @@
 ﻿using Microsoft.AspNetCore.Components;
 
+
 namespace Client.Components.SharedReusable.Managers.Task;
 
 
 public partial class TaskManager : ComponentBase
 {
-
-  [Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
+  /* === Blazorコンポーネント引数 ========================================================================================= */
   [Parameter]
-  public CommonSolution.Entities.Task.Task? targetTask { get; set; }
+  public CommonSolution.Entities.Task? targetTask { get; set; }
 
   [Parameter] 
   public string? activationGuidance { get; set; }
+  
+  [Parameter]
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
+  /* === Blazorコンポーネントステート ======================================================================================= */
   private bool isViewingMode = true;
   
-  private string ID = TaskManager.generateComponentID();
+  private readonly string ID = TaskManager.generateComponentID();
   private string HEADING_ID => $"{ this.ID }-HEADING";
   
   
@@ -26,16 +29,17 @@ public partial class TaskManager : ComponentBase
   private void beginTaskEditing()
   {
     this.isViewingMode = false;
+    // TODO 【 次のプールリクエスト 】 実装
   }
 
   private void displayTaskDeletingConfirmationDialog()
   {
-    // TODO 次のプールリクエストに実装予定
+    // TODO 【 次のプールリクエスト 】 実装
   }
 
   private void updateTask()
   {
-    // TODO 次のプールリクエストに実装予定
+    // TODO 【 次のプールリクエスト 】 実装
   }
 
   private void utilizeTaskEditing()

@@ -3,7 +3,7 @@ mixin PersonCard(properties)
   -
 
     const {
-      targetPerson,
+      person,
       rootElementTag = "div"
     } = properties
 
@@ -15,19 +15,19 @@ mixin PersonCard(properties)
     dl.PersonCard-Metadata
 
       dt.PersonCard-Metadata-Key 氏名
-      dd.PersonCard-Metadata-Value= `${ targetPerson.FamilyName }${ targetPerson.GivenName }`
+      dd.PersonCard-Metadata-Value= `${ person.FamilyName }${ person.GivenName }`
 
-      if targetPerson.EmailAddress
+      if person.EmailAddress
         dt.PersonCard-Metadata-Key メール
-        dd.PersonCard-Metadata-Value= targetPerson.EmailAddress
+        dd.PersonCard-Metadata-Value= person.EmailAddress
 
-      if targetPerson.PhoneNumber
+      if person.PhoneNumber
         dt.PersonCard-Metadata-Key 電話番号
-        dd.PersonCard-Metadata-Value= targetPerson.PhoneNumber
+        dd.PersonCard-Metadata-Value= person.PhoneNumber
 
-      if targetPerson.Age
+      if person.Age
         dt.PersonCard-Metadata-Key 年齢
-        dd.PersonCard-Metadata-Value= `${ targetPerson.Age }歳`
+        dd.PersonCard-Metadata-Value= `${ person.Age }歳`
 
       
 include LoadingPlaceholder/PersonCardLoadingPlaceholder.pug

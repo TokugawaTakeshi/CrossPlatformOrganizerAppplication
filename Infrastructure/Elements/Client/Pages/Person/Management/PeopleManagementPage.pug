@@ -27,7 +27,6 @@ block append SpecificContent
       noSearchResults: PeopleManagementPageStatesSimulations.noSearchResults
     }).PeopleManagementPage-PeopleManager
 
-    //- targetPerson: DummyData.People[0]
     +PersonManager(
       {
         targetPerson: DummyData.People[0],
@@ -36,7 +35,19 @@ block append SpecificContent
       { editingMode: true }
     ).PeopleManagementPage-PersonManager
 
-    //-
-      +ModalDialog({
+    +ModalDialog--YDF(
+      {
         title: "人を編集"
-      })
+      },
+      {
+        mustDisplay: false
+      }
+    )
+
+      +PersonManager(
+        {
+          targetPerson: DummyData.People[0],
+          activationGuidance: "人の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        },
+        { editingMode: true }
+      )

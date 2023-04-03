@@ -1,0 +1,18 @@
+﻿@page "/PeopleManagement"
+
+
+@using Client.Components.SharedReusable.Managers.People
+@using Client.Components.SharedReusable.Managers.Person
+
+
+<div class="PeopleManagementPage-SpecificContent MainLayout-SpecificContentFillingElement">
+  
+  <PeopleManager spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleManager" />
+  
+  <PersonManager 
+    spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PersonManager"
+    activationGuidance=@personManagerActivationGuidance
+    targetPerson=@activePerson
+  />
+  
+</div>

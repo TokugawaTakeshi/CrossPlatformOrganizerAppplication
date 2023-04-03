@@ -1,4 +1,4 @@
-﻿using Task = CommonSolution.Entities.Task.Task;
+﻿using Task = CommonSolution.Entities.Task;
 
 using MockDataSource.Entities;
 using MockDataSource.Utils;

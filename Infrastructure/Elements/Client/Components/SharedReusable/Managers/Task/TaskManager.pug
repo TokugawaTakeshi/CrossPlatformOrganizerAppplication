@@ -16,17 +16,17 @@ mixin TaskManager(properties, statesSimulations)
 
   -
 
-    properties = properties ?? {}
-    statesSimulations = statesSimulations ?? {}
+    properties = properties ?? {};
+    statesSimulations = statesSimulations ?? {};
 
     const {
       targetTask = null,
       activationGuidance
-    } = properties
+    } = properties;
 
     const {
       editingMode = false
-    } = statesSimulations
+    } = statesSimulations;
 
     const COMPONENT_ID = TaskManager.generateComponentID();
     const HEADING_ID = `${ COMPONENT_ID }-HEADING`;

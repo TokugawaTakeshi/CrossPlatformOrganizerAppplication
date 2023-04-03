@@ -1,4 +1,5 @@
-﻿namespace CommonSolution.Entities.Task;
+﻿namespace CommonSolution.Entities;
+
 
 public class Task
 {
