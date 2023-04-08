@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Utils;
 
@@ -9,23 +10,54 @@ namespace FrontEndFramework.Components.Badge;
 public partial class Badge : ComponentBase
 {
 
-  [Parameter]
-  public string? key { get; set; }
+  [Parameter] public string? key { get; set; }
   
-  [Parameter]
-  public required string value { get; set; }
-  
-  [Parameter]
-  public bool mustForceSingleLine { get; set; }
+  [Parameter] public required string value { get; set; }
+
+  [Parameter] public bool mustForceSingleLine { get; set; } = false;
   
   
+  /* --- Theme ------------------------------------------------------------------------------------------------------ */
   public enum StandardThemes
   {
     regular
   }
+  
+  protected static object? CustomThemes;
 
-  [Parameter] 
-  public string theme { get; set; } = Badge.StandardThemes.regular.ToString();
+  public static void defineCustomThemes(Type CustomThemes) {
+
+    if (!CustomThemes.IsEnum)
+    {
+      throw new System.ArgumentException("The custom themes must the enumeration.");
+    }
+
+
+    Badge.CustomThemes = CustomThemes;
+
+  }
+
+  protected string _theme = Badge.StandardThemes.regular.ToString();
+  
+  [Parameter] public object theme
+  {
+    get => this._theme;
+    set
+    {
+
+      if (value is Badge.StandardThemes standardTheme)
+      {
+        this._theme = standardTheme.ToString();
+        return;
+      }
+      
+      
+      // TODO CustomThemes確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+      
+      this._theme = value.ToString();
+
+    }
+  }
 
   internal static bool mustConsiderThemesAsExternal = false;
 
@@ -33,28 +65,63 @@ public partial class Badge : ComponentBase
   {
     Badge.mustConsiderThemesAsExternal = true;
   }
-
-  [Parameter]
-  public bool areThemesExternal { get; set; } = Badge.mustConsiderThemesAsExternal;
+  
+  [Parameter] public bool areThemesExternal { get; set; } = Badge.mustConsiderThemesAsExternal;
   
   
+  /* --- Geometry --------------------------------------------------------------------------------------------------- */
   public enum StandardGeometricVariations
   {
     regular
   }
 
-  [Parameter]
-  public string geometry { get; set; } = Badge.StandardGeometricVariations.regular.ToString();
+  protected static object? CustomGeometricVariations;
+  
+  public static void defineCustomGeometricVariations(Type CustomGeometricVariations)
+  {
+
+    if (!CustomGeometricVariations.IsEnum)
+    {
+      throw new System.ArgumentException("The custom geometric variations must the enumeration.");
+    }
+
+
+    Badge.CustomGeometricVariations = CustomGeometricVariations;
+
+  }
+
+  protected string _geometry = Badge.StandardGeometricVariations.regular.ToString();
+
+  [Parameter] public object geometry
+  {
+    get => this._geometry;
+    set
+    {
+
+      if (value is Badge.StandardGeometricVariations standardGeometricVariation)
+      {
+        this._geometry = standardGeometricVariation.ToString();
+        return;
+      }
+      
+      
+      // TODO CustomThemes確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+
+      this._geometry = value.ToString();
+
+
+    }
+  }
   
   public enum GeometricModifiers
   {
     pillShape
   }
 
-  [Parameter]
-  public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
+  [Parameter] public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
   
   
+  /* --- Decorative variations -------------------------------------------------------------------------------------- */
   public enum StandardDecorativeVariations
   {
     veryCatchyBright,
@@ -73,27 +140,23 @@ public partial class Badge : ComponentBase
     achromaticPastel
   }
 
-  private static object? CustomDecorativeVariations;
+  protected static object? CustomDecorativeVariations;
 
-  public static void defineNewDecorativeVariations<TCustomDecorativeVariations>(
-    TCustomDecorativeVariations[] newDecorativeVariations
-  ) where TCustomDecorativeVariations : struct
-  {
+  public static void defineNewDecorativeVariations(Type CustomDecorativeVariations) {
     
-    if (!typeof(TCustomDecorativeVariations).IsEnum)
+    if (!CustomDecorativeVariations.IsEnum)
     {
-      throw new System.Exception("Enumが待機された");
+      throw new System.Exception("The custom decorative variations must the enumeration.");
     }
     
     
-    Badge.CustomDecorativeVariations = newDecorativeVariations;
+    Badge.CustomDecorativeVariations = CustomDecorativeVariations;
     
   }
 
   protected string _decoration;
 
-  [Parameter]
-  public required object decoration
+  [Parameter] public required object decoration
   {
     get => _decoration;
     set
@@ -106,27 +169,9 @@ public partial class Badge : ComponentBase
       }
 
       
-      throw new Exception($"Invalid decorative variation for the component { nameof(Badge) }");
+      // TODO CustomDecorativeVariationss確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
       
-
-      // if (
-      //   Badge.CustomDecorativeVariations is not null &&
-      //   value is Badge.CustomDecorativeVariations
-      // )
-      // {
-      //   throw new Exception(
-      //   $"The decorative variation must be either one of \"StandardDecorativeVariations\" or custom one "
-      //   );
-      // }
-      //
-      //
-      // if (
-      //   !value is StandardDecorativeVariations &&
-      //   !value is CustomDecorativeVariations
-      // )
-      // {
-      //   throw new Exception($"修飾的変形{value}は不明");
-      // }
+      this._decoration = value.ToString();
 
     }
   }
@@ -136,30 +181,27 @@ public partial class Badge : ComponentBase
     bordersDisguising
   }
   
-  [Parameter]
-  public Badge.DecorativeModifiers[] decorativeModifiers { get; set; } = Array.Empty<Badge.DecorativeModifiers>();
+  [Parameter] public Badge.DecorativeModifiers[] decorativeModifiers { get; set; } = Array.Empty<Badge.DecorativeModifiers>();
 
 
-  [Parameter]
-  public RenderFragment? PrependedSVG_Icon { get; set; }
   
-  [Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
-
+  /* --- CSS classes ------------------------------------------------------------------------------------------------ */
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
   private string rootElementModifierCSS_Classes
   {
     get
     {
 
+      // TODO カスタムを考慮
       return new List<string>().
           AddElementToEndIf("Badge--YDF__SingleLineMode", _ => this.mustForceSingleLine).
           AddElementToEndIf(
-            $"Badge--YDF__{ this.theme.ToUpperCamelCase() }Theme",
+            $"Badge--YDF__{ this._theme.ToUpperCamelCase() }Theme",
             _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal
           ).
           AddElementToEndIf(
-            $"Badge--YDF__{ this.geometry.ToUpperCamelCase() }Geometry",
+            $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
             _ => Enum.GetNames(typeof(Badge.StandardGeometricVariations)).Length > 1
           ).
           AddElementToEndIf(
@@ -178,5 +220,9 @@ public partial class Badge : ComponentBase
 
     }
   }
+  
+  
+  /* --- Other ------------------------------------------------------------------------------------------------------ */
+  [Parameter] public RenderFragment? PrependedSVG_Icon { get; set; }
   
 }

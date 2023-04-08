@@ -19,12 +19,12 @@ public partial class App : Application
         }
       }
     );
-    
-    /* TODO 【 次のプールリクエスト 】 新規修飾的変形等を追加
-       FrontEndFramework.Components.Badge.Badge.defineNewDecorativeVariations(
-        Client.Components.SharedReusable.Badge.Badge.DecorativeVariations
-      );
-    */
+
+    // === ＜ テスト専用 ==================================================================================================
+    FrontEndFramework.Components.Badge.Badge.defineNewDecorativeVariations(
+      typeof(Client.Components.SharedReusable.Badge.Badge.DecorativeVariations)
+    );
+    // === テスト専用 ＞ ==================================================================================================
     
     InitializeComponent();
 
