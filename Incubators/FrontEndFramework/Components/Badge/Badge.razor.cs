@@ -105,10 +105,9 @@ public partial class Badge : ComponentBase
       }
       
       
-      // TODO CustomThemes確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+      // TODO CustomGeometricVariations https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
 
       this._geometry = value.ToString();
-
 
     }
   }
@@ -169,7 +168,7 @@ public partial class Badge : ComponentBase
       }
 
       
-      // TODO CustomDecorativeVariationss確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+      // TODO CustomDecorativeVariations確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
       
       this._decoration = value.ToString();
 
@@ -193,7 +192,7 @@ public partial class Badge : ComponentBase
     get
     {
 
-      // TODO カスタムを考慮
+      // TODO カスタムを考慮 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
       return new List<string>().
           AddElementToEndIf("Badge--YDF__SingleLineMode", _ => this.mustForceSingleLine).
           AddElementToEndIf(
