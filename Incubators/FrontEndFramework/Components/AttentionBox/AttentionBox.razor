@@ -7,7 +7,7 @@
 >
  
   @* TODO 適切なアイコンを表示 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/24 *@
-  @* @switch (Decoration) *@
+  @* @switch (_decoration) *@
   @* { *@
   @*   case AttentionBox.StandardDecorativeVariations.error: *@
   @*     <div class="AttentionBox--YDF-SVG_Icon"></div> *@
@@ -20,12 +20,16 @@
   </div>
  
   @* TODO SlideUp アニメーション https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/26 *@
-  <button
-    class="AttentionBox--YDF-DismissingButton"
-    type="button"
-    @onclick="OnClickDismissingButton"
-  >
-    <MultiplicationSignIcon__Boxed__Filled spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-DismissingButton-Icon" />
-  </button>
+  @if (hasDismissingButton)
+  {
+    <button
+      class="AttentionBox--YDF-DismissingButton"
+      type="button"
+      aria-label="Hide this message"
+      @onclick="onClickDismissingButton"
+    >
+      <MultiplicationSignIcon__Boxed__Filled spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-DismissingButton-Icon" />
+    </button>  
+  }
   
 </div>
