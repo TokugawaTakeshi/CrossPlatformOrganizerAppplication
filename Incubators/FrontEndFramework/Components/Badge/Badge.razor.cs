@@ -166,9 +166,15 @@ public partial class Badge : ComponentBase
         this._decoration = standardDecorativeVariation.ToString();
         return;
       }
-
       
-      // TODO CustomDecorativeVariations確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+      // TODO カスタムを考慮 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+      /*if (!value.Equals(Badge.CustomDecorativeVariations))
+      {
+        throw new ArgumentException(
+          "The decorative variation must be either one of \"StandardDecorativeVariations\" or custom one of declared " +
+          "via \"defineNewDecorativeVariations\" while specified value is neither of."
+        );
+      }*/
       
       this._decoration = value.ToString();
 

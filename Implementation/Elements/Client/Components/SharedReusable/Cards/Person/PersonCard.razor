@@ -1,11 +1,15 @@
-<li 
-  Tag="@rootElementTag" 
-  class="PersonCard @spaceSeparatedAdditionalCSS_Classes"
-  tabindex="0"
-  @onclick=@onClickOutermostElement
->
+@using FrontEndFramework.Helpers
 
-  @* TODO 動的タグ *@
+<DynamicTag
+  name=@rootElementTag
+  attributes=@(
+    new Dictionary<string, object> {
+      { "class", $"PersonCard { spaceSeparatedAdditionalCSS_Classes }" },
+      { "tabindex", "0" },
+      { "onclick", this.onClickOutermostElement }
+    }
+  )
+>
   
   <dl class="PersonCard-Metadata">
     
@@ -32,4 +36,4 @@
     
   </dl>
   
-</li>
+</DynamicTag>

@@ -111,12 +111,12 @@ public partial class Button : ComponentBase
 
   
   /* === Computing of the attributes ================================================================================ */
-  // TODO 適応させる https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/37
   private string? typeAttributeValueOfInputOrButtonElement {
 
     get
     {
-      if (!this.isAnchorTheTagNameOfRootElement && !this.isNavLinkTheRootElement)
+      
+      if (!this.isButtonTheTagNameOfRootElement && !this.isInputTheTagNameOfRootElement)
       {
         return null;
       }
