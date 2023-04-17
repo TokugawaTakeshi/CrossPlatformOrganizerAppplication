@@ -1,14 +1,14 @@
-﻿<div class="CompoundControlShell @rootElementModifierCSS_Classes @spaceSeparatedAdditionalCSS_Classes">
+﻿<div class="CompoundControlShell--YDF @rootElementModifierCSS_Classes @spaceSeparatedAdditionalCSS_Classes">
   
   @if (mustDisplayHeader)
   {
-    <div class="CompoundControlShell-Header">
+    <div class="CompoundControlShell--YDF-Header">
     
       <label
+        class="CompoundControlShell--YDF-Label"
         v-if=@(label is not null)
         for=@coreElementHTML_ID
         id=@labelElementHTML_ID
-        class="CompoundControlShell--YDF-Label"
       >
         @label
       </label>    
@@ -40,10 +40,8 @@
   }
 
   
-  <div class="CompoundControlShell-MainSlotCustomizableWrapper @mainSlotSpaceSeparatedAdditionalCSS_Classes">
-    
+  <div class="CompoundControlShell--YDF-MainSlotCustomizableWrapper @mainSlotSpaceSeparatedAdditionalCSS_Classes">
     @ChildContent
-    
   </div>
   
   

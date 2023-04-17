@@ -10,10 +10,7 @@ public partial class AttentionBox : ComponentBase
 {
   
   /* --- Theme ------------------------------------------------------------------------------------------------------ */
-  public enum StandardThemes
-  {
-    regular
-  }
+  public enum StandardThemes { regular }
   
   protected static object? CustomThemes;
   
@@ -62,10 +59,7 @@ public partial class AttentionBox : ComponentBase
 
   
   /* --- Geometry --------------------------------------------------------------------------------------------------- */
-  public enum StandardGeometricVariations
-  {
-    regular
-  }
+  public enum StandardGeometricVariations { regular }
 
   protected static object? CustomGeometricVariations;
 
@@ -156,28 +150,20 @@ public partial class AttentionBox : ComponentBase
   /* --- CSS classes ------------------------------------------------------------------------------------------------ */
   [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
-  private string rootElementModifierCSS_Classes
-  {
-    get
-    {
-
-      return new List<string>().
-          AddElementToEndIf(
-            $"AttentionBox--YDF__{ this._theme.ToUpperCamelCase() }Theme",
-            _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !this.areThemesExternal
-          ).
-          AddElementToEndIf(
-            $"AttentionBox--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
-            _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
-          ).
-          AddElementToEndIf(
-            $"AttentionBox--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
-            _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
-          ).
-          StringifyEachElementAndJoin("");
-
-    }
-  }
+  private string rootElementModifierCSS_Classes => new List<string>().
+      AddElementToEndIf(
+        $"AttentionBox--YDF__{ this._theme.ToUpperCamelCase() }Theme",
+        _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !this.areThemesExternal
+      ).
+      AddElementToEndIf(
+        $"AttentionBox--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
+      ).
+      AddElementToEndIf(
+        $"AttentionBox--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
+      ).
+      StringifyEachElementAndJoin("");
   
   
   /* --- Prepended SVG Icon ----------------------------------------------------------------------------------------- */

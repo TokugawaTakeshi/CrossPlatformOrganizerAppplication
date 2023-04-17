@@ -1,19 +1,17 @@
 ﻿@using FrontEndFramework.SVG_Icons.MultiplicationSign;
+@using FrontEndFramework.SVG_Icons.InfoSign;
 
 
 <div
   class="AttentionBox--YDF @rootElementModifierCSS_Classes @spaceSeparatedAdditionalCSS_Classes"
   role="alert"
 >
- 
+
   @* TODO 適切なアイコンを表示 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/24 *@
-  @* @switch (_decoration) *@
-  @* { *@
-  @*   case AttentionBox.StandardDecorativeVariations.error: *@
-  @*     <div class="AttentionBox--YDF-SVG_Icon"></div> *@
-  @*     break; *@
-  @* *@
-  @* } *@
+  @if (_decoration == StandardDecorativeVariations.guidance.ToString())
+  {
+    <InfoSignIcon__Circled__Filled spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-SVG_Icon"/>
+  }
   
   <div class="AttentionBox--YDF-MainSection">
     @ChildContent

@@ -2,14 +2,14 @@
 using Utils;
 
 
-namespace FrontEndFramework.Components.Badge.LoadingPlaceholder;
+namespace FrontEndFramework.Components.Controls.Buttons.Plain.LoadingPlaceholder;
 
 
-public partial class BadgeLoadingPlaceholder : ComponentBase
+public partial class ButtonLoadingPlaceholder : ComponentBase
 {
 
   /* --- Theme ------------------------------------------------------------------------------------------------------ */
-  protected string _theme = Badge.StandardThemes.regular.ToString();
+  protected string _theme = Buttons.Plain.Button.StandardThemes.regular.ToString();
   
   [Parameter] public object theme
   {
@@ -17,7 +17,7 @@ public partial class BadgeLoadingPlaceholder : ComponentBase
     set
     {
 
-      if (value is Badge.StandardThemes standardTheme)
+      if (value is Buttons.Plain.Button.StandardThemes standardTheme)
       {
         this._theme = standardTheme.ToString();
         return;
@@ -32,11 +32,11 @@ public partial class BadgeLoadingPlaceholder : ComponentBase
   }
 
   [Parameter]
-  public bool areThemesExternal { get; set; } = Badge.mustConsiderThemesAsExternal;
+  public bool areThemesExternal { get; set; } = Buttons.Plain.Button.mustConsiderThemesAsExternal;
   
   
   /* --- Geometry --------------------------------------------------------------------------------------------------- */
-  protected string _geometry = Badge.StandardGeometricVariations.regular.ToString();
+  protected string _geometry = Buttons.Plain.Button.StandardGeometricVariations.regular.ToString();
 
   [Parameter] public object geometry
   {
@@ -44,7 +44,7 @@ public partial class BadgeLoadingPlaceholder : ComponentBase
     set
     {
 
-      if (value is Badge.StandardGeometricVariations standardGeometricVariation)
+      if (value is Buttons.Plain.Button.StandardGeometricVariations standardGeometricVariation)
       {
         this._geometry = standardGeometricVariation.ToString();
         return;
@@ -58,27 +58,18 @@ public partial class BadgeLoadingPlaceholder : ComponentBase
     }
   }
   
-  [Parameter]
-  public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
-  
   
   /* --- CSS classes ------------------------------------------------------------------------------------------------ */
-  [Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
-  // TODO カスタムを考慮 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
   private string rootElementModifierCSS_Classes => new List<string>().
       AddElementToEndIf(
-        $"Badge--YDF__{ this._theme.ToLowerCamelCase() }Theme",
-        _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal
+        $"Button--YDF__{ this._theme.ToLowerCamelCase() }Theme",
+        _ => Enum.GetNames(typeof(Buttons.Plain.Button.StandardThemes)).Length > 1 && !this.areThemesExternal
       ).
       AddElementToEndIf(
-        $"Badge--YDF__{ this._geometry.ToLowerCamelCase() }Geometry",
-        _ => Enum.GetNames(typeof(Badge.StandardGeometricVariations)).Length > 1
-      ).
-      AddElementToEndIf(
-        "Badge--YDF__PllShapeGeometricModifier", 
-        _ => this.geometricModifiers.Contains(Badge.GeometricModifiers.pillShape)
+        $"Button--YDF__{ this._geometry.ToLowerCamelCase() }Geometry",
+        _ => Enum.GetNames(typeof(Buttons.Plain.Button.StandardGeometricVariations)).Length > 1
       ).
       StringifyEachElementAndJoin("");
   

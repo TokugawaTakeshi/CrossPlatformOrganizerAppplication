@@ -14,11 +14,49 @@ internal abstract class PeopleSharedState
   
   
   /* === 取得 ======================================================================================================= */
-  public static Person[] people { get; private set; } = Array.Empty<Person>();
+  private static Person[] _people = Array.Empty<Person>();
+  public static Person[] people
+  {
+    get => PeopleSharedState._people;
+    private set
+    {
+      PeopleSharedState._people = value;
+      PeopleSharedState.NotifyStateChanged();
+    }
+  }
   
-  public static bool isWaitingForPeopleSelectionRetrieving { get; private set; } = true;
-  public static bool isPeopleSelectionBeingRetrievedNow { get; private set; } = false;
-  public static bool hasPeopleSelectionRetrievingErrorOccurred { get; private set; } = false;
+  private static bool _isWaitingForPeopleSelectionRetrieving = true;
+  public static bool isWaitingForPeopleSelectionRetrieving
+  {
+    get => PeopleSharedState._isWaitingForPeopleSelectionRetrieving;
+    private set
+    {
+      PeopleSharedState._isWaitingForPeopleSelectionRetrieving = value;
+      PeopleSharedState.NotifyStateChanged();
+    }
+  }
+  
+  private static bool _isPeopleSelectionBeingRetrievedNow = false;
+  public static bool isPeopleSelectionBeingRetrievedNow
+  {
+    get => PeopleSharedState._isPeopleSelectionBeingRetrievedNow;
+    private set
+    {
+      PeopleSharedState._isPeopleSelectionBeingRetrievedNow = value;
+      PeopleSharedState.NotifyStateChanged();
+    }
+  }
+  
+  private static bool _hasPeopleSelectionRetrievingErrorOccurred = false;
+  public static bool hasPeopleSelectionRetrievingErrorOccurred
+  {
+    get => PeopleSharedState._hasPeopleSelectionRetrievingErrorOccurred;
+    private set
+    {
+      PeopleSharedState._hasPeopleSelectionRetrievingErrorOccurred = value;
+      PeopleSharedState.NotifyStateChanged();
+    }
+  }
 
   public static bool isPeopleRetrievingInProgressOrNotStartedYet => 
       PeopleSharedState.isWaitingForPeopleSelectionRetrieving || PeopleSharedState.isPeopleSelectionBeingRetrievedNow;
@@ -40,10 +78,10 @@ internal abstract class PeopleSharedState
     {
       PeopleSharedState.people = await ClientDependencies.Injector.gateways().Person.RetrieveAll();
     }
-    catch (Exception e)
+    catch (Exception exception)
     {
       PeopleSharedState.hasPeopleSelectionRetrievingErrorOccurred = true;
-      Debug.WriteLine(e);
+      Debug.WriteLine(exception);
     }
 
     PeopleSharedState.isPeopleSelectionBeingRetrievedNow = false;
