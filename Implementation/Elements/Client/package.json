@@ -5,10 +5,11 @@
     "Production building": "yda build --selectiveExecution Application --mode PRODUCTION"
   },
   "dependencies": {
-    "@yamato-daiwa/automation": "0.3.0-alpha.0",
-    "@yamato-daiwa/frontend": "../../../../../InHouseDevelopment/YamatoDaiwaFrontend/CoreLibrary/Package"
+    "@yamato-daiwa/frontend": "2.0.0-alpha.3"
   },
   "devDependencies": {
+    "@yamato-daiwa/automation": "0.3.0-alpha.0",
+    "@yamato-daiwa/style_guides": "0.0.47",
     "rimraf": "3.0.2"
   }
 }

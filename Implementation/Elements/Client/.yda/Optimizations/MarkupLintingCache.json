@@ -8,15 +8,8 @@
     "modificationDatetime__ISO_8601": "2023-01-07T03:46:25.241Z"
   },
   "Layouts/Main/MainLayout.pug": {
-    "issues": [
-      {
-        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
-        "message": "Missing line feed at file end",
-        "sourceListing": "extends ../../node_modules/@yamato-daiwa/frontend/PagesTemplates/RegularWebPage.pug\n\n\nblock Requirements\n  \n  -\n    \n    class MainLayout {\n      \n      static mustDisplayDrawer = false;\n      \n      static displayDrawer() {\n        MainLayout.mustDisplayDrawer = true;\n        return MainLayout;\n      }\n      \n    }\n  \n\nblock append PageContent\n\n  .MainLayout\n\n    .MainLayout-UpperFixedContentSlot\n\n      +Header\n\n      block UpperFixedContentSlot\n\n    .MainLayout-Sidebar\n\n      +NavigationMenu\n\n    main.MainLayout-SpecificContent\n\n      block SpecificContent\n\n    if MainLayout.mustDisplayDrawer\n\n      .MainLayout-DrawerOverlay\n        .MainLayout-Drawer\n          +NavigationMenu",
-        "lineNumber": 42
-      }
-    ],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:23:26.294Z"
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-04-03T10:07:58.294Z"
   },
   "Components/SharedSingletons/Header/Header.pug": {
     "issues": [],
@@ -32,7 +25,7 @@
   },
   "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:15:51.414Z"
+    "modificationDatetime__ISO_8601": "2023-04-03T10:14:02.808Z"
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
@@ -40,7 +33,7 @@
   },
   "Components/SharedReusable/Cards/Person/PersonCard.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:37:15.810Z"
+    "modificationDatetime__ISO_8601": "2023-04-03T10:11:23.005Z"
   },
   "Components/SharedReusable/Editors/Task/TaskEditor.pug": {
     "issues": [],
@@ -48,7 +41,7 @@
   },
   "Components/SharedReusable/Managers/People/PeopleManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-04-03T10:07:14.080Z"
+    "modificationDatetime__ISO_8601": "2023-04-03T10:10:48.627Z"
   },
   "Components/SharedReusable/Cards/Task/TaskCard.pug": {
     "issues": [],
@@ -56,7 +49,7 @@
   },
   "Components/SharedReusable/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-01-04T02:29:50.990Z"
+    "modificationDatetime__ISO_8601": "2023-04-05T02:57:54.964Z"
   },
   "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
     "issues": [],
@@ -72,11 +65,11 @@
   },
   "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-27T07:35:46.616Z"
+    "modificationDatetime__ISO_8601": "2023-04-07T08:26:58.566Z"
   },
   "Components/SharedReusable/Managers/Task/TaskManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-04-01T07:22:05.539Z"
+    "modificationDatetime__ISO_8601": "2023-04-03T10:14:02.802Z"
   },
   "Components/SharedReusable/Controls/CompoundControlShell/CompoundControlShell.pug": {
     "issues": [],
