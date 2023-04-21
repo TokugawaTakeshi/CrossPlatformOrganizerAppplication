@@ -11,7 +11,6 @@ public class DummyDataForStaticPreviewPreparator
 
   private static readonly string OUTPUT_FILE_NAME_WITH_EXTENSION = "StaticPreviewDummyData.json";
 
-  // https://www.jetbrains.com/help/rider/Run_Debug_Configuration_dotNet_Static_Method.html
   public static void Main()
   {
     
@@ -23,10 +22,17 @@ public class DummyDataForStaticPreviewPreparator
       Tasks = mockDataSource.Tasks
     };
     
-    string solutionPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../"));
+    string SOLUTION_PATH = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../"));
     
     StreamWriter streamWriter = new(
-      path: Path.Combine(solutionPath, "Implementation", "Elements", "Client", "StaticPreview"), 
+      path: Path.Combine(
+        SOLUTION_PATH, 
+        "Implementation", 
+        "Elements", 
+        "Client", 
+        "StaticPreview",
+        DummyDataForStaticPreviewPreparator.OUTPUT_FILE_NAME_WITH_EXTENSION
+      ), 
       append: false
     );
 
