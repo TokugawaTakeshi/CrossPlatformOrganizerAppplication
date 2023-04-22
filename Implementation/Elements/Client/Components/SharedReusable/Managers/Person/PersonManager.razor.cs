@@ -8,14 +8,11 @@ public partial class PersonManager : ComponentBase
 {
   
   /* === Blazorコンポーネント引数 ========================================================================================= */
-  [Parameter]
-  public CommonSolution.Entities.Person? targetPerson { get; set; }
+  [Parameter] public CommonSolution.Entities.Person? targetPerson { get; set; }
 
-  [Parameter] 
-  public string? activationGuidance { get; set; }
+  [Parameter] public string? activationGuidance { get; set; }
   
-  [Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
   
   /* === Blazorコンポーネントステート ======================================================================================= */

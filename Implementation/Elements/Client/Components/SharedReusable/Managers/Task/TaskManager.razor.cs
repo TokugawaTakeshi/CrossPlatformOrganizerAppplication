@@ -8,14 +8,11 @@ public partial class TaskManager : ComponentBase
 {
   
   /* === Blazorコンポーネント引数 ========================================================================================= */
-  [Parameter]
-  public CommonSolution.Entities.Task? targetTask { get; set; }
+  [Parameter] public CommonSolution.Entities.Task? targetTask { get; set; }
 
-  [Parameter] 
-  public string? activationGuidance { get; set; }
+  [Parameter] public string? activationGuidance { get; set; }
   
-  [Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
   /* === Blazorコンポーネントステート ======================================================================================= */

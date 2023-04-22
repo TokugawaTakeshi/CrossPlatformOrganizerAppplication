@@ -175,7 +175,7 @@ public partial class AttentionBox : ComponentBase
   
   private void onClickDismissingButton()
   {
-    
+    // TODO 【次のプールリクエスト】 
   }
   
   

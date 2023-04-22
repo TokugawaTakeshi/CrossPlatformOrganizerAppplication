@@ -9,8 +9,7 @@ namespace Client.Components.SharedReusable.Managers.Tasks;
 public partial class TasksManager : ComponentBase
 {
 
-  [Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
