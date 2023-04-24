@@ -7,7 +7,7 @@ block Data
       monthOverview: {
         tabHTML_ID: "MONTH_OVERVIEW--TAB",
         panelHTML_ID: "MONTH_OVERVIEW--TAB_PANEL",
-        isInitiallySelected: false,
+        isInitiallySelected: true,
         label: "月"
       },
       weekOverview: {
@@ -19,7 +19,7 @@ block Data
       dayOverview: {
         tabHTML_ID: "DAY_OVERVIEW--TAB",
         panelHTML_ID: "DAY_OVERVIEW--TAB_PANEL",
-        isInitiallySelected: true,
+        isInitiallySelected: false,
         label: "日"
       }
       
@@ -33,7 +33,7 @@ block append Metadata
     HTML_PAGE_LANGUAGE = "ja";
     HTML_PAGE_TITLE = "日読み ｜ やまとダイワ几帳面さ";
 
-    styleSheetsURIs = [ "@All" ];
+    styleSheetsURIs = [ "@All/Main", "@All/ExternalComponents" ];
 
 
 block append Requirements
@@ -45,61 +45,16 @@ block append SpecificContent
 
   .CalendarPage-SpecificContent.MainLayout-SpecificContentFillingElement
     
-    +TabsList--YDF({ accessibilityGuidance: "日読みの表示を選択する" })
+    +TabsList--YDF({ accessibilityGuidance: "日読みの表示を選択する" }).CalendarPage-TabsList
       +Tab--YDF(tabsData.monthOverview)
       +Tab--YDF(tabsData.weekOverview)
       +Tab--YDF(tabsData.dayOverview)
       
-    +TabPanel--YDF(tabsData.monthOverview)
+    +TabPanel--YDF(tabsData.monthOverview).CalendarPage-TabPanel
 
-      table.CalendarPage-DaysMatrix
-          
-        thead
-          tr
-            th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 日
-            th.CalendarPage-DayTitleCell(scope="col") 月
-            th.CalendarPage-DayTitleCell(scope="col") 火
-            th.CalendarPage-DayTitleCell(scope="col") 水
-            th.CalendarPage-DayTitleCell(scope="col") 木
-            th.CalendarPage-DayTitleCell(scope="col") 金
-            th.CalendarPage-DayTitleCell.CalendarPage-DayTitleCell__Holiday(scope="col") 土
-      
-        tbody
-          
-          -
-    
-            const weekRowsData = twoDimensionalizeArray({
-              targetFlatArray: CalendarBuilder.generateDataFor42DaysMatrix({
-                targetYear: 2023,
-                targetMonthNumber__numerationFrom1: 1
-              }),
-              // TODO YDFが更新されたら、elementsCountPerNestedArray
-              elementsPerNestedArray: 7
-            });
-    
-          each weekRowData in weekRowsData
-            
-            tr
-              each dayCellData in weekRowData
-                td: button.CalendarPage-DaySelectingButton(
-                  type="button"
-                )
-                  
-                  span.CalendarPage-DaySelectingButton-Label= dayCellData.dayOfMonth
-                  
-                  if getRandomBoolean()
-                    
-                    +Calendar__Date--YDF_Icon.CalendarPage-DaySelectingButton-Icon
-                    
-                  if getRandomBoolean()
-                    
-                    +Calendar__Time--YDF_Icon.CalendarPage-DaySelectingButton-Icon
-                    
-                  if getRandomBoolean()
-                    
-                    +Folder__Stationery--YDF_Icon.CalendarPage-DaySelectingButton-Icon
-
-            
+      +MonthViewer().CalendarPage-MonthViewer
+              
+    //- === TODO =======================================================================================================
     +TabPanel--YDF(tabsData.weekOverview)
     
       //-

@@ -1,7 +1,7 @@
 {
   "Components/Components.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-01-10T06:37:53.594Z"
+    "modificationDatetime__ISO_8601": "2023-05-05T06:40:32.383Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
@@ -25,11 +25,11 @@
   },
   "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-04-03T10:14:02.808Z"
+    "modificationDatetime__ISO_8601": "2023-05-05T06:40:32.386Z"
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:15:51.347Z"
+    "modificationDatetime__ISO_8601": "2023-05-05T06:40:32.387Z"
   },
   "Components/SharedReusable/Cards/Person/PersonCard.pug": {
     "issues": [],
@@ -77,6 +77,17 @@
   },
   "Pages/Calendar/CalendarPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:15:51.409Z"
+    "modificationDatetime__ISO_8601": "2023-05-05T06:40:32.385Z"
+  },
+  "Components/SharedReusable/Viewers/Calendar/Month/MonthViewer.pug": {
+    "issues": [
+      {
+        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
+        "message": "Missing line feed at file end",
+        "sourceListing": "﻿mixin MonthViewer(properties, statesSimulations)\n\n  - \n\n    properties = properties ?? {} // TODO 必須プロパティが有る場合削除\n    statesSimulations = statesSimulations ?? {} // TODO 必須シミュレーションが有る場合削除\n \n    const {\n    \n    } = properties\n \n    const {\n    \n    } = statesSimulations\n    \n    \n  table.MonthViewer&attributes(attributes)\n\n    thead\n      tr\n        th.MonthViewer-DayTitleCell.MonthViewer-DayTitleCell__Holiday(scope=\"col\") 日\n        th.MonthViewer-DayTitleCell(scope=\"col\") 月\n        th.MonthViewer-DayTitleCell(scope=\"col\") 火\n        th.MonthViewer-DayTitleCell(scope=\"col\") 水\n        th.MonthViewer-DayTitleCell(scope=\"col\") 木\n        th.MonthViewer-DayTitleCell(scope=\"col\") 金\n        th.MonthViewer-DayTitleCell.MonthViewer-DayTitleCell__Holiday(scope=\"col\") 土\n\n    tbody\n\n      -\n\n        const weekRowsData = twoDimensionalizeArray({\n          targetFlatArray: CalendarBuilder.generateDataFor42DaysMatrix({\n            targetYear: 2023,\n            targetMonthNumber__numerationFrom1: 1\n          }),\n          elementsCountPerNestedArray: 7\n        });\n\n      each weekRowData in weekRowsData\n\n        tr\n          each dayCellData in weekRowData\n            \n            //- 【 理論 】 tdには「container-type」を適応しても効果無いので、「container queries」機能を使うには新規包みを追加せざる得ない。\n            td.MonthViewer-DayCell: .MonthViewer-DayCell-ContainerQueryProvider\n\n              span.MonthViewer-DayCell-Title= dayCellData.dayOfMonth\n\n              -\n\n                const hasOneOrMoreTasksAssociatedWithTime = getRandomBoolean();\n                const hasOneOrMoreTasksAssociatedWithDate = getRandomBoolean();\n                const hasOneOrMoreDocumentsAssociatedWithDate = getRandomBoolean();\n\n                const ITEMS_RELATED_WIDTH_DATE_TITLE_HTML_ID = `ITEMS_RELATED_WIDTH_DATE--TITLE-${ year }` +\n                    `${ dayCellData.month__numerationFrom1 }-${ dayCellData.dayOfMonth }`\n  \n  \n              .MonthViewer-DayCell-ScrollViewForLargeContainers\n\n                if hasOneOrMoreTasksAssociatedWithTime\n\n                  .MonthViewer-DayCell-ScrollViewForLargeContainers-Title(\n                    id=ITEMS_RELATED_WIDTH_DATE_TITLE_HTML_ID\n                  ) 日が特定された行動 \n\n                  ul.MonthViewer-DayCell-ScrollViewForLargeContainers-List(\n                    aria-labelledby=ITEMS_RELATED_WIDTH_DATE_TITLE_HTML_ID\n                    class=\"MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificDate\"\n                  )\n                    each index in Array.from(new Array(5).keys())\n                      li.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Item\n                        .MonthViewer-DayCell-ScrollViewForLargeContainers-List-IconDecorativeWrapper\n                          +Calendar__Date--YDF_Icon.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Icon(\n                            aria-label=\"日が特定された行動\"\n                          )\n                        span.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Label\n                          | #{ index === 3 ? textOverflowSafetyTest : `会議${ index + 1 }` }\n                    //- === TODO =======================================================================================\n                    //-\n\n                      span.MonthViewer-DayCell-ButtonForSmallContainers-Icon 日付関連\n\n                //-\n                  if hasOneOrMoreTasksAssociatedWithDate\n\n                    .MonthViewer-DayCell-ButtonForSmallContainers-TitleWithIconGroup\n                      +Calendar__Time--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon\n                      span.MonthViewer-DayCell-ButtonForSmallContainers-Icon 日時関連\n\n                  if hasOneOrMoreDocumentsAssociatedWithDate\n\n                    .MonthViewer-DayCell-ButtonForSmallContainers-TitleWithIconGroup\n                      +Folder__Stationery--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon\n                      span.MonthViewer-DayCell-ButtonForSmallContainers-Icon 関連資料\n\n              //-\n                button.MonthViewer-DayCell-ButtonForSmallContainers(\n                  type=\"button\"\n                )\n  \n                  if hasOneOrMoreTasksAssociatedWithTime\n  \n                    +Calendar__Date--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon(\n                      aria-label=\"日が特定された行動\"\n                    )\n  \n                  if hasOneOrMoreTasksAssociatedWithDate\n  \n                    +Calendar__Time--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon(\n                      aria-label=\"時が特定された行動\"\n                    )\n  \n                  if hasOneOrMoreDocumentsAssociatedWithDate\n  \n                    +Folder__Stationery--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon(\n                      aria-label=\"日を特定した情報\"\n                    )",
+        "lineNumber": 120
+      }
+    ],
+    "modificationDatetime__ISO_8601": "2023-05-05T06:40:32.384Z"
   }
 }
