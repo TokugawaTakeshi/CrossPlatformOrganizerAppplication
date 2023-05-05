@@ -3,6 +3,7 @@ using Task = CommonSolution.Entities.Task;
 using CommonSolution.Gateways;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace FrontServer.Controllers;
 
 
@@ -38,6 +39,33 @@ public class TaskController : ControllerBase
           SearchingByFullOrPartialTitle = searchingByFullOrPartialTitle
         })
     );
+  }
+  
+   
+  /* === 追加 ======================================================================================================== */
+  [HttpPost]
+  public async System.Threading.Tasks.Task<ActionResult<ITaskGateway.Adding.ResponseData>> Add(
+    [FromBody] ITaskGateway.Adding.RequestData requestData
+  ) {
+    return base.Ok(await this.taskGateway.Add(requestData));
+  }
+
+  
+  /* === 更新 ======================================================================================================= */
+  [HttpPut]
+  public async System.Threading.Tasks.Task<ActionResult> Update(
+    [FromBody] ITaskGateway.Updating.RequestData requestData
+  ) {
+    await this.taskGateway.Update(requestData);
+    return base.Ok();
+  }
+  
+  
+  /* === 削除 ======================================================================================================= */
+  [HttpDelete("(id)")]
+  public async System.Threading.Tasks.Task<ActionResult> Delete(string targetTaskID) {
+    await this.taskGateway.Delete(targetTaskID);
+    return base.Ok();
   }
 
 }

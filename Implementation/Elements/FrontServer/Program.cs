@@ -16,7 +16,9 @@ FrontServerDependencies.Injector.SetDependencies(
 
 WebApplicationBuilder webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-webApplicationBuilder.Services.AddControllers();
+webApplicationBuilder.Services.
+    AddControllers().
+    AddNewtonsoftJson();
 
 WebApplication webApplication = webApplicationBuilder.Build();
 
