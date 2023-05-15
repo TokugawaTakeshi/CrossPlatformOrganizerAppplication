@@ -61,7 +61,7 @@
     <dl class="TaskManager-Metadata">
     
       <dt>見出し</dt>
-      <dd>@(targetTask is not null ? targetTask.Title : "" )</dd>
+      <dd>@(targetTask?.Title ?? "" )</dd>
     
       @if (targetTask?.Description != null)
       {
