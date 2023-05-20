@@ -139,7 +139,7 @@ public partial class Badge : ComponentBase
     achromaticPastel
   }
 
-  protected static object? CustomDecorativeVariations;
+  protected static Type? CustomDecorativeVariations;
 
   public static void defineNewDecorativeVariations(Type CustomDecorativeVariations) {
     
@@ -166,18 +166,26 @@ public partial class Badge : ComponentBase
         this._decoration = standardDecorativeVariation.ToString();
         return;
       }
-      
-      // TODO カスタムを考慮 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-      /*if (!value.Equals(Badge.CustomDecorativeVariations))
-      {
-        throw new ArgumentException(
-          "The decorative variation must be either one of \"StandardDecorativeVariations\" or custom one of declared " +
-          "via \"defineNewDecorativeVariations\" while specified value is neither of."
-        );
-      }*/
-      
-      this._decoration = value.ToString();
 
+
+      string stringifiedValue = value.ToString() ?? "";
+      
+      if (
+        Badge.CustomDecorativeVariations != null &&
+        Enum.GetNames(CustomDecorativeVariations).Contains(stringifiedValue)
+      ) {
+        
+        this._decoration= stringifiedValue;
+        return;
+        
+      }
+
+      
+      throw new ArgumentException(
+        "The decorative variation must be either one of \"StandardDecorativeVariations\" or custom one of declared " +
+        "via \"defineNewDecorativeVariations\" while specified value is neither of."
+      );
+      
     }
   }
   
