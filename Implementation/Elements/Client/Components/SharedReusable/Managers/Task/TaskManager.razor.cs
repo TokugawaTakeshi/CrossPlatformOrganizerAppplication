@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Client.Data.FromUser.Entities.Task;
+using Microsoft.AspNetCore.Components;
 
 
 namespace Client.Components.SharedReusable.Managers.Task;
+
+
+using ValidatableControl = FrontEndFramework.ValidatableControl;
 
 
 public partial class TaskManager : ComponentBase
@@ -20,13 +25,27 @@ public partial class TaskManager : ComponentBase
   
   private readonly string ID = TaskManager.generateComponentID();
   private string HEADING_ID => $"{ this.ID }-HEADING";
+
+  private ValidatableControl.Payload taskTitlePayload = new(initialValue: "", new TaskTitleInputtedDataValidation());
+  private ValidatableControl.Payload taskDescriptionPayload = new(initialValue: "", new TaskTitleInputtedDataValidation());
   
   
   /* === 行動処理 ==================================================================================================== */
   private void beginTaskEditing()
   {
+
+    if (this.targetTask == null)
+    {
+      return;
+    }
+
+
+    Debug.WriteLine("CP1");
+    // this.taskTitlePayload.Value = this.targetTask.Title;
+    // this.taskDescriptionPayload.Value = this.targetTask.Description ?? "";
+    
     this.isViewingMode = false;
-    // TODO 【 次のプールリクエスト 】 実装
+
   }
 
   private void displayTaskDeletingConfirmationDialog()
@@ -41,7 +60,12 @@ public partial class TaskManager : ComponentBase
 
   private void utilizeTaskEditing()
   {
+    
     this.isViewingMode = true;
+
+    this.taskTitlePayload.Value = "";
+    this.taskDescriptionPayload.Value = "";
+
   }
 
 

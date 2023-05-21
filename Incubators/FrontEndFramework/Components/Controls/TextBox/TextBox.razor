@@ -29,12 +29,15 @@
       id=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
       aria-label=@accessibilityGuidance
       aria-labelledby=@externalLabelHTML_ID
+      @bind=rawValue
+      @oninput=onInputEventHandler
     ></textarea>  
   }
 
   else
   {
     <input
+      type="text"
       class="TextBox--YDF-InputOrTextAreaElement"
       placeholder=@placeholder
       readonly=@isReadonly
@@ -47,6 +50,8 @@
       id=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
       aria-label=@accessibilityGuidance
       aria-labelledby=@externalLabelHTML_ID
+      @bind=rawValue
+      @oninput=onInputEventHandler
     />  
   }
   

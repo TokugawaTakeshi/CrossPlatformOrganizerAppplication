@@ -1,10 +1,12 @@
 ﻿namespace FrontEndFramework.InputtedValueValidation;
 
 
-public class InputtedValueValidation
+public abstract class InputtedValueValidation
 {
+
+  // TODO https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/41
+  public abstract Func<object, bool> OmittedValueChecker { get; }
   
-  public Func<object, bool> OmittedValueChecker { protected get; init; }
   
   // TODO ① どちらか必須、両方はダメ
   public bool? IsInputRequired { protected get; init; }
@@ -131,5 +133,14 @@ public class InputtedValueValidation
     };
     
   }
+
+  
+  /* === Localization =============================================================================================== */
+  public interface ILocalization
+  {
+    public string RequiredInputIsMissingValidationErrorMessage { get; }
+  }
+
+  public static ILocalization localization = new InputtedValueValidationEnglishLocalization();
 
 }

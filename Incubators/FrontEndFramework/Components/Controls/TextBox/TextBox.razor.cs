@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Transactions;
 using Microsoft.AspNetCore.Components;
 using Utils;
@@ -10,6 +11,33 @@ namespace FrontEndFramework.Components.Controls.TextBox;
 public partial class TextBox : InputtableControl
 {
 
+  /* === Payload type =============================================================================================== */
+  protected string rawValue = "";
+  protected ValidatableControl.Payload _payload;
+  
+  [Parameter]
+  public required ValidatableControl.Payload payload
+  {
+    get => _payload;
+    set
+    {
+      Debug.WriteLine("CHANGED!");
+      this._payload = value;
+      // this.synchronizeRawValueWithPayloadValue();
+      // this.onValidatableControlPayloadChanged.InvokeAsync(value);
+    }
+  }
+  
+  
+  [Parameter]
+  public EventCallback<ValidatableControl.Payload> onValidatableControlPayloadChanged { get; set; }
+
+  private void onInputEventHandler(ChangeEventArgs inputtingEvent)
+  {
+    this._payload.Value = inputtingEvent.Value?.ToString() ?? "";
+  }
+  
+  
   /* === HTML type ================================================================================================== */
   public enum HTML_Types
   {
@@ -30,15 +58,19 @@ public partial class TextBox : InputtableControl
 
   
   /* === Preventing of inputting of invalid value =================================================================== */
-  protected ulong? minimalCharactersCount { get; set; }
-  protected ulong? maximalCharactersCount { get; set; }
+  [Parameter] public ulong? minimalCharactersCount { get; set; }
+  [Parameter] public ulong? maximalCharactersCount { get; set; }
   
-  protected ulong? minimalNumericValue { get; set; }
-  protected ulong? maximalNumericValue { get; set; }
+  [Parameter] public ulong? minimalNumericValue { get; set; }
+  [Parameter] public ulong? maximalNumericValue { get; set; }
   
-  protected bool valueMustBeTheNonNegativeIntegerOfRegularNotation { get; set; } = false; 
-
-  protected bool valueMustBeTheDigitsSequence { get; set; } = false; 
+  [Parameter] public bool valueMustBeTheNonNegativeIntegerOfRegularNotation { get; set; } = false; 
+  [Parameter] public bool valueMustBeTheDigitsSequence { get; set; } = false; 
+  
+  
+  /* === Raw value transformations ================================================================================== */
+  [Parameter] public bool mustConvertEmptyStringToNull { get; set; }
+  [Parameter] public bool mustConvertEmptyStringToZero { get; set; }
   
   
   /* === HTML IDs =================================================================================================== */
@@ -230,6 +262,21 @@ public partial class TextBox : InputtableControl
         base.coreElementHTML_ID ?? 
         TextBox.generateInputOrTextAreaElementHTML_ID();
     
+  }
+  
+  
+  /* === Lifecycle hooks ============================================================================================ */
+  protected override void OnInitialized()
+  {
+    // Debug.WriteLine("CREATED!!!");
+  }
+  
+  
+  // TODO　整理する
+  /* === 未整理 ====================================================================================================== */
+  protected void synchronizeRawValueWithPayloadValue()
+  {
+    this.rawValue = this.payload.Value;
   }
   
 }
