@@ -21,17 +21,11 @@ public partial class TextBox : InputtableControl
     get => _payload;
     set
     {
-      Debug.WriteLine("CHANGED!");
       this._payload = value;
-      // this.synchronizeRawValueWithPayloadValue();
-      // this.onValidatableControlPayloadChanged.InvokeAsync(value);
+      this.synchronizeRawValueWithPayloadValue();
     }
   }
   
-  
-  [Parameter]
-  public EventCallback<ValidatableControl.Payload> onValidatableControlPayloadChanged { get; set; }
-
   private void onInputEventHandler(ChangeEventArgs inputtingEvent)
   {
     this._payload.Value = inputtingEvent.Value?.ToString() ?? "";

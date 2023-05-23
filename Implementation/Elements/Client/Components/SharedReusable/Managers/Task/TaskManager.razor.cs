@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
-using Client.Data.FromUser.Entities.Task;
+﻿using Client.Data.FromUser.Entities.Task;
+
+using FrontEndFramework.InputtedValueValidation;
+
+using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 
 
@@ -26,8 +29,15 @@ public partial class TaskManager : ComponentBase
   private readonly string ID = TaskManager.generateComponentID();
   private string HEADING_ID => $"{ this.ID }-HEADING";
 
-  private ValidatableControl.Payload taskTitlePayload = new(initialValue: "", new TaskTitleInputtedDataValidation());
-  private ValidatableControl.Payload taskDescriptionPayload = new(initialValue: "", new TaskTitleInputtedDataValidation());
+  private (ValidatableControl.Payload taskTitle, ValidatableControl.Payload taskDescription) controlsPayload = (
+    taskTitle: new ValidatableControl.Payload(
+      initialValue: "", 
+      new TaskTitleInputtedDataValidation()),
+    taskDescription: new ValidatableControl.Payload(
+      initialValue: "", 
+      new TaskTitleInputtedDataValidation()
+      )
+  );
   
   
   /* === 行動処理 ==================================================================================================== */
@@ -36,13 +46,12 @@ public partial class TaskManager : ComponentBase
 
     if (this.targetTask == null)
     {
-      return;
+      throw new Exception("「beginTaskEditing」メソッドは呼び出されたが、「targetTask」は「null」のまま。");
     }
 
-
-    Debug.WriteLine("CP1");
-    // this.taskTitlePayload.Value = this.targetTask.Title;
-    // this.taskDescriptionPayload.Value = this.targetTask.Description ?? "";
+    
+    this.controlsPayload.taskTitle.Value = this.targetTask.Title;
+    this.controlsPayload.taskDescription.Value = this.targetTask.Description ?? "";
     
     this.isViewingMode = false;
 
@@ -55,6 +64,21 @@ public partial class TaskManager : ComponentBase
 
   private void updateTask()
   {
+
+    if (this.targetTask == null)
+    {
+      throw new Exception("「updateTask」メソッドは呼び出されたが、「targetTask」は「null」のまま。");
+    }
+    
+    if (ValidatableControlsGroup.HasInvalidInputs(this.controlsPayload))
+    {
+      // ValidatableControlsGroup.PointOutValidationErrors();
+      return;
+    }
+
+    this.targetTask.Title = this.controlsPayload.taskTitle.GetExpectedToBeValidValue();
+    this.targetTask.Description = this.controlsPayload.taskDescription.GetExpectedToBeValidValue();
+    
     // TODO 【 次のプールリクエスト 】 実装
   }
 
@@ -63,8 +87,8 @@ public partial class TaskManager : ComponentBase
     
     this.isViewingMode = true;
 
-    this.taskTitlePayload.Value = "";
-    this.taskDescriptionPayload.Value = "";
+    this.controlsPayload.taskTitle.Value = "";
+    this.controlsPayload.taskDescription.Value = "";
 
   }
 
