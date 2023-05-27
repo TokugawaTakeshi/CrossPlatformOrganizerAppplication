@@ -1,90 +1,113 @@
 ﻿namespace FrontEndFramework.InputtedValueValidation;
 
 
-public class InputtedValueValidation
+public abstract class InputtedValueValidation
 {
-  
-  public Func<object, bool> OmittedValueChecker { protected get; init; }
-  
-  // TODO ① どちらか必須、両方はダメ
-  public bool? IsInputRequired { protected get; init; }
-  public Func<bool>? RequirementChecker { protected get; init; }
 
-  public string RequiredInputIsMissingValidationErrorMessage { protected get; init; } = 
-      "This filed is required. Please fill it."; // TODO Localization
-
-  public Dictionary<string, ContextIndependentInputtedValueValidationRule> ContextIndependentInputtedValueValidationRules
-  {
-    protected get; init;
-  } = new();
-
-  public Dictionary<string, ContextDependentInputtedValueValidationRule> ContextDependentInputtedValueValidationRule
-  {
-    protected get; init;
-  } = new();
+  protected readonly Func<object, bool> OmittedValueChecker;
+  protected readonly Func<bool> RequirementChecker;
 
   
-  // TODO ① 
-  private bool _isInputRequired
+  public interface ILocalization
   {
-    get
-    {
+    public string RequiredInputIsMissingValidationErrorMessage { get; }
+  }
+
+  public static ILocalization Localization = new InputtedValueValidationEnglishLocalization();
+
+  protected readonly string RequiredInputIsMissingValidationErrorMessage;
+
+
+  protected IRule[] StaticValidationRules;
+  protected IRule[] ContextDependentRules;
+  
+  
+  protected InputtedValueValidation(
+    Func<object, bool> omittedValueChecker,
+    bool? isInputRequired,
+    Func<bool>? requirementChecker,
+    string? requiredValueIsMissingValidationErrorMessage,
+    IRule[]? staticRules,
+    IRule[]? contextDependentRules
+  )
+  {
     
-      if (this.IsInputRequired is not null)
-      {
-        // TODO ?? falseは論理上予定
-        return this.IsInputRequired　?? false;
-      }
+    OmittedValueChecker = omittedValueChecker;
 
-
-      if (this.RequirementChecker is not null)
-      {
-        return this.RequirementChecker();
-      }
-
-
-      return false;
+    if (requirementChecker is not null)
+    {
       
+      RequirementChecker = requirementChecker;
+
+      if (isInputRequired is not null)
+      {
+        throw new ArgumentException(
+          "The \"requirementChecker\" and \"isInputRequired\" parameters are incompatible. " +
+          "Please specify one of them."
+        );
+      }
+      
+    } else if (isInputRequired is not null)
+    {
+      RequirementChecker = () => (bool)isInputRequired;
+    }
+    else
+    {
+      throw new ArgumentException(
+      "Either \"isInputRequired\" or \"requirementChecker\" must be specified (but not both)."
+      );
     }
     
+    
+    this.RequiredInputIsMissingValidationErrorMessage =
+        requiredValueIsMissingValidationErrorMessage ??
+        InputtedValueValidation.Localization.RequiredInputIsMissingValidationErrorMessage;
+
+    this.StaticValidationRules = staticRules ?? Array.Empty<IRule>();
+    this.ContextDependentRules = contextDependentRules ?? Array.Empty<IRule>();
+
   }
-  
+
 
   public Result Validate(object rawValue)
   {
 
+    bool isInputRequired = this.RequirementChecker();
+    
     if (this.OmittedValueChecker(rawValue))
     {
       return new Result()
       {
-        IsValid = !this._isInputRequired,
-        ErrorsMessages = this._isInputRequired ? 
-            Array.Empty<string>() : 
-            new[] { this.RequiredInputIsMissingValidationErrorMessage }
+        IsValid = !isInputRequired,
+        ErrorsMessages = isInputRequired ? 
+            new[] { this.RequiredInputIsMissingValidationErrorMessage } :  
+            Array.Empty<string>() 
+            
       };
     }
-    
     
     bool isValueStillValid = true;
     List<string> validationErrorsMessages = new ();
-    
-    foreach (
-      ContextIndependentInputtedValueValidationRule contextIndependentInputtedValueValidationRule in 
-      this.ContextIndependentInputtedValueValidationRules.Values
-    ) {
- 
-      if (!contextIndependentInputtedValueValidationRule.Checker(rawValue)) {
- 
+
+    foreach (IRule staticValidationRule in this.StaticValidationRules)
+    {
+
+      IRule.Result checkingResult = staticValidationRule.Check(rawValue);
+
+      if (!checkingResult.IsValid)
+      {
+
         isValueStillValid = false;
-        validationErrorsMessages.Add(contextIndependentInputtedValueValidationRule.ErrorMessage);
- 
-        if (contextIndependentInputtedValueValidationRule.MustFinishValidationIfValueIsInvalid) {
+        validationErrorsMessages.Add(checkingResult.ErrorMessage);
+
+        if (staticValidationRule.MustFinishValidationIfValueIsInvalid)
+        {
           break;
         }
- 
+
       }
- 
     }
+
 
     if (!isValueStillValid)
     {
@@ -95,35 +118,7 @@ public class InputtedValueValidation
       };
     }
     
-    
-    foreach (
-      ContextDependentInputtedValueValidationRule contextDependentInputtedValueValidationRule in 
-      this.ContextIndependentInputtedValueValidationRules.Values
-    ) {
- 
-      if (!contextDependentInputtedValueValidationRule.Checker(rawValue)) {
- 
-        isValueStillValid = false;
-        validationErrorsMessages.Add(contextDependentInputtedValueValidationRule.ErrorMessage);
- 
-        if (contextDependentInputtedValueValidationRule.MustFinishValidationIfValueIsInvalid) {
-          break;
-        }
- 
-      }
- 
-    }
-
-    if (!isValueStillValid)
-    {
-      return new Result()
-      {
-        IsValid = false,
-        ErrorsMessages = validationErrorsMessages.ToArray()
-      };
-    }
-    
-    
+      
     return new Result()
     {
       IsValid = true,
