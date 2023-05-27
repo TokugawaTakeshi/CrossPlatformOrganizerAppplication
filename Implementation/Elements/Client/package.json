@@ -5,7 +5,7 @@
     "Production building": "yda build --selectiveExecution Application --mode PRODUCTION"
   },
   "dependencies": {
-    "@yamato-daiwa/frontend": "2.0.0-alpha.3"
+    "@yamato-daiwa/frontend": "../../../../../InHouseDevelopment/YamatoDaiwaFrontend/CoreLibrary/Package"
   },
   "devDependencies": {
     "@yamato-daiwa/automation": "0.3.0-alpha.0",

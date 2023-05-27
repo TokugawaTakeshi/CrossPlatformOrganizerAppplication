@@ -62,7 +62,7 @@ projectBuilding:
 
       All:
 
-        singleEntryPointRelativePath: Resources/Styles.styl
+        topDirectoryRelativePath: Resources/Styles
 
         buildingModeDependent:
           STATIC_PREVIEW:
