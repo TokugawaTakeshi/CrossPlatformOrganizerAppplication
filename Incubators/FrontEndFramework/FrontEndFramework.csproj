@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Components\AttentionBox\AttentionBox.razor" />
+    <AdditionalFiles Include="Components\Controls\Buttons\Plain\Button.razor" />
+    <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="Components\Controls\TextBox\TextBox.razor" />
+    <AdditionalFiles Include="Components\Controls\TextBox\TextBoxLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Date.razor" />
+    <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Time.razor" />
+    <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Checked.razor" />
+    <AdditionalFiles Include="SVG_Icons\Folder\FolderIcon__Filled.razor" />
+    <AdditionalFiles Include="SVG_Icons\Inbox\InboxIcon.razor" />
+    <AdditionalFiles Include="SVG_Icons\Lists\ChecklistIcon.razor" />
+    <AdditionalFiles Include="SVG_Icons\MultiplicationSign\MultiplicationSignIcon__Boxed__Filled.razor" />
+    <AdditionalFiles Include="SVG_Icons\Timeline\TimelineIcon.razor" />
+  </ItemGroup>
+
+</Project>

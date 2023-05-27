@@ -1,0 +1,22 @@
+﻿@using Client.Components.SharedSingletons.Header
+@using Client.Components.SharedReusable.NavigationMenu
+
+
+@inherits LayoutComponentBase
+
+
+<div class="MainLayout">
+  
+  <div class="MainLayout-UpperFixedContentSlot">
+    <Header />
+  </div>
+  
+  <div class="MainLayout-Sidebar">
+    <NavigationMenu />
+  </div>
+  
+  <main class="MainLayout-SpecificContent">
+    @Body
+  </main>
+  
+</div>

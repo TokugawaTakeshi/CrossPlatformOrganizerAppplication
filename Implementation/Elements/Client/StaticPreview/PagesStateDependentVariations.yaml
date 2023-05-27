@@ -1,0 +1,22 @@
+Pages/Task/Management/TasksManagementPage:
+
+  stateObjectTypeVariableName: "TasksManagementPageStatesSimulations"
+
+  variations:
+
+    __Loading: { loading: true }
+    __Error: { error: true }
+    __NoItems: { noItems: true }
+    __NoSearchResults: { noSearchResults: true }
+
+
+Pages/Person/Management/PeopleManagementPage:
+
+  stateObjectTypeVariableName: "PeopleManagementPageStatesSimulations"
+
+  variations:
+
+    __Loading: { loading: true }
+    __Error: { error: true }
+    __NoItems: { noItems: true }
+    __NoSearchResults: { noSearchResults: true }

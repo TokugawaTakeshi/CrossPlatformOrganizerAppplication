@@ -1,0 +1,58 @@
+﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
+
+
+@inherits InputtableControl
+
+
+<CompoundControlShell
+  spaceSeparatedAdditionalCSS_Classes="@string.Concat("TextBox--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)"
+  label=@label
+  guidance=@guidance
+  required=@required
+  mustDisplayAppropriateBadgeIfInputIsRequired=@mustDisplayAppropriateBadgeIfInputIsRequired
+  mustDisplayAppropriateBadgeIfInputIsOptional=@mustDisplayAppropriateBadgeIfInputIsOptional
+  coreElementHTML_ID=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
+  labelElementHTML_ID=@labelElementHTML_ID
+>
+ 
+  @if (multiline)
+  {
+  
+    <textarea
+      class="TextBox--YDF-InputOrTextAreaElement"
+      placeholder=@placeholder
+      readonly=@isReadonly
+      disabled=@disabled
+      required=@required
+      minlength=@minimalCharactersCount
+      maxlength=@maximalCharactersCount
+      id=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
+      aria-label=@accessibilityGuidance
+      aria-labelledby=@externalLabelHTML_ID
+      value=@rawValue
+      @oninput=@onInputEventHandler
+    ></textarea>  
+  }
+
+  else
+  {
+    <input
+      type="text"
+      class="TextBox--YDF-InputOrTextAreaElement"
+      placeholder=@placeholder
+      readonly=@isReadonly
+      disabled=@disabled
+      required=@required
+      minlength=@minimalCharactersCount
+      maxlength=@maximalCharactersCount
+      min=@minimalNumericValue
+      max=@maximalNumericValue
+      id=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
+      aria-label=@accessibilityGuidance
+      aria-labelledby=@externalLabelHTML_ID
+      value=@rawValue
+      @oninput=@onInputEventHandler
+    />  
+  }
+  
+</CompoundControlShell>

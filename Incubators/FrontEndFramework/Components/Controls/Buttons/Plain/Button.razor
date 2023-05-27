@@ -1,0 +1,45 @@
+﻿@if (isButtonTheTagNameOfRootElement)
+{
+  <button 
+    type=@typeAttributeValueOfInputOrButtonElement
+    class="@rootElementSpaceSeparatedClasses @spaceSeparatedAdditionalCSS_Classes"
+    aria-label=@accessibilityGuidance
+    disabled=@disabled
+    @onclick:preventDefault
+    @onclick=@onClick
+  >
+    
+    @if (PrependedSVG_Icon is not null)
+    {
+      @PrependedSVG_Icon
+    }
+    
+    @if (!String.IsNullOrEmpty(label))
+    {
+      <span class="Button--YDF-Label"> @label </span>  
+    }
+    
+    @if (AppendedSVG_Icon is not null)
+    {
+      @AppendedSVG_Icon
+    }
+    
+    @if (LoneSVG_Icon is not null)
+    {
+      @LoneSVG_Icon
+    }
+
+  </button>  
+}
+
+else if (isInputTheTagNameOfRootElement)
+{
+  <input 
+    type=@typeAttributeValueOfInputOrButtonElement
+    class="@rootElementSpaceSeparatedClasses @spaceSeparatedAdditionalCSS_Classes"
+    value=@label
+    disabled=@disabled
+    @onclick:preventDefault
+    @onclick=@onClick
+  />  
+}
