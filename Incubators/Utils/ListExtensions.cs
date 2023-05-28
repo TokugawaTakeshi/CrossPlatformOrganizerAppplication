@@ -18,6 +18,23 @@ public static class ListExtensions
 
   }
   
+  
+  public static List<TElement> AddElementToEndIf<TElement>(
+    this List<TElement> self,
+    TElement newElement,
+    bool condition
+  )
+  {
+
+    if (condition)
+    {
+      self.Add(newElement);
+    }
+
+    return self;
+
+  }
+  
   public static List<TElement> AddElementToEndIf<TElement>(
     this List<TElement> self,
     TElement newElement,
@@ -33,6 +50,7 @@ public static class ListExtensions
     return self;
 
   }
+  
 
   public static string StringifyEachElementAndJoin<TElement>(
     this List<TElement> self,

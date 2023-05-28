@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Components;
+using FrontEndFramework.Components.Abstractions;
+using FrontEndFramework.Exceptions;
+
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Components;
 using Utils;
 
 
@@ -13,28 +16,19 @@ public partial class Badge : ComponentBase
   [Parameter] public string? key { get; set; }
   
   [Parameter] public required string value { get; set; }
+  
+  [Parameter] public RenderFragment? PrependedSVG_Icon { get; set; }
+  
+  
+  /* ━━━ Theming ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public enum StandardThemes { regular }
+  
+  protected internal static Type? CustomThemes;
 
-  [Parameter] public bool mustForceSingleLine { get; set; } = false;
-  
-  
-  /* --- Theme ------------------------------------------------------------------------------------------------------ */
-  public enum StandardThemes
+  public static void defineCustomThemes(Type CustomThemes)
   {
-    regular
-  }
-  
-  protected static object? CustomThemes;
-
-  public static void defineCustomThemes(Type CustomThemes) {
-
-    if (!CustomThemes.IsEnum)
-    {
-      throw new System.ArgumentException("The custom themes must the enumeration.");
-    }
-
-
+    YDF_ComponentsHelper.ValidateCustomTheme(CustomThemes);
     Badge.CustomThemes = CustomThemes;
-
   }
 
   protected string _theme = Badge.StandardThemes.regular.ToString();
@@ -42,52 +36,31 @@ public partial class Badge : ComponentBase
   [Parameter] public object theme
   {
     get => this._theme;
-    set
-    {
-
-      if (value is Badge.StandardThemes standardTheme)
-      {
-        this._theme = standardTheme.ToString();
-        return;
-      }
-      
-      
-      // TODO CustomThemes確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-      
-      this._theme = value.ToString();
-
-    }
+    set => YDF_ComponentsHelper.AssignThemeIfItIsValid<Badge.StandardThemes>(
+      value, Badge.CustomThemes, ref this._theme
+    );
   }
 
-  internal static bool mustConsiderThemesAsExternal = false;
+  protected internal static bool mustConsiderThemesCSS_ClassesAsCommon = YDF_ComponentsHelper.areThemesCSS_ClassesCommon;
 
-  public static void ConsiderThemesAsExternal()
+  public static void considerThemesAsCommon()
   {
-    Badge.mustConsiderThemesAsExternal = true;
+    Badge.mustConsiderThemesCSS_ClassesAsCommon = true;
   }
   
-  [Parameter] public bool areThemesExternal { get; set; } = Badge.mustConsiderThemesAsExternal;
+  [Parameter] public bool areThemesCSS_ClassesCommon { get; set; } = 
+      YDF_ComponentsHelper.areThemesCSS_ClassesCommon || Badge.mustConsiderThemesCSS_ClassesAsCommon;
   
   
-  /* --- Geometry --------------------------------------------------------------------------------------------------- */
-  public enum StandardGeometricVariations
-  {
-    regular
-  }
+  /* ─── Geometry ─────────────────────────────────────────────────────────────────────────────────────────────────── */
+  public enum StandardGeometricVariations { regular }
 
-  protected static object? CustomGeometricVariations;
+  protected internal static Type? CustomGeometricVariations;
   
   public static void defineCustomGeometricVariations(Type CustomGeometricVariations)
   {
-
-    if (!CustomGeometricVariations.IsEnum)
-    {
-      throw new System.ArgumentException("The custom geometric variations must the enumeration.");
-    }
-
-
+    YDF_ComponentsHelper.ValidateCustomGeometricVariation(CustomGeometricVariations);
     Badge.CustomGeometricVariations = CustomGeometricVariations;
-
   }
 
   protected string _geometry = Badge.StandardGeometricVariations.regular.ToString();
@@ -95,32 +68,21 @@ public partial class Badge : ComponentBase
   [Parameter] public object geometry
   {
     get => this._geometry;
-    set
-    {
-
-      if (value is Badge.StandardGeometricVariations standardGeometricVariation)
-      {
-        this._geometry = standardGeometricVariation.ToString();
-        return;
-      }
-      
-      
-      // TODO CustomGeometricVariations https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-
-      this._geometry = value.ToString();
-
-    }
+    set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<Badge.StandardGeometricVariations>(
+    value, Badge.CustomGeometricVariations, ref this._geometry
+    );
   }
   
   public enum GeometricModifiers
   {
-    pillShape
+    pillShape,
+    singleLine
   }
 
   [Parameter] public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
   
   
-  /* --- Decorative variations -------------------------------------------------------------------------------------- */
+  /* ─── Decorative variations ────────────────────────────────────────────────────────────────────────────────────── */
   public enum StandardDecorativeVariations
   {
     veryCatchyBright,
@@ -139,18 +101,11 @@ public partial class Badge : ComponentBase
     achromaticPastel
   }
 
-  protected static Type? CustomDecorativeVariations;
+  protected internal static Type? CustomDecorativeVariations;
 
-  public static void defineNewDecorativeVariations(Type CustomDecorativeVariations) {
-    
-    if (!CustomDecorativeVariations.IsEnum)
-    {
-      throw new System.Exception("The custom decorative variations must the enumeration.");
-    }
-    
-    
+  public static void defineCustomDecorativeVariations(Type CustomDecorativeVariations) {
+    YDF_ComponentsHelper.ValidateCustomDecorativeVariation(CustomDecorativeVariations);
     Badge.CustomDecorativeVariations = CustomDecorativeVariations;
-    
   }
 
   protected string _decoration;
@@ -158,84 +113,54 @@ public partial class Badge : ComponentBase
   [Parameter] public required object decoration
   {
     get => _decoration;
-    set
-    {
-
-      if (value is Badge.StandardDecorativeVariations standardDecorativeVariation)
-      {
-        this._decoration = standardDecorativeVariation.ToString();
-        return;
-      }
-
-
-      string stringifiedValue = value.ToString() ?? "";
-      
-      if (
-        Badge.CustomDecorativeVariations != null &&
-        Enum.GetNames(CustomDecorativeVariations).Contains(stringifiedValue)
-      ) {
-        
-        this._decoration= stringifiedValue;
-        return;
-        
-      }
-
-      
-      throw new ArgumentException(
-        "The decorative variation must be either one of \"StandardDecorativeVariations\" or custom one of declared " +
-        "via \"defineNewDecorativeVariations\" while specified value is neither of."
-      );
-      
-    }
+    set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<Badge.StandardDecorativeVariations>(
+      value, Badge.CustomDecorativeVariations, ref this._decoration
+    );
   }
   
-  public enum DecorativeModifiers
-  {
-    bordersDisguising
-  }
+  public enum DecorativeModifiers { bordersDisguising }
   
   [Parameter] public Badge.DecorativeModifiers[] decorativeModifiers { get; set; } = Array.Empty<Badge.DecorativeModifiers>();
 
 
-  
-  /* --- CSS classes ------------------------------------------------------------------------------------------------ */
+  /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
-  private string rootElementModifierCSS_Classes
-  {
-    get
-    {
-
-      // TODO カスタムを考慮 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-      return new List<string>().
-          AddElementToEndIf("Badge--YDF__SingleLineMode", _ => this.mustForceSingleLine).
-          AddElementToEndIf(
-            $"Badge--YDF__{ this._theme.ToUpperCamelCase() }Theme",
-            _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal
-          ).
-          AddElementToEndIf(
-            $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
-            _ => Enum.GetNames(typeof(Badge.StandardGeometricVariations)).Length > 1
-          ).
-          AddElementToEndIf(
-            "Badge--YDF__PllShapeGeometricModifier", 
-            _ => this.geometricModifiers.Contains(Badge.GeometricModifiers.pillShape)
-          ).
-          AddElementToEndIf(
-            $"Badge--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
-            _ => Enum.GetNames(typeof(Badge.StandardDecorativeVariations)).Length > 1
-          ).
-          AddElementToEndIf(
-            "Badge--YDF__BordersDisguisingDecorativeModifier", 
-            _ => this.decorativeModifiers.Contains(Badge.DecorativeModifiers.bordersDisguising)
-          ).
-          StringifyEachElementAndJoin("");
-
-    }
-  }
-  
-  
-  /* --- Other ------------------------------------------------------------------------------------------------------ */
-  [Parameter] public RenderFragment? PrependedSVG_Icon { get; set; }
+  private string rootElementModifierCSS_Classes => new List<string>().
+    
+      AddElementToEndIf(
+        $"Badge--YDF__{ this._theme.ToUpperCamelCase() }Theme",
+        YDF_ComponentsHelper.MustApplyThemeCSS_Class(
+          typeof(Badge.StandardThemes), Badge.CustomThemes, this.areThemesCSS_ClassesCommon
+        )
+      ).
+      
+      AddElementToEndIf(
+        $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
+          typeof(Badge.StandardGeometricVariations), Badge.CustomGeometricVariations
+        )
+      ).
+      AddElementToEndIf(
+        "Badge--YDF__PllShapeGeometricModifier", 
+        this.geometricModifiers.Contains(Badge.GeometricModifiers.pillShape)
+      ).
+      AddElementToEndIf(
+        "Badge--YDF__SingleLineGeometricModifier", 
+        this.geometricModifiers.Contains(Badge.GeometricModifiers.singleLine)
+      ).
+          
+      AddElementToEndIf(
+        $"Badge--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
+          typeof(Badge.StandardDecorativeVariations), Badge.CustomDecorativeVariations
+        )
+      ).
+      AddElementToEndIf(
+        "Badge--YDF__BordersDisguisingDecorativeModifier", 
+        this.decorativeModifiers.Contains(Badge.DecorativeModifiers.bordersDisguising)
+      ).
+          
+      StringifyEachElementAndJoin("");
   
 }

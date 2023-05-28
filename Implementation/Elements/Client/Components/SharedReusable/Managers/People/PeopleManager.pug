@@ -4,6 +4,16 @@ mixin PeopleManager(statesSimulations)
 
   .PeopleManager&attributes(attributes)
 
+    .PeopleManager-TopActionBar
+
+      +SearchBox--YDF({
+        placeholder: "名義や名前の読み方で検索"
+      }).PeopleManager-TopActionBar-SearchBox
+      
+      +Button--YDF({
+        label: "新規連絡先追加",
+      }).PeopleManager-TopActionBar-ButtonForWideContainers
+    
     if statesSimulations.loading
 
       .PeopleManager-CardsFlow
@@ -62,3 +72,10 @@ mixin PeopleManager(statesSimulations)
             person,
             rootElementTag: "li"
           })
+
+          
+    .PeopleManager-BottomActionBarForNarrowContainers
+
+      +Button--YDF({
+        label: "新規連絡先追加"
+      })

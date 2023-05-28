@@ -5,47 +5,46 @@ using InputtedValueValidation = FrontEndFramework.InputtedValueValidation.Inputt
 using InputtedValueValidationResult = FrontEndFramework.InputtedValueValidation.Result;
 
 
-public class Payload
+public class Payload<TValue, TValidation> where TValidation: InputtedValueValidation
 {
 
   protected readonly string BLAZOR_REFERENCE_ID;
   
-  protected string _value;
+  protected TValue value;
   
-  protected readonly InputtedValueValidation validation;
+  protected readonly TValidation validation;
   
   protected InputtedValueValidationResult validationResult;
   
-  public string Value
+  public TValue Value
   {
-    get => _value;
+    get => this.value;
     set {
-      this._value = value;
-      this.validationResult = this.validation.Validate(this._value);
+      this.value = value;
+      this.validationResult = this.validation.Validate(this.value);
     }
   }
 
 
   public Payload(
-    string initialValue, 
-    InputtedValueValidation validation,
+    TValue initialValue, 
+    TValidation validation,
     string? blazorReferenceID = null
   ) {
     
-    this._value = initialValue;
+    this.value = initialValue;
     this.validation = validation;
     this.validationResult = this.validation.Validate(initialValue);
 
-    this.BLAZOR_REFERENCE_ID = blazorReferenceID ?? Payload.generateAssociatedComponentBlazorReferenceID();
+    this.BLAZOR_REFERENCE_ID = blazorReferenceID ?? generateAssociatedComponentBlazorReferenceID();
 
   }
 
 
   public bool IsInvalid => !this.validationResult.IsValid;
-
   public string[] ValidationErrorsMessages => this.validationResult.ErrorsMessages;
 
-  public string GetExpectedToBeValidValue()
+  public TValue GetExpectedToBeValidValue()
   {
 
     if (this.IsInvalid)

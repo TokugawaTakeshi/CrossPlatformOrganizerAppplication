@@ -1,0 +1,16 @@
+﻿-
+  
+  class RadioButtonsGroup__YDF {
+    
+    static CSS_NAMESPACE = "RadioButtonsGroup--YDF";
+
+
+    /* === ID generating ============================================================================================ */
+    static counterForID_Generating = 0;
+
+    static generateComponentID() {
+      RadioButtonsGroup__YDF.counterForID_Generating++;
+      return `RADIO_BUTTONS_GROUP--YDF-${ RadioButtonsGroup__YDF.counterForID_Generating }`;
+    }
+    
+  }

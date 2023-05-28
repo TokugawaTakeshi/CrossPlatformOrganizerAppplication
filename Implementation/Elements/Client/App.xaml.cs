@@ -21,7 +21,7 @@ public partial class App : Application
     );
 
     // === ＜ テスト専用 ==================================================================================================
-    FrontEndFramework.Components.Badge.Badge.defineNewDecorativeVariations(
+    FrontEndFramework.Components.Badge.Badge.defineCustomDecorativeVariations(
       typeof(Client.Components.SharedReusable.Badge.Badge.DecorativeVariations)
     );
     // === テスト専用 ＞ ==================================================================================================

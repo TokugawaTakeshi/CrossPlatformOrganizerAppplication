@@ -70,11 +70,11 @@ mixin TaskManager(properties, statesSimulations)
       dl.TaskManager-Metadata
 
         dt 見出し
-        dd= targetTask ? targetTask.Title : ""
+        dd= targetTask ? targetTask.title : ""
 
-        if targetTask && targetTask.Description
+        if targetTask && targetTask.description
           dt 記述
-          dd= targetTask.Description
+          dd= targetTask.description
 
     else
 
@@ -85,14 +85,14 @@ mixin TaskManager(properties, statesSimulations)
         +TextBox--YDF({
           label: "見出し",
           guidance: "〇〇～〇〇文字を入力して下さい。",
-          value: targetTask ? targetTask.Title : ""
+          value: targetTask ? targetTask.title : ""
         }).TaskManager-Control
 
         +TextBox--YDF({
           label: "記述",
           guidance: "〇〇～〇〇文字を入力して下さい。",
           multiline: true,
-          value: targetTask ? targetTask.Description : ""
+          value: targetTask ? targetTask.description : ""
         }).TaskManager-Control
 
         .TaskManager-ActionBar

@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using FrontEndFramework.Components.Abstractions;
+using FrontEndFramework.Exceptions;
 using Microsoft.AspNetCore.Components;
 using Utils;
 
@@ -9,21 +11,16 @@ namespace FrontEndFramework.Components.AttentionBox;
 public partial class AttentionBox : ComponentBase
 {
   
-  /* --- Theme ------------------------------------------------------------------------------------------------------ */
+  [Parameter] public string? title { get; set; }
+  
+  /* ─── Theme ────────────────────────────────────────────────────────────────────────────────────────────────────── */
   public enum StandardThemes { regular }
   
-  protected static object? CustomThemes;
+  protected internal static Type? CustomThemes;
   
   public static void defineCustomThemes(Type CustomThemes) {
-
-    if (!CustomThemes.IsEnum)
-    {
-      throw new System.ArgumentException("The custom themes must the enumeration.");
-    }
-
-
+    YDF_ComponentHelper.ValidateCustomTheme(CustomThemes);
     AttentionBox.CustomThemes = CustomThemes;
-
   }
   
   protected string _theme = AttentionBox.StandardThemes.regular.ToString();
@@ -41,9 +38,20 @@ public partial class AttentionBox : ComponentBase
       }
       
       
-      // TODO CustomThemes確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-      
-      this._theme = value.ToString();
+      string stringifiedThemeValue = value.ToString() ?? "";
+
+      if (
+        AttentionBox.CustomThemes is not null &&
+        AttentionBox.CustomThemes.IsEnum &&
+        Enum.GetNames(AttentionBox.CustomThemes).Contains(stringifiedThemeValue)
+      )
+      {
+        this._theme = stringifiedThemeValue;
+        return;
+      }
+
+
+      throw new InvalidThemeParameterForYDF_ComponentException();
 
     }
   }

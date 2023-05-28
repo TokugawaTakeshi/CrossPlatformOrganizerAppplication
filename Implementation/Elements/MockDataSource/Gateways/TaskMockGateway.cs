@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using Task = CommonSolution.Entities.Task;
+﻿using Task = CommonSolution.Entities.Task;
 using CommonSolution.Gateways;
 
-using MockDataSource.Utils;
-
+using Utils.DataMocking;
 using Utils.Pagination;
 
 
@@ -46,7 +44,7 @@ public class TaskMockGateway : ITaskGateway
         if (!String.IsNullOrEmpty(requestParameters.SearchingByFullOrPartialTitle))
         {
           filteredTasks = mockDataSource.Tasks.Where(
-            task => task.Title.Contains(requestParameters.SearchingByFullOrPartialTitle)
+            task => task.title.Contains(requestParameters.SearchingByFullOrPartialTitle)
           ).ToArray();
         }
         else

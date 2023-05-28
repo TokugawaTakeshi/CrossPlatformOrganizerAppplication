@@ -1,9 +1,14 @@
-﻿@using FrontEndFramework.Components.AttentionBox
+﻿@using CommonSolution.Fundamentals
+@using CommonSolution.Entities
+
+@using FrontEndFramework.Components.AttentionBox
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.TextBox
+@using FrontEndFramework.Helpers
 @using FrontEndFramework.SVG_Icons.Pencil
 @using FrontEndFramework.SVG_Icons.TrashCan
 @using FrontEndFramework.SVG_Icons.MultiplicationSign
+@using Utils
 
 
 <div class="PersonManager @spaceSeparatedAdditionalCSS_Classes">
@@ -14,6 +19,7 @@
   >
     人（連絡先）詳細
   </div>
+  
   
   @if (targetPerson is null && !String.IsNullOrEmpty(activationGuidance))
   {
@@ -26,7 +32,7 @@
     </AttentionBox>
   }
   
-  
+  @* ━━━ Action bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   <div class="PersonManager-ActionBar">
     
     @if (isViewingMode)
@@ -34,7 +40,7 @@
       <Button
         disabled=@(targetPerson is null)
         label="編集"
-        onClick="beginPersonEditing"
+        onClick=@beginPersonEditing
       >
         <PrependedSVG_Icon>
           <PencilIcon__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
@@ -45,45 +51,140 @@
     <Button
       disabled=@(targetPerson is null)
       label="削除"
-      onClick="displayPersonDeletingConfirmationDialog"
+      onClick=@displayPersonDeletingConfirmationDialog
     >
       <PrependedSVG_Icon>
         <TrashCan__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
       </PrependedSVG_Icon>
     </Button>
-  
+    
+    @if (isEditingMode)
+    {
+      <Button
+        label="編集中断"
+        onClick=@utilizePersonEditing
+      >
+        <PrependedSVG_Icon>
+          <MultiplicationSignIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button> 
+    }
+
   </div>
   
   
+  @* ━━━ Viewing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   @if (isViewingMode)
   {
 
+    @if (targetPerson is not null)
+    {
+      
+      @if (targetPerson.avatarURI is not null)
+      {
+        <div 
+          class="PersonManager-Avatar"
+          role="img"
+          style=@($"background-image: url({ targetPerson.avatarURI });")
+        ></div>
+      }
+      else
+      {
+        @switch (targetPerson.gender)
+        {
+        
+          case Genders.Male:
+        
+            <PersonIcon__Male spaceSeparatedAdditionalCSS_Classes="PersonManager-AvatarPlaceholder"/>
+            break;
+          
+          case Genders.Female:
+        
+            <PersonIcon__Female spaceSeparatedAdditionalCSS_Classes="PersonManager-AvatarPlaceholder"/>
+            break;
+          
+          default:
+          
+            <PersonIcon spaceSeparatedAdditionalCSS_Classes="PersonManager-AvatarPlaceholder"/>
+            break;
+        
+        }
+      }
+      
+    }
+     
+    
     <dl class="PersonManager-Metadata">
     
       <dt>名前</dt>
-      <dd>@(targetPerson is not null ? $"{ targetPerson.FamilyName }{ targetPerson.GivenName }" : "" )</dd>
+      <dd>@(targetPerson?.fullName ?? "")</dd>
     
-      @if (targetPerson?.EmailAddress != null)
+      <dt>名前の読み方</dt>
+      <dd>@(targetPerson?.fullNameSpell ?? "")</dd>
+      
+      <dt>性別</dt>
+      <dd>
+        @if (targetPerson is not null)
+        {
+          if (targetPerson.gender is not null)
+          {
+            @(targetPerson.gender is Genders.Male ? "男性" : "女性")
+          }
+          else
+          {
+            @("不明")
+          }
+        }
+      </dd>
+      
+      <dt>生年月日</dt>
+      <dd>
+        @if (targetPerson is not null)
+        {
+          @if (targetPerson.birthYear is not null)
+          {
+            @($"{ targetPerson.birthYear }年")
+          }
+          @if (targetPerson.birthMonthNumber__numerationFrom1 is not null)
+          {
+            @($"{ targetPerson.birthMonthNumber__numerationFrom1 }月")
+          }
+          @if (targetPerson.birthDayOfMonth__numerationFrom1 is not null)
+          {
+            @($"{ targetPerson.birthDayOfMonth__numerationFrom1 }日")
+          }
+          @if (targetPerson.age is not null)
+          {
+            @($"{ targetPerson.age }際)")
+          }
+        }
+      </dd>
+      
+      @if (targetPerson?.emailAddress is not null)
       {
         <dt>メールアドレス</dt>
-        <dd>@targetPerson.EmailAddress</dd>      
+        <dd>
+          <a href=@(AnchorElementHelper.BuildEmailLinkHrefAttributeValue(targetPerson.emailAddress))>
+            @targetPerson.emailAddress  
+          </a>
+        </dd>      
       }
       
-      @if (targetPerson?.PhoneNumber != null)
+      @if (targetPerson?.phoneNumber__digitsOnly is not null)
       {
         <dt>電話番号</dt>
-        <dd>@targetPerson.PhoneNumber</dd>      
+        <dd>
+          <a href=@(AnchorElementHelper.BuildPhoneNumberLinkHrefAttributeValue(targetPerson.phoneNumber__digitsOnly))>
+            @(JapanesePhoneNumber.Format(targetPerson.phoneNumber__digitsOnly))
+          </a>
+        </dd>      
       }
-      
-      @if (targetPerson?.Age != null)
-      {
-        <dt>年齢</dt>
-        <dd>@targetPerson.Age</dd>      
-      }
-    
+
     </dl>
   }
   
+  
+  @* ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   else
   {
     <form
@@ -92,49 +193,13 @@
     >
         
       <TextBox
-        label="名前"
-        guidance="〇〇～〇〇文字を入力して下さい。"
+        label="姓"
+        guidance=@(
+          $"上の名前を**{ Person.FamilyName.MINIMAL_CHARACTERS_COUNT }~{ Person.FamilyName.MINIMAL_CHARACTERS_COUNT }文字内**" +
+            "入力して下さい。"
+        )
         spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
       />
-      
-      <TextBox
-        label="メール"
-        HTML_Type="TextBox.HTML_Types.email"
-        spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
-      />
-      
-      <TextBox
-        label="電話"
-        HTML_Type="TextBox.HTML_Types.phoneNumber"
-        spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
-      />
-      
-      <TextBox
-        label="年齢"
-        HTML_Type="TextBox.HTML_Types.number"
-        spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
-      />
-      
-      
-      <div class="PersonManager-ActionBar">
-        
-        <Button
-          label="保存"
-          HTML_Type=@Button.HTML_Types.inputSubmit
-          decoration=@Button.StandardDecorativeVariations.accented.ToString()
-          onClick=@updatePerson
-        />
-        
-        <Button
-          label="編集を止める"
-          onClick=@utilizePersonEditing
-        >
-          <PrependedSVG_Icon>
-            <MultiplicationSignIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
-          </PrependedSVG_Icon>
-        </Button>
-        
-      </div>
       
     </form>  
   }

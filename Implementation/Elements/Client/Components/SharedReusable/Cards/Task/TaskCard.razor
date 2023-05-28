@@ -19,10 +19,10 @@
     class="TaskCard-Checkbox"
     role="checkbox"
     tabindex="0"
-    aria-checked="@targetTask.IsComplete"
+    aria-checked=@targetTask.isComplete
   >
 
-    @if (targetTask.IsComplete)
+    @if (targetTask.isComplete)
     {
       <CheckboxIcon__Checked spaceSeparatedAdditionalCSS_Classes="TaskCard-Checkbox-Icon" />
     }
@@ -33,7 +33,7 @@
 
   </span>
 
-  <div class="TaskCard-Title">@targetTask.Title</div>
+  <div class="TaskCard-Title">@targetTask.title</div>
 
   @* TODO 【 次のプールリクエスト 】 カテゴリーベッジに置き換え *@
   <div class="TaskCard-BadgesFlow">
@@ -43,13 +43,13 @@
     >
       <PrependedSVG_Icon>
         <CalendarIcon__Time spaceSeparatedAdditionalCSS_Classes="Badge--YDF-SVG_Icon" />
-      </PrependedSVG_Icon>  
+      </PrependedSVG_Icon>
     </Badge>
   </div>
   
-  @if (!String.IsNullOrEmpty(targetTask.Description))
+  @if (!String.IsNullOrEmpty(targetTask.description))
   {
-    <div class="TaskCard-Description"> @targetTask.Description </div>
+    <div class="TaskCard-Description"> @targetTask.description </div>
   }
 
 </DynamicTag>

@@ -3,6 +3,6 @@
 
 public struct Result
 {
-  public bool IsValid { get; init; }
   public string[] ErrorsMessages { get; init; }
+  public bool IsValid => this.ErrorsMessages.Length > 0;
 }

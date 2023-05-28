@@ -1,9 +1,26 @@
 ﻿<div class="PersonCard PersonCard__LoadingPlaceholder">
+  
+  <div class="PersonCard-Avatar PersonCard-Avatar__LoadingPlaceholder"></div>
+  
   <div class="PersonCard-Metadata">
-    @foreach (uint unused in new uint[4])
-    {
-      <div class="PersonCard-Metadata-Key PersonCard-Metadata-Key__LoadingPlaceholder"></div>
-      <div class="PersonCard-Metadata-Value PersonCard-Metadata-Value__LoadingPlaceholder"></div>      
-    }
+    
+    <div class="PersonCard-Metadata-Value--LoadingPlaceholder-OfficialName"></div>
+    
+    <div class="PersonCard-Metadata-Value--LoadingPlaceholder-OfficialNameSpell"></div>
+    
+    <div class="PersonCard-Metadata-Key--LoadingPlaceholder PersonCard-Metadata-Key--LoadingPlaceholder__Email"></div>
+    <div class="PersonCard-Metadata-Value--LoadingPlaceholder-Email"></div>
+    
+    <div class="PersonCard-Metadata-Key--LoadingPlaceholder PersonCard-Metadata-Key--LoadingPlaceholder__Phone"></div>
+    <div class="PersonCard-Metadata-Value--LoadingPlaceholder-Phone"></div>
+    
   </div>
+  
 </div>
+
+
+@code {
+
+  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+
+}

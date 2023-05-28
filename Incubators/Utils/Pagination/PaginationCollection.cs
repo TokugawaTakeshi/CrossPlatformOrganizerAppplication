@@ -6,24 +6,24 @@ public class PaginationCollection<TItem>
 
   public readonly uint PagesCount;
   
-  private readonly TItem[][] _pagesContent;
+  private readonly TItem[][] _itemsByPages;
   
 
   public PaginationCollection(
-    TItem[] flatCollection,
+    TItem[] items,
     uint itemsCountPerPaginationPage
   )
   {
     
-    uint pagesCount = (uint)Math.Ceiling((double)flatCollection.Length / itemsCountPerPaginationPage);
+    this.PagesCount = (uint)Math.Ceiling((double)items.Length / itemsCountPerPaginationPage);
 
     uint elementStartingIndexForCurrentPage = 0;
 
-    _pagesContent = new TItem[pagesCount][];
+    this._itemsByPages = new TItem[this.PagesCount][];
 
-    for (uint pageIndex = 0; pageIndex < pagesCount; pageIndex++)
+    for (uint pageIndex = 0; pageIndex < this.PagesCount; pageIndex++)
     {
-      _pagesContent[pageIndex] = flatCollection.
+      _itemsByPages[pageIndex] = items.
         Skip(pageIndex > 0 ? (int)elementStartingIndexForCurrentPage - 1 : 0).
         Take((int)itemsCountPerPaginationPage).
         ToArray();
@@ -32,18 +32,18 @@ public class PaginationCollection<TItem>
       
     }
 
-    PagesCount = pagesCount;
+    PagesCount = this.PagesCount;
     
   }
   
   public TItem[] GetItemsArrayOfPageWithIndex(uint targetIndex)
   {
-    return _pagesContent[targetIndex];
+    return _itemsByPages[targetIndex];
   }
 
   public TItem[] GetItemsArrayOfPageWithNumber(uint targetPageNumber)
   {
-    return _pagesContent[targetPageNumber - 1];
+    return _itemsByPages[targetPageNumber - 1];
   }
   
 }

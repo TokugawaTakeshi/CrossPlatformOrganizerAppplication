@@ -1,4 +1,11 @@
+@using CommonSolution.Fundamentals
+
 @using FrontEndFramework.Helpers
+@using FrontEndFramework.SVG_Icons.Person
+@using FrontEndFramework.SVG_Icons.Mail
+@using FrontEndFramework.SVG_Icons.Phone
+@using Utils
+
 
 <DynamicTag
   name=@rootElementTag
@@ -11,27 +18,77 @@
   )
 >
   
+  @if (targetPerson.avatarURI is not null)
+  {
+    <img 
+      class="PersonCard-Avatar"
+      src=@targetPerson.avatarURI 
+      alt=@($"{ targetPerson.fullName }という人物の写真又は画像")
+    />  
+  }
+  else
+  {
+    <div class="PersonCard-AvatarPlaceholder">
+      @switch (targetPerson.gender)
+      {
+        
+        case Genders.Male:
+        
+          <PersonIcon__Male spaceSeparatedAdditionalCSS_Classes="PersonCard-AvatarPlaceholder-Icon"/>
+          break;
+          
+        case Genders.Female:
+        
+          <PersonIcon__Female spaceSeparatedAdditionalCSS_Classes="PersonCard-AvatarPlaceholder-Icon"/>
+          break;
+          
+        default:
+          
+          <PersonIcon spaceSeparatedAdditionalCSS_Classes="PersonCard-AvatarPlaceholder-Icon"/>
+          break;
+        
+      }
+    </div>
+  }
+  
   <dl class="PersonCard-Metadata">
     
-    <dt>氏名</dt>
-    <dd>@targetPerson.FamilyName @targetPerson.GivenName</dd>
+    <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__VisuallyHidden">氏名</dt>
+    <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__OfficialName">@targetPerson.fullName</dd>
     
-    @if (!String.IsNullOrEmpty(targetPerson.EmailAddress))
+    <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__VisuallyHidden">名前の読み方</dt>
+    <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__OfficialNameSpell">@(targetPerson.fullNameSpell)</dd>
+    
+    @if (targetPerson.emailAddress is not null)
     {
-      <dt>メール</dt>
-      <dd>@targetPerson.EmailAddress</dd>  
+      <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__Email">
+        <MailIcon__Filled spaceSeparatedAdditionalCSS_Classes="PersonCard-Metadata-Key-Icon" />
+        <span class="PersonCard-Metadata-Key-Label">メール</span>
+      </dt>
+      <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__Email">
+        <a
+          class="PersonCard-Link"
+          href=@(AnchorElementHelper.BuildEmailLinkHrefAttributeValue(targetPerson.emailAddress))
+        >
+          @targetPerson.emailAddress  
+        </a>
+      </dd>
     }
 
-    @if (!String.IsNullOrEmpty(targetPerson.PhoneNumber))
+    @if (targetPerson.phoneNumber__digitsOnly is not null)
     {
-      <dt>電話番号</dt>
-      <dd>@targetPerson.PhoneNumber</dd>  
-    }
-
-    @if (targetPerson.Age != null)
-    {
-      <dt>年齢</dt>
-      <dd>@targetPerson.Age</dd>  
+      <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__Phone">
+        <PhoneIcon__Filled spaceSeparatedAdditionalCSS_Classes="PersonCard-Metadata-Key-Icon" />
+        <span class="PersonCard-Metadata-Key-Label">電話</span>
+      </dt>
+      <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__Phone">
+        <a
+          class="PersonCard-Link"
+          href=@(AnchorElementHelper.BuildPhoneNumberLinkHrefAttributeValue(targetPerson.phoneNumber__digitsOnly))
+        >
+          @(JapanesePhoneNumber.Format(targetPerson.phoneNumber__digitsOnly))
+        </a>
+      </dd>
     }
     
   </dl>

@@ -19,4 +19,18 @@ public static class StringExtensions
     return self.Insert(0, char.ToLowerInvariant(self[0]).ToString()).Remove(1, 1);
   }
   
+  public static string RemoveAllSpecifiedCharacters(this string self, char[] charactersToRemove)
+  {
+
+    string interimResult = self;
+
+    foreach (char characterToRemove in charactersToRemove)
+    {
+      interimResult = interimResult.Replace(characterToRemove.ToString(), String.Empty);
+    }
+
+    return interimResult;
+    
+  }
+  
 }

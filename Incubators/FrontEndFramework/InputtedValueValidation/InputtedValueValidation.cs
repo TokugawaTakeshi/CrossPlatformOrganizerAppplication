@@ -4,10 +4,6 @@
 public abstract class InputtedValueValidation
 {
 
-  protected readonly Func<object, bool> OmittedValueChecker;
-  protected readonly Func<bool> RequirementChecker;
-
-  
   public interface ILocalization
   {
     public string RequiredInputIsMissingValidationErrorMessage { get; }
@@ -15,56 +11,77 @@ public abstract class InputtedValueValidation
 
   public static ILocalization Localization = new InputtedValueValidationEnglishLocalization();
 
+  
+  protected readonly Func<object, bool> HasValueBeenOmitted;
+  
+  protected readonly Func<bool> IsInputRequired;
   protected readonly string RequiredInputIsMissingValidationErrorMessage;
 
+  
+  public interface IRule
+  {
+  
+    public bool MustFinishValidationIfValueIsInvalid { get; init; }
+  
+    public CheckingResult Check(object rawValue);
 
-  protected IRule[] StaticValidationRules;
+    public struct CheckingResult
+    {
+      public string? ErrorMessage { get; init; }
+      public bool IsValid => this.ErrorMessage is not null;
+    }
+  
+  }
+  
+  protected IRule[] StaticRules;
   protected IRule[] ContextDependentRules;
   
   
   protected InputtedValueValidation(
-    Func<object, bool> omittedValueChecker,
-    bool? isInputRequired,
-    Func<bool>? requirementChecker,
-    string? requiredValueIsMissingValidationErrorMessage,
-    IRule[]? staticRules,
-    IRule[]? contextDependentRules
+    Func<object, bool> hasValueBeenOmitted,
+    bool? isInputRequired = null,
+    Func<bool>? inputRequirementChecker = null,
+    string? requiredInputIsMissingValidationErrorMessage = null,
+    IRule[]? staticRules = null,
+    IRule[]? contextDependentRules = null
   )
   {
     
-    OmittedValueChecker = omittedValueChecker;
+    HasValueBeenOmitted = hasValueBeenOmitted;
 
-    if (requirementChecker is not null)
+    if (isInputRequired is not null)
     {
       
-      RequirementChecker = requirementChecker;
+      IsInputRequired = () => (bool)isInputRequired;
 
-      if (isInputRequired is not null)
+      if (inputRequirementChecker is not null)
       {
         throw new ArgumentException(
-          "The \"requirementChecker\" and \"isInputRequired\" parameters are incompatible. " +
+          "The \"isInputRequired\" and \"inputRequirementChecker\" parameters are incompatible. " +
           "Please specify one of them."
         );
       }
       
-    } else if (isInputRequired is not null)
+    } else if (inputRequirementChecker is not null)
     {
-      RequirementChecker = () => (bool)isInputRequired;
-    }
-    else
+      IsInputRequired = inputRequirementChecker;
+    } else
     {
       throw new ArgumentException(
-      "Either \"isInputRequired\" or \"requirementChecker\" must be specified (but not both)."
+      "Either \"isInputRequired\" or \"inputRequirementChecker\" must be specified (but not both)."
       );
     }
     
-    
     this.RequiredInputIsMissingValidationErrorMessage =
-        requiredValueIsMissingValidationErrorMessage ??
+        requiredInputIsMissingValidationErrorMessage ??
         InputtedValueValidation.Localization.RequiredInputIsMissingValidationErrorMessage;
 
-    this.StaticValidationRules = staticRules ?? Array.Empty<IRule>();
+    
+    this.StaticRules = staticRules ?? Array.Empty<IRule>();
     this.ContextDependentRules = contextDependentRules ?? Array.Empty<IRule>();
+    
+    // TODO 【 次のプールリクエスト以降 】 AsynchronousRules
+    // TODO 【 次のプールリクエスト以降 】　SsynchronousChecksCallback
 
   }
 
@@ -72,33 +89,28 @@ public abstract class InputtedValueValidation
   public Result Validate(object rawValue)
   {
 
-    bool isInputRequired = this.RequirementChecker();
+    bool isInputRequired = this.IsInputRequired();
     
-    if (this.OmittedValueChecker(rawValue))
+    if (this.HasValueBeenOmitted(rawValue))
     {
       return new Result()
       {
-        IsValid = !isInputRequired,
-        ErrorsMessages = isInputRequired ? 
-            new[] { this.RequiredInputIsMissingValidationErrorMessage } :  
-            Array.Empty<string>() 
-            
+        ErrorsMessages = isInputRequired ? new[] { this.RequiredInputIsMissingValidationErrorMessage } : Array.Empty<string>() 
       };
     }
     
-    bool isValueStillValid = true;
+    
     List<string> validationErrorsMessages = new ();
 
-    foreach (IRule staticValidationRule in this.StaticValidationRules)
+    foreach (IRule staticValidationRule in this.StaticRules)
     {
 
-      IRule.Result checkingResult = staticValidationRule.Check(rawValue);
+      IRule.CheckingResult checkingCheckingResult = staticValidationRule.Check(rawValue);
 
-      if (!checkingResult.IsValid)
+      if (checkingCheckingResult.ErrorMessage is not null)
       {
 
-        isValueStillValid = false;
-        validationErrorsMessages.Add(checkingResult.ErrorMessage);
+        validationErrorsMessages.Add(checkingCheckingResult.ErrorMessage);
 
         if (staticValidationRule.MustFinishValidationIfValueIsInvalid)
         {
@@ -107,24 +119,57 @@ public abstract class InputtedValueValidation
 
       }
     }
-
-
-    if (!isValueStillValid)
+    
+    if (validationErrorsMessages.Count > 0)
     {
       return new Result()
       {
-        IsValid = false,
         ErrorsMessages = validationErrorsMessages.ToArray()
       };
     }
     
-      
+    
+    foreach (IRule contextDependentValidationRule in this.ContextDependentRules)
+    {
+
+      IRule.CheckingResult checkingCheckingResult = contextDependentValidationRule.Check(rawValue);
+
+      if (checkingCheckingResult.ErrorMessage is not null)
+      {
+
+        validationErrorsMessages.Add(checkingCheckingResult.ErrorMessage);
+
+        if (contextDependentValidationRule.MustFinishValidationIfValueIsInvalid)
+        {
+          break;
+        }
+
+      }
+    }
+    
+    if (validationErrorsMessages.Count > 0)
+    {
+      return new Result()
+      {
+        ErrorsMessages = validationErrorsMessages.ToArray()
+      };
+    }
+
+
+    this.executeAsynchronousValidationIfAny(rawValue);
+    
+    
     return new Result()
     {
-      IsValid = true,
       ErrorsMessages = Array.Empty<string>()
     };
-    
+
   }
 
+
+  protected void executeAsynchronousValidationIfAny(object rawValue)
+  {
+    // TODO 【 次のプールリクエスト以降 】　Async validation errors
+  }
+  
 }

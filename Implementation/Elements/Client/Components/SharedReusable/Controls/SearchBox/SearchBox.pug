@@ -1,0 +1,45 @@
+﻿mixin SearchBox--YDF(properties, statesSimulations)
+
+  -
+    
+    const {
+      placeholder,
+      disabled
+    } = properties ?? {};
+    
+    const {
+      tooltip
+    } = statesSimulations ?? {};
+  
+  //- [ Reference ] https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/searchbox_role
+  //- [ Reference ] https://www.a11ymatters.com/pattern/accessible-search/
+  .SearchBox--YDF&attributes(attributes)(
+    role="search"
+  )
+
+    input.SearchBox--YDF-InputElement(
+      type="search"
+      placeholder=placeholder
+      disabled= disabled
+      aria-label="search results will appear below"
+      value=""  
+    )
+
+    +Button--YDF({
+      disabled: disabled
+    })
+      +MultiplicationSign__Octagoned__Filled--YDF_Icon.Button--YDF-SVG_Icon
+      span.Button--YDF-Label リセット
+    
+    +Button--YDF({
+      disabled: disabled
+    }).SearchBox--YDF-Test
+      +MagnifyingGlass--YDF_Icon.Button--YDF-SVG_Icon
+      span.Button--YDF-Label 検索
+      
+      
+    if tooltip
+      
+      .SearchBox--YDF-Tooltip(
+        role="tooltip"
+      ) 検索するには最少2文字を入力して下さい。

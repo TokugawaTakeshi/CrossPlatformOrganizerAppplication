@@ -1,0 +1,40 @@
+﻿include RadioButton.class.pug
+
+
+mixin RadioButton--YDF(properties)
+
+  -
+    
+    const COMPONENT_ID = RadioButton__YDF.generateComponentID();
+    
+    const {
+      label,
+      HTML_Name,
+      HTML_Value,
+      inputElementHTML_ID = `${ COMPONENT_ID }-INPUT`,
+      disabled = false,
+      isChecked
+    } = properties ?? {}
+
+    const rootElementModifierCSS_Classes = [
+      ...isChecked ?  
+        [ `${ RadioButton__YDF.CSS_NAMESPACE }__CheckedState` ] : 
+        [ `${ RadioButton__YDF.CSS_NAMESPACE }__UncheckedState` ]
+    ];
+  
+  .RadioButton--YDF&attributes(attributes)(
+    class=rootElementModifierCSS_Classes 
+  )
+
+    span.RadioButton--YDF-Ring
+
+    label.RadioButton--YDF-Label(
+      for= inputElementHTML_ID 
+    )= label
+    
+    input.RadioButton--YDF-HiddenInputElement(
+      type="radio"
+      name=HTML_Name
+      value=HTML_Value
+      id= inputElementHTML_ID
+    )

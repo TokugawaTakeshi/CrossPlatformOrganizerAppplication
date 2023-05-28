@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Transactions;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Utils;
 
 
@@ -11,12 +8,12 @@ namespace FrontEndFramework.Components.Controls.TextBox;
 public partial class TextBox : InputtableControl
 {
 
-  /* === Payload type =============================================================================================== */
+  /* ━━━ Payload type ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected string rawValue = "";
-  protected ValidatableControl.Payload _payload;
+  protected ValidatableControl.Payload<TValue, TValidation> _payload;
   
   [Parameter]
-  public required ValidatableControl.Payload payload
+  public required ValidatableControl.Payload<TValue, TValidation> payload
   {
     get => _payload;
     set

@@ -44,7 +44,11 @@ public interface ITaskGateway
     {
       public required string Title { get; init; }
       public string? Description { get; init; }
+      public bool IsComplete { get; init; }
       public string[]? SubtasksIDs { get; init; }
+      public string? AssociatedDateTime__ISO8601 { get; init; }
+      public string? AssociatedDate__ISO8601 { get; init; }
+      public CommonSolution.Entities.Location? AssociatedLocation { get; init; }
     }
 
     public struct ResponseData
@@ -63,10 +67,13 @@ public interface ITaskGateway
     public struct RequestData
     {
       public required string ID { get; init; }
-      public required string Title { get; init; }
+      public string Title { get; init; }
       public string? Description { get; init; }
-      public string[]? SubtasksIDs { get; init; }
       public bool IsComplete { get; init; }
+      public string[]? SubtasksIDs { get; init; }
+      public string? AssociatedDateTime__ISO8601 { get; init; }
+      public string? AssociatedDate__ISO8601 { get; init; }
+      public CommonSolution.Entities.Location? AssociatedLocation { get; init; }
     }
   }
   

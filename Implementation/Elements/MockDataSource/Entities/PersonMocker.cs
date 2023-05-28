@@ -1,9 +1,11 @@
 ﻿using CommonSolution.Entities;
+using CommonSolution.Fundamentals;
 
-using MockDataSource.Utils;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
+
 using Utils;
+using Utils.DataMocking;
 
 
 namespace MockDataSource.Entities;
@@ -15,13 +17,17 @@ internal abstract class PersonMocker
   public struct PreDefines
   {
     internal string? ID { get; init; }
-    internal string? FamilyName { get; init; }
-    internal string? GivenName { get; init; }
-    internal byte? Age;
-    
-    internal string? EmailAddress { get; init; }
-    
-    internal string? PhoneNumber;
+    internal string? familyName { get; init; }
+    internal string? givenName { get; init; }
+    internal string? familyNameSpell { get; init; }
+    internal string? givenNameSpell { get; init; }
+    internal Genders? gender { get; init; }
+    internal string? avatarURI { get; init; }
+    internal ushort? birthYear { get; init; }
+    internal byte? birthMonthNumber__numerationFrom1 { get; init; }
+    internal byte? birthDayOfMonth__numerationFrom1 { get; init; }
+    internal string? emailAddress { get; init; }
+    internal string? phoneNumber;
   }
   
   public struct Options
@@ -30,41 +36,110 @@ internal abstract class PersonMocker
     internal string? FamilyNamePrefix { get; init; }
   }
   
+  
   public static Person Generate(PreDefines? preDefines, Options options)
   {
 
     string ID = preDefines?.ID ?? GenerateID();
 
     string familyName =
-        preDefines?.FamilyName ??
+        preDefines?.familyName ??
         (options.FamilyNamePrefix ?? "") + RandomizerFactory.GetRandomizer(new FieldOptionsLastName()).Generate();
 
-    string givenName =
-        preDefines?.GivenName ??
-        RandomizerFactory.GetRandomizer(new FieldOptionsFirstName()).Generate() + "";
-    
-    byte? age = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<byte?>
+    string? givenName = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string>
       {
-        PreDefinedValue = preDefines?.Age,
-        RandomValueGenerator = () => RandomValuesGenerator.GetRandomByte(minimalValue: 7, maximalValue: 110),
+        PreDefinedValue = preDefines?.givenName,
+        RandomValueGenerator = () => RandomizerFactory.GetRandomizer(new FieldOptionsFirstName()).Generate() + "",
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    ); 
+      
+    string? familyNameSpell = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string>
+      {
+        PreDefinedValue = preDefines?.familyNameSpell,
+        RandomValueGenerator = () => RandomizerFactory.GetRandomizer(new FieldOptionsLastName()).Generate() + "",
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    ); 
+    
+    string? givenNameSpell = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string>
+      {
+        PreDefinedValue = preDefines?.givenNameSpell,
+        RandomValueGenerator = () => RandomizerFactory.GetRandomizer(new FieldOptionsFirstName()).Generate() + "",
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    ); 
+
+    Genders? gender = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<Genders?>
+      {
+        PreDefinedValue = preDefines?.gender,
+        RandomValueGenerator = () => RandomValuesGenerator.GetRandomBoolean() ? Genders.Male : Genders.Female,
         Strategy = options.NullablePropertiesDecisionStrategy
       }
     );
     
+    string? avatarURI = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string>
+      {
+        PreDefinedValue = preDefines?.avatarURI,
+        RandomValueGenerator = () => "",
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    );
+
+    ushort? birthYear = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<ushort?>
+      {
+        PreDefinedValue = preDefines?.birthYear,
+        RandomValueGenerator = () => RandomValuesGenerator.GetRandomUShort(
+          minimalValue: Person.BirthYear.MINIMAL_VALUE,
+          maximalValue: Person.BirthYear.MAXIMAL_VALUE
+        ),
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    );
+    
+    byte? birthMonthNumber__numerationFrom1 = DataMocking.DecideOptionalValue(
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<byte?>
+      {
+        PreDefinedValue = preDefines?.birthMonthNumber__numerationFrom1,
+        RandomValueGenerator = () => RandomValuesGenerator.GetRandomByte(
+          minimalValue: Person.BirthMonthNumber__NumerationFrom1.MINIMAL_VALUE,
+          maximalValue: Person.BirthMonthNumber__NumerationFrom1.MAXIMAL_VALUE
+        ),
+        Strategy = options.NullablePropertiesDecisionStrategy
+      }
+    );
+
+    byte? birthDayOfMonth__numerationFrom1 = null;
+
+    if (birthMonthNumber__numerationFrom1 is not null)
+    {
+      birthDayOfMonth__numerationFrom1 =
+        preDefines?.birthDayOfMonth__numerationFrom1 ??
+        RandomValuesGenerator.GetRandomByte(
+          minimalValue: Person.BirthDayOfMonth__NumerationFrom1.MINIMAL_VALUE,
+          maximalValue: Person.BirthDayOfMonth__NumerationFrom1.MAXIMAL_VALUE
+        );
+    }
+    
     string? emailAddress = DataMocking.DecideOptionalValue(
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>
       {
-        PreDefinedValue = preDefines?.EmailAddress,
+        PreDefinedValue = preDefines?.emailAddress,
         RandomValueGenerator = RandomValuesGenerator.GetRandomEmailAddress,
         Strategy = options.NullablePropertiesDecisionStrategy,
       }
     );
 
     string? phoneNumber = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>()
+      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>
       {
-        PreDefinedValue = preDefines?.PhoneNumber,
+        PreDefinedValue = preDefines?.phoneNumber,
         RandomValueGenerator = RandomValuesGenerator.GenerateRandomJapanesePhoneNumber,
         Strategy = options.NullablePropertiesDecisionStrategy
       }
@@ -73,11 +148,17 @@ internal abstract class PersonMocker
     return new Person
     {
       ID = ID,
-      FamilyName = familyName,
-      GivenName = givenName,
-      Age = age,
-      EmailAddress = emailAddress,
-      PhoneNumber = phoneNumber
+      familyName = familyName,
+      givenName = givenName,
+      familyNameSpell = familyNameSpell,
+      givenNameSpell = givenNameSpell,
+      gender = gender,
+      avatarURI = avatarURI,
+      birthYear = birthYear,
+      birthMonthNumber__numerationFrom1 = birthMonthNumber__numerationFrom1,
+      birthDayOfMonth__numerationFrom1 = birthDayOfMonth__numerationFrom1,
+      emailAddress = emailAddress,
+      phoneNumber__digitsOnly = phoneNumber
     };
     
   }
@@ -88,7 +169,7 @@ internal abstract class PersonMocker
   private static string GenerateID()
   {
     counterForID_Generating++;
-    return $"PERSON-{counterForID_Generating}__GENERATED";
+    return $"PERSON-{ counterForID_Generating }__GENERATED";
   }
   
 }

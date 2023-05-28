@@ -36,9 +36,7 @@ public class ValidatableControlsGroup
     
   }
 
-  public static void PointOutValidationErrors(
-    object controlsPayload, string scrollingContainerHTML_ID
-  ) {
+  public static void PointOutValidationErrors(object controlsPayload, string? scrollingContainerHTML_ID = null) {
 
     Type parameterType = controlsPayload.GetType();
     bool isCurrentControlTheFirstInvalidOne = true;

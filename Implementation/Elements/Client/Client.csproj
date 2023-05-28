@@ -67,7 +67,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\SharedReusable\Cards\Person" />
     <Folder Include="Components\SharedReusable\Managers\People" />
     <Folder Include="StaticPreview\.Build" />
   </ItemGroup>

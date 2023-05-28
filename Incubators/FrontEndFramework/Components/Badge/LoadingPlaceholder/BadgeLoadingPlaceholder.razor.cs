@@ -1,4 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
+using FrontEndFramework.Components.Abstractions;
+using FrontEndFramework.Exceptions;
+
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Utils;
 
 
@@ -8,77 +13,56 @@ namespace FrontEndFramework.Components.Badge.LoadingPlaceholder;
 public partial class BadgeLoadingPlaceholder : ComponentBase
 {
 
-  /* --- Theme ------------------------------------------------------------------------------------------------------ */
+  /* ━━━ Theming ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected string _theme = Badge.StandardThemes.regular.ToString();
   
   [Parameter] public object theme
   {
     get => this._theme;
-    set
-    {
-
-      if (value is Badge.StandardThemes standardTheme)
-      {
-        this._theme = standardTheme.ToString();
-        return;
-      }
-      
-      
-      // TODO CustomThemes確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-      
-      this._theme = value.ToString();
-
-    }
+    set => YDF_ComponentsHelper.AssignThemeIfItIsValid<Badge.StandardThemes>(value, Badge.CustomThemes, ref this._theme);
   }
 
   [Parameter]
-  public bool areThemesExternal { get; set; } = Badge.mustConsiderThemesAsExternal;
+  public bool areThemesCSS_ClassesCommon { get; set; } = 
+      YDF_ComponentsHelper.areThemesCSS_ClassesCommon || Badge.mustConsiderThemesCSS_ClassesAsCommon;
   
   
-  /* --- Geometry --------------------------------------------------------------------------------------------------- */
+  /* ─── Geometry ─────────────────────────────────────────────────────────────────────────────────────────────────── */
   protected string _geometry = Badge.StandardGeometricVariations.regular.ToString();
 
   [Parameter] public object geometry
   {
     get => this._geometry;
-    set
-    {
-
-      if (value is Badge.StandardGeometricVariations standardGeometricVariation)
-      {
-        this._geometry = standardGeometricVariation.ToString();
-        return;
-      }
-      
-      
-      // TODO CustomGeometricVariations https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-
-      this._geometry = value.ToString();
-
-    }
+    set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<Badge.StandardGeometricVariations>(
+      value, Badge.CustomGeometricVariations, ref this._geometry
+    );
   }
   
   [Parameter]
   public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
   
   
-  /* --- CSS classes ------------------------------------------------------------------------------------------------ */
+  /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Parameter]
   public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
-  // TODO カスタムを考慮 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
   private string rootElementModifierCSS_Classes => new List<string>().
+      
       AddElementToEndIf(
         $"Badge--YDF__{ this._theme.ToLowerCamelCase() }Theme",
-        _ => Enum.GetNames(typeof(Badge.StandardThemes)).Length > 1 && !this.areThemesExternal
+        YDF_ComponentsHelper.MustApplyThemeCSS_Class(
+          typeof(Badge.StandardThemes), Badge.CustomThemes, this.areThemesCSS_ClassesCommon
+        )
       ).
       AddElementToEndIf(
-        $"Badge--YDF__{ this._geometry.ToLowerCamelCase() }Geometry",
-        _ => Enum.GetNames(typeof(Badge.StandardGeometricVariations)).Length > 1
+        $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        YDF_ComponentsHelper.MustApplyThemeCSS_Class(
+          typeof(Badge.StandardGeometricVariations), Badge.CustomGeometricVariations
+        )
       ).
       AddElementToEndIf(
         "Badge--YDF__PllShapeGeometricModifier", 
-        _ => this.geometricModifiers.Contains(Badge.GeometricModifiers.pillShape)
+        this.geometricModifiers.Contains(Badge.GeometricModifiers.pillShape)
       ).
       StringifyEachElementAndJoin("");
   

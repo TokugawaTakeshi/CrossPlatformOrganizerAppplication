@@ -10,14 +10,14 @@ public class TaskTitleInputtedDataValidation : InputtedValueValidation
   public TaskTitleInputtedDataValidation(
     bool? isInputRequired = null,
     Func<bool>? requirementChecker = null,
-    string? requiredValueIsMissingValidationErrorMessage = null,
+    string? requiredInputIsMissingValidationErrorMessage = null,
     IRule[]? staticRules = null,
     IRule[]? contextDependentRules = null
   ) : base(
-    omittedValueChecker: rawValue => String.IsNullOrEmpty(rawValue as string),
+    hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
     isInputRequired ?? true,
     requirementChecker,
-    requiredValueIsMissingValidationErrorMessage,
+    requiredInputIsMissingValidationErrorMessage,
     staticRules,
     contextDependentRules
   ) {

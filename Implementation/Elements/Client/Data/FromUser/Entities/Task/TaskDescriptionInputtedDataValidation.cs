@@ -14,7 +14,7 @@ public class TaskDescriptionInputtedDataValidation : InputtedValueValidation
     IRule[]? staticRules,
     IRule[]? contextDependentRules = null
   ) : base(
-    omittedValueChecker: rawValue => String.IsNullOrEmpty(rawValue as string),
+    hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
     isInputRequired ?? true,
     requirementChecker,
     requiredValueIsMissingValidationErrorMessage,

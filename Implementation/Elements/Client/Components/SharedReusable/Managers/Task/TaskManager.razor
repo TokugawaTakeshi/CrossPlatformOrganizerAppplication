@@ -61,12 +61,12 @@
     <dl class="TaskManager-Metadata">
     
       <dt>見出し</dt>
-      <dd>@(targetTask?.Title ?? "" )</dd>
+      <dd>@(targetTask?.title ?? "" )</dd>
     
-      @if (targetTask?.Description != null)
+      @if (targetTask?.description != null)
       {
         <dt>記述</dt>
-        <dd>@targetTask.Description</dd>      
+        <dd>@targetTask.description</dd>      
       }
     
     </dl>
@@ -80,20 +80,20 @@
       aria-labelledby=@HEADING_ID
     >
         
-      <TextBox
-        label="見出し"
-        guidance="〇〇～〇〇文字を入力して下さい。"
-        spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
-        payload=controlsPayload.taskTitle
-      />
-      
-      <TextBox
-        label="記述"
-        guidance="〇〇～〇〇文字を入力して下さい。"
-        multiline
-        spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
-        payload=controlsPayload.taskDescription
-      />
+      @* <TextBox *@
+      @*   label="見出し" *@
+      @*   guidance="〇〇～〇〇文字を入力して下さい。" *@
+      @*   spaceSeparatedAdditionalCSS_Classes="TaskManager-Control" *@
+      @*   payload=controlsPayload.taskTitle *@
+      @* /> *@
+      @* *@
+      @* <TextBox *@
+      @*   label="記述" *@
+      @*   guidance="〇〇～〇〇文字を入力して下さい。" *@
+      @*   multiline *@
+      @*   spaceSeparatedAdditionalCSS_Classes="TaskManager-Control" *@
+      @*   payload=controlsPayload.taskDescription *@
+      @* /> *@
       
       <div class="TaskManager-ActionBar">
         
