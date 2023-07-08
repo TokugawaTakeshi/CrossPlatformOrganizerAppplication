@@ -20,6 +20,7 @@ public partial class App : Application
       }
     );
 
+    // TODO テストを終わらせてから削除
     // === ＜ テスト専用 ==================================================================================================
     FrontEndFramework.Components.Badge.Badge.defineCustomDecorativeVariations(
       typeof(Client.Components.SharedReusable.Badge.Badge.DecorativeVariations)
