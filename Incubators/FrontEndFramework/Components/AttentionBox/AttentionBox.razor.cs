@@ -19,7 +19,7 @@ public partial class AttentionBox : ComponentBase
   protected internal static Type? CustomThemes;
   
   public static void defineCustomThemes(Type CustomThemes) {
-    YDF_ComponentHelper.ValidateCustomTheme(CustomThemes);
+    YDF_ComponentsHelper.ValidateCustomTheme(CustomThemes);
     AttentionBox.CustomThemes = CustomThemes;
   }
   
@@ -56,30 +56,29 @@ public partial class AttentionBox : ComponentBase
     }
   }
   
-  internal static bool mustConsiderThemesAsExternal = false;
+  internal static bool mustConsiderThemesCSS_ClassesCommon = false;
 
-  public static void ConsiderThemesAsExternal()
+  public static void considerThemesAsCommon()
   {
-    AttentionBox.mustConsiderThemesAsExternal = true;
+    AttentionBox.mustConsiderThemesCSS_ClassesCommon = true;
   }
   
-  [Parameter] public bool areThemesExternal { get; set; } = AttentionBox.mustConsiderThemesAsExternal;
+  [Parameter] public bool areThemesCSS_ClassesCommon { get; set; } = 
+      YDF_ComponentsHelper.areThemesCSS_ClassesCommon || AttentionBox.mustConsiderThemesCSS_ClassesCommon;
 
   
-  /* --- Geometry --------------------------------------------------------------------------------------------------- */
-  public enum StandardGeometricVariations { regular }
+  /* ─── Geometry ─────────────────────────────────────────────────────────────────────────────────────────────────── */
+  public enum StandardGeometricVariations
+  {
+    regular,
+    stickyNoteLike
+  }
 
-  protected static object? CustomGeometricVariations;
+  protected internal static Type? CustomGeometricVariations;
 
   public static void defineCustomGeometricVariations(Type CustomGeometricVariations)
   {
-
-    if (!CustomGeometricVariations.IsEnum)
-    {
-      throw new System.ArgumentException("The custom geometric variations must the enumeration.");
-    }
-
-
+    YDF_ComponentsHelper.ValidateCustomGeometricVariation(CustomGeometricVariations);
     AttentionBox.CustomGeometricVariations = CustomGeometricVariations;
 
   }
@@ -99,15 +98,25 @@ public partial class AttentionBox : ComponentBase
       }
       
       
-      // TODO CustomGeometricVariations https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
+      string stringifiedGeometricVariation = value.ToString() ?? "";
 
-      this._geometry = value.ToString();
+      if (
+        AttentionBox.CustomGeometricVariations is not null &&
+        AttentionBox.CustomGeometricVariations.IsEnum &&
+        Enum.GetNames(AttentionBox.CustomGeometricVariations).Contains(stringifiedGeometricVariation)
+      )
+      {
+        this._geometry = stringifiedGeometricVariation;
+        return;
+      }
+      
+      throw new InvalidGeometricVariationParameterForYDF_ComponentException();
 
     }
   }
 
   
-  /* --- Decorative variations -------------------------------------------------------------------------------------- */
+  /* ─── Decorative variations ────────────────────────────────────────────────────────────────────────────────────── */
   public enum StandardDecorativeVariations
   {
     notice,
@@ -118,18 +127,11 @@ public partial class AttentionBox : ComponentBase
     question
   }
 
-  protected static object? CustomDecorativeVariations;
+  protected internal static Type? CustomDecorativeVariations;
   
   public static void defineNewDecorativeVariations(Type CustomDecorativeVariations) {
-    
-    if (!CustomDecorativeVariations.IsEnum)
-    {
-      throw new System.Exception("The custom decorative variations must the enumeration.");
-    }
-      
-        
+    YDF_ComponentsHelper.ValidateCustomDecorativeVariation(CustomDecorativeVariations);
     AttentionBox.CustomDecorativeVariations = CustomDecorativeVariations;
-      
   }  
 
   protected string _decoration;
@@ -147,31 +149,44 @@ public partial class AttentionBox : ComponentBase
       }
 
       
-      // TODO CustomDecorativeVariations確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
-      
-      this._decoration = value.ToString();
+      string stringifiedDecorativeVariation = value.ToString() ?? "";
+
+      if (
+        AttentionBox.CustomDecorativeVariations is not null &&
+        AttentionBox.CustomDecorativeVariations.IsEnum &&
+        Enum.GetNames(CustomDecorativeVariations).Contains(stringifiedDecorativeVariation)
+      ) {
+        this._decoration= stringifiedDecorativeVariation;
+        return;
+      }
+
+
+      throw new InvalidDecorativeVariationParameterForYDF_ComponentException();
 
     }
   }
   
   
-  /* --- CSS classes ------------------------------------------------------------------------------------------------ */
+  /* ─── CSS classes ──────────────────────────────────────────────────────────────────────────────────────────────── */
   [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
   private string rootElementModifierCSS_Classes => new List<string>().
+      // TODO カスタム奴を考慮　https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/50
       AddElementToEndIf(
         $"AttentionBox--YDF__{ this._theme.ToUpperCamelCase() }Theme",
-        _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !this.areThemesExternal
+        _ => Enum.GetNames(typeof(StandardThemes)).Length > 1 && !this.areThemesCSS_ClassesCommon
       ).
+      // TODO カスタム奴を考慮　https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/50
       AddElementToEndIf(
         $"AttentionBox--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
         _ => Enum.GetNames(typeof(StandardGeometricVariations)).Length > 1
       ).
+      // TODO カスタム奴を考慮　https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/50
       AddElementToEndIf(
         $"AttentionBox--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
         _ => Enum.GetNames(typeof(StandardDecorativeVariations)).Length > 1
       ).
-      StringifyEachElementAndJoin("");
+      StringifyEachElementAndJoin(" ");
   
   
   /* --- Prepended SVG Icon ----------------------------------------------------------------------------------------- */
@@ -190,4 +205,18 @@ public partial class AttentionBox : ComponentBase
   /* --- Other ------------------------------------------------------------------------------------------------------ */
   [Parameter] public RenderFragment ChildContent { get; set; }
   
+  
+  /* ━━━ Routines ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected static uint counterForID_Generating = 0;
+
+  protected static string generateBasicID()
+  {
+    AttentionBox.counterForID_Generating++;
+    return $"ATTENTION_BOX--YDF-${ AttentionBox.counterForID_Generating }";
+  }
+
+  protected readonly string BASIC_ID = AttentionBox.generateBasicID();
+
+  protected string TITLE_HTML_ID => $"{ this.BASIC_ID }-TITLE";
+
 }

@@ -70,7 +70,7 @@ internal abstract class PeopleSharedState
       PeopleSharedState.NotifyStateChanged();
     }
   }
-  
+
   private static bool _isWaitingForPeopleSelectionRetrieving = true;
   public static bool isWaitingForPeopleSelectionRetrieving
   {

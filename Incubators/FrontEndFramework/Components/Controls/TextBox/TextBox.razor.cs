@@ -6,6 +6,7 @@ namespace FrontEndFramework.Components.Controls.TextBox;
 
 
 public partial class TextBox : InputtableControl
+// public partial class TextBox<TValue, TValidation> : InputtableControl where TValidation : InputtedValueValidation.InputtedValueValidation
 {
 
   /* ━━━ Payload type ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
