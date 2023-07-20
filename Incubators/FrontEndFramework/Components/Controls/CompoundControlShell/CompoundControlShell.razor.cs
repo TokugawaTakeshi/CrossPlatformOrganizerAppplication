@@ -180,25 +180,25 @@ public partial class CompoundControlShell : ComponentBase
   private string rootElementModifierCSS_Classes => new List<string>().
       AddElementToEndIf(
         $"CompoundControlShell--YDF__{ this._theme.ToUpperCamelCase() }Theme",
-        _ => Enum.GetNames(typeof(CompoundControlShell.StandardThemes)).Length > 1 && !this.areThemesExternal
+        Enum.GetNames(typeof(CompoundControlShell.StandardThemes)).Length > 1 && !this.areThemesExternal
       ).
       AddElementToEndIf(
         $"CompoundControlShell--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
-        _ => Enum.GetNames(typeof(CompoundControlShell.StandardGeometricVariations)).Length > 1
+        Enum.GetNames(typeof(CompoundControlShell.StandardGeometricVariations)).Length > 1
       ).
       AddElementToEndIf(
         $"CompoundControlShell--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
-        _ => Enum.GetNames(typeof(CompoundControlShell.StandardDecorativeVariations)).Length > 1
+        Enum.GetNames(typeof(CompoundControlShell.StandardDecorativeVariations)).Length > 1
       ).
       AddElementToEndIf(
         $"CompoundControlShell--YDF__{ this._decoration.ToUpperCamelCase() }__InvalidValueState",
-        _ => this.invalidInputHighlightingIfAnyValidationErrorsMessages && this.validationErrorsMessages.Length > 0
+        this.invalidInputHighlightingIfAnyValidationErrorsMessages && this.validationErrorsMessages.Length > 0
       ).
       AddElementToEndIf(
         $"CompoundControlShell--YDF__{ this._decoration.ToUpperCamelCase() }__ValidValueState",
-        _ => this.validValueHighlightingIfNoValidationErrorsMessages && this.validationErrorsMessages.Length == 0
+        this.validValueHighlightingIfNoValidationErrorsMessages && this.validationErrorsMessages.Length == 0
       ).
-      StringifyEachElementAndJoin("");
+      StringifyEachElementAndJoin(" ");
 
   
   /* === Localization =============================================================================================== */

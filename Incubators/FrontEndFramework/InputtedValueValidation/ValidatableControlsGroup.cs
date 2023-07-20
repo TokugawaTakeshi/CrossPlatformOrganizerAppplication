@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using FrontEndFramework.ValidatableControl;
 
 
 namespace FrontEndFramework.InputtedValueValidation;
@@ -59,9 +60,27 @@ public class ValidatableControlsGroup
       {
         continue;
       }
-      
+
+
+      IValidatableControl componentInstance = controlPayload.GetComponentInstance();
+
+      componentInstance.HighlightInvalidInput();
+
+      if (isCurrentControlTheFirstInvalidOne)
+      {
+        
+        componentInstance.Focus();
+
+        if (scrollingContainerHTML_ID is not null)
+        {
+          // TODO Scroll
+        }
+
+        isCurrentControlTheFirstInvalidOne = false;
+
+      }
+
     }
-    
     
   }
   

@@ -242,12 +242,9 @@ mixin PersonManager(properties, statesSimulations)
       +Button--YDF({
         label: "保存",
         HTML_Type: Button__YDF.HTML_Types.inputSubmit,
-        decoration: Button__YDF.DecorativeVariations.accented,
-        disabled: !targetPerson
+        decoration: Button__YDF.DecorativeVariations.accented
       })
       
-      +Button--YDF({
-        disabled: !targetPerson
-      })
+      +Button--YDF
         +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
         span.Button--YDF-Label 編集を止める

@@ -1,6 +1,7 @@
-﻿using Client.Data.FromUser.Entities.Person;
+﻿using System.Diagnostics;
+using Client.Data.FromUser.Entities.Person;
 using Client.Data.FromUser.Entities.Task;
-
+using FrontEndFramework.Components.Controls.TextBox;
 using FrontEndFramework.InputtedValueValidation;
 using ValidatableControl = FrontEndFramework.ValidatableControl;
 
@@ -29,20 +30,31 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private readonly string ID = PersonManager.generateComponentID();
   private string HEADING_ID => $"{ this.ID }-HEADING";
   
+  private TextBox familyNameTextBox = null!;
+  private TextBox givenNameTextBox = null!;
+
   private (
-    ValidatableControl.Payload<string, PersonFamilyNameInputtedDataValidation> familyName, 
-    ValidatableControl.Payload<string, PersonGivenNameInputtedDataValidation> givenName
-  ) controlsPayload = (
-    familyName: new ValidatableControl.Payload<string, PersonFamilyNameInputtedDataValidation>(
-      initialValue: "", 
-      validation: new PersonFamilyNameInputtedDataValidation()
-    ),
-    givenName: new ValidatableControl.Payload<string, PersonGivenNameInputtedDataValidation>(
-      initialValue: "", 
-      validation: new PersonGivenNameInputtedDataValidation()
-    )
-  );
+    ValidatableControl.Payload familyName,
+    ValidatableControl.Payload givenName
+  ) controlsPayload;
   
+  
+  /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public PersonManager()
+  {
+    this.controlsPayload = (
+      familyName: new ValidatableControl.Payload(
+        initialValue: "", 
+        validation: new PersonFamilyNameInputtedDataValidation(),
+        componentInstanceAccessor: () => this.familyNameTextBox
+      ),
+      givenName: new ValidatableControl.Payload(
+        initialValue: "", 
+        validation: new PersonGivenNameInputtedDataValidation(),
+        componentInstanceAccessor: () => this.givenNameTextBox
+      )
+    );
+  }
 
   /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private void beginPersonEditing()
@@ -50,9 +62,10 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
 
     if (this.targetPerson is null)
     {
-      throw new Exception("「beginPersonEditing」メソッドは呼び出されたが、「targetPerson」は「null」のだ。");
+      throw new Exception("「beginPersonEditing」メソッドは呼び出されたが、「targetPerson」は「null」のまま。");
     }
 
+    
     this.controlsPayload.familyName.Value = this.targetPerson.familyName;
     this.controlsPayload.givenName.Value = this.targetPerson.givenName ?? "";
     
@@ -65,12 +78,12 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     // TODO
   }
   
-  private void updatePerson()
+  private void updatePersonIfInputtedDataIsValid()
   {
 
     if (this.targetPerson is null)
     {
-      throw new Exception("「updatePerson」メソッドは呼び出されたが、「targetPerson」は「null」のだ。");
+      throw new Exception("「updatePersonIfInputtedDataIsValid」メソッドは呼び出されたが、「targetPerson」は「null」のまま。");
     }
 
 
@@ -78,16 +91,18 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     {
       ValidatableControlsGroup.PointOutValidationErrors(this.controlsPayload);
     }
+
+    this.targetPerson.familyName = this.controlsPayload.familyName.GetExpectedToBeValidValue();
     
     // TODO そのままでtargetPersonを更新しても良いと思わん。
-    
+
   }
   
   private void utilizePersonEditing()
   {
     
     this.isViewingMode = true;
-
+    
     this.controlsPayload.familyName.Value = "";
     this.controlsPayload.givenName.Value = "";
 
@@ -96,7 +111,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   
   /* ─── 新規追加・編集 ──────────────────────────────────────────────────────────────────────────────────────────────── */
   // TODO
-  
+
 
   /* ━━━ ルーチン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   /* ─── ID生成 ────────────────────────────────────────────────────────────────────────────────────────────────────── */

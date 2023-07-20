@@ -19,7 +19,7 @@
   >
     人（連絡先）詳細
   </div>
-  
+
   
   @if (targetPerson is null && !String.IsNullOrEmpty(activationGuidance))
   {
@@ -199,10 +199,43 @@
             "入力して下さい。"
         )
         spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        payload=@controlsPayload.familyName
+        @ref=familyNameTextBox
+      />
+      
+      <TextBox
+        label="名"
+        guidance=@(
+          $"下の名前を**{ Person.GivenName.MINIMAL_CHARACTERS_COUNT }~{ Person.GivenName.MINIMAL_CHARACTERS_COUNT }文字内**" +
+            "入力して下さい。"
+        )
+        spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        payload=@controlsPayload.givenName
+        @ref=givenNameTextBox
       />
       
     </form>  
-  }
+    
+    <div class="PersonManager-ActionBar">
   
+      <Button
+        label="保存"
+        HTML_Type=@Button.HTML_Types.inputSubmit
+        onClick=@updatePersonIfInputtedDataIsValid
+        decoration=@Button.StandardDecorativeVariations.accented
+      />
+      
+      <Button
+        label="編集を止める"
+        onClick=@utilizePersonEditing
+      >
+        <PrependedSVG_Icon>
+          <MultiplicationSignIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button>
+  
+    </div>
+    
+  }
   
 </div>

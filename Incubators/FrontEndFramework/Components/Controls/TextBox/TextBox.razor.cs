@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using FrontEndFramework.ValidatableControl;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Utils;
 
 
 namespace FrontEndFramework.Components.Controls.TextBox;
 
 
-public partial class TextBox : InputtableControl
-// public partial class TextBox<TValue, TValidation> : InputtableControl where TValidation : InputtedValueValidation.InputtedValueValidation
+public partial class TextBox : InputtableControl, IValidatableControl
 {
 
-  /* ━━━ Payload type ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Payload ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected string rawValue = "";
-  protected ValidatableControl.Payload<TValue, TValidation> _payload;
+  protected ValidatableControl.Payload _payload;
   
   [Parameter]
-  public required ValidatableControl.Payload<TValue, TValidation> payload
+  public required ValidatableControl.Payload payload
   {
     get => _payload;
     set
@@ -85,6 +86,30 @@ public partial class TextBox : InputtableControl
   [Parameter] public bool isReadonly { get; set; } = false;
   
   
+  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public new IValidatableControl HighlightInvalidInput()
+  {
+    base.HighlightInvalidInput();
+    return this;
+  }
+  
+  public ElementReference GetRootElement()
+  {
+    throw new NotImplementedException();
+  }
+
+  public IValidatableControl Focus()
+  {
+    // TODO 非同期呼び出し始末
+    JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputAcceptingElement);
+    return this;
+  }
+
+  public void ResetStateToInitial()
+  {
+  }
+  
+
   /* === Theme ====================================================================================================== */
   public enum StandardThemes { regular }
 
@@ -233,15 +258,15 @@ public partial class TextBox : InputtableControl
     
       AddElementToEndIf(
         $"TextBox--YDF__{ this._theme.ToUpperCamelCase() }Theme",
-        _ => Enum.GetNames(typeof(TextBox.StandardThemes)).Length > 1 && !this.areThemesExternal
+        Enum.GetNames(typeof(TextBox.StandardThemes)).Length > 1 && !this.areThemesExternal
       ).
       AddElementToEndIf(
         $"TextBox--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
-        _ => Enum.GetNames(typeof(TextBox.StandardGeometricVariations)).Length > 1
+        Enum.GetNames(typeof(TextBox.StandardGeometricVariations)).Length > 1
       ).
       AddElementToEndIf(
         $"TextBox--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
-        _ => Enum.GetNames(typeof(TextBox.StandardDecorativeVariations)).Length > 1
+        Enum.GetNames(typeof(TextBox.StandardDecorativeVariations)).Length > 1
       ).
       StringifyEachElementAndJoin("");
    
@@ -268,7 +293,13 @@ public partial class TextBox : InputtableControl
   /* === 未整理 ====================================================================================================== */
   protected void synchronizeRawValueWithPayloadValue()
   {
-    this.rawValue = this.payload.Value;
+    this.rawValue = (string)this.payload.Value;
   }
+
+  protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
+  
+  protected ElementReference nativeInputAcceptingElement;
+  
+  [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
   
 }

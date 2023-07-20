@@ -25,7 +25,7 @@
   },
   "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-27T02:18:49.309Z"
+    "modificationDatetime__ISO_8601": "2023-07-06T02:46:42.633Z"
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
@@ -49,7 +49,7 @@
   },
   "Components/SharedReusable/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-04T02:17:57.226Z"
+    "modificationDatetime__ISO_8601": "2023-07-20T08:59:03.940Z"
   },
   "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
     "issues": [],

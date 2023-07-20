@@ -1,7 +1,4 @@
-﻿using CommonSolution.Entities;
-using Person = CommonSolution.Entities.Person;
-
-using FrontEndFramework.InputtedValueValidation;
+﻿using FrontEndFramework.InputtedValueValidation;
 using FrontEndFramework.InputtedValueValidation.PreMadeRules;
 
 
@@ -12,8 +9,8 @@ internal class PersonGivenNameInputtedDataValidation : InputtedValueValidation
 {
   
   internal PersonGivenNameInputtedDataValidation(
-    bool? isInputRequired  = null,
-    string? requiredValueIsMissingValidationErrorMessage = null
+    bool? isInputRequired = null,
+    string? requiredValueIsMissingValidationErrorMessage = "下の名前は必須ですから、お手数ですが、入力して下さい。"
   ) : base(
     hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
     isInputRequired: isInputRequired ?? CommonSolution.Entities.Person.FamilyName.IS_REQUIRED, 

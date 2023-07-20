@@ -5,18 +5,18 @@ using InputtedValueValidation = FrontEndFramework.InputtedValueValidation.Inputt
 using InputtedValueValidationResult = FrontEndFramework.InputtedValueValidation.Result;
 
 
-public class Payload<TValue, TValidation> where TValidation: InputtedValueValidation
+public class Payload
 {
 
-  protected readonly string BLAZOR_REFERENCE_ID;
+  protected object value;
   
-  protected TValue value;
-  
-  protected readonly TValidation validation;
+  protected readonly InputtedValueValidation validation;
   
   protected InputtedValueValidationResult validationResult;
+
+  protected Func<IValidatableControl> componentInstanceAccessor;
   
-  public TValue Value
+  public object Value
   {
     get => this.value;
     set {
@@ -27,24 +27,23 @@ public class Payload<TValue, TValidation> where TValidation: InputtedValueValida
 
 
   public Payload(
-    TValue initialValue, 
-    TValidation validation,
-    string? blazorReferenceID = null
+    object initialValue, 
+    InputtedValueValidation validation,
+    Func<IValidatableControl> componentInstanceAccessor
   ) {
     
     this.value = initialValue;
     this.validation = validation;
     this.validationResult = this.validation.Validate(initialValue);
-
-    this.BLAZOR_REFERENCE_ID = blazorReferenceID ?? generateAssociatedComponentBlazorReferenceID();
+    this.componentInstanceAccessor = componentInstanceAccessor;
 
   }
 
 
-  public bool IsInvalid => !this.validationResult.IsValid;
+  public bool IsInvalid => this.validationResult.IsValid;
   public string[] ValidationErrorsMessages => this.validationResult.ErrorsMessages;
 
-  public TValue GetExpectedToBeValidValue()
+  public object GetExpectedToBeValidValue()
   {
 
     if (this.IsInvalid)
@@ -56,15 +55,21 @@ public class Payload<TValue, TValidation> where TValidation: InputtedValueValida
     return this.Value;
 
   }
-  
-  
-  /* === Routines =================================================================================================== */
-  /* --- IDs generating ------------------------------------------------------------------------------------------- */
-  protected static uint counterForAssociatedComponentBlazorReferenceID_Generating = 0;
 
-  protected static string generateAssociatedComponentBlazorReferenceID() {
-    Payload.counterForAssociatedComponentBlazorReferenceID_Generating++;
-    return $"VALIDATABLE_CONTROL-{ Payload.counterForAssociatedComponentBlazorReferenceID_Generating }";
+
+  public IValidatableControl GetComponentInstance()
+  {
+
+    IValidatableControl componentInstance = this.componentInstanceAccessor.Invoke();
+
+    // if (componentInstance is null)
+    // {
+    //   throw new Exception("The \"componentInstanceAccessor\" is still \"null\"");
+    // }
+
+    
+    return componentInstance;
+    
   }
   
 }

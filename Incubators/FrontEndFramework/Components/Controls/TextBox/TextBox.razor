@@ -13,6 +13,8 @@
   mustDisplayAppropriateBadgeIfInputIsOptional=@mustDisplayAppropriateBadgeIfInputIsOptional
   coreElementHTML_ID=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
   labelElementHTML_ID=@labelElementHTML_ID
+  validationErrorsMessages=@payload.ValidationErrorsMessages
+  invalidInputHighlightingIfAnyValidationErrorsMessages="mustHighlightInvalidInputIfAnyValidationErrorsMessages"
 >
  
   @if (multiline)
@@ -31,6 +33,7 @@
       aria-labelledby=@externalLabelHTML_ID
       value=@rawValue
       @oninput=@onInputEventHandler
+      @ref=@nativeInputAcceptingElement
     ></textarea>  
   }
 
@@ -52,6 +55,7 @@
       aria-labelledby=@externalLabelHTML_ID
       value=@rawValue
       @oninput=@onInputEventHandler
+      @ref=@nativeInputAcceptingElement
     />  
   }
   
