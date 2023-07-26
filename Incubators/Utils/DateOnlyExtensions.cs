@@ -4,7 +4,7 @@
 public static class DateOnlyExtensions
 {
   
-  public static DateOnly createDateOnlyFromISO8601_String(string ISO8601_String) {
+  public static DateOnly CreateDateOnlyFromISO8601_String(string ISO8601_String) {
     DateTime dateTime = DateTime.Parse(ISO8601_String, null, System.Globalization.DateTimeStyles.RoundtripKind);
     return new DateOnly(dateTime.Year, dateTime.Month, dateTime.Day);
   }

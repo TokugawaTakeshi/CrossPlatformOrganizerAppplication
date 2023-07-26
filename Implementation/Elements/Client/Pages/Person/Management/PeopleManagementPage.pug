@@ -20,12 +20,12 @@ block append SpecificContent
 
   .PeopleManagementPage-SpecificContent.MainLayout-SpecificContentFillingElement
 
-    +PeopleManager({
+    +PeopleViewer({
       loading: PeopleManagementPageStatesSimulations.loading,
       error: PeopleManagementPageStatesSimulations.error,
       noItems: PeopleManagementPageStatesSimulations.noItems,
       noSearchResults: PeopleManagementPageStatesSimulations.noSearchResults
-    }).PeopleManagementPage-PeopleManager
+    }).PeopleManagementPage-PeopleViewer
 
     +PersonManager(
       {

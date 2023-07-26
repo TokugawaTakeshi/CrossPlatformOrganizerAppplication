@@ -199,7 +199,7 @@ public class MockDataSource
         associatedDateTime = requestData.AssociatedDate__ISO8601 is not null ? 
             DateTimeExtensions.createDateTimeFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
         associatedDate = requestData.AssociatedDate__ISO8601 is not null ?
-            DateOnlyExtensions.createDateOnlyFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
+            DateOnlyExtensions.CreateDateOnlyFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
         associatedLocation = requestData.AssociatedLocation
       },
       new TaskMocker.Dependencies

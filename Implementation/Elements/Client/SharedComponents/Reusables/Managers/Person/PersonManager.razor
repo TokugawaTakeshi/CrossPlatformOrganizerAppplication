@@ -1,0 +1,267 @@
+﻿@using CommonSolution.Fundamentals
+@using CommonSolution.Entities
+
+@using FrontEndFramework.Components.AttentionBox
+@using FrontEndFramework.Components.Controls.Buttons.Plain
+@using FrontEndFramework.Components.Controls.TextBox
+@using FrontEndFramework.Helpers
+@using FrontEndFramework.SVG_Icons.Pencil
+@using FrontEndFramework.SVG_Icons.TrashCan
+@using FrontEndFramework.SVG_Icons.MultiplicationSign
+@using Utils
+
+
+<div class="PersonManager @spaceSeparatedAdditionalCSS_Classes">
+  
+  <div 
+    class="PersonManager-Heading"
+    id="@HEADING_ID"
+  >
+    人（連絡先）詳細
+  </div>
+
+  
+  @if (targetPerson is null && !String.IsNullOrEmpty(activationGuidance))
+  {
+    <AttentionBox
+      spaceSeparatedAdditionalCSS_Classes="PersonManager-Guidance"
+      decoration=@AttentionBox.StandardDecorativeVariations.guidance
+      hasPrependedSVG_Icon
+    >
+      <p>@activationGuidance</p>
+    </AttentionBox>
+  }
+  
+  @* ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  <div class="PersonManager-ActionBar">
+    
+    @if (isViewingMode)
+    {
+      <Button
+        disabled=@(targetPerson is null)
+        label="編集"
+        onClick=@beginPersonEditing
+      >
+        <PrependedSVG_Icon>
+          <PencilIcon__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button>
+    }
+      
+    <Button
+      disabled=@(targetPerson is null)
+      label="削除"
+      onClick=@displayPersonDeletingConfirmationDialog
+    >
+      <PrependedSVG_Icon>
+        <TrashCan__Filled spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
+    
+    @if (isEditingMode)
+    {
+      <Button
+        label="編集中断"
+        onClick=@utilizePersonEditing
+      >
+        <PrependedSVG_Icon>
+          <MultiplicationSignIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button> 
+    }
+
+  </div>
+  
+  
+  @* ━━━ 閲覧モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if (isViewingMode)
+  {
+
+    @if (targetPerson is not null)
+    {
+      
+      @if (targetPerson.avatarURI is not null)
+      {
+        <div 
+          class="PersonManager-Avatar"
+          role="img"
+          style=@($"background-image: url({ targetPerson.avatarURI });")
+        ></div>
+      }
+      else
+      {
+        @switch (targetPerson.gender)
+        {
+        
+          case Genders.Male:
+        
+            <PersonIcon__Male spaceSeparatedAdditionalCSS_Classes="PersonManager-AvatarPlaceholder"/>
+            break;
+          
+          case Genders.Female:
+        
+            <PersonIcon__Female spaceSeparatedAdditionalCSS_Classes="PersonManager-AvatarPlaceholder"/>
+            break;
+          
+          default:
+          
+            <PersonIcon spaceSeparatedAdditionalCSS_Classes="PersonManager-AvatarPlaceholder"/>
+            break;
+        
+        }
+      }
+      
+    }
+     
+    
+    <dl class="PersonManager-Metadata">
+    
+      <dt>名前</dt>
+      <dd>@(targetPerson?.fullName ?? "")</dd>
+    
+      <dt>名前の読み方</dt>
+      <dd>@(targetPerson?.fullNameSpell ?? "")</dd>
+      
+      <dt>性別</dt>
+      <dd>
+        @if (targetPerson is not null)
+        {
+          if (targetPerson.gender is not null)
+          {
+            @(targetPerson.gender is Genders.Male ? "男性" : "女性")
+          }
+          else
+          {
+            @("不明")
+          }
+        }
+      </dd>
+      
+      <dt>生年月日</dt>
+      <dd>
+        @if (targetPerson is not null)
+        {
+          @if (targetPerson.birthYear is not null)
+          {
+            @($"{ targetPerson.birthYear }年")
+          }
+          @if (targetPerson.birthMonthNumber__numerationFrom1 is not null)
+          {
+            @($"{ targetPerson.birthMonthNumber__numerationFrom1 }月")
+          }
+          @if (targetPerson.birthDayOfMonth__numerationFrom1 is not null)
+          {
+            @($"{ targetPerson.birthDayOfMonth__numerationFrom1 }日")
+          }
+          @if (targetPerson.age is not null)
+          {
+            @($"{ targetPerson.age }際)")
+          }
+        }
+      </dd>
+      
+      @if (targetPerson?.emailAddress is not null)
+      {
+        <dt>メールアドレス</dt>
+        <dd>
+          <a href=@(AnchorElementHelper.BuildEmailLinkHrefAttributeValue(targetPerson.emailAddress))>
+            @targetPerson.emailAddress  
+          </a>
+        </dd>      
+      }
+      
+      @if (targetPerson?.phoneNumber__digitsOnly is not null)
+      {
+        <dt>電話番号</dt>
+        <dd>
+          <a href=@(AnchorElementHelper.BuildPhoneNumberLinkHrefAttributeValue(targetPerson.phoneNumber__digitsOnly))>
+            @(JapanesePhoneNumber.Format(targetPerson.phoneNumber__digitsOnly))
+          </a>
+        </dd>      
+      }
+
+    </dl>
+  }
+  
+  
+  @* ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  else
+  {
+    <form
+      class="PersonManager-Form"
+      aria-labelledby=@HEADING_ID
+    >
+        
+      <div class="PersonManager-ScrollableGrid">
+        
+        <TextBox
+          label="姓"
+          guidance=@(
+            $"上の名前を**{ Person.FamilyName.MINIMAL_CHARACTERS_COUNT }~{ Person.FamilyName.MAXIMAL_CHARACTERS_COUNT }文字内**" +
+              "入力して下さい。"
+          )
+          payload=@controlsPayload.familyName
+          @ref=familyNameTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+        
+        <TextBox
+          label="名"
+          guidance=@(
+            $"下の名前を**{ Person.GivenName.MINIMAL_CHARACTERS_COUNT }~{ Person.GivenName.MAXIMAL_CHARACTERS_COUNT }文字内**" +
+              "入力して下さい。"
+          )
+          payload=@controlsPayload.givenName
+          @ref=givenNameTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+        
+        <TextBox
+          label="性の読み方"
+          guidance=@(
+            $"上の名前をの読み方を**{ Person.FamilyNameSpell.MINIMAL_CHARACTERS_COUNT }~" + 
+              $"{ Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
+          )
+          payload=@controlsPayload.familyNameSpell
+          @ref=familyNameSpellTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+        
+        <TextBox
+          label="名の読み方"
+          guidance=@(
+            $"下の名前の読み方を**{ Person.GivenNameSpell.MINIMAL_CHARACTERS_COUNT }~" + 
+              $"{ Person.GivenNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
+          )
+          payload=@controlsPayload.givenNameSpell
+          @ref=givenNameSpellTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+
+      </div>
+      
+      <div class="PersonManager-ActionBar">
+  
+        <Button
+          label="保存"
+          HTML_Type=@Button.HTML_Types.inputSubmit
+          onClick=@updatePersonIfInputtedDataIsValid
+          decoration=@Button.StandardDecorativeVariations.accented
+        />
+        
+        <Button
+          label="編集を止める"
+          onClick=@utilizePersonEditing
+        >
+          <PrependedSVG_Icon>
+            <MultiplicationSignIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+          </PrependedSVG_Icon>
+        </Button>
+  
+      </div>
+      
+    </form>
+
+  }
+  
+</div>

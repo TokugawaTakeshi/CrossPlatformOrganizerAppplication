@@ -1,7 +1,7 @@
 ﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules;
 
 
-public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueValidation.IRule
+public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueValidation.IRule
 {
   
   public interface ILocalization
@@ -14,7 +14,7 @@ public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueVa
 
       public struct TemplateVariables
       {
-        public uint MinimalCharactersCount { get; init; }
+        public uint MaximalCharactersCount { get; init; }
         public string RawValue { get; init; }
       }
 
@@ -22,12 +22,12 @@ public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueVa
 
   }
 
-  public static ILocalization Localization = new MinimalCharactersCountInputtedValueValidationRuleEnglishLocalization();
+  public static ILocalization Localization = new MaximalCharactersCountInputtedValueValidationRuleEnglishLocalization();
 
   
   public bool MustFinishValidationIfValueIsInvalid { get; init; }
 
-  public uint MinimalCharactersCount { get; init; }
+  public uint MaximalCharactersCount { get; init; }
   public Func<ILocalization.ErrorMessage.TemplateVariables, string>? ErrorMessageBuilder { get; init; }
   public string? ErrorMessage { get; init; }
 
@@ -37,11 +37,11 @@ public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueVa
 
     return new InputtedValueValidation.IRule.CheckingResult
     {
-      ErrorMessage = rawValue is String stringValue && stringValue.Length >= this.MinimalCharactersCount ? 
+      ErrorMessage = rawValue is String stringValue && stringValue.Length <= this.MaximalCharactersCount ? 
           null : 
           this.buildErrorMessage(new ILocalization.ErrorMessage.TemplateVariables()
           {
-            RawValue = rawValue.ToString() ?? "null", MinimalCharactersCount = this.MinimalCharactersCount
+            RawValue = rawValue.ToString() ?? "null", MaximalCharactersCount = this.MaximalCharactersCount
           })
     };
   }
@@ -62,7 +62,7 @@ public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueVa
     }
 
 
-    return MinimalCharactersCountInputtedValueValidationRule.Localization.ErrorMessageBuilder(templateVariables);
+    return MaximalCharactersCountInputtedValueValidationRule.Localization.ErrorMessageBuilder(templateVariables);
 
   }
 

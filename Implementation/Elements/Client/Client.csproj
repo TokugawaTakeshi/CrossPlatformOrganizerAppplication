@@ -67,8 +67,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\SharedReusable\Managers\People" />
     <Folder Include="StaticPreview\.Build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="SharedComponents\Reusables\Viewers\People\PeopleManager.razor" />
   </ItemGroup>
 
 </Project>
