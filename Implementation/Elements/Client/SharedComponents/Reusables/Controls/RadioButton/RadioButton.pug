@@ -12,8 +12,8 @@ mixin RadioButton--YDF(properties)
       HTML_Name,
       HTML_Value,
       inputElementHTML_ID = `${ COMPONENT_ID }-INPUT`,
+      checked,
       disabled = false,
-      isChecked
     } = properties ?? {}
 
     const rootElementModifierCSS_Classes = [
