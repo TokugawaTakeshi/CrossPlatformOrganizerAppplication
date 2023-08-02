@@ -8,6 +8,7 @@
 
 @using FrontEndFramework.Components.AttentionBox
 @using FrontEndFramework.Components.Controls.Buttons.Plain
+@using FrontEndFramework.SVG_Icons.Person
 
 
 
@@ -28,7 +29,11 @@
       label="新規連絡先追加"
       onClick=@onClickPersonAddingButton
       spaceSeparatedAdditionalCSS_Classes="PeopleViewer-TopActionBar-ButtonForWideContainers"
-    />
+    >
+      <PrependedSVG_Icon>
+        <PersonIcon__Plus spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
     
   </div>
   
@@ -119,7 +124,11 @@
     <Button
       label="新規連絡先追加"
       onClick=@onClickPersonAddingButton
-    />
+    >
+      <PrependedSVG_Icon>
+        <PersonIcon__Plus spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
   
   </div>
   

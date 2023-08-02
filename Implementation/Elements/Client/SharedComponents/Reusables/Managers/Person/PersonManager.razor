@@ -5,9 +5,11 @@
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.TextBox
 @using FrontEndFramework.Helpers
+@using FrontEndFramework.SVG_Icons.FloppyDisk
 @using FrontEndFramework.SVG_Icons.Pencil
 @using FrontEndFramework.SVG_Icons.TrashCan
 @using FrontEndFramework.SVG_Icons.MultiplicationSign
+
 @using Utils
 
 
@@ -238,6 +240,22 @@
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
         />
 
+        <TextBox 
+          label="メールアドレス"
+          HTML_Type=@TextBox.HTML_Types.email
+          payload=@controlsPayload.emailAddress
+          @ref=@emailAddressTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+        
+        <TextBox 
+          label="電話番号"
+          HTML_Type=@TextBox.HTML_Types.phoneNumber
+          payload=@controlsPayload.phoneNumber
+          @ref=@phoneNumberTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+        
       </div>
       
       <div class="PersonManager-ActionBar">
@@ -247,7 +265,11 @@
           HTML_Type=@Button.HTML_Types.inputSubmit
           onClick=@updatePersonIfInputtedDataIsValid
           decoration=@Button.StandardDecorativeVariations.accented
-        />
+        >
+          <PrependedSVG_Icon>
+            <FloppyDiskIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+          </PrependedSVG_Icon>
+        </Button>
         
         <Button
           label="編集を止める"

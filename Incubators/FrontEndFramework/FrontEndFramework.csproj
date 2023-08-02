@@ -25,6 +25,7 @@
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
     <AdditionalFiles Include="Components\Controls\TextBox\TextBox.razor" />
     <AdditionalFiles Include="Components\Controls\TextBox\TextBoxLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="Components\FilesUploader\FilesUploader.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Date.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Time.razor" />
     <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Checked.razor" />

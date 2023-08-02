@@ -1,7 +1,7 @@
-﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules;
+﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
-public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueValidation.IRule
+public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueValidation.IRule
 {
   
   public interface ILocalization
@@ -14,7 +14,7 @@ public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueVa
 
       public struct TemplateVariables
       {
-        public uint MaximalCharactersCount { get; init; }
+        public uint MinimalCharactersCount { get; init; }
         public string RawValue { get; init; }
       }
 
@@ -22,12 +22,12 @@ public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueVa
 
   }
 
-  public static ILocalization Localization = new MaximalCharactersCountInputtedValueValidationRuleEnglishLocalization();
+  public static ILocalization Localization = new MinimalCharactersCountInputtedValueValidationRuleEnglishLocalization();
 
   
   public bool MustFinishValidationIfValueIsInvalid { get; init; }
 
-  public uint MaximalCharactersCount { get; init; }
+  public uint MinimalCharactersCount { get; init; }
   public Func<ILocalization.ErrorMessage.TemplateVariables, string>? ErrorMessageBuilder { get; init; }
   public string? ErrorMessage { get; init; }
 
@@ -37,11 +37,11 @@ public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueVa
 
     return new InputtedValueValidation.IRule.CheckingResult
     {
-      ErrorMessage = rawValue is String stringValue && stringValue.Length <= this.MaximalCharactersCount ? 
+      ErrorMessage = rawValue is String stringValue && stringValue.Length >= this.MinimalCharactersCount ? 
           null : 
           this.buildErrorMessage(new ILocalization.ErrorMessage.TemplateVariables()
           {
-            RawValue = rawValue.ToString() ?? "null", MaximalCharactersCount = this.MaximalCharactersCount
+            RawValue = rawValue.ToString() ?? "null", MinimalCharactersCount = this.MinimalCharactersCount
           })
     };
   }
@@ -62,7 +62,7 @@ public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueVa
     }
 
 
-    return MaximalCharactersCountInputtedValueValidationRule.Localization.ErrorMessageBuilder(templateVariables);
+    return MinimalCharactersCountInputtedValueValidationRule.Localization.ErrorMessageBuilder(templateVariables);
 
   }
 

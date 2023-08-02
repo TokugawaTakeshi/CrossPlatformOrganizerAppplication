@@ -137,7 +137,7 @@
   },
   "SharedComponents/Reusables/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-20T08:59:03.940Z"
+    "modificationDatetime__ISO_8601": "2023-07-27T03:38:44.369Z"
   },
   "SharedComponents/Reusables/Cards/Task/TaskCard.pug": {
     "issues": [],
@@ -157,11 +157,11 @@
   },
   "SharedComponents/Reusables/Controls/RadioButton/RadioButton.class.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-15T10:14:23.779Z"
+    "modificationDatetime__ISO_8601": "2023-07-28T05:57:44.261Z"
   },
   "SharedComponents/Reusables/Controls/RadioButton/RadioButton.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:23:07.144Z"
+    "modificationDatetime__ISO_8601": "2023-07-29T03:28:43.988Z"
   },
   "SharedComponents/Reusables/Controls/RadioButtonsGroup/RadioButtonsGroup.class.pug": {
     "issues": [],
@@ -169,7 +169,7 @@
   },
   "SharedComponents/Reusables/Controls/RadioButtonsGroup/RadioButtonsGroup.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:30:37.803Z"
+    "modificationDatetime__ISO_8601": "2023-07-28T05:40:08.120Z"
   },
   "SharedComponents/Reusables/Controls/SearchBox/SearchBox.class.pug": {
     "issues": [],
@@ -198,5 +198,16 @@
   "SharedComponents/SharedComponents.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-07-27T03:07:53.829Z"
+  },
+  "SharedComponents/Reusables/Controls/RadioButton/_RadioButton.razor.pug": {
+    "issues": [
+      {
+        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
+        "message": "Missing line feed at file end",
+        "sourceListing": "﻿.RadioButton--YDF(\n  class=\"@rootElementModifierSpaceSeparatedCSS_Classes @spaceSeparatedAdditionalCSS_Classes\"\n)\n\n  span.RadioButton--YDF-Ring\n  \n  label.RadioButton--YDF-Label(\n    for=\"@INPUT_ELEMENT_HTML_ID\"\n  ) @(label)\n  \n  input.RadioButton--YDF-HiddenInputElement(\n    type=\"radio\"\n    name=\"@HTML_Name\"\n    value=\"@HTML_Value\"\n    disabled=\"@disabled\"\n    readonly=\"@readonly\"\n    id=\"INPUT_ELEMENT_HTML_ID\"\n  )",
+        "lineNumber": 18
+      }
+    ],
+    "modificationDatetime__ISO_8601": "2023-07-28T06:01:36.472Z"
   }
 }

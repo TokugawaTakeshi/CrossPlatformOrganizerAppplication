@@ -243,10 +243,11 @@ mixin PersonManager(properties, statesSimulations)
         .PersonManager-ActionBar
     
           +Button--YDF({
-            label: "保存",
-            HTML_Type: Button__YDF.HTML_Types.inputSubmit,
+            HTML_Type: Button__YDF.HTML_Types.submit,
             decoration: Button__YDF.DecorativeVariations.accented
           })
+            +FloppyDisk--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label 保存
           
           +Button--YDF
             +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon

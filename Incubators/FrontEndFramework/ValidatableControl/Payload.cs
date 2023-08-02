@@ -43,7 +43,7 @@ public class Payload
   public bool IsInvalid => this.validationResult.IsValid;
   public string[] ValidationErrorsMessages => this.validationResult.ErrorsMessages;
 
-  public object GetExpectedToBeValidValue()
+  public TValue GetExpectedToBeValidValue<TValue>()
   {
 
     if (this.IsInvalid)
@@ -52,7 +52,13 @@ public class Payload
     }
 
 
-    return this.Value;
+    if (this.Value is TValue narrowedValidValue)
+    {
+      return narrowedValidValue;
+    }
+
+
+    throw new Exception("The actual type is difference target one.");
 
   }
 

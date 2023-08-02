@@ -1,7 +1,12 @@
 ﻿using Client.Data.FromUser.Entities.Person;
+
 using FrontEndFramework.Components.Controls.TextBox;
 using FrontEndFramework.InputtedValueValidation;
 using ValidatableControl = FrontEndFramework.ValidatableControl;
+
+using Microsoft.EntityFrameworkCore;
+
+using Utils;
 
 
 namespace Client.SharedComponents.Reusables.Managers.Person;
@@ -32,13 +37,10 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private TextBox givenNameTextBox = null!;
   private TextBox familyNameSpellTextBox = null!;
   private TextBox givenNameSpellTextBox = null!;
+  private TextBox emailAddressTextBox = null!;
+  private TextBox phoneNumberTextBox = null!;
 
-  private (
-    ValidatableControl.Payload familyName,
-    ValidatableControl.Payload givenName,
-    ValidatableControl.Payload familyNameSpell,
-    ValidatableControl.Payload givenNameSpell
-  ) controlsPayload;
+  private (ValidatableControl.Payload familyName, ValidatableControl.Payload givenName, ValidatableControl.Payload familyNameSpell, ValidatableControl.Payload givenNameSpell, ValidatableControl.Payload emailAddress, ValidatableControl.Payload phoneNumber) controlsPayload;
   
   
   /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -64,6 +66,16 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
         initialValue: "", 
         validation: new PersonGivenNameSpellInputtedDataValidation(),
         componentInstanceAccessor: () => this.givenNameSpellTextBox
+      ),
+      emailAddress: new ValidatableControl.Payload(
+        initialValue: "",
+        validation: new PersonEmailInputtedDataValidation(),
+        componentInstanceAccessor: () => this.emailAddressTextBox
+      ),
+      phoneNumber: new ValidatableControl.Payload(
+        initialValue: "",
+        validation: new PersonPhoneNumberInputtedDataValidation(),
+        componentInstanceAccessor: () => this.phoneNumberTextBox
       )
     );
   }
@@ -83,6 +95,8 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     this.controlsPayload.givenName.Value = this.targetPerson.givenName ?? "";
     this.controlsPayload.familyNameSpell.Value = this.targetPerson.familyNameSpell ?? "";
     this.controlsPayload.givenNameSpell.Value = this.targetPerson.givenNameSpell ?? "";
+    this.controlsPayload.emailAddress.Value = this.targetPerson.emailAddress ?? "";
+    this.controlsPayload.phoneNumber.Value = this.targetPerson.phoneNumber__digitsOnly ?? "";
     
     this.isViewingMode = false;
     
@@ -109,8 +123,14 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
       return;
     }
     
-    // TODO https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/55
-    // this.targetPerson.familyName = this.controlsPayload.familyName.GetExpectedToBeValidValue();
+    this.targetPerson.familyName = this.controlsPayload.familyName.GetExpectedToBeValidValue<string>();
+    this.targetPerson.givenName = this.controlsPayload.givenName.GetExpectedToBeValidValue<string>();
+    this.targetPerson.familyNameSpell = this.controlsPayload.familyNameSpell.GetExpectedToBeValidValue<string>();
+    this.targetPerson.givenNameSpell = this.controlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>();
+    this.targetPerson.emailAddress = this.controlsPayload.emailAddress.GetExpectedToBeValidValue<string>();
+    this.targetPerson.phoneNumber__digitsOnly = this.controlsPayload.phoneNumber.GetExpectedToBeValidValue<string>().
+        RemoveAllSpecifiedCharacters(new []{ '-' });
+    
     // TODO そのままでtargetPersonを更新しても良いと思わん。
 
   }
@@ -124,6 +144,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     this.controlsPayload.givenName.Value = "";
     this.controlsPayload.familyNameSpell.Value = "";
     this.controlsPayload.givenNameSpell.Value = "";
+    this.controlsPayload.emailAddress.Value = "";
 
   }
   

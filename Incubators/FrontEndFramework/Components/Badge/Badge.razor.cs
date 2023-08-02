@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using FrontEndFramework.Components.Abstractions;
+﻿using FrontEndFramework.Components.Abstractions;
 using FrontEndFramework.Exceptions;
 
 using System.Diagnostics;
@@ -10,14 +9,17 @@ using Utils;
 namespace FrontEndFramework.Components.Badge;
 
 
-public partial class Badge : ComponentBase
+public partial class Badge : Microsoft.AspNetCore.Components.ComponentBase
 {
 
-  [Parameter] public string? key { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? key { get; set; }
   
-  [Parameter] public required string value { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required string value { get; set; }
   
-  [Parameter] public RenderFragment? PrependedSVG_Icon { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter]
+  public Microsoft.AspNetCore.Components.RenderFragment? PrependedSVG_Icon { get; set; }
   
   
   /* ━━━ Theming ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -33,7 +35,8 @@ public partial class Badge : ComponentBase
 
   protected string _theme = Badge.StandardThemes.regular.ToString();
   
-  [Parameter] public object theme
+  [Microsoft.AspNetCore.Components.Parameter]
+  public object theme
   {
     get => this._theme;
     set => YDF_ComponentsHelper.AssignThemeIfItIsValid<Badge.StandardThemes>(
@@ -48,7 +51,8 @@ public partial class Badge : ComponentBase
     Badge.mustConsiderThemesCSS_ClassesAsCommon = true;
   }
   
-  [Parameter] public bool areThemesCSS_ClassesCommon { get; set; } = 
+  [Microsoft.AspNetCore.Components.Parameter]
+  public bool areThemesCSS_ClassesCommon { get; set; } = 
       YDF_ComponentsHelper.areThemesCSS_ClassesCommon || Badge.mustConsiderThemesCSS_ClassesAsCommon;
   
   
@@ -65,7 +69,8 @@ public partial class Badge : ComponentBase
 
   protected string _geometry = Badge.StandardGeometricVariations.regular.ToString();
 
-  [Parameter] public object geometry
+  [Microsoft.AspNetCore.Components.Parameter]
+  public object geometry
   {
     get => this._geometry;
     set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<Badge.StandardGeometricVariations>(
@@ -79,7 +84,8 @@ public partial class Badge : ComponentBase
     singleLine
   }
 
-  [Parameter] public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
+  [Microsoft.AspNetCore.Components.Parameter] 
+  public Badge.GeometricModifiers[] geometricModifiers { get; set; } = Array.Empty<Badge.GeometricModifiers>(); 
   
   
   /* ─── Decorative variations ────────────────────────────────────────────────────────────────────────────────────── */
@@ -110,7 +116,8 @@ public partial class Badge : ComponentBase
 
   protected string _decoration;
 
-  [Parameter] public required object decoration
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required object decoration
   {
     get => _decoration;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<Badge.StandardDecorativeVariations>(
@@ -120,11 +127,13 @@ public partial class Badge : ComponentBase
   
   public enum DecorativeModifiers { bordersDisguising }
   
-  [Parameter] public Badge.DecorativeModifiers[] decorativeModifiers { get; set; } = Array.Empty<Badge.DecorativeModifiers>();
+  [Microsoft.AspNetCore.Components.Parameter]
+  public Badge.DecorativeModifiers[] decorativeModifiers { get; set; } = Array.Empty<Badge.DecorativeModifiers>();
 
 
-  /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
   private string rootElementModifierCSS_Classes => new List<string>().
     
@@ -161,6 +170,6 @@ public partial class Badge : ComponentBase
         this.decorativeModifiers.Contains(Badge.DecorativeModifiers.bordersDisguising)
       ).
           
-      StringifyEachElementAndJoin("");
+      StringifyEachElementAndJoin(" ");
   
 }

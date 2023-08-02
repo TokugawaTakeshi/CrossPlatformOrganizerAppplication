@@ -1,8 +1,8 @@
-﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules;
+﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
 public struct MinimalCharactersCountInputtedValueValidationRuleEnglishLocalization : 
-  MinimalCharactersCountInputtedValueValidationRule.ILocalization
+    MinimalCharactersCountInputtedValueValidationRule.ILocalization
 {
   
   public Func<

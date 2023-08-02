@@ -23,7 +23,8 @@ public class PaginationCollection<TItem>
 
     for (uint pageIndex = 0; pageIndex < this.PagesCount; pageIndex++)
     {
-      _itemsByPages[pageIndex] = items.
+      
+      this._itemsByPages[pageIndex] = items.
         Skip(pageIndex > 0 ? (int)elementStartingIndexForCurrentPage - 1 : 0).
         Take((int)itemsCountPerPaginationPage).
         ToArray();
@@ -31,8 +32,6 @@ public class PaginationCollection<TItem>
       elementStartingIndexForCurrentPage = elementStartingIndexForCurrentPage + itemsCountPerPaginationPage;
       
     }
-
-    PagesCount = this.PagesCount;
     
   }
   

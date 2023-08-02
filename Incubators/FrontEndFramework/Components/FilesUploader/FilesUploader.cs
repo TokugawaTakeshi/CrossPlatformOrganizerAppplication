@@ -1,14 +1,14 @@
 ﻿using FrontEndFramework.Components.Abstractions;
+using FrontEndFramework.Components.Controls;
 using FrontEndFramework.ValidatableControl;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Utils;
 
 
-namespace FrontEndFramework.Components.Controls.TextBox;
+namespace FrontEndFramework.Components.FilesUploader;
 
 
-public partial class TextBox : InputtableControl, IValidatableControl
+public partial class FilesUploader : InputtableControl, IValidatableControl
 {
 
   /* ━━━ Payload ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -32,68 +32,47 @@ public partial class TextBox : InputtableControl, IValidatableControl
   }
   
   
-  /* ━━━ HTML type ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public enum HTML_Types
-  {
-    regular,
-    email,
-    number,
-    password,
-    phoneNumber,
-    URI,
-    hidden
-  }
-
-  [Microsoft.AspNetCore.Components.Parameter]
-  public HTML_Types HTML_Type { get; set; } = HTML_Types.regular;
-  
-
-  
-  /* ━━━ Textings ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? placeholder { get; set; }
-
-  
   /* ━━━ Preventing of inputting of invalid value ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]  
   public ulong? minimalCharactersCount { get; set; }
+
+  public ulong? _maximalCharactersCount;
   
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public ulong? maximalCharactersCount { get; set; }
-  
-  
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public ulong? minimalNumericValue { get; set; }
-  
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public ulong? maximalNumericValue { get; set; }
-  
-  
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public bool valueMustBeTheNonNegativeIntegerOfRegularNotation { get; set; } = false;
-   
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public bool valueMustBeTheDigitsSequence { get; set; } = false;
-  
-  
-  /* ━━━ Raw value transformations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter] 
-  public bool mustConvertEmptyStringToNull { get; set; }
-  
-  [Microsoft.AspNetCore.Components.Parameter] 
-  public bool mustConvertEmptyStringToZero { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter]
+  public ulong? maximalCharactersCount
+  {
+    get => this._maximalCharactersCount;
+    set
+    {
+      
+      if (this.minimalCharactersCount is not null && value > this.minimalCharactersCount)
+      {
+        throw new ArgumentOutOfRangeException(
+          nameof(this.maximalCharactersCount),
+          "\"maximalFilesCount\" could not be less than \"minimalFilesCount\"."
+        );
+      }
+
+
+      this._maximalCharactersCount = value;
+
+    }
+  }
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string[] supportedFilesNamesExtensions { get; set; } = Array.Empty<string>();
   
   
   /* ━━━ HTML IDs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* ─── Input or text area ──────────────────────────────────────────────────────────────────────────────────────── */
-  protected static uint counterForInputOrTextAreaElementHTML_ID_Generating = 0;
+  /* ─── Input element ───────────────────────────────────────────────────────────────────────────────────────────── */
+  protected static uint counterForInputElementHTML_ID_Generating = 0;
   
-  protected static string generateInputOrTextAreaElementHTML_ID() {
-    TextBox.counterForInputOrTextAreaElementHTML_ID_Generating++;
-    return $"TEXT_BOX--YDF-INPUT_OR_TEXT_AREA_ELEMENT-${ TextBox.counterForInputOrTextAreaElementHTML_ID_Generating }";
+  protected static string generateInputElementHTML_ID() {
+    FilesUploader.counterForInputElementHTML_ID_Generating++;
+    return $"FILES_UPLOADER--YDE-INPUT_ELEMENT-${ FilesUploader.counterForInputElementHTML_ID_Generating }";
   }
 
-  protected readonly string INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID;
+  protected readonly string INPUT_ELEMENT_HTML_ID;
   
   /* ─── Label ───────────────────────────────────────────────────────────────────────────────────────────────────── */
   [Microsoft.AspNetCore.Components.Parameter] 
@@ -101,16 +80,13 @@ public partial class TextBox : InputtableControl, IValidatableControl
 
   
   /* ━━━ Other flags ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public bool multiline { get; set; } = false;
-  
-  [Microsoft.AspNetCore.Components.Parameter]  
+  [Microsoft.AspNetCore.Components.Parameter]
   public bool @readonly { get; set; } = false;
   
   
   /* ━━━ Children components/elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected Microsoft.AspNetCore.Components.ElementReference nativeInputAcceptingElement;
-
+  protected Microsoft.AspNetCore.Components.ElementReference nativeInputElement;
+  
   
   /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public new IValidatableControl HighlightInvalidInput()
@@ -128,15 +104,15 @@ public partial class TextBox : InputtableControl, IValidatableControl
   public IValidatableControl Focus()
   {
     // TODO 非同期呼び出し始末
-    JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputAcceptingElement);
+    JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputElement);
     return this;
   }
-
+  
   public void ResetStateToInitial()
   {
   }
   
-
+  
   /* ━━━ Theming ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public enum StandardThemes { regular }
   
@@ -145,17 +121,17 @@ public partial class TextBox : InputtableControl, IValidatableControl
   public static void defineCustomThemes(Type CustomThemes)
   {
     YDF_ComponentsHelper.ValidateCustomTheme(CustomThemes);
-    TextBox.CustomThemes = CustomThemes;
+    FilesUploader.CustomThemes = CustomThemes;
   }
 
-  protected string _theme = TextBox.StandardThemes.regular.ToString();
+  protected string _theme = FilesUploader.StandardThemes.regular.ToString();
   
   [Microsoft.AspNetCore.Components.Parameter]
   public object theme
   {
     get => this._theme;
-    set => YDF_ComponentsHelper.AssignThemeIfItIsValid<TextBox.StandardThemes>(
-      value, TextBox.CustomThemes, ref this._theme
+    set => YDF_ComponentsHelper.AssignThemeIfItIsValid<FilesUploader.StandardThemes>(
+      value, FilesUploader.CustomThemes, ref this._theme
     );
   }
 
@@ -163,12 +139,13 @@ public partial class TextBox : InputtableControl, IValidatableControl
 
   public static void considerThemesAsCommon()
   {
-    TextBox.mustConsiderThemesCSS_ClassesAsCommon = true;
+    FilesUploader.mustConsiderThemesCSS_ClassesAsCommon = true;
   }
   
   [Microsoft.AspNetCore.Components.Parameter]
   public bool areThemesCSS_ClassesCommon { get; set; } = 
-      YDF_ComponentsHelper.areThemesCSS_ClassesCommon || TextBox.mustConsiderThemesCSS_ClassesAsCommon;
+      YDF_ComponentsHelper.areThemesCSS_ClassesCommon || FilesUploader.mustConsiderThemesCSS_ClassesAsCommon;
+  
   
   /* ─── Geometry ─────────────────────────────────────────────────────────────────────────────────────────────────── */
   public enum StandardGeometricVariations { regular }
@@ -178,20 +155,19 @@ public partial class TextBox : InputtableControl, IValidatableControl
   public static void defineCustomGeometricVariations(Type CustomGeometricVariations)
   {
     YDF_ComponentsHelper.ValidateCustomGeometricVariation(CustomGeometricVariations);
-    TextBox.CustomGeometricVariations = CustomGeometricVariations;
+    FilesUploader.CustomGeometricVariations = CustomGeometricVariations;
   }
 
-  protected string _geometry = TextBox.StandardGeometricVariations.regular.ToString();
+  protected string _geometry = FilesUploader.StandardGeometricVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
   public object geometry
   {
     get => this._geometry;
-    set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<TextBox.StandardGeometricVariations>(
-    value, TextBox.CustomGeometricVariations, ref this._geometry
+    set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<FilesUploader.StandardGeometricVariations>(
+    value, FilesUploader.CustomGeometricVariations, ref this._geometry
     );
   }
-  
   
   /* ─── Decorative variations ────────────────────────────────────────────────────────────────────────────────────── */
   public enum StandardDecorativeVariations { regular }
@@ -200,57 +176,57 @@ public partial class TextBox : InputtableControl, IValidatableControl
 
   public static void defineCustomDecorativeVariations(Type CustomDecorativeVariations) {
     YDF_ComponentsHelper.ValidateCustomDecorativeVariation(CustomDecorativeVariations);
-    TextBox.CustomDecorativeVariations = CustomDecorativeVariations;
+    FilesUploader.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
   protected string _decoration;
 
-  [Parameter] public required object decoration
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required object decoration
   {
     get => _decoration;
-    set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<TextBox.StandardDecorativeVariations>(
-      value, TextBox.CustomDecorativeVariations, ref this._decoration
+    set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<FilesUploader.StandardDecorativeVariations>(
+      value, FilesUploader.CustomDecorativeVariations, ref this._decoration
     );
   }
   
   
   /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.Parameter] 
   public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
   
   private string rootElementModifierCSS_Classes => new List<string>().
       
-      AddElementToEndIf("TextBox--YDF__Multiline", this.multiline).
       AddElementToEndIf("TextBox--YDF__DisabledState", this.disabled).
     
       AddElementToEndIf(
         $"TextBox--YDF__{ this._theme.ToUpperCamelCase() }Theme",
         YDF_ComponentsHelper.MustApplyThemeCSS_Class(
-          typeof(TextBox.StandardThemes), TextBox.CustomThemes, this.areThemesCSS_ClassesCommon
+          typeof(FilesUploader.StandardThemes), FilesUploader.CustomThemes, this.areThemesCSS_ClassesCommon
         )
       ).
       
       AddElementToEndIf(
         $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
         YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
-          typeof(TextBox.StandardGeometricVariations), TextBox.CustomGeometricVariations
+          typeof(FilesUploader.StandardGeometricVariations), FilesUploader.CustomGeometricVariations
         )
       ).
       
       AddElementToEndIf(
         $"Badge--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
         YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
-          typeof(TextBox.StandardDecorativeVariations), TextBox.CustomDecorativeVariations
+          typeof(FilesUploader.StandardDecorativeVariations), FilesUploader.CustomDecorativeVariations
         )
       ).
       
       StringifyEachElementAndJoin(" ");
-   
+
   
   /* ━━━  Constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public TextBox()
+  public FilesUploader()
   {
-    this.INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID = base.coreElementHTML_ID ?? TextBox.generateInputOrTextAreaElementHTML_ID();
+    this.INPUT_ELEMENT_HTML_ID = base.coreElementHTML_ID ?? FilesUploader.generateInputElementHTML_ID();
   }
   
   
@@ -261,7 +237,6 @@ public partial class TextBox : InputtableControl, IValidatableControl
   }
   
   protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
-  
   
   [Microsoft.AspNetCore.Components.Inject] 
   protected IJSRuntime JSRuntime { get; set; } = null!;

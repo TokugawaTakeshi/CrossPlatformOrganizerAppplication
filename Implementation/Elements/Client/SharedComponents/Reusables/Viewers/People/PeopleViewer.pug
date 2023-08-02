@@ -10,9 +10,9 @@ mixin PeopleViewer(statesSimulations)
         placeholder: "名義や名前の読み方で検索"
       }).PeopleViewer-TopActionBar-SearchBox
       
-      +Button--YDF({
-        label: "新規連絡先追加",
-      }).PeopleViewer-TopActionBar-ButtonForWideContainers
+      +Button--YDF.PeopleViewer-TopActionBar-ButtonForWideContainers
+        +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
+        span.Button--YDF-Label 新規連絡先追加
     
     if statesSimulations.loading
 
@@ -76,6 +76,6 @@ mixin PeopleViewer(statesSimulations)
           
     .PeopleViewer-BottomActionBarForNarrowContainers
 
-      +Button--YDF({
-        label: "新規連絡先追加"
-      })
+      +Button--YDF
+        +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
+        span.Button--YDF-Label 新規連絡先追加

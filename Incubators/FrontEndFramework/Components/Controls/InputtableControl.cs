@@ -22,6 +22,8 @@ public abstract class InputtableControl : ComponentBase
   [Parameter] public bool mustDisplayAppropriateBadgeIfInputIsRequired { get; set; } = false;
 
   [Parameter] public bool mustDisplayAppropriateBadgeIfInputIsOptional { get; set; } = false;
+
+  [Parameter] public bool mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge { get; set; } = false;
  
   
   [Parameter] public string? coreElementHTML_ID { get; set; }

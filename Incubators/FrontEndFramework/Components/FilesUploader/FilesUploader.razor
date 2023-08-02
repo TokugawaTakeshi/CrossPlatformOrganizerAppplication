@@ -1,0 +1,23 @@
+﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
+
+
+@inherits FrontEndFramework.Components.Controls.InputtableControl
+
+
+<CompoundControlShell
+  spaceSeparatedAdditionalCSS_Classes="@string.Concat("FilesUploader--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)"
+  label=@label
+  guidance=@guidance
+  required=@required
+  mustDisplayAppropriateBadgeIfInputIsRequired=@mustDisplayAppropriateBadgeIfInputIsRequired
+  mustDisplayAppropriateBadgeIfInputIsOptional=@mustDisplayAppropriateBadgeIfInputIsOptional
+  mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge=@mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge
+  coreElementHTML_ID=@INPUT_ELEMENT_HTML_ID
+  labelElementHTML_ID=@labelElementHTML_ID
+  validationErrorsMessages=@payload.ValidationErrorsMessages
+  invalidInputHighlightingIfAnyValidationErrorsMessages="mustHighlightInvalidInputIfAnyValidationErrorsMessages"
+>
+  
+  
+  
+</CompoundControlShell>

@@ -1,5 +1,5 @@
 ﻿using FrontEndFramework.InputtedValueValidation;
-using FrontEndFramework.InputtedValueValidation.PreMadeRules;
+using FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
 namespace Client.Data.FromUser.Entities.Person;

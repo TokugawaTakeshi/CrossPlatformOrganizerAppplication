@@ -1,11 +1,15 @@
-﻿namespace Utils;
+﻿using System.Text.RegularExpressions;
+
+
+namespace Utils;
 
 
 public class JapanesePhoneNumber
 {
 
   public static byte DIGITS_COUNT_IN_TWO_LAST_PORTIONS_DIVIDED_BY_NDASH = 4;
-  
+
+  public static readonly Regex VALID_PATTERN__WIHTOUT_DASHES = new(@"^\d{10,11}$"); 
   
   public static string Format(string phoneNumber)
   {
@@ -16,6 +20,13 @@ public class JapanesePhoneNumber
     return $"{ phoneNumber__digitsOnly[..firstNDashPosition] }-" +
         $"{ phoneNumber__digitsOnly.Substring(firstNDashPosition, secondNDashPosition - firstNDashPosition) }-" +
         $"{ phoneNumber__digitsOnly[secondNDashPosition..] }";
+  }
+
+  public static bool IsValid(string potentialJapanesePhoneNumber)
+  {
+    return JapanesePhoneNumber.VALID_PATTERN__WIHTOUT_DASHES.IsMatch(
+      potentialJapanesePhoneNumber.RemoveAllSpecifiedCharacters(new[] {'-'})
+    );
   }
   
 }

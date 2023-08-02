@@ -1,7 +1,7 @@
 ﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
 
 
-@inherits InputtableControl
+@inherits FrontEndFramework.Components.Controls.InputtableControl
 
 
 <CompoundControlShell
@@ -11,6 +11,7 @@
   required=@required
   mustDisplayAppropriateBadgeIfInputIsRequired=@mustDisplayAppropriateBadgeIfInputIsRequired
   mustDisplayAppropriateBadgeIfInputIsOptional=@mustDisplayAppropriateBadgeIfInputIsOptional
+  mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge=@mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge
   coreElementHTML_ID=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
   labelElementHTML_ID=@labelElementHTML_ID
   validationErrorsMessages=@payload.ValidationErrorsMessages
@@ -23,7 +24,7 @@
     <textarea
       class="TextBox--YDF-InputOrTextAreaElement"
       placeholder=@placeholder
-      readonly=@isReadonly
+      readonly=@(@readonly)
       disabled=@disabled
       required=@required
       minlength=@minimalCharactersCount
@@ -43,7 +44,7 @@
       type="text"
       class="TextBox--YDF-InputOrTextAreaElement"
       placeholder=@placeholder
-      readonly=@isReadonly
+      readonly=@(@readonly)
       disabled=@disabled
       required=@required
       minlength=@minimalCharactersCount
