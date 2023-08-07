@@ -1,6 +1,8 @@
-﻿using Client.Data.FromUser.Entities.Person;
-
+﻿using System.Diagnostics;
+using Client.Data.FromUser.Entities.Person;
+using CommonSolution.Fundamentals;
 using FrontEndFramework.Components.Controls.TextBox;
+using FrontEndFramework.Components.Controls.RadioButtonsGroup;
 using FrontEndFramework.InputtedValueValidation;
 using ValidatableControl = FrontEndFramework.ValidatableControl;
 
@@ -37,10 +39,33 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private TextBox givenNameTextBox = null!;
   private TextBox familyNameSpellTextBox = null!;
   private TextBox givenNameSpellTextBox = null!;
+  private RadioButtonsGroup genderRadioButtonsGroup = null!;
   private TextBox emailAddressTextBox = null!;
   private TextBox phoneNumberTextBox = null!;
 
-  private (ValidatableControl.Payload familyName, ValidatableControl.Payload givenName, ValidatableControl.Payload familyNameSpell, ValidatableControl.Payload givenNameSpell, ValidatableControl.Payload emailAddress, ValidatableControl.Payload phoneNumber) controlsPayload;
+  private readonly RadioButtonsGroup.SelectingOption[] genderRadioButtonsGroupSelectingOptions = {
+    new()
+    {
+      label = "男性",
+      key = Genders.Male.ToString()
+    },
+    new()
+    {
+      label = "女性",
+      key = Genders.Female.ToString()
+    }
+  };
+      
+  
+  private (
+    ValidatableControl.Payload familyName, 
+    ValidatableControl.Payload givenName, 
+    ValidatableControl.Payload familyNameSpell, 
+    ValidatableControl.Payload givenNameSpell,
+    ValidatableControl.Payload gender,
+    ValidatableControl.Payload emailAddress, 
+    ValidatableControl.Payload phoneNumber
+  ) controlsPayload;
   
   
   /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -66,6 +91,11 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
         initialValue: "", 
         validation: new PersonGivenNameSpellInputtedDataValidation(),
         componentInstanceAccessor: () => this.givenNameSpellTextBox
+      ),
+      gender: new ValidatableControl.Payload(
+        initialValue: "",
+        validation: new PersonGenderInputtedDataValidation(),
+        componentInstanceAccessor: () => this.genderRadioButtonsGroup
       ),
       emailAddress: new ValidatableControl.Payload(
         initialValue: "",

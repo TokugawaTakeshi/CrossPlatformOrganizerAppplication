@@ -23,6 +23,8 @@
     <AdditionalFiles Include="Components\AttentionBox\AttentionBox.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\Button.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="Components\Controls\RadioButton\RadioButton.razor" />
+    <AdditionalFiles Include="Components\Controls\SearchBox\SearchBox.razor" />
     <AdditionalFiles Include="Components\Controls\TextBox\TextBox.razor" />
     <AdditionalFiles Include="Components\Controls\TextBox\TextBoxLoadingPlaceholder.razor" />
     <AdditionalFiles Include="Components\FilesUploader\FilesUploader.razor" />

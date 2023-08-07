@@ -3,6 +3,7 @@
 
 @using FrontEndFramework.Components.AttentionBox
 @using FrontEndFramework.Components.Controls.Buttons.Plain
+@using FrontEndFramework.Components.Controls.RadioButtonsGroup
 @using FrontEndFramework.Components.Controls.TextBox
 @using FrontEndFramework.Helpers
 @using FrontEndFramework.SVG_Icons.FloppyDisk
@@ -204,7 +205,7 @@
           )
           payload=@controlsPayload.familyName
           @ref=familyNameTextBox
-          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
         
         <TextBox
@@ -215,7 +216,7 @@
           )
           payload=@controlsPayload.givenName
           @ref=givenNameTextBox
-          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
         
         <TextBox
@@ -226,7 +227,7 @@
           )
           payload=@controlsPayload.familyNameSpell
           @ref=familyNameSpellTextBox
-          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
         
         <TextBox
@@ -237,9 +238,15 @@
           )
           payload=@controlsPayload.givenNameSpell
           @ref=givenNameSpellTextBox
-          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
 
+        <RadioButtonsGroup
+          label="性別"
+          selectingOptions=@genderRadioButtonsGroupSelectingOptions
+          @ref=genderRadioButtonsGroup
+        />
+        
         <TextBox 
           label="メールアドレス"
           HTML_Type=@TextBox.HTML_Types.email
