@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Utils;
+
 using Button = FrontEndFramework.Components.Controls.Buttons.Plain.Button;
 
+using Utils;
 
-namespace Client.SharedComponents.Reusables.Controls.SearchBox;
+
+namespace FrontEndFramework.Components.Controls.SearchBox;
 
 
 public partial class SearchBox : ComponentBase

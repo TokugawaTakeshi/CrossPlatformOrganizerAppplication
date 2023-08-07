@@ -1,4 +1,5 @@
 ﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
+@using FrontEndFramework.SVG_Icons.File
 
 
 @inherits FrontEndFramework.Components.Controls.InputtableControl
@@ -18,6 +19,24 @@
   invalidInputHighlightingIfAnyValidationErrorsMessages="mustHighlightInvalidInputIfAnyValidationErrorsMessages"
 >
   
+  @if (!noButton)
+  {
+    <Button
+      label="ファイルを選択"
+      onClick=@onClickPickFilesButton
+    >
+      <PrependedSVG_Icon>
+        <FileAddingIcon spaceSeparatedAdditionalCSS_Classes="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
+  }
   
+  @if (!noDragAndDropArea)
+  {
+    <div class="FilesUploader--YDF-DragAndDropArea">
+      <FileAddingIcon spaceSeparatedAdditionalCSS_Classes="FilesUploader--YDF-Icon" />
+      <p class="FilesUploader--YDF-Guidance">ここにファイルをドラッグ＆ドロップ</p>
+    </div>  
+  }
   
 </CompoundControlShell>

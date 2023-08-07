@@ -170,8 +170,13 @@ public partial class TextBox : InputtableControl, IValidatableControl
   public bool areThemesCSS_ClassesCommon { get; set; } = 
       YDF_ComponentsHelper.areThemesCSS_ClassesCommon || TextBox.mustConsiderThemesCSS_ClassesAsCommon;
   
+  
   /* ─── Geometry ─────────────────────────────────────────────────────────────────────────────────────────────────── */
-  public enum StandardGeometricVariations { regular }
+  public enum StandardGeometricVariations
+  {
+    regular, 
+    small
+  }
 
   protected internal static Type? CustomGeometricVariations;
   
@@ -203,9 +208,10 @@ public partial class TextBox : InputtableControl, IValidatableControl
     TextBox.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration;
+  protected string _decoration = TextBox.StandardDecorativeVariations.regular.ToString();
 
-  [Parameter] public required object decoration
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required object decoration
   {
     get => _decoration;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<TextBox.StandardDecorativeVariations>(
@@ -222,6 +228,7 @@ public partial class TextBox : InputtableControl, IValidatableControl
       
       AddElementToEndIf("TextBox--YDF__Multiline", this.multiline).
       AddElementToEndIf("TextBox--YDF__DisabledState", this.disabled).
+      AddElementToEndIf("TextBox--YDF__ReadonlyState", this.@readonly).
     
       AddElementToEndIf(
         $"TextBox--YDF__{ this._theme.ToUpperCamelCase() }Theme",

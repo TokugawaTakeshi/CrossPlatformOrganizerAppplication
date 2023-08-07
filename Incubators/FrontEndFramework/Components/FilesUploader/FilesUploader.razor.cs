@@ -34,27 +34,27 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   /* ━━━ Preventing of inputting of invalid value ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]  
-  public ulong? minimalCharactersCount { get; set; }
+  public ulong? minimalFilesCount { get; set; }
 
-  public ulong? _maximalCharactersCount;
+  public ulong? _maximalFilesCount;
   
   [Microsoft.AspNetCore.Components.Parameter]
-  public ulong? maximalCharactersCount
+  public ulong? maximalFilesCount
   {
-    get => this._maximalCharactersCount;
+    get => this._maximalFilesCount;
     set
     {
       
-      if (this.minimalCharactersCount is not null && value > this.minimalCharactersCount)
+      if (this.minimalFilesCount is not null && value > this.minimalFilesCount)
       {
         throw new ArgumentOutOfRangeException(
-          nameof(this.maximalCharactersCount),
+          nameof(this.maximalFilesCount),
           "\"maximalFilesCount\" could not be less than \"minimalFilesCount\"."
         );
       }
 
 
-      this._maximalCharactersCount = value;
+      this._maximalFilesCount = value;
 
     }
   }
@@ -78,6 +78,13 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? labelElementHTML_ID { get; set; }
 
+  
+  /* ━━━ Optional elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Parameter]
+  public bool noButton { get; set; } = false;
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  public bool noDragAndDropArea { get; set; } = false;
   
   /* ━━━ Other flags ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
@@ -110,6 +117,13 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   public void ResetStateToInitial()
   {
+  }
+  
+  
+  /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected void onClickPickFilesButton()
+  {
+    
   }
   
   
@@ -179,7 +193,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
     FilesUploader.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration;
+  protected string _decoration = FilesUploader.StandardDecorativeVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
   public required object decoration
