@@ -8,11 +8,9 @@ namespace CommonSolution.Gateways;
 public interface IPersonGateway
 {
 
-  /* === 取得 ======================================================================================================== */
+  /* ━━━ 取得 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task<Person[]> RetrieveAll();
   
-  
-  /* --- 標本 -------------------------------------------------------------------------------------------------------- */
   Task<SelectionRetrieving.ResponseData> RetrieveSelection(SelectionRetrieving.RequestParameters? requestParameters);
   
   public abstract class SelectionRetrieving
@@ -33,7 +31,7 @@ public interface IPersonGateway
   }
 
   
-  /* === 追加 ======================================================================================================= */
+  /* ━━━ 追加 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task<Adding.ResponseData> Add(Adding.RequestData requestData);
 
   public abstract class Adding
@@ -62,7 +60,7 @@ public interface IPersonGateway
   }
   
   
-  /* === 更新 ======================================================================================================= */
+  /* ━━━ 更新 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task Update(Updating.RequestData requestData);
 
   public abstract class Updating
@@ -85,7 +83,7 @@ public interface IPersonGateway
   }
   
   
-  /* === 削除 ======================================================================================================== */
+  /* ━━━ 削除 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task Delete(string targetPersonID);
   
 }
