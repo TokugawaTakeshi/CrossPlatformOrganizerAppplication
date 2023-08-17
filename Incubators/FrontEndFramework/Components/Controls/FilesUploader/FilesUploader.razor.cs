@@ -1,29 +1,22 @@
 ﻿using FrontEndFramework.Components.Abstractions;
-using FrontEndFramework.Components.Controls;
 using FrontEndFramework.ValidatableControl;
 using Microsoft.JSInterop;
 using Utils;
 
-
-namespace FrontEndFramework.Components.FilesUploader;
+namespace FrontEndFramework.Components.Controls.FilesUploader;
 
 
 public partial class FilesUploader : InputtableControl, IValidatableControl
 {
 
   /* ━━━ Payload ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected string rawValue = "";
   protected ValidatableControl.Payload _payload;
   
   [Microsoft.AspNetCore.Components.Parameter]
   public required ValidatableControl.Payload payload
   {
     get => _payload;
-    set
-    {
-      this._payload = value;
-      this.synchronizeRawValueWithPayloadValue();
-    }
+    set => this._payload = value;
   }
   
   private void onInputEventHandler(Microsoft.AspNetCore.Components.ChangeEventArgs inputtingEvent)
@@ -36,7 +29,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   [Microsoft.AspNetCore.Components.Parameter]  
   public ulong? minimalFilesCount { get; set; }
 
-  public ulong? _maximalFilesCount;
+  protected ulong? _maximalFilesCount;
   
   [Microsoft.AspNetCore.Components.Parameter]
   public ulong? maximalFilesCount
@@ -122,6 +115,11 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected void onClickPickFilesButton()
+  {
+    
+  }
+
+  protected void onClickDeleteImageButton()
   {
     
   }
@@ -245,11 +243,6 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   
   /* ━━━ Other ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected void synchronizeRawValueWithPayloadValue()
-  {
-    this.rawValue = (string)this.payload.Value;
-  }
-  
   protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
   
   [Microsoft.AspNetCore.Components.Inject] 

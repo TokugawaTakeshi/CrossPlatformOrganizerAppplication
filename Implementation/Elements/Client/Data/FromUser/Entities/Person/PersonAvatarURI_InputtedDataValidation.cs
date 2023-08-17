@@ -4,14 +4,16 @@
 namespace Client.Data.FromUser.Entities.Person;
 
 
-internal class PersonEmailInputtedDataValidation : InputtedValueValidation
+internal class PersonAvatarURI_InputtedDataValidation : InputtedValueValidation
 {
-  public PersonEmailInputtedDataValidation(
+  
+  internal PersonAvatarURI_InputtedDataValidation(
     bool? isInputRequired = CommonSolution.Entities.Person.EmailAddress.IS_REQUIRED, 
-    string? requiredInputIsMissingValidationErrorMessage = "メールアドレスは必須となります。お手数ですがメールアドレスを入力して下さい。"
+    string? requiredInputIsMissingValidationErrorMessage = "アバターは必須となります。画像を選択して下さい。"
   ): base(
     hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
-    isInputRequired,
+    isInputRequired: isInputRequired,
     requiredInputIsMissingValidationErrorMessage: requiredInputIsMissingValidationErrorMessage
   ) {}
+  
 }

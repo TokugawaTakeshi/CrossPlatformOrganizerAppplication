@@ -27,7 +27,7 @@ public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueVa
   
   public bool MustFinishValidationIfValueIsInvalid { get; init; }
 
-  public uint MinimalCharactersCount { get; init; }
+  public required uint MinimalCharactersCount { get; init; }
   public Func<ILocalization.ErrorMessage.TemplateVariables, string>? ErrorMessageBuilder { get; init; }
   public string? ErrorMessage { get; init; }
 

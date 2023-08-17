@@ -12,7 +12,7 @@ internal class PersonGenderInputtedDataValidation : InputtedValueValidation
     string? requiredInputIsMissingValidationErrorMessage = "性別は必須ですから、お手数ですが、指定して下さい。"
   ) : base(
     hasValueBeenOmitted: rawValue => rawValue == null,
-    isInputRequired, 
+    isInputRequired: isInputRequired, 
     requiredInputIsMissingValidationErrorMessage: requiredInputIsMissingValidationErrorMessage
   ) {}
   

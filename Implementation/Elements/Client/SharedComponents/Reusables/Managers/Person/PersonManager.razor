@@ -5,6 +5,7 @@
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.RadioButtonsGroup
 @using FrontEndFramework.Components.Controls.TextBox
+@using FrontEndFramework.Components.Controls.FilesUploader
 @using FrontEndFramework.Helpers
 @using FrontEndFramework.SVG_Icons.FloppyDisk
 @using FrontEndFramework.SVG_Icons.Pencil
@@ -204,7 +205,7 @@
               "入力して下さい。"
           )
           payload=@controlsPayload.familyName
-          @ref=familyNameTextBox
+          @ref=@familyNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
         
@@ -215,7 +216,7 @@
               "入力して下さい。"
           )
           payload=@controlsPayload.givenName
-          @ref=givenNameTextBox
+          @ref=@givenNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
         
@@ -226,7 +227,7 @@
               $"{ Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
           )
           payload=@controlsPayload.familyNameSpell
-          @ref=familyNameSpellTextBox
+          @ref=@familyNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
         
@@ -237,15 +238,24 @@
               $"{ Person.GivenNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
           )
           payload=@controlsPayload.givenNameSpell
-          @ref=givenNameSpellTextBox
+          @ref=@givenNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
 
-        <RadioButtonsGroup
-          label="性別"
-          selectingOptions=@genderRadioButtonsGroupSelectingOptions
-          @ref=genderRadioButtonsGroup
-        />
+        @* <RadioButtonsGroup *@
+        @*   label="性別" *@
+        @*   selectingOptions=@genderRadioButtonsGroupSelectingOptions *@
+        @*   @ref=@genderRadioButtonsGroup *@
+        @* /> *@
+        
+        @* <FilesUploader *@
+        @*   label="写真" *@
+        @*   guidance="写真をアップロードして下さい" *@
+        @*   payload=@controlsPayload.avatarURI *@
+        @*   noDragAndDropArea=@(false) *@
+        @*   maximalFilesCount=@(1) *@
+        @*   @ref=@avatarUploader *@
+        @* /> *@
         
         <TextBox 
           label="メールアドレス"

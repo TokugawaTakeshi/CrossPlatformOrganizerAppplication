@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Client.Data.FromUser.Entities.Person;
 using CommonSolution.Fundamentals;
+using FrontEndFramework.Components.Controls.FilesUploader;
 using FrontEndFramework.Components.Controls.TextBox;
 using FrontEndFramework.Components.Controls.RadioButtonsGroup;
 using FrontEndFramework.InputtedValueValidation;
@@ -40,6 +41,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private TextBox familyNameSpellTextBox = null!;
   private TextBox givenNameSpellTextBox = null!;
   private RadioButtonsGroup genderRadioButtonsGroup = null!;
+  private FilesUploader avatarUploader = null!;
   private TextBox emailAddressTextBox = null!;
   private TextBox phoneNumberTextBox = null!;
 
@@ -63,6 +65,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     ValidatableControl.Payload familyNameSpell, 
     ValidatableControl.Payload givenNameSpell,
     ValidatableControl.Payload gender,
+    ValidatableControl.Payload avatarURI,
     ValidatableControl.Payload emailAddress, 
     ValidatableControl.Payload phoneNumber
   ) controlsPayload;
@@ -97,6 +100,11 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
         validation: new PersonGenderInputtedDataValidation(),
         componentInstanceAccessor: () => this.genderRadioButtonsGroup
       ),
+      avatarURI: new ValidatableControl.Payload(
+        initialValue: "",
+        validation: new PersonAvatarURI_InputtedDataValidation(),
+        componentInstanceAccessor: () => this.avatarUploader
+      ), 
       emailAddress: new ValidatableControl.Payload(
         initialValue: "",
         validation: new PersonEmailInputtedDataValidation(),

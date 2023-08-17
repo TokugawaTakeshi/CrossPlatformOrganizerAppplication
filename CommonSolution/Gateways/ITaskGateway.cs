@@ -7,11 +7,10 @@ namespace CommonSolution.Gateways;
 public interface ITaskGateway
 {
  
-  /* === 取得 ======================================================================================================== */
+  /* ━━━ 取得 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task<Task[]> RetrieveAll();
   
   
-  /* --- 標本 -------------------------------------------------------------------------------------------------------- */
   Task<SelectionRetrieving.ResponseData> RetrieveSelection(SelectionRetrieving.RequestParameters requestParameters);
   
   public abstract class SelectionRetrieving
@@ -34,7 +33,7 @@ public interface ITaskGateway
   }
 
   
-  /* === 追加 ======================================================================================================= */
+  /* ━━━ 追加 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task<Adding.ResponseData> Add(Adding.RequestData requestData);
 
   public abstract class Adding
@@ -59,7 +58,7 @@ public interface ITaskGateway
   }
   
   
-  /* === 更新 ======================================================================================================= */
+  /* ━━━ 更新 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   System.Threading.Tasks.Task Update(Updating.RequestData requestData);
   
   public abstract class Updating
@@ -77,8 +76,8 @@ public interface ITaskGateway
     }
   }
   
-  
-  /* === 削除 ======================================================================================================== */
+
+  /* === 削除 ======================================================================================================= */
   System.Threading.Tasks.Task Delete(string targetTaskID);
   
 }

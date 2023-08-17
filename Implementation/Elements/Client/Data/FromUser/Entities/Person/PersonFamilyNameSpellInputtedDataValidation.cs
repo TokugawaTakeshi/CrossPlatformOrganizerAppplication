@@ -13,7 +13,7 @@ internal class PersonFamilyNameSpellInputtedDataValidation : InputtedValueValida
     string? requiredInputIsMissingValidationErrorMessage = "上の名前の読み方は必須ですから、お手数ですが、入力して下さい。"
   ) : base(
     hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
-    isInputRequired, 
+    isInputRequired: isInputRequired, 
     requiredInputIsMissingValidationErrorMessage: requiredInputIsMissingValidationErrorMessage,
     staticRules: new IRule[]
     {

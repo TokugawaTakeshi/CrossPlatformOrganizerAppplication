@@ -8,7 +8,7 @@ using InputtedValueValidationResult = FrontEndFramework.InputtedValueValidation.
 public class Payload
 {
 
-  protected object value;
+  protected object? value;
   
   protected readonly InputtedValueValidation validation;
   
@@ -16,7 +16,7 @@ public class Payload
 
   protected Func<IValidatableControl> componentInstanceAccessor;
   
-  public object Value
+  public object? Value
   {
     get => this.value;
     set {

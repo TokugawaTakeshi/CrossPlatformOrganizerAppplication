@@ -27,7 +27,7 @@ public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueVa
   
   public bool MustFinishValidationIfValueIsInvalid { get; init; }
 
-  public uint MaximalCharactersCount { get; init; }
+  public required uint MaximalCharactersCount { get; init; }
   public Func<ILocalization.ErrorMessage.TemplateVariables, string>? ErrorMessageBuilder { get; init; }
   public string? ErrorMessage { get; init; }
 

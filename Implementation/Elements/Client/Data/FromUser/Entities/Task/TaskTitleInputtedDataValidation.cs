@@ -1,26 +1,34 @@
 ﻿using FrontEndFramework.InputtedValueValidation;
+using FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
 namespace Client.Data.FromUser.Entities.Task;
 
 
-public class TaskTitleInputtedDataValidation : InputtedValueValidation
+internal class TaskTitleInputtedDataValidation : InputtedValueValidation
 {
 
-  public TaskTitleInputtedDataValidation(
-    bool? isInputRequired = null,
-    Func<bool>? requirementChecker = null,
-    string? requiredInputIsMissingValidationErrorMessage = null,
-    IRule[]? staticRules = null,
-    IRule[]? contextDependentRules = null
+  internal TaskTitleInputtedDataValidation(
+    bool? isInputRequired = CommonSolution.Entities.Task.Title.IS_REQUIRED,
+    string? requiredInputIsMissingValidationErrorMessage = "課題の見出しは必須となります。お手数ですが、入力して下さい。"
   ) : base(
     hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
-    isInputRequired ?? true,
-    requirementChecker,
-    requiredInputIsMissingValidationErrorMessage,
-    staticRules,
-    contextDependentRules
-  ) {
-    
-  }
+    isInputRequired: isInputRequired,
+    requiredInputIsMissingValidationErrorMessage: requiredInputIsMissingValidationErrorMessage,
+    staticRules: new IRule[] 
+    {
+      new MinimalCharactersCountInputtedValueValidationRule
+      {
+        MinimalCharactersCount = CommonSolution.Entities.Person.FamilyNameSpell.MINIMAL_CHARACTERS_COUNT,
+        ErrorMessage = $"課題の見出しは最少{ CommonSolution.Entities.Person.FamilyNameSpell.MINIMAL_CHARACTERS_COUNT }を指定して下さい。",
+        MustFinishValidationIfValueIsInvalid = true
+      },
+      new MaximalCharactersCountInputtedValueValidationRule
+      {
+        MaximalCharactersCount = CommonSolution.Entities.Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT,
+        ErrorMessage = $"課題の見出しは最大{ CommonSolution.Entities.Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT }を指定して下さい。"
+      }
+    }
+  ) {}
+  
 }

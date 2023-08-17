@@ -12,7 +12,7 @@ public abstract class InputtedValueValidation
   public static ILocalization Localization = new InputtedValueValidationEnglishLocalization();
 
   
-  protected readonly Func<object, bool> HasValueBeenOmitted;
+  protected readonly Func<object?, bool> HasValueBeenOmitted;
   
   protected readonly Func<bool> IsInputRequired;
   protected readonly string RequiredInputIsMissingValidationErrorMessage;
@@ -38,7 +38,7 @@ public abstract class InputtedValueValidation
   
   
   protected InputtedValueValidation(
-    Func<object, bool> hasValueBeenOmitted,
+    Func<object?, bool> hasValueBeenOmitted,
     bool? isInputRequired = null,
     Func<bool>? inputRequirementChecker = null,
     string? requiredInputIsMissingValidationErrorMessage = null,
@@ -86,7 +86,7 @@ public abstract class InputtedValueValidation
   }
 
 
-  public Result Validate(object rawValue)
+  public Result Validate(object? rawValue)
   {
 
     bool isInputRequired = this.IsInputRequired();

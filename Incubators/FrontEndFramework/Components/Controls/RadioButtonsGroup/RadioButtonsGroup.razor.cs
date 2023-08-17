@@ -199,12 +199,7 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
   /* ━━━  Constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public RadioButtonsGroup()
   {
-
-    if (this.radioButtonsHTML_Name is null)
-    {
-      this.radioButtonsHTML_Name = this.BASIC_ID;
-    }
-    
+    this.radioButtonsHTML_Name ??= this.BASIC_ID;
   }
   
   
