@@ -35,12 +35,10 @@
 
   <div class="TaskCard-Title">@targetTask.title</div>
 
-  @* TODO 【 次のプールリクエスト 】 カテゴリーベッジに置き換え *@
-      @* decoration="@Client.SharedComponents.Reusables.Badge.Badge.DecorativeVariations.flatGradient" *@
   <div class="TaskCard-BadgesFlow">
     <Badge
       value="一時的"
-      decoration="@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright"
+      decoration=@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
     >
       <PrependedSVG_Icon>
         <CalendarIcon__Time spaceSeparatedAdditionalCSS_Classes="Badge--YDF-SVG_Icon" />

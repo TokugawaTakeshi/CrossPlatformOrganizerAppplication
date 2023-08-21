@@ -1,5 +1,4 @@
-﻿using Client.SharedComponents.Reusables.Badge;
-using MockDataSource.Gateways;
+﻿using MockDataSource.Gateways;
 
 
 namespace Client;
@@ -21,13 +20,6 @@ public partial class App : Application
       }
     );
 
-    // TODO テストを終わらせてから削除
-    // === ＜ テスト専用 ==================================================================================================
-    FrontEndFramework.Components.Badge.Badge.defineCustomDecorativeVariations(
-      typeof(Badge.DecorativeVariations)
-    );
-    // === テスト専用 ＞ ==================================================================================================
-    
     InitializeComponent();
 
     MainPage = new MainPage();

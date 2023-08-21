@@ -1,6 +1,8 @@
-﻿@using Client.SharedComponents.Reusables.NavigationMenu
-@using Client.SharedComponents.Singletons.Header
+﻿@using Client.Services
 
+@using Client.SharedComponents.Reusables.NavigationMenu
+@using FrontEndFramework.Components.Controls.Buttons.Closing
+@using Client.SharedComponents.Singletons.Header
 
 @inherits LayoutComponentBase
 
@@ -8,7 +10,7 @@
 <div class="MainLayout">
   
   <div class="MainLayout-UpperFixedContentSlot">
-    <Header />
+    <Header hamburgerMenuButtonAdditionalCSS_Class="MainLayout-HamburgerMenuButton" />
   </div>
   
   <div class="MainLayout-Sidebar">
@@ -18,5 +20,18 @@
   <main class="MainLayout-SpecificContent">
     @Body
   </main>
+  
+  @if (DrawerMenuService.isDrawerDisplaying)
+  {
+    <div class="MainLayout-DrawerOverlay">
+      <div class="MainLayout-Drawer">
+        <NavigationMenu /> 
+        <ClosingButton
+          spaceSeparatedAdditionalCSS_Classes="MainLayout-ClosingDrawerButton"
+          onClick=@onClickDrawerClosingButton 
+        />
+      </div>
+    </div> 
+  }
   
 </div>

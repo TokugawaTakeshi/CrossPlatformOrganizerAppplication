@@ -10,7 +10,7 @@
   <PeopleViewer spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleViewer" />
   
   <PersonManager 
-    spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PersonManager"
+    spaceSeparatedAdditionalCSS_Classes=@($"PeopleManagementPage-PersonManager { personManagerAdditionalCSS_Class }")
     activationGuidance=@personManagerActivationGuidance
     targetPerson=@activePerson
   />

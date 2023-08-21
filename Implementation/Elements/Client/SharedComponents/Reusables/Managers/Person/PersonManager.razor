@@ -248,14 +248,15 @@
         @*   @ref=@genderRadioButtonsGroup *@
         @* /> *@
         
-        @* <FilesUploader *@
-        @*   label="写真" *@
-        @*   guidance="写真をアップロードして下さい" *@
-        @*   payload=@controlsPayload.avatarURI *@
-        @*   noDragAndDropArea=@(false) *@
-        @*   maximalFilesCount=@(1) *@
-        @*   @ref=@avatarUploader *@
-        @* /> *@
+        <FilesUploader
+          label="写真"
+          guidance="写真をアップロードして下さい"
+          payload=@controlsPayload.avatarURI
+          noDragAndDropArea=@(true)
+          maximalFilesCount=@(1)
+          @ref=@avatarUploader
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Big"
+        />
         
         <TextBox 
           label="メールアドレス"

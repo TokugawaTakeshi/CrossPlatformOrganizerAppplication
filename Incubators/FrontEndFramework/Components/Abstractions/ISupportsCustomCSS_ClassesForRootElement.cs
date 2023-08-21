@@ -1,7 +1,7 @@
 ﻿namespace FrontEndFramework.Components.Abstractions;
 
 
-public interface ISupportsModifierCSS_Classes
+public interface ISupportsCustomCSS_ClassesForRootElement
 {
 
   protected string rootElementSpaceSeparatedModifierCSS_Classes { get; }

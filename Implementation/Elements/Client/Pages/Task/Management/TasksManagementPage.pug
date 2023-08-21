@@ -1,6 +1,24 @@
 extends ../../../Layouts/Main/MainLayout.pug
 
 
+block append Requirements
+
+  include ../../../StaticPreview/_Requirements.pug
+
+  -
+
+    class TasksManagementPage {
+
+      static mustDisplayTaskManagerAtNarrowScreens = false;
+
+      static displayTaskManagerAtNarrowScreens() {
+        TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
+        return PeopleManagementPage;
+      }
+
+    }
+    
+
 block append Metadata
 
   -
@@ -11,23 +29,16 @@ block append Metadata
     styleSheetsURIs = [ "@All/ExternalComponents", "@All/Main" ];
 
 
-block append Requirements
-
-  include ../../../StaticPreview/_Requirements.pug
-
-
 block append SpecificContent
 
   .TasksManagementPage-SpecificContent.MainLayout-SpecificContentFillingElement
 
-    +TasksGroupsTreeManager.TasksManagementPage-TasksGroupsThreeManager
-
-    +TasksManager({
+    +TasksViewer({
       loading: TasksManagementPageStatesSimulations.loading,
       error: TasksManagementPageStatesSimulations.error,
       noItems: TasksManagementPageStatesSimulations.noItems,
       noSearchResults: TasksManagementPageStatesSimulations.noSearchResults
-    }).TasksManagementPage-TasksManager
+    }).TasksManagementPage-TasksViewer
     
     +TaskManager(
       {
@@ -35,4 +46,7 @@ block append SpecificContent
         activationGuidance: "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
       },
       { editingMode: true }
-    ).TasksManagementPage-TaskManager.TasksManagementPage-TaskManager__VisibleAtNarrowScreens
+    ).TasksManagementPage-TaskManager&attributes({
+      class: TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens ?
+          [ "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" ] : []
+    })

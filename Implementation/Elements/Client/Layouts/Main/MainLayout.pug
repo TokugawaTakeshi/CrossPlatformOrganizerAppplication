@@ -23,7 +23,7 @@ block append PageContent
 
     .MainLayout-UpperFixedContentSlot
 
-      +Header
+      +Header({ hamburgerMenuButtonAdditionalCSS_Class: "MainLayout-HamburgerMenuButton" })
 
       block UpperFixedContentSlot
 
@@ -37,9 +37,12 @@ block append PageContent
 
       block SpecificContent
 
-        
+
     if MainLayout.mustDisplayDrawer
 
       .MainLayout-DrawerOverlay
+        
         .MainLayout-Drawer
           +NavigationMenu
+
+        +ClosingButton--YDF.MainLayout-ClosingDrawerButton

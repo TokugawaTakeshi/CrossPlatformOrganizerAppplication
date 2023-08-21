@@ -1,4 +1,6 @@
-﻿using FrontEndFramework.Components.Abstractions;
+﻿using System.Diagnostics;
+using FrontEndFramework.Components.Abstractions;
+using FrontEndFramework.Components.Controls.Buttons.Plain;
 using FrontEndFramework.ValidatableControl;
 using Microsoft.JSInterop;
 using Utils;
@@ -86,7 +88,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   /* ━━━ Children components/elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected Microsoft.AspNetCore.Components.ElementReference nativeInputElement;
-  
+  protected Button? filesPickingButton = null;
   
   /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public new IValidatableControl HighlightInvalidInput()
@@ -114,12 +116,17 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   
   /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected void onClickPickFilesButton()
+  protected void onClickFilesPickingButton()
+  {
+    JSRuntime.InvokeVoidAsync("triggerLeftClickEvent", this.nativeInputElement);
+  }
+
+  protected void onSelectNewImagesByFilesExplorerSession()
   {
     
   }
 
-  protected void onClickDeleteImageButton()
+  protected void onClickDeleteFileButton()
   {
     
   }

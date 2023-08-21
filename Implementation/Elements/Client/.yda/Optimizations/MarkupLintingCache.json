@@ -1,183 +1,78 @@
 {
-  "Components/Components.pug": {
+  "SharedComponents/SharedComponents.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:39:04.768Z"
+    "modificationDatetime__ISO_8601": "2023-08-22T06:44:22.306Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-01-07T03:46:25.241Z"
   },
+  "StaticPreview/_Requirements.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-07-27T03:11:04.963Z"
+  },
   "Layouts/Main/MainLayout.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-03T01:34:12.686Z"
-  },
-  "Components/SharedSingletons/Header/Header.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.339Z"
-  },
-  "Components/SharedSingletons/ModalDialog/ModalDialog.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-10T08:14:17.180Z"
-  },
-  "Components/SharedReusable/NavigationMenu/NavigationMenu.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:36:40.052Z"
-  },
-  "Pages/Person/Management/PeopleManagementPage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-26T06:22:02.371Z"
-  },
-  "Pages/Task/Management/TasksManagementPage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-22T03:11:05.586Z"
-  },
-  "Components/SharedReusable/Cards/Person/PersonCard.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-28T02:39:46.052Z"
-  },
-  "Components/SharedReusable/Editors/Task/TaskEditor.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-02T06:46:41.515Z"
-  },
-  "Components/SharedReusable/Managers/People/PeopleManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-27T02:29:52.217Z"
-  },
-  "Components/SharedReusable/Cards/Task/TaskCard.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-05T02:31:30.617Z"
-  },
-  "Components/SharedReusable/Managers/Person/PersonManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-20T08:59:03.940Z"
-  },
-  "Components/SharedReusable/Managers/Tasks/TasksManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:52:30.766Z"
-  },
-  "Components/SharedReusable/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:56:38.383Z"
-  },
-  "Components/SharedReusable/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-22T02:51:16.046Z"
-  },
-  "Components/SharedReusable/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-04-07T08:26:58.566Z"
-  },
-  "Components/SharedReusable/Managers/Task/TaskManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-05T02:31:30.609Z"
-  },
-  "Components/SharedReusable/Controls/CompoundControlShell/CompoundControlShell.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-28T06:23:25.780Z"
+    "modificationDatetime__ISO_8601": "2023-08-24T06:17:36.989Z"
   },
   "Pages/Calendar/CalendarPage.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-06-09T03:09:03.775Z"
   },
-  "Components/SharedReusable/Viewers/Calendar/Month/MonthViewer.pug": {
+  "StaticPreview/_Requirements/BusinessRules.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
+    "modificationDatetime__ISO_8601": "2023-07-27T03:11:04.958Z"
   },
   "StaticPreview/_Requirements/Functions.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-06-06T02:42:16.702Z"
   },
-  "StaticPreview/_Requirements.pug": {
+  "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-27T03:11:04.963Z"
+    "modificationDatetime__ISO_8601": "2023-08-22T06:37:33.735Z"
   },
-  "Components/SharedReusable/Controls/RadioButton/RadioButton.pug": {
+  "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:23:07.144Z"
-  },
-  "Components/SharedReusable/Controls/RadioButtonsGroup/RadioButtonsGroup.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:30:37.803Z"
-  },
-  "Components/SharedReusable/Controls/RadioButtonsGroup/RadioButtonsGroup.class.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-15T10:14:23.784Z"
-  },
-  "Components/SharedReusable/Controls/RadioButton/RadioButton.class.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-15T10:14:23.779Z"
-  },
-  "StaticPreview/_Requirements/BusinessRules.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-27T03:11:04.958Z"
-  },
-  "Components/SharedReusable/Controls/SearchBox/SearchBox.class.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:37:15.147Z"
-  },
-  "Components/SharedReusable/Controls/SearchBox/SearchBox.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-29T02:47:45.403Z"
-  },
-  "SharedComponents/Components.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-27T03:07:53.829Z"
-  },
-  "SharedComponents/Singletons/Header/Header.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-11-21T06:35:22.339Z"
+    "modificationDatetime__ISO_8601": "2023-08-22T06:53:59.400Z"
   },
   "SharedComponents/Reusables/NavigationMenu/NavigationMenu.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-03-25T04:36:40.052Z"
   },
+  "SharedComponents/Singletons/Header/Header.pug": {
+    "issues": [
+      {
+        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
+        "message": "Missing line feed at file end",
+        "sourceListing": "mixin Header(properties)\n  \n  - const { hamburgerMenuButtonAdditionalCSS_Class } =  properties ?? {};\n\n  header.Header&attributes(attributes)\n\n    +HamburgerMenuButton--YDF.Header-Button(\n      class= hamburgerMenuButtonAdditionalCSS_Class\n    )",
+        "lineNumber": 9
+      }
+    ],
+    "modificationDatetime__ISO_8601": "2023-08-24T06:17:36.995Z"
+  },
   "SharedComponents/Reusables/Cards/Person/PersonCard.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-06-28T02:39:46.052Z"
-  },
-  "SharedComponents/Reusables/Managers/Person/PersonManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-02T04:59:47.120Z"
   },
   "SharedComponents/Reusables/Cards/Task/TaskCard.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-06-05T02:31:30.617Z"
   },
-  "SharedComponents/Reusables/Managers/Tasks/TasksManager.pug": {
+  "SharedComponents/Reusables/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:52:30.766Z"
+    "modificationDatetime__ISO_8601": "2023-08-21T05:23:03.661Z"
   },
   "SharedComponents/Reusables/Managers/Task/TaskManager.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-06-05T02:31:30.609Z"
   },
+  "SharedComponents/Reusables/Managers/Tasks/TasksManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-22T06:52:30.766Z"
+  },
   "SharedComponents/Reusables/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-03-25T04:56:38.383Z"
-  },
-  "SharedComponents/Reusables/Controls/RadioButton/RadioButton.class.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-28T05:57:44.261Z"
-  },
-  "SharedComponents/Reusables/Controls/RadioButton/RadioButton.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-04T06:16:43.877Z"
-  },
-  "SharedComponents/Reusables/Controls/RadioButtonsGroup/RadioButtonsGroup.class.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-15T10:14:23.784Z"
-  },
-  "SharedComponents/Reusables/Controls/RadioButtonsGroup/RadioButtonsGroup.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-28T05:40:08.120Z"
-  },
-  "SharedComponents/Reusables/Controls/SearchBox/SearchBox.class.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-20T02:37:15.147Z"
-  },
-  "SharedComponents/Reusables/Controls/SearchBox/SearchBox.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-29T02:47:45.403Z"
   },
   "SharedComponents/Reusables/Viewers/People/PeopleViewer.pug": {
     "issues": [],
@@ -195,19 +90,8 @@
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
   },
-  "SharedComponents/SharedComponents.pug": {
+  "SharedComponents/Reusables/Viewers/Tasks/TasksViewer.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-07T06:39:29.658Z"
-  },
-  "SharedComponents/Reusables/Controls/RadioButton/_RadioButton.razor.pug": {
-    "issues": [
-      {
-        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
-        "message": "Missing line feed at file end",
-        "sourceListing": "﻿.RadioButton--YDF(\n  class=\"@rootElementModifierSpaceSeparatedCSS_Classes @spaceSeparatedAdditionalCSS_Classes\"\n)\n\n  span.RadioButton--YDF-Ring\n  \n  label.RadioButton--YDF-Label(\n    for=\"@INPUT_ELEMENT_HTML_ID\"\n  ) @(label)\n  \n  input.RadioButton--YDF-HiddenInputElement(\n    type=\"radio\"\n    name=\"@HTML_Name\"\n    value=\"@HTML_Value\"\n    disabled=\"@disabled\"\n    readonly=\"@readonly\"\n    id=\"INPUT_ELEMENT_HTML_ID\"\n  )",
-        "lineNumber": 18
-      }
-    ],
-    "modificationDatetime__ISO_8601": "2023-07-28T06:01:36.472Z"
+    "modificationDatetime__ISO_8601": "2023-08-22T06:58:46.267Z"
   }
 }

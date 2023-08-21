@@ -1,0 +1,17 @@
+﻿.TasksViewer
+
+  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 600px
+
+  WideContainersConfiguration()
+    @media container and (min-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
+      {block}
+
+  NarrowContainersConfiguration()
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
+      {block}
+
+
+  display flex
+  flex-direction column
+  container-type inline-size
+  

@@ -36,6 +36,13 @@
 
     grid-area UPPER_FIXED_CONTENT_SLOT
 
+    
+  &-HamburgerMenuButton
+
+    +WideScreensConfiguration()
+    
+      display none
+
 
   &-Sidebar
 
@@ -82,3 +89,12 @@
 
     background ShadesOfGray__39ColorsW3C_Palette[8]
     box-shadow 0 4px 8px 4px rgba(black, 0.25)
+
+    
+  &-ClosingDrawerButton
+    
+    position fixed
+    top 10px
+    right 10px
+
+    z-index: ZIndexes.drawers + 1

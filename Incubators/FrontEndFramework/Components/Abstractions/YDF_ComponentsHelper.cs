@@ -37,7 +37,7 @@ public abstract class YDF_ComponentsHelper
 
   
   /* ━━━ Stringifying & Assigning ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public static void AssignThemeIfItIsValid<TStandardThemes>(object value, object? customThemes, ref string _theme)
+  public static void AssignThemeIfItIsValid<TStandardThemes>(object value, Type? customThemes, ref string _theme)
   {
 
     if (value is TStandardThemes standardTheme)
@@ -52,7 +52,7 @@ public abstract class YDF_ComponentsHelper
     if (customThemes is not null)
     {
 
-      Type customThemesType = customThemes.GetType();
+      Type customThemesType = customThemes;
 
       if (customThemesType.IsEnum && Enum.GetNames(customThemesType).Contains(stringifiedThemeValue))
       {
@@ -69,7 +69,7 @@ public abstract class YDF_ComponentsHelper
   
   public static void AssignGeometricVariationIfItIsValid<TStandardGeometricVariations>(
     object value, 
-    object? customGeometricVariations, 
+    Type? customGeometricVariations, 
     ref string _geometricVariation
   )
   {
@@ -86,7 +86,7 @@ public abstract class YDF_ComponentsHelper
     if (customGeometricVariations is not null)
     {
 
-      Type customGeometricVariationsType = customGeometricVariations.GetType();
+      Type customGeometricVariationsType = customGeometricVariations;
 
       if (customGeometricVariationsType.IsEnum && Enum.GetNames(customGeometricVariationsType).Contains(stringifiedDecorativeVariationValue))
       {
@@ -103,7 +103,7 @@ public abstract class YDF_ComponentsHelper
   
   public static void AssignDecorativeVariationIfItIsValid<TStandardDecorativeVariations>(
     object value, 
-    object? customDecorativeVariations, 
+    Type? customDecorativeVariations, 
     ref string _decorativeVariation
   )
   {
@@ -120,7 +120,7 @@ public abstract class YDF_ComponentsHelper
     if (customDecorativeVariations is not null)
     {
       
-      Type customDecorativeVariationsType = customDecorativeVariations.GetType();
+      Type customDecorativeVariationsType = customDecorativeVariations;
 
       if (customDecorativeVariationsType.IsEnum && Enum.GetNames(customDecorativeVariationsType).Contains(stringifiedDecorativeVariationValue))
       {

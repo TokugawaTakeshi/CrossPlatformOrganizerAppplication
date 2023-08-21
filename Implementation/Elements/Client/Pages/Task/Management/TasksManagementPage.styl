@@ -1,78 +1,59 @@
 .TasksManagementPage
 
-  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 1000px
-  MEDIUM_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 400px
+  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 700px
 
   WideContainersConfiguration()
     @media container and (min-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
       {block}
 
-  MediumContainersConfiguration()
-    @media container and (min-width: MEDIUM_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH) and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
-      {block}
-
   NarrowContainersConfiguration()
-    @media container and (max-width: MEDIUM_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
-      {block}
-
-  WideAndMediumContainersConfiguration()
-    @media container and (min-width: MEDIUM_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
-      {block}
-
-  MediumAndNarrowContainersConfiguration()
-    @media container and (max-width: MEDIUM_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
       {block}
 
 
   &-SpecificContent
 
-    display flex
-    
-    
-    +MediumAndNarrowContainersConfiguration
+    +WideContainersConfiguration()
 
-      position relative
-
-
-  &-TasksGroupsThreeManager
-
-    min-width 160px
-    max-width 200px
-    padding 4px 12px
-
-    resize horizontal
-    overflow auto
+      display grid
+      grid-template-columns minmax(0, 1fr) NARROWEST_SCREEN_WIDTH_UNIT
 
 
     +NarrowContainersConfiguration()
 
-      display none
+      position relative
 
 
-  &-TasksManager
+  &-TasksViewer
 
-    border-left-width 1px
-    padding 6px 8px
+    max-height 100%
+    padding 8px
 
-    border-style solid
-    border-color: ShadesOfGray__39ColorsW3C_Palette[24]
-
-    flex-grow 1
+    overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。 
 
 
   &-TaskManager
 
-    min-width NARROWEST_SCREEN_WIDTH_UNIT
-    max-width 2*NARROWEST_SCREEN_WIDTH_UNIT    
-    border-left-width 1px
-    padding 6px 8px
+    max-height 100%
+    padding 8px
 
-    border-style solid
-    border-color: ShadesOfGray__39ColorsW3C_Palette[24]
-
-    flex 0 0 auto
+    overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。
 
 
-    +MediumAndNarrowContainersConfiguration()
+    &__VisibleAtNarrowScreens
+
+      +NarrowContainersConfiguration()
+
+        width 100%
+        height 100%
+
+        background-color white
+
+        position absolute
+        top 0
+        z-index: ZIndexes.floatingBelowModalsComponents
+
+
+    &__HiddenAtNarrowScreens
 
       display none
