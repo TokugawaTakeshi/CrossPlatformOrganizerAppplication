@@ -1,7 +1,7 @@
 {
   "SharedComponents/SharedComponents.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-22T06:44:22.306Z"
+    "modificationDatetime__ISO_8601": "2023-09-05T07:41:41.378Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
@@ -13,11 +13,11 @@
   },
   "Layouts/Main/MainLayout.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-24T06:17:36.989Z"
+    "modificationDatetime__ISO_8601": "2023-08-29T07:36:25.218Z"
   },
   "Pages/Calendar/CalendarPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-09T03:09:03.775Z"
+    "modificationDatetime__ISO_8601": "2023-09-07T06:36:19.614Z"
   },
   "StaticPreview/_Requirements/BusinessRules.pug": {
     "issues": [],
@@ -29,38 +29,31 @@
   },
   "Pages/Person/Management/PeopleManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-22T06:37:33.735Z"
+    "modificationDatetime__ISO_8601": "2023-09-07T07:06:05.524Z"
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-22T06:53:59.400Z"
+    "modificationDatetime__ISO_8601": "2023-09-07T07:06:05.534Z"
   },
   "SharedComponents/Reusables/NavigationMenu/NavigationMenu.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-03-25T04:36:40.052Z"
   },
   "SharedComponents/Singletons/Header/Header.pug": {
-    "issues": [
-      {
-        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
-        "message": "Missing line feed at file end",
-        "sourceListing": "mixin Header(properties)\n  \n  - const { hamburgerMenuButtonAdditionalCSS_Class } =  properties ?? {};\n\n  header.Header&attributes(attributes)\n\n    +HamburgerMenuButton--YDF.Header-Button(\n      class= hamburgerMenuButtonAdditionalCSS_Class\n    )",
-        "lineNumber": 9
-      }
-    ],
-    "modificationDatetime__ISO_8601": "2023-08-24T06:17:36.995Z"
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-08-29T07:35:45.192Z"
   },
   "SharedComponents/Reusables/Cards/Person/PersonCard.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-28T02:39:46.052Z"
+    "modificationDatetime__ISO_8601": "2023-08-29T07:35:43.080Z"
   },
   "SharedComponents/Reusables/Cards/Task/TaskCard.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-05T02:31:30.617Z"
+    "modificationDatetime__ISO_8601": "2023-08-29T07:35:39.231Z"
   },
   "SharedComponents/Reusables/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-21T05:23:03.661Z"
+    "modificationDatetime__ISO_8601": "2023-08-29T07:34:59.201Z"
   },
   "SharedComponents/Reusables/Managers/Task/TaskManager.pug": {
     "issues": [],
@@ -92,6 +85,65 @@
   },
   "SharedComponents/Reusables/Viewers/Tasks/TasksViewer.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-22T06:58:46.267Z"
+    "modificationDatetime__ISO_8601": "2023-08-29T07:34:59.208Z"
+  },
+  "SharedComponents/NavigationMenu/NavigationMenu.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-03-25T04:36:40.052Z"
+  },
+  "SharedComponents/Cards/Person/PersonCard.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-08-29T07:35:43.080Z"
+  },
+  "SharedComponents/Cards/Task/TaskCard.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-08-29T07:35:39.231Z"
+  },
+  "SharedComponents/Managers/Person/PersonManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-08-31T07:04:57.797Z"
+  },
+  "SharedComponents/Managers/Task/TaskManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-09-05T08:02:38.659Z"
+  },
+  "SharedComponents/Managers/Tasks/TasksManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-22T06:52:30.766Z"
+  },
+  "SharedComponents/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-03-25T04:56:38.383Z"
+  },
+  "SharedComponents/OnePerPage/Header/Header.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-08-29T07:35:45.192Z"
+  },
+  "SharedComponents/Viewers/People/PeopleViewer.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-09-01T09:21:40.545Z"
+  },
+  "SharedComponents/Viewers/Tasks/TasksViewer.pug": {
+    "issues": [
+      {
+        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
+        "message": "Missing line feed at file end",
+        "sourceListing": "﻿mixin TasksViewer(statesSimulations)\n\n  -\n    /**\n     * @type {object}\n     * @property {boolean} loading\n     * @property {boolean} error\n     * @property {boolean} noItems\n     * @property {boolean} noSearchResults\n     */  \n    statesSimulations = statesSimulations ?? {}\n \n  .TasksViewer&attributes(attributes)\n\n    +TasksGroupsTreeManager.TasksViewer-Sidebar\n      \n    .TasksViewer-TopActionBar\n\n      +SearchBox--YDF({\n        placeholder: \"課題の見出しや記述で検索\"\n      }).TasksViewer-TopActionBar-SearchBox\n\n      +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers\n        +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon\n        span.Button--YDF-Label 新規課題先追加\n      \n    if statesSimulations.loading\n\n      .TasksViewer-CardsFlow\n\n        each cardNumber in Array.from(new Array(12).keys())\n\n          +TaskCardLoadingPlaceholder\n\n    else if statesSimulations.error\n\n      +AttentionBox--YDF({\n        decoration: AttentionBox__YDF.DecorativeVariations.error,\n        hasPrependedSVG_Icon: true\n      }).TasksViewer-AttentionBox\n\n        p 情報取得中不具合が発生しました。\n\n        +Button--YDF({\n          label: \"再試験\"\n        }).AttentionBox--YDF-CenteredButton\n\n    else if statesSimulations.noItems\n\n      +AttentionBox--YDF({\n        decoration: AttentionBox__YDF.DecorativeVariations.guidance,\n        hasPrependedSVG_Icon: true\n      }).TasksViewer-AttentionBox\n\n        p 現在、課題が一件も登録させていません。\n\n        +Button--YDF({\n          label: \"早速追加しましょう！\",\n          decoration: Button__YDF.DecorativeVariations.accented\n        }).AttentionBox--YDF-CenteredButton\n\n    else if statesSimulations.noSearchResults\n\n      +AttentionBox--YDF({\n        decoration: AttentionBox__YDF.DecorativeVariations.guidance,\n        hasPrependedSVG_Icon: true\n      }).TasksViewer-AttentionBox\n\n        p 検索結果と合っている件はありません。\n\n        +Button--YDF({\n          label: \"検索条件をリセット\",\n        }).AttentionBox--YDF-CenteredButton\n\n    else\n\n      ul.TasksViewer-CardsFlow\n\n        each task in DummyData.Tasks\n\n          +TaskCard({\n            task,\n            rootElementTag: \"li\"\n          })\n            \n    .PeopleViewer-BottomActionBarForNarrowContainers\n\n      +Button--YDF\n        +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon\n        span.Button--YDF-Label 新規課題先追加\n        \n      +Button--YDF\n        +Filtering__Outlined--YDF_Icon.Button--YDF-SVG_Icon\n        span.Button--YDF-Label フィルタリング",
+        "lineNumber": 94
+      }
+    ],
+    "modificationDatetime__ISO_8601": "2023-09-07T06:59:00.987Z"
+  },
+  "SharedComponents/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-06-22T02:51:16.046Z"
+  },
+  "SharedComponents/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-04-07T08:26:58.566Z"
+  },
+  "SharedComponents/Viewers/Calendar/Month/MonthViewer.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
   }
 }

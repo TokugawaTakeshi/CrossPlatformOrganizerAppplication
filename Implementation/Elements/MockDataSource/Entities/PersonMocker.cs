@@ -86,7 +86,9 @@ internal abstract class PersonMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string>
       {
         PreDefinedValue = preDefines?.avatarURI,
-        RandomValueGenerator = () => "",
+        RandomValueGenerator = () => gender == Genders.Male ? 
+            "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" : 
+            "https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg",
         Strategy = options.NullablePropertiesDecisionStrategy
       }
     );

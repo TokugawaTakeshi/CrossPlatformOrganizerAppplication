@@ -1,0 +1,118 @@
+﻿-
+
+  class TaskManager {
+
+    static counterForComponentID_Generating = 0;
+
+    static generateComponentID() {
+      TaskManager.counterForComponentID_Generating++;
+      return `TASK_MANAGER-${ TaskManager.counterForComponentID_Generating }`;
+    }
+
+  }
+
+
+mixin TaskManager(properties, statesSimulations)
+
+  -
+
+    properties = properties ?? {};
+    statesSimulations = statesSimulations ?? {};
+
+    const {
+      targetTask = null,
+      activationGuidance
+    } = properties;
+
+    const {
+      editingMode = false
+    } = statesSimulations;
+
+    const COMPONENT_ID = TaskManager.generateComponentID();
+    const HEADING_ID = `${ COMPONENT_ID }-HEADING`;
+
+    const viewingMode = !editingMode;
+
+
+  .TaskManager&attributes(attributes)
+
+    .TaskManager-Heading(
+      id=HEADING_ID
+    ) 課題詳細
+
+    if !targetTask && activationGuidance
+
+      +AttentionBox--YDF({
+        decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+        hasPrependedSVG_Icon: true
+      }).TaskManager-Guidance= activationGuidance
+
+
+    //- ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    .TaskManager-ActionBar
+
+      if viewingMode
+
+        +Button--YDF({
+          disabled: !targetTask
+        })
+          +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label 編集
+
+      +Button--YDF({
+        disabled: !targetTask
+      })
+        +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
+        span.Button--YDF-Label 削除
+        
+      if editingMode
+
+        +Button--YDF
+          +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label 編集中断
+      
+
+    //- ━━━ 閲覧モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if viewingMode
+
+      dl.TaskManager-Metadata
+
+        dt 見出し
+        dd= targetTask ? targetTask.title : ""
+
+        if targetTask && targetTask.description
+          dt 記述
+          dd= targetTask.description
+
+    else
+
+      //- ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      form.TaskManager-Form(
+        aria-labelledby=HEADING_ID
+      )
+
+        +TextBox--YDF({
+          label: "見出し",
+          guidance: "**1~255文字**を入力して下さい。",
+          value: targetTask ? targetTask.title : ""
+        }).TaskManager-Control
+        
+        +TextBox--YDF({
+          label: "記述",
+          guidance: "**1文字以上**を入力して下さい。",
+          multiline: true,
+          value: targetTask ? nullToEmptyString(targetTask.description) : ""
+        }).TaskManager-Control
+
+        .TaskManager-ActionBar
+
+          +Button--YDF({
+            HTML_Type: Button__YDF.HTML_Types.submit,
+            decoration: Button__YDF.DecorativeVariations.accented
+          })
+            +FloppyDisk--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label 保存
+          
+          +Button--YDF
+            +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label 編集を止める

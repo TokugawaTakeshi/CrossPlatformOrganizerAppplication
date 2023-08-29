@@ -4,7 +4,7 @@
 
 
 <div
-  class="AttentionBox--YDF @rootElementModifierCSS_Classes @spaceSeparatedAdditionalCSS_Classes"
+  class="AttentionBox--YDF @rootElementModifierCSS_Classes @rootElementModifierCSS_Class"
   role="alert"
 >
 
@@ -13,11 +13,11 @@
     @* TODO 【次のプールリクエスト】 適切なアイコンを表示 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/24 *@
     if (_decoration == StandardDecorativeVariations.error.ToString())
     {
-      <ExclamationMarkIcon__Circled__Filled spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-SVG_Icon" />  
+      <ExclamationMarkIcon__Circled__Filled rootElementModifierCSS_Class="AttentionBox--YDF-SVG_Icon" />  
     } 
     else if (_decoration == StandardDecorativeVariations.guidance.ToString())
     {
-      <InfoSignIcon__Circled__Filled spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-SVG_Icon"/>
+      <InfoSignIcon__Circled__Filled rootElementModifierCSS_Class="AttentionBox--YDF-SVG_Icon"/>
     }
   }
   
@@ -48,7 +48,7 @@
       aria-label="Hide this message"
       @onclick="onClickDismissingButton"
     >
-      <MultiplicationSignIcon__Boxed__Filled spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-DismissingButton-Icon" />
+      <MultiplicationSignIcon__Boxed__Filled rootElementModifierCSS_Class="AttentionBox--YDF-DismissingButton-Icon" />
     </button>  
   }
   

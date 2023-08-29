@@ -1,16 +1,16 @@
 ﻿@page "/PeopleManagement"
 
 
-@using Client.SharedComponents.Reusables.Viewers.People
-@using Client.SharedComponents.Reusables.Managers.Person
+@using Client.SharedComponents.Viewers.People
+@using Client.SharedComponents.Managers.Person
 
 
 <div class="PeopleManagementPage-SpecificContent MainLayout-SpecificContentFillingElement">
   
   <PeopleViewer spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleViewer" />
   
-  <PersonManager 
-    spaceSeparatedAdditionalCSS_Classes=@($"PeopleManagementPage-PersonManager { personManagerAdditionalCSS_Class }")
+  <PersonManager
+    rootElementModifierCSS_Class=@($"PeopleManagementPage-PersonManager { personManagerAdditionalCSS_Class }")
     activationGuidance=@personManagerActivationGuidance
     targetPerson=@activePerson
   />

@@ -1,8 +1,9 @@
 ﻿@using Client.Services
 
-@using Client.SharedComponents.Reusables.NavigationMenu
+@using Client.SharedComponents.NavigationMenu
+@using Client.SharedComponents.OnePerPage.Header
+
 @using FrontEndFramework.Components.Controls.Buttons.Closing
-@using Client.SharedComponents.Singletons.Header
 
 @inherits LayoutComponentBase
 
@@ -27,7 +28,7 @@
       <div class="MainLayout-Drawer">
         <NavigationMenu /> 
         <ClosingButton
-          spaceSeparatedAdditionalCSS_Classes="MainLayout-ClosingDrawerButton"
+          rootElementModifierCSS_Class="MainLayout-ClosingDrawerButton"
           onClick=@onClickDrawerClosingButton 
         />
       </div>

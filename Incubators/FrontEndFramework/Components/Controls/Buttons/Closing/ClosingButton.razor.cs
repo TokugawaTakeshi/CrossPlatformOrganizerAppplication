@@ -11,7 +11,7 @@ public partial class ClosingButton : Microsoft.AspNetCore.Components.ComponentBa
   public string? modifierCSS_Class { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
-  public string? spaceSeparatedModifierCSS_Classes { get; set; }
+  public string? rootElementModifierCSS_Class { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string[]? modifierCSS_Classes { get; set; }

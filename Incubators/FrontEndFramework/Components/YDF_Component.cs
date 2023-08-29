@@ -5,7 +5,7 @@ using Utils;
 namespace FrontEndFramework.Components;
 
 
-public abstract class YDF_Component : Microsoft.AspNetCore.Components.ComponentBase, ISupportsCustomCSS_ClassesForRootElement
+public abstract class YDF_Component : Microsoft.AspNetCore.Components.ComponentBase, ISupportsExternalCSS_ClassesForRootElement
 {
 
   [Microsoft.AspNetCore.Components.Parameter]

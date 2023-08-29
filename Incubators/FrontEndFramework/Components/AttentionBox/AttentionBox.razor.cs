@@ -168,7 +168,7 @@ public partial class AttentionBox : ComponentBase
   
   
   /* ─── CSS classes ──────────────────────────────────────────────────────────────────────────────────────────────── */
-  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Parameter] public string? rootElementModifierCSS_Class { get; set; }
 
   private string rootElementModifierCSS_Classes => new List<string>().
       // TODO カスタム奴を考慮　https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/50

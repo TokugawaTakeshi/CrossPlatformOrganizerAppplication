@@ -1,0 +1,77 @@
+﻿.TaskManager
+
+  display flex
+  flex-direction column
+  
+  
+  &-Heading
+
+    applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+      fontSize: 24px,
+      lineSpacing: 4px
+    })
+
+
+  &-Guidance
+
+    margin-top 12px
+
+    flex-shrink 0
+
+
+  &-ActionBar
+
+    display flex
+    flex-direction row-reverse
+    column-gap 8px
+
+    flex-shrink 0
+    retireFrom({ definitions: (".TaskManager-Heading" { y: 10px }) (".TaskManager-Guidance" { y: 6px }) })
+
+
+  &-Metadata
+
+    display grid
+    grid-template-columns auto minmax(0, 1fr)
+    gap 12px 8px
+
+    margin-top 12px
+
+
+    dt
+
+      text-align right
+      
+      font-weight bold
+      color: ShadesOfGray__39ColorsW3C_Palette[16]
+      
+
+    dd
+
+      applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+        fontSize: 14px,
+        lineSpacing: 4px,
+        mustAllowWordsBreakingAnywhere: true
+      })
+
+
+  &-Form
+
+    display flex
+    flex-direction column
+    
+    margin-top 16px
+    pushTargetFromSelf({ targetElementSelector: ".TaskManager-ActionBar", y: 12px })
+
+    overflow hidden
+    
+    
+    .TaskManager-ActionBar
+
+      margin-top 12px
+
+
+  &-Control
+
+    retireFromElementWithSameSelector({ y: 8px })
+    pushTargetFromSelf({ targetElementSelector: ".TaskManager-ActionBar", y: 8px })

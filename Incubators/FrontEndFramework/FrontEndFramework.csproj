@@ -26,7 +26,6 @@
     <AdditionalFiles Include="Components\Controls\RadioButton\RadioButton.razor" />
     <AdditionalFiles Include="Components\Controls\SearchBox\SearchBox.razor" />
     <AdditionalFiles Include="Components\Controls\TextBox\TextBox.razor" />
-    <AdditionalFiles Include="Components\Controls\TextBox\TextBoxLoadingPlaceholder.razor" />
     <AdditionalFiles Include="Components\Controls\FilesUploader\FilesUploader.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Date.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Time.razor" />
@@ -36,6 +35,7 @@
     <AdditionalFiles Include="SVG_Icons\Lists\ChecklistIcon.razor" />
     <AdditionalFiles Include="SVG_Icons\MultiplicationSign\MultiplicationSignIcon__Boxed__Filled.razor" />
     <AdditionalFiles Include="SVG_Icons\Timeline\TimelineIcon.razor" />
+
   </ItemGroup>
 
 

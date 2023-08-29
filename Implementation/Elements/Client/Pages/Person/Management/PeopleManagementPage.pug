@@ -26,7 +26,7 @@ block append Metadata
     HTML_PAGE_LANGUAGE = "ja";
     HTML_PAGE_TITLE = "人管理 ｜ やまとダイワ几帳面さ";
 
-    styleSheetsURIs = [ "@All/ExternalComponents", "@All/Main" ];
+    styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
     
 
 block append SpecificContent
@@ -48,5 +48,6 @@ block append SpecificContent
       { editingMode: true }
     ).PeopleManagementPage-PersonManager&attributes({
       class: PeopleManagementPage.mustDisplayPersonManagerAtNarrowScreens ? 
-          [ "PeopleManagementPage-PersonManager__VisibleAtNarrowScreens" ] : []
+          [ "PeopleManagementPage-PersonManager__VisibleAtNarrowScreens" ] : 
+          [ "PeopleManagementPage-PersonManager__HiddenAtNarrowScreens" ]
     })

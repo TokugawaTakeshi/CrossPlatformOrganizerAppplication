@@ -67,11 +67,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SharedComponents\Reusables\" />
     <Folder Include="StaticPreview\.Build" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="SharedComponents\Reusables\Viewers\People\PeopleManager.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Person\LoadingPlaceholder\PersonCardLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Person\PersonCard.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Task\LoadingPlaceholder\TaskCardLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Task\TaskCard.razor" />
+    <AdditionalFiles Include="SharedComponents\Managers\Person\PersonManager.razor" />
+    <AdditionalFiles Include="SharedComponents\Managers\TasksGroupsTree\TasksGroupsTreeManager.razor" />
+    <AdditionalFiles Include="SharedComponents\Managers\Tasks\TasksManager.razor" />
+    <AdditionalFiles Include="SharedComponents\Managers\Task\TaskManager.razor" />
+    <AdditionalFiles Include="SharedComponents\NavigationMenu\NavigationMenu.razor" />
+    <AdditionalFiles Include="SharedComponents\Viewers\People\PeopleViewer.razor" />
+    <AdditionalFiles Include="SharedComponents\Viewers\Tasks\TasksViewer.razor" />
   </ItemGroup>
 
 </Project>

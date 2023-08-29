@@ -41,7 +41,7 @@
 
     +WideScreensConfiguration()
     
-      display none
+      visibility hidden
 
 
   &-Sidebar
@@ -80,15 +80,19 @@
 
     background rgba(black, 0.25)
 
+    transition opacity 0.5s ease-in
+    
 
   &-Drawer
 
     max-width NARROWEST_SCREEN_WIDTH_UNIT
-    width 90%
+    width 80%
     height 100%
 
     background ShadesOfGray__39ColorsW3C_Palette[8]
     box-shadow 0 4px 8px 4px rgba(black, 0.25)
+    
+    //transform translateX(-100%)
 
     
   &-ClosingDrawerButton
