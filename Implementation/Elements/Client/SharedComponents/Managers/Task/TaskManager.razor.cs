@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics;
+using Client.Data.FromUser.Entities.Task;
+
+using FrontEndFramework.Components.Controls.TextBox;
+using FrontEndFramework.InputtedValueValidation;
+
+using ValidatableControl = FrontEndFramework.ValidatableControl;
 
 
 namespace Client.SharedComponents.Managers.Task;
@@ -12,7 +18,12 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
   public CommonSolution.Entities.Task? targetTask { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter] 
-  public string? activationGuidance { get; set; }
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Gateways.ITaskGateway.Updating.RequestData
+  > onExistingTaskEditingComplete { get; set; }
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required string activationGuidance { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? rootElementModifierCSS_Class { get; set; }
@@ -25,43 +36,105 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
   private readonly string ID = TaskManager.generateComponentID();
   private string HEADING_ID => $"{ this.ID }-HEADING";
 
-  // === TODO 再開点 ====================================================================================================  
-  /* === 行動処理 ==================================================================================================== */
+  
+  private TextBox titleTextBox = null!;
+  private TextBox descriptionTextBox = null!;
+  
+  private (
+    ValidatableControl.Payload title, 
+    ValidatableControl.Payload description
+  ) taskControlsPayload;
+  
+  
+  /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public TaskManager()
+  {
+    this.taskControlsPayload = (
+      title: new ValidatableControl.Payload(
+        initialValue: "", 
+        validation: new TaskTitleInputtedDataValidation(),
+        componentInstanceAccessor: () => this.titleTextBox
+      ),
+      description: new ValidatableControl.Payload(
+        initialValue: "", 
+        validation: new TaskDescriptionInputtedDataValidation(),
+        componentInstanceAccessor: () => this.descriptionTextBox
+      ) 
+    );
+  }
+
+  
+  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── 新規課題追加 ───────────────────────────────────────────────────────────────────────────────────────────────────── */
+  public void beginInputNewTaskData()
+  {
+
+    this.utilizeTaskEditing();
+
+    // TODO 再開点
+  }
+  
   private void beginTaskEditing()
   {
 
     if (this.targetTask is null)
     {
-      throw new Exception("「beginTaskEditing」メソッドは呼び出されたが、「targetTask」は「null」のだ。");
+      throw new Exception("「beginTaskEditing」メソッドは呼び出されたが、「targetTask」は「null」のまま。");
     }
 
+
+    this.taskControlsPayload.title.Value = this.targetTask.title;
+    this.taskControlsPayload.description.Value = this.targetTask.description ?? ""; 
+    
     this.isViewingMode = false;
 
   }
 
   private void displayTaskDeletingConfirmationDialog()
   {
-    // TODO 【 次のプールリクエスト 】 実装
+    // TODO
   }
 
-  private void updateTask()
+  
+  /* ─── 新規追加・編集 ──────────────────────────────────────────────────────────────────────────────────────────────────── */
+  async private void onClickTaskDataSavingButton()
   {
 
-    if (this.targetTask == null)
+    if (ValidatableControlsGroup.HasInvalidInputs(this.taskControlsPayload))
     {
-      throw new Exception("「updateTask」メソッドは呼び出されたが、「targetTask」は「null」のまま。");
+      ValidatableControlsGroup.PointOutValidationErrors(this.taskControlsPayload);
+      return;
     }
     
-    // if (ValidatableControlsGroup.HasInvalidInputs(this.controlsPayload))
-    // {
-    //   // ValidatableControlsGroup.PointOutValidationErrors();
-    //   return;
-    // }
-
-    // this.targetTask.title = this.controlsPayload.taskTitle.GetExpectedToBeValidValue();
-    // this.targetTask.description = this.controlsPayload.taskDescription.GetExpectedToBeValidValue();
     
-    // TODO 【 次のプールリクエスト 】 実装
+    if (this.targetTask == null)
+    {
+      // TODO OnNewPersonHasBeenAdded event
+      return;
+    }
+
+
+    this.targetTask.title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>();
+    this.targetTask.description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>();
+
+    try
+    {
+
+      await this.onExistingTaskEditingComplete.InvokeAsync(
+        new CommonSolution.Gateways.ITaskGateway.Updating.RequestData
+        {
+          ID = this.targetTask.ID,
+          Title = this.targetTask.title,
+          Description = this.targetTask.description
+        }
+      );
+
+    }
+    finally
+    {
+      this.utilizeTaskEditing();      
+    }
+
   }
 
   private void utilizeTaskEditing()
@@ -69,16 +142,14 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
     
     this.isViewingMode = true;
 
-    // this.controlsPayload.taskTitle.Value = "";
-    // this.controlsPayload.taskDescription.Value = "";
+    this.taskControlsPayload.title.Value = "";
+    this.taskControlsPayload.description.Value = "";
 
   }
   
-  // === TODO  未整理 ====================================================================================================
   
-  
-  /* === ルーチン ====================================================================================================== */
-  /* --- ID生成 ------------------------------------------------------------------------------------------------------ */
+  /* ━━━ ルーチン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── ID生成 ─────────────────────────────────────────────────────────────────────────────────────────────────────── */
   private static uint counterForComponentID_Generating = 0;
   
   private static string generateComponentID()

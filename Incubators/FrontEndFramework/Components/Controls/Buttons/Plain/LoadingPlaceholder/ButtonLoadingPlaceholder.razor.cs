@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Utils;
+using YamatoDaiwaCS_Extensions;
 
 
 namespace FrontEndFramework.Components.Controls.Buttons.Plain.LoadingPlaceholder;

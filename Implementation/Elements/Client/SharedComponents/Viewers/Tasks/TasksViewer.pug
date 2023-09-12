@@ -11,10 +11,11 @@
     statesSimulations = statesSimulations ?? {}
  
   .TasksViewer&attributes(attributes)
+    
     //- 【 方法論 】 「container-type inline-size」の為、根要素を２つに別けざる得ない。
     .TasksViewer-VariableComposition
     
-      +TasksGroupsTreeManager.TasksViewer-Sidebar
+      +TasksFilteringPanel.TasksViewer-Sidebar
         
       .TasksViewer-TopActionBar
   
@@ -24,7 +25,7 @@
   
         +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers
           +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 新規課題先追加
+          span.Button--YDF-Label 新規課題追加
         
       if statesSimulations.loading
   
@@ -75,7 +76,7 @@
           }).AttentionBox--YDF-CenteredButton
   
       else
-  
+
         ul.TasksViewer-CardsFlow
   
           each task in DummyData.Tasks
@@ -85,7 +86,7 @@
               rootElementTag: "li"
             })
               
-      .PeopleViewer-BottomActionBarForNarrowContainers
+      .TasksViewer-BottomActionBarForNarrowContainers
   
         +Button--YDF
           +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon

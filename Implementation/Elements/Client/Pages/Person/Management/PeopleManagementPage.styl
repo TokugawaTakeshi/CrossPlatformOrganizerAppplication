@@ -26,11 +26,15 @@
 
   &-PeopleViewer
 
-    max-height 100%
-    padding 8px
+    height 100%
 
     overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。 
 
+
+    +WideContainersConfiguration()
+
+      padding 8px
+    
 
   &-PersonManager
 
@@ -51,7 +55,7 @@
       
         position absolute
         top 0
-        z-index: ZIndexes.floatingBelowModalsComponents
+        z-index: YDF_Configuration.zIndexes.floatingBelowModalsComponents
 
       
     &__HiddenAtNarrowScreens

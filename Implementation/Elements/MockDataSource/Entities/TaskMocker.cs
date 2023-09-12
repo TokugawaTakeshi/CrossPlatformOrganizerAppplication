@@ -5,7 +5,7 @@ using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
 using Utils;
-using Utils.DataMocking;
+using YamatoDaiwaCS_Extensions.DataMocking;
 
 
 namespace MockDataSource.Entities;
@@ -62,33 +62,99 @@ internal abstract class TaskMocker
     DateOnly oneYearLater = DateOnly.FromDateTime(DateTime.Today).AddYears(1);
 
     bool isComplete = preDefines?.isComplete ?? RandomValuesGenerator.GetRandomBoolean();
-    
-    DateTime? associatedDateTime = DataMocking.DecideOptionalValue(
-      new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
-      {
-        PreDefinedValue = preDefines?.associatedDateTime,
-        RandomValueGenerator = () => RandomValuesGenerator.GetRandomDateTime(
-          earliestDate: today, latestDate: oneYearLater
-        ),
-        Strategy = options.NullablePropertiesDecisionStrategy
-      }
-    );
 
+    
+    DateTime? associatedDateTime = null; 
     DateOnly? associatedDate = null;
-
-    if (associatedDateTime is null)
-    {
     
-      associatedDate = DataMocking.DecideOptionalValue(
-        new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
+    switch (options.NullablePropertiesDecisionStrategy)
+    {
+
+      case DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll:
+      {
+        
+        associatedDateTime = DataMocking.DecideOptionalValue(
+          new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
+          {
+            PreDefinedValue = preDefines?.associatedDateTime,
+            RandomValueGenerator = () => RandomValuesGenerator.GetRandomDateTime(
+              earliestDate: today, latestDate: oneYearLater
+            ),
+            Strategy = DataMocking.NullablePropertiesDecisionStrategies.
+              mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined
+          }
+        );
+
+        if (associatedDateTime is null)
         {
-          PreDefinedValue = preDefines?.associatedDate,
-          RandomValueGenerator = () => RandomValuesGenerator.GetRandomDate(
-            earliestDate: today, latestDate: oneYearLater
-          ),
-          Strategy = options.NullablePropertiesDecisionStrategy
+            
+          associatedDate = DataMocking.DecideOptionalValue(
+            new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
+            {
+              PreDefinedValue = preDefines?.associatedDate,
+              RandomValueGenerator = () => RandomValuesGenerator.GetRandomDate(
+                earliestDate: today, latestDate: oneYearLater
+              ),
+              Strategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll
+            }
+          );
+      
         }
-      );
+        
+        break;
+        
+      }
+
+      case DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined:
+      {
+
+        bool mustGenerateEitherAssociatedDateTimeOrDateOnly = RandomValuesGenerator.GetRandomBoolean();
+        
+        associatedDateTime = DataMocking.DecideOptionalValue(
+          new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
+          {
+            PreDefinedValue = preDefines?.associatedDateTime,
+            RandomValueGenerator = () => RandomValuesGenerator.GetRandomDateTime(
+              earliestDate: today, latestDate: oneYearLater
+            ),
+            Strategy = DataMocking.NullablePropertiesDecisionStrategies.
+                mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined
+          }
+        );
+
+        if (associatedDateTime is null)
+        {
+    
+          associatedDate = DataMocking.DecideOptionalValue(
+            new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
+            {
+              PreDefinedValue = preDefines?.associatedDate,
+              RandomValueGenerator = () => RandomValuesGenerator.GetRandomDate(
+                earliestDate: today, latestDate: oneYearLater
+              ),
+              Strategy = mustGenerateEitherAssociatedDateTimeOrDateOnly ? 
+                  DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll :
+                  DataMocking.NullablePropertiesDecisionStrategies.
+                      mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined
+            }
+          );
+      
+        }
+       
+        break;
+        
+      }
+
+
+      case DataMocking.NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined:
+      {
+        
+        associatedDateTime = preDefines?.associatedDateTime;
+        associatedDate = preDefines?.associatedDate;
+        
+        break;
+        
+      }
       
     }
     

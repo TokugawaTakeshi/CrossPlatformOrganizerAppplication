@@ -1,4 +1,5 @@
 ﻿@using CommonSolution.Entities
+@using Task = CommonSolution.Entities.Task
 
 @using FrontEndFramework.Components.AttentionBox
 @using FrontEndFramework.Components.Controls.Buttons.Plain
@@ -38,7 +39,7 @@
       <Button
         disabled=@(targetTask is null)
         label="編集"
-        onClick="beginTaskEditing"
+        onClick=@beginTaskEditing
       >
         <PrependedSVG_Icon>
           <PencilIcon__Filled rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
@@ -57,17 +58,17 @@
     </Button>
 
     @if (isEditingMode)
-      {
-        <Button
-          label="編集中断"
-          onClick=@utilizeTaskEditing
-        >
-          <PrependedSVG_Icon>
-            <MultiplicationSignIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
-          </PrependedSVG_Icon>
-        </Button> 
-      }
-    
+    {
+      <Button
+        label="編集中断"
+        onClick=@utilizeTaskEditing
+      >
+        <PrependedSVG_Icon>
+          <MultiplicationSignIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button> 
+    }
+  
   </div>
   
   
@@ -90,35 +91,44 @@
   else
   {
    
-    // === TODO 再開点 ===================================================================================================
+    @* ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
     <form
       class="TaskManager-Form"
       aria-labelledby=@HEADING_ID
     >
         
-      @* <TextBox *@
-      @*   label="見出し" *@
-      @*   guidance="〇〇～〇〇文字を入力して下さい。" *@
-      @*   spaceSeparatedAdditionalCSS_Classes="TaskManager-Control" *@
-      @*   payload=controlsPayload.taskTitle *@
-      @* /> *@
-      @* *@
-      @* <TextBox *@
-      @*   label="記述" *@
-      @*   guidance="〇〇～〇〇文字を入力して下さい。" *@
-      @*   multiline *@
-      @*   spaceSeparatedAdditionalCSS_Classes="TaskManager-Control" *@
-      @*   payload=controlsPayload.taskDescription *@
-      @* /> *@
+      <TextBox
+        label="見出し"
+        guidance=@(
+          $"見出しを**{ Task.Title.MINIMAL_CHARACTERS_COUNT }~{ Task.Title.MAXIMAL_CHARACTERS_COUNT }文字内**" +
+              "入力して下さい。"
+        )
+        payload=@taskControlsPayload.title
+        @ref=@titleTextBox
+        spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
+      />
+      
+      <TextBox
+        label="記述"
+        guidance=@($"詳細をを**{ Task.Description.MINIMAL_CHARACTERS_COUNT }文字以上**入力して下さい。")
+        multiline
+        payload=@taskControlsPayload.description
+        @ref=@descriptionTextBox
+        spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
+      />
       
       <div class="TaskManager-ActionBar">
         
         <Button
           label="保存"
           HTML_Type=@Button.HTML_Types.inputSubmit
+          onClick=@onClickTaskDataSavingButton
           decoration=@Button.StandardDecorativeVariations.accented.ToString()
-          onClick=@updateTask
-        />
+        >
+          <PrependedSVG_Icon>
+            <FloppyDiskIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />
+          </PrependedSVG_Icon>
+        </Button>
         
         <Button
           label="編集を止める"
@@ -131,7 +141,8 @@
         
       </div>
       
-    </form>  
+    </form>
+    
   }
   
 </div>

@@ -51,7 +51,12 @@ public class Task
     set
     {
       this._associatedDateTime = value;
-      this._associatedDate = null;
+
+      if (value is not null)
+      {
+        this._associatedDate = null;  
+      }
+      
     }
   }
   
@@ -65,8 +70,14 @@ public class Task
     get => this._associatedDate;
     set
     {
+      
       this._associatedDate = value;
-      this._associatedDateTime = null;
+
+      if (value is not null)
+      {
+        this._associatedDateTime = null;  
+      }
+      
     }
   }
   
@@ -81,6 +92,23 @@ public class Task
   public abstract class AssociatedLocation
   {
     public const bool IS_REQUIRED = false;
-  } 
+  }
+
+
+  /* ━━━ 其の他 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public Task clone()
+  {
+    return new Task
+    {
+      ID = this.ID,
+      title = this.title,
+      description = this.description,
+      isComplete = this.isComplete,
+      subtasks = this.subtasks.Select(task => task.clone()).ToList(),
+      associatedDateTime = this.associatedDateTime,
+      associatedDate = this.associatedDate,
+      associatedLocation = this.associatedLocation
+    };
+  }
 
 }

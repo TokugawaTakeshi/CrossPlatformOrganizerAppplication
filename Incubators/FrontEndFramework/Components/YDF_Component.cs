@@ -1,5 +1,5 @@
 ﻿using FrontEndFramework.Components.Abstractions;
-using Utils;
+using YamatoDaiwaCS_Extensions;
 
 
 namespace FrontEndFramework.Components;

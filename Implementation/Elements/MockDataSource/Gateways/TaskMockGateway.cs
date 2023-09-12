@@ -1,8 +1,6 @@
 ﻿using Task = CommonSolution.Entities.Task;
 using CommonSolution.Gateways;
-
-using Utils.DataMocking;
-using Utils.Pagination;
+using YamatoDaiwaCS_Extensions.DataMocking;
 
 
 namespace MockDataSource.Gateways;
@@ -13,6 +11,9 @@ public class TaskMockGateway : ITaskGateway
   
   private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
 
+  /* 【 用途 】 手動変更専用 */
+  private static readonly bool NO_ITEMS_SIMULATION_MODE = false;
+  
   
   public Task<Task[]> RetrieveAll()
   {
@@ -39,26 +40,51 @@ public class TaskMockGateway : ITaskGateway
       getResponseData: () =>
       {
 
-        Task[] filteredTasks;
-
-        if (!String.IsNullOrEmpty(requestParameters.SearchingByFullOrPartialTitle))
+        if (TaskMockGateway.NO_ITEMS_SIMULATION_MODE)
         {
-          filteredTasks = mockDataSource.Tasks.Where(
-            task => task.title.Contains(requestParameters.SearchingByFullOrPartialTitle)
+          return new ITaskGateway.SelectionRetrieving.ResponseData
+          {
+            Items = Array.Empty<Task>(),
+            TotalItemsCountInSelection = 0,
+            TotalItemsCount = 0
+          };
+        }
+        
+        
+        Task[] filteredTasks = mockDataSource.Tasks.ToArray();
+
+        if (requestParameters.OnlyTasksWithAssociatedDate == true)
+        {
+          filteredTasks = filteredTasks.Where(
+            task => task.associatedDate is not null
+          ).ToArray();
+        } else if (requestParameters.OnlyTasksWithAssociatedDateTime == true)
+        {
+          filteredTasks = filteredTasks.Where(
+            task => task.associatedDateTime is not null
           ).ToArray();
         }
-        else
+        
+
+        if (!String.IsNullOrEmpty(requestParameters.SearchingByFullOrPartialTitleOrDescription))
         {
-          filteredTasks = mockDataSource.Tasks.ToArray();
+          filteredTasks = filteredTasks.
+              Where(
+                task => 
+                    task.title.Contains(requestParameters.SearchingByFullOrPartialTitleOrDescription) ||
+                    (task.description?.Contains(requestParameters.SearchingByFullOrPartialTitleOrDescription) ?? false)
+              ).
+              ToArray();
         }
 
-        Task[] itemsOfTargetPaginationPage = new PaginationCollection<Task>(
-          filteredTasks, requestParameters.ItemsCountPerPaginationPage
-        ).GetItemsArrayOfPageWithNumber(requestParameters.PaginationPageNumber);
-
+        filteredTasks = filteredTasks.
+            OrderBy((Task task) => task.associatedDateTime is not null).
+            ThenBy((Task task) => task.associatedDate is not null).
+            ToArray();
+        
         return new ITaskGateway.SelectionRetrieving.ResponseData
         {
-          ItemsOfTargetPaginationPage = itemsOfTargetPaginationPage,
+          Items = filteredTasks,
           TotalItemsCountInSelection = Convert.ToUInt32(filteredTasks.Length),
           TotalItemsCount = Convert.ToUInt32(mockDataSource.People.Count)
         };
@@ -99,6 +125,27 @@ public class TaskMockGateway : ITaskGateway
       getResponseData: () =>
       {
         mockDataSource.UpdateTask(requestData);
+        return null;
+      },
+      new MockGatewayHelper.SimulationOptions
+      {
+        MinimalPendingPeriod__Seconds = 1,
+        MaximalPendingPeriod__Seconds = 2,
+        MustSimulateError = false,
+        GatewayName = nameof(TaskMockGateway),
+        TransactionName = nameof(ITaskGateway.Adding)
+      }
+    );
+  }
+
+  public System.Threading.Tasks.Task ToggleCompletion(string targetTaskID)
+  {
+    return MockGatewayHelper.SimulateDataRetrieving<string, object>(
+      targetTaskID,
+      getResponseData: () =>
+      {
+        Task targetTask = this.mockDataSource.RetrieveAllTasks().Single(task => task.ID == targetTaskID);
+        targetTask.isComplete = !targetTask.isComplete;
         return null;
       },
       new MockGatewayHelper.SimulationOptions

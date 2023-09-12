@@ -27,8 +27,8 @@ internal abstract class PeopleSharedState
   
   
   /* ━━━ 取得 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static Person[] _peopleSelection = Array.Empty<Person>();
-  public static Person[] peopleSelection
+  private static List<Person> _peopleSelection = new ();
+  public static List<Person> peopleSelection
   {
     get => PeopleSharedState._peopleSelection;
     private set
@@ -39,7 +39,7 @@ internal abstract class PeopleSharedState
   }
 
 
-  public static uint _totalPeopleCountInDataSource = 0;
+  private static uint _totalPeopleCountInDataSource = 0;
   public static uint totalPeopleCountInDataSource
   {
     get => PeopleSharedState._totalPeopleCountInDataSource;
@@ -49,7 +49,7 @@ internal abstract class PeopleSharedState
     }
   }
   
-  public static uint _totalPeopleCountInSelection = 0;
+  private static uint _totalPeopleCountInSelection = 0;
   public static uint totalPeopleCountInSelection
   {
     get => PeopleSharedState._totalPeopleCountInSelection;
@@ -60,7 +60,7 @@ internal abstract class PeopleSharedState
     }
   }
 
-  public static string? _searchingByFullOrPartialNameOrItsSpell = null;
+  private static string? _searchingByFullOrPartialNameOrItsSpell = null;
   public static string? searchingByFullOrPartialNameOrItsSpell
   {
     get => PeopleSharedState._searchingByFullOrPartialNameOrItsSpell;
@@ -134,28 +134,34 @@ internal abstract class PeopleSharedState
           PeopleSharedState.searchingByFullOrPartialNameOrItsSpell;  
     }
     
+    
+    IPersonGateway.SelectionRetrieving.ResponseData responseData;
+    
     try
     {
 
-      IPersonGateway.SelectionRetrieving.ResponseData responseData =
-          await ClientDependencies.Injector.gateways().Person.RetrieveSelection(
-            new IPersonGateway.SelectionRetrieving.RequestParameters()
-            {
-              SearchingByFullOrPartialNameOrItsSpell = PeopleSharedState.searchingByFullOrPartialNameOrItsSpell
-            }
-          );
-
-      PeopleSharedState._peopleSelection = responseData.Items;
-      PeopleSharedState._totalPeopleCountInSelection = responseData.TotalItemsCountInSelection;
-      PeopleSharedState._totalPeopleCountInDataSource = responseData.TotalItemsCount;
+      responseData = await ClientDependencies.Injector.gateways().Person.RetrieveSelection(
+        new IPersonGateway.SelectionRetrieving.RequestParameters
+        { SearchingByFullOrPartialNameOrItsSpell = PeopleSharedState.searchingByFullOrPartialNameOrItsSpell }
+      );
 
     }
     catch (Exception exception)
     {
+      
       PeopleSharedState.hasPeopleSelectionRetrievingErrorOccurred = true;
+      PeopleSharedState.isPeopleSelectionBeingRetrievedNow = false;
       Debug.WriteLine(exception);
+      
+      return;
+      
     }
 
+    
+    PeopleSharedState._peopleSelection = responseData.Items.ToList();
+    PeopleSharedState._totalPeopleCountInSelection = responseData.TotalItemsCountInSelection;
+    PeopleSharedState._totalPeopleCountInDataSource = responseData.TotalItemsCount;
+    
     PeopleSharedState.isPeopleSelectionBeingRetrievedNow = false;
     
   }

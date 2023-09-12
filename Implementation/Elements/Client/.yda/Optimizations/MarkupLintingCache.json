@@ -1,7 +1,7 @@
 {
   "SharedComponents/SharedComponents.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-05T07:41:41.378Z"
+    "modificationDatetime__ISO_8601": "2023-09-18T03:48:28.027Z"
   },
   "StaticPreview/StaticPreviewAnywherePage.pug": {
     "issues": [],
@@ -13,7 +13,7 @@
   },
   "Layouts/Main/MainLayout.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:36:25.218Z"
+    "modificationDatetime__ISO_8601": "2023-10-16T05:31:26.488Z"
   },
   "Pages/Calendar/CalendarPage.pug": {
     "issues": [],
@@ -33,7 +33,7 @@
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-07T07:06:05.534Z"
+    "modificationDatetime__ISO_8601": "2023-12-03T07:41:09.007Z"
   },
   "SharedComponents/Reusables/NavigationMenu/NavigationMenu.pug": {
     "issues": [],
@@ -97,7 +97,7 @@
   },
   "SharedComponents/Cards/Task/TaskCard.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:35:39.231Z"
+    "modificationDatetime__ISO_8601": "2023-09-29T02:18:58.082Z"
   },
   "SharedComponents/Managers/Person/PersonManager.pug": {
     "issues": [],
@@ -105,7 +105,7 @@
   },
   "SharedComponents/Managers/Task/TaskManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-05T08:02:38.659Z"
+    "modificationDatetime__ISO_8601": "2023-09-18T03:48:28.021Z"
   },
   "SharedComponents/Managers/Tasks/TasksManager.pug": {
     "issues": [],
@@ -124,15 +124,8 @@
     "modificationDatetime__ISO_8601": "2023-09-01T09:21:40.545Z"
   },
   "SharedComponents/Viewers/Tasks/TasksViewer.pug": {
-    "issues": [
-      {
-        "code": "PUG:LINT_REQUIRELINEFEEDATFILEEND",
-        "message": "Missing line feed at file end",
-        "sourceListing": "﻿mixin TasksViewer(statesSimulations)\n\n  -\n    /**\n     * @type {object}\n     * @property {boolean} loading\n     * @property {boolean} error\n     * @property {boolean} noItems\n     * @property {boolean} noSearchResults\n     */  \n    statesSimulations = statesSimulations ?? {}\n \n  .TasksViewer&attributes(attributes)\n\n    +TasksGroupsTreeManager.TasksViewer-Sidebar\n      \n    .TasksViewer-TopActionBar\n\n      +SearchBox--YDF({\n        placeholder: \"課題の見出しや記述で検索\"\n      }).TasksViewer-TopActionBar-SearchBox\n\n      +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers\n        +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon\n        span.Button--YDF-Label 新規課題先追加\n      \n    if statesSimulations.loading\n\n      .TasksViewer-CardsFlow\n\n        each cardNumber in Array.from(new Array(12).keys())\n\n          +TaskCardLoadingPlaceholder\n\n    else if statesSimulations.error\n\n      +AttentionBox--YDF({\n        decoration: AttentionBox__YDF.DecorativeVariations.error,\n        hasPrependedSVG_Icon: true\n      }).TasksViewer-AttentionBox\n\n        p 情報取得中不具合が発生しました。\n\n        +Button--YDF({\n          label: \"再試験\"\n        }).AttentionBox--YDF-CenteredButton\n\n    else if statesSimulations.noItems\n\n      +AttentionBox--YDF({\n        decoration: AttentionBox__YDF.DecorativeVariations.guidance,\n        hasPrependedSVG_Icon: true\n      }).TasksViewer-AttentionBox\n\n        p 現在、課題が一件も登録させていません。\n\n        +Button--YDF({\n          label: \"早速追加しましょう！\",\n          decoration: Button__YDF.DecorativeVariations.accented\n        }).AttentionBox--YDF-CenteredButton\n\n    else if statesSimulations.noSearchResults\n\n      +AttentionBox--YDF({\n        decoration: AttentionBox__YDF.DecorativeVariations.guidance,\n        hasPrependedSVG_Icon: true\n      }).TasksViewer-AttentionBox\n\n        p 検索結果と合っている件はありません。\n\n        +Button--YDF({\n          label: \"検索条件をリセット\",\n        }).AttentionBox--YDF-CenteredButton\n\n    else\n\n      ul.TasksViewer-CardsFlow\n\n        each task in DummyData.Tasks\n\n          +TaskCard({\n            task,\n            rootElementTag: \"li\"\n          })\n            \n    .PeopleViewer-BottomActionBarForNarrowContainers\n\n      +Button--YDF\n        +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon\n        span.Button--YDF-Label 新規課題先追加\n        \n      +Button--YDF\n        +Filtering__Outlined--YDF_Icon.Button--YDF-SVG_Icon\n        span.Button--YDF-Label フィルタリング",
-        "lineNumber": 94
-      }
-    ],
-    "modificationDatetime__ISO_8601": "2023-09-07T06:59:00.987Z"
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-10-06T04:01:14.392Z"
   },
   "SharedComponents/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
     "issues": [],
@@ -145,5 +138,17 @@
   "SharedComponents/Viewers/Calendar/Month/MonthViewer.pug": {
     "issues": [],
     "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
+  },
+  "SharedComponents/Controls/TasksFilteringPanel/TasksFilteringPanel.pug": {
+    "issues": [
+      {
+        "code": "PUG:LINT_REQUIRECLASSLITERALSBEFOREATTRIBUTES",
+        "message": "All class literals must be written before any attribute blocks",
+        "sourceListing": "mixin TasksFilteringPanel\n\n  .TasksFilteringPanel&attributes(attributes)\n\n    .TasksFilteringPanel-Title 自動生成群\n\n    ul.TasksFilteringPanel-List\n\n      li.TasksFilteringPanel-List-Item\n        //- 【 CSSクラステスト 】 .TasksFilteringPanel-List-Item-Button__SelectedState\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\").TasksFilteringPanel-List-Item-Button__SelectedState\n          +Checklist--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 全課題\n      \n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 日付連想\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar__Time--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 日時連想\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Location__BottomCircle--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 場所\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar__Repeat--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 定期\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Folder__Stationery--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 計画\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar__Date--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 本日\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Person__Clock__Rectangled__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 他人に依存\n\n\n    .TasksFilteringPanel-Title カスタム整理\n\n    ul.TasksFilteringPanel-List\n\n      li.TasksFilteringPanel-List-Item\n\n        button.TasksFilteringPanel-List-Item-CollapsingToggle(\n          type=\"button\"\n          aria-label=\"Collapse\"\n        ): +Triangle__Upward__Circled__Filled--YDF_Icon.TasksFilteringPanel-List-Item-CollapsingToggle-Icon\n\n        a.TasksFilteringPanel-List-Item-Button(href=\"#\")\n          +Folder__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label カスタム群1\n\n        ul.TasksFilteringPanel-List\n\n          li.TasksFilteringPanel-List-Item\n            a.TasksFilteringPanel-List-Item-Button(href=\"#\")\n              +Folder__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n              span.TasksFilteringPanel-List-Item-Label カスタム群1-1\n\n          li.TasksFilteringPanel-List-Item\n            a.TasksFilteringPanel-List-Item-Button(href=\"#\")\n              +Folder__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n              span.TasksFilteringPanel-List-Item-Label カスタム群1-2\n",
+        "lineNumber": 11,
+        "columnNumber": 67
+      }
+    ],
+    "modificationDatetime__ISO_8601": "2023-10-02T03:42:38.493Z"
   }
 }

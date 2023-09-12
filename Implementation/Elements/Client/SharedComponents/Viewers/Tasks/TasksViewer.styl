@@ -1,6 +1,6 @@
 ﻿.TasksViewer
 
-  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 600px
+  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 740px
 
   WideContainersConfiguration()
     @media container and (min-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
@@ -16,6 +16,9 @@
   
   &-VariableComposition
   
+    height 100%
+    
+    
     +WideContainersConfiguration()
   
       display grid
@@ -23,6 +26,7 @@
       grid-template-columns 200px minmax(0, 1fr)
       grid-template-rows auto 1fr
       row-gap 6px
+      column-gap 12px
   
     
     +NarrowContainersConfiguration()
@@ -30,8 +34,6 @@
       display flex
       flex-direction column
       overflow hidden
-    
-      max-height 100%
   
   
   &-Sidebar
@@ -49,12 +51,13 @@
   &-TopActionBar
 
     display flex
-    column-gap 8px
+    align-items center
     
     
     +WideContainersConfiguration()
 
       grid-area TOP_ACTION_BAR
+      column-gap 8px
 
 
     +NarrowContainersConfiguration()

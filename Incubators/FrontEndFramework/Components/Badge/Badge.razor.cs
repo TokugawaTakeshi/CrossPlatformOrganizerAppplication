@@ -3,6 +3,7 @@ using FrontEndFramework.Exceptions;
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using YamatoDaiwaCS_Extensions;
 using Utils;
 
 
@@ -133,7 +134,7 @@ public partial class Badge : Microsoft.AspNetCore.Components.ComponentBase
 
   /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
-  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  public string? rootElementModifierCSS_Class { get; set; }
 
   private string rootElementModifierCSS_Classes => new List<string>().
     
@@ -168,6 +169,10 @@ public partial class Badge : Microsoft.AspNetCore.Components.ComponentBase
       AddElementToEndIf(
         "Badge--YDF__BordersDisguisingDecorativeModifier", 
         this.decorativeModifiers.Contains(Badge.DecorativeModifiers.bordersDisguising)
+      ).
+      
+      AddElementToEndIf(
+        this.rootElementModifierCSS_Class ?? "", String.IsNullOrEmpty(this.rootElementModifierCSS_Class)
       ).
           
       StringifyEachElementAndJoin(" ");

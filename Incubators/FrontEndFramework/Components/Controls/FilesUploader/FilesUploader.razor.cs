@@ -4,6 +4,7 @@ using FrontEndFramework.Components.Controls.Buttons.Plain;
 using FrontEndFramework.ValidatableControl;
 using Microsoft.JSInterop;
 using Utils;
+using YamatoDaiwaCS_Extensions;
 
 namespace FrontEndFramework.Components.Controls.FilesUploader;
 
@@ -98,7 +99,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   }
   
   // TODO 変化検討中
-  public Microsoft.AspNetCore.Components.ElementReference GetRootElement()
+  public IValidatableControl.IRootElementOffsetCoordinates GetRootElementOffsetCoordinates()
   {
     throw new NotImplementedException();
   }
@@ -110,7 +111,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
     return this;
   }
   
-  public void ResetStateToInitial()
+  public void ResetValidityHighlightingToInitial()
   {
   }
   

@@ -19,9 +19,19 @@
   &-TopActionBar
   
     display flex
-    column-gap 8px
+    align-items center
     
+    column-gap 8px
+        
     flex-shrink 0
+    z-index: YDF_Configuration.zIndexes.lowermostLayer + 1  /* 影が正しく表示されるのに必要 */
+    
+    
+    +NarrowContainersConfiguration()
+    
+      padding 6px
+    
+      box-shadow 0 2px 6px 0 rgba(black, 0.25)
     
     
     &-SearchBox
@@ -49,19 +59,25 @@
     align-content start
 
     overflow-y auto
-    
-    provideClippedShadowsAndOutlinesVisibility({
-      requiredHorizontalSymmetricSpace: PersonCard.shadowThickness,
-      requiredVerticalSymmetricSpace: PersonCard.shadowThickness
-    })
 
     flex-grow 1
-    margin-top 6px
 
 
     +WideContainersConfiguration()
 
       column-gap 12px
+
+      provideClippedShadowsAndOutlinesVisibility({
+        requiredHorizontalSymmetricSpace: PersonCard.shadowThickness,
+        requiredVerticalSymmetricSpace: PersonCard.shadowThickness
+      })
+    
+      margin-top 6px
+    
+
+    +NarrowContainersConfiguration()
+    
+      padding: PersonCard.shadowThickness + 2px
 
 
   &-AttentionBox
@@ -87,7 +103,9 @@
     
       display flex
       flex-direction row-reverse
-      
+
+      padding 6px
+      box-shadow 0 -2px 6px 0 rgba(black, 0.25)
+    
       flex-grow 0
       margin-top 6px
-    

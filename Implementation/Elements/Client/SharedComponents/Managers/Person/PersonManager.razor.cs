@@ -1,14 +1,17 @@
-﻿using System.Diagnostics;
+﻿using CommonSolution.Fundamentals;
+
 using Client.Data.FromUser.Entities.Person;
-using CommonSolution.Fundamentals;
+
 using FrontEndFramework.Components.Controls.FilesUploader;
 using FrontEndFramework.Components.Controls.TextBox;
 using FrontEndFramework.Components.Controls.RadioButtonsGroup;
 using FrontEndFramework.InputtedValueValidation;
+
 using ValidatableControl = FrontEndFramework.ValidatableControl;
 
 using Microsoft.EntityFrameworkCore;
 
+using YamatoDaiwaCS_Extensions;
 using Utils;
 
 
@@ -23,7 +26,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   public CommonSolution.Entities.Person? targetPerson { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter] 
-  public string? activationGuidance { get; set; }
+  public required string activationGuidance { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? rootElementModifierCSS_Class { get; set; }
@@ -68,13 +71,13 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     ValidatableControl.Payload avatarURI,
     ValidatableControl.Payload emailAddress, 
     ValidatableControl.Payload phoneNumber
-  ) controlsPayload;
+  ) personControlsPayload;
   
   
   /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public PersonManager()
   {
-    this.controlsPayload = (
+    this.personControlsPayload = (
       familyName: new ValidatableControl.Payload(
         initialValue: "", 
         validation: new PersonFamilyNameInputtedDataValidation(),
@@ -119,7 +122,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   }
 
   
-  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private void beginPersonEditing()
   {
 
@@ -129,12 +132,12 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     }
 
     
-    this.controlsPayload.familyName.Value = this.targetPerson.familyName;
-    this.controlsPayload.givenName.Value = this.targetPerson.givenName ?? "";
-    this.controlsPayload.familyNameSpell.Value = this.targetPerson.familyNameSpell ?? "";
-    this.controlsPayload.givenNameSpell.Value = this.targetPerson.givenNameSpell ?? "";
-    this.controlsPayload.emailAddress.Value = this.targetPerson.emailAddress ?? "";
-    this.controlsPayload.phoneNumber.Value = this.targetPerson.phoneNumber__digitsOnly ?? "";
+    this.personControlsPayload.familyName.Value = this.targetPerson.familyName;
+    this.personControlsPayload.givenName.Value = this.targetPerson.givenName ?? "";
+    this.personControlsPayload.familyNameSpell.Value = this.targetPerson.familyNameSpell ?? "";
+    this.personControlsPayload.givenNameSpell.Value = this.targetPerson.givenNameSpell ?? "";
+    this.personControlsPayload.emailAddress.Value = this.targetPerson.emailAddress ?? "";
+    this.personControlsPayload.phoneNumber.Value = this.targetPerson.phoneNumber__digitsOnly ?? "";
     
     this.isViewingMode = false;
     
@@ -150,9 +153,9 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private void onClickPersonDataSavingButton()
   {
 
-    if (ValidatableControlsGroup.HasInvalidInputs(this.controlsPayload))
+    if (ValidatableControlsGroup.HasInvalidInputs(this.personControlsPayload))
     {
-      ValidatableControlsGroup.PointOutValidationErrors(this.controlsPayload);
+      ValidatableControlsGroup.PointOutValidationErrors(this.personControlsPayload);
       return;
     }
 
@@ -164,15 +167,15 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     }
     
     
-    this.targetPerson.familyName = this.controlsPayload.familyName.GetExpectedToBeValidValue<string>();
-    this.targetPerson.givenName = this.controlsPayload.givenName.GetExpectedToBeValidValue<string>();
-    this.targetPerson.familyNameSpell = this.controlsPayload.familyNameSpell.GetExpectedToBeValidValue<string>();
-    this.targetPerson.givenNameSpell = this.controlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>();
-    this.targetPerson.emailAddress = this.controlsPayload.emailAddress.GetExpectedToBeValidValue<string>();
-    this.targetPerson.phoneNumber__digitsOnly = this.controlsPayload.phoneNumber.GetExpectedToBeValidValue<string>().
+    this.targetPerson.familyName = this.personControlsPayload.familyName.GetExpectedToBeValidValue<string>();
+    this.targetPerson.givenName = this.personControlsPayload.givenName.GetExpectedToBeValidValue<string>();
+    this.targetPerson.familyNameSpell = this.personControlsPayload.familyNameSpell.GetExpectedToBeValidValue<string>();
+    this.targetPerson.givenNameSpell = this.personControlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>();
+    this.targetPerson.emailAddress = this.personControlsPayload.emailAddress.GetExpectedToBeValidValue<string>();
+    this.targetPerson.phoneNumber__digitsOnly = this.personControlsPayload.phoneNumber.GetExpectedToBeValidValue<string>().
         RemoveAllSpecifiedCharacters(new []{ '-' });
     // TODO 其の他のフィルド
-    // TODO そのままでtargetPersonを更新しても良いと思わん。
+    // TODO そのままでtargetPersonを更新してもとは限らん
 
   }
   
@@ -181,17 +184,17 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     
     this.isViewingMode = true;
     
-    this.controlsPayload.familyName.Value = "";
-    this.controlsPayload.givenName.Value = "";
-    this.controlsPayload.familyNameSpell.Value = "";
-    this.controlsPayload.givenNameSpell.Value = "";
-    this.controlsPayload.emailAddress.Value = "";
+    this.personControlsPayload.familyName.Value = "";
+    this.personControlsPayload.givenName.Value = "";
+    this.personControlsPayload.familyNameSpell.Value = "";
+    this.personControlsPayload.givenNameSpell.Value = "";
+    this.personControlsPayload.emailAddress.Value = "";
     // TODO 其の他のフィルド
 
   }
 
 
-  /* ━━━ ルーチン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ ルーチン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ * /
   /* ─── ID生成 ────────────────────────────────────────────────────────────────────────────────────────────────────── */
   private static uint counterForComponentID_Generating = 0;
 

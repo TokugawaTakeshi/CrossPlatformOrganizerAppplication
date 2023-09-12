@@ -3,7 +3,11 @@
 @using Client.SharedComponents.NavigationMenu
 @using Client.SharedComponents.OnePerPage.Header
 
+@using Microsoft.AspNetCore.Components.Sections
+@using FrontEndFramework.Components.BlockingLoadingOverlay
 @using FrontEndFramework.Components.Controls.Buttons.Closing
+@using FrontEndFramework.Components.Snackbar
+
 
 @inherits LayoutComponentBase
 
@@ -34,5 +38,10 @@
       </div>
     </div> 
   }
+  
+  <Snackbar/>
+  <BlockingLoadingOverlay/>
+  
+  <SectionOutlet SectionName="FloatingAndFixedContent" />
   
 </div>

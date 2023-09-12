@@ -1,16 +1,23 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿namespace FrontEndFramework.ValidatableControl;
 
-namespace FrontEndFramework.ValidatableControl;
 
 public interface IValidatableControl
 {
   
   IValidatableControl HighlightInvalidInput();
   
-  ElementReference GetRootElement();
+  
+  IRootElementOffsetCoordinates GetRootElementOffsetCoordinates();
 
+  struct IRootElementOffsetCoordinates
+  {
+    public uint top { get; init; }
+    public uint left { get; init; }
+  }
+  
+  
   IValidatableControl Focus();
   
-  void ResetStateToInitial();
+  void ResetValidityHighlightingToInitial();
 
 }

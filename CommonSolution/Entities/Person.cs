@@ -163,5 +163,26 @@ public class Person
   {
     public const bool IS_REQUIRED = false;
   }
+  
+  
+  /* ━━━ 其の他 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public Person clone()
+  {
+    return new Person
+    {
+      ID = this.ID,
+      familyName = this.familyName,
+      givenName = this.givenName,
+      familyNameSpell = this.familyNameSpell,
+      givenNameSpell = this.givenNameSpell,
+      gender = this.gender,
+      avatarURI = this.avatarURI,
+      birthYear = this.birthYear,
+      birthMonthNumber__numerationFrom1 = this.birthMonthNumber__numerationFrom1,
+      birthDayOfMonth__numerationFrom1 = this.birthDayOfMonth__numerationFrom1,
+      emailAddress = this.emailAddress,
+      phoneNumber__digitsOnly = this.phoneNumber__digitsOnly
+    };
+  }
 
 }

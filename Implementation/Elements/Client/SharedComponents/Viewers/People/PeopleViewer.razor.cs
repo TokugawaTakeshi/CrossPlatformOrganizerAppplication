@@ -9,7 +9,8 @@ namespace Client.SharedComponents.Viewers.People;
 public partial class PeopleViewer : ComponentBase
 {
 
-  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter] 
+  public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
 
 
   /* ━━━ ライフサイクルフック ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -23,7 +24,8 @@ public partial class PeopleViewer : ComponentBase
   /* ━━━ 操作の処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private async System.Threading.Tasks.Task onNewPersonSearchingRequestByFullOrPartialNameOrItsSpellHasBeenEmitted(
     string? newPersonSearchingRequestByFullOrPartialNameOrItsSpell
-  ) {
+  ) 
+  {
     await PeopleSharedState.retrievePeopleSelection(
       new IPersonGateway.SelectionRetrieving.RequestParameters
       {
@@ -33,7 +35,7 @@ public partial class PeopleViewer : ComponentBase
     );
   }
 
-  private async System.Threading.Tasks.Task onClickRetryPeopleSelectionRetrievingButton()
+  private async System.Threading.Tasks.Task onClickPeopleSelectionRetrievingRetryingButton()
   {
     await PeopleSharedState.retrievePeopleSelection();
   }
@@ -43,7 +45,7 @@ public partial class PeopleViewer : ComponentBase
     // TODO
   }
 
-  private async void onClickResetFilteringButton()
+  private async void onClickFilteringResettingButton()
   {
     await PeopleSharedState.retrievePeopleSelection(mustResetSearchingByFullOrPartialNameOrItsSpell: true);
   }

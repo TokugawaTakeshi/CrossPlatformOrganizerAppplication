@@ -36,6 +36,7 @@
     transition none
 
 
+  &__DisabledState,
   &__LoadingPlaceholder
 
     pointer-events none
@@ -53,12 +54,12 @@
 
     &:hover
 
-      background YDF_ColorPalette.skyBlue.pastelLight
+      background-color: YDF_ColorPalette.skyBlue.pastelLight
 
 
     &:active
 
-      background YDF_ColorPalette.skyBlue.pastelBright
+      background-color: YDF_ColorPalette.skyBlue.pastelBright
 
 
     +addLoadingPlaceholderModifierClass({
@@ -73,11 +74,18 @@
     &-Icon
 
       height 24px
+      
+      fill: ShadesOfGray__39ColorsW3C_Palette[16]
 
 
       ../:focus &
 
         box-shadow: 0 0 5px 2px YDF_ColorPalette.skyBlue.light
+        
+        
+      /.TaskCard__DisabledState &
+        
+        fill: ShadesOfGray__39ColorsW3C_Palette[32]
 
 
   &-Title

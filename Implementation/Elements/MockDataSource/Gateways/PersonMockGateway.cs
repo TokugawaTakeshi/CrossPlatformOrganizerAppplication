@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using Person = CommonSolution.Entities.Person;
+﻿using Person = CommonSolution.Entities.Person;
 using CommonSolution.Gateways;
-
-using Utils.DataMocking;
+using YamatoDaiwaCS_Extensions.DataMocking;
 
 
 namespace MockDataSource.Gateways;
@@ -56,8 +54,6 @@ public class PersonMockGateway : IPersonGateway
         
         
         Person[] filteredPeople;
-        
-        Debug.WriteLine(searchingByFullOrPartialNameOrItsSpell);
         
         if (!String.IsNullOrEmpty(searchingByFullOrPartialNameOrItsSpell))
         {

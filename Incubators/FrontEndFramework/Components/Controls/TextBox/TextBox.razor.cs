@@ -2,6 +2,7 @@
 using FrontEndFramework.ValidatableControl;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using YamatoDaiwaCS_Extensions;
 using Utils;
 
 
@@ -120,7 +121,7 @@ public partial class TextBox : InputtableControl, IValidatableControl
   }
   
   // TODO 変化検討中
-  public Microsoft.AspNetCore.Components.ElementReference GetRootElement()
+  public IValidatableControl.IRootElementOffsetCoordinates GetRootElementOffsetCoordinates()
   {
     throw new NotImplementedException();
   }
@@ -132,7 +133,7 @@ public partial class TextBox : InputtableControl, IValidatableControl
     return this;
   }
 
-  public void ResetStateToInitial()
+  public void ResetValidityHighlightingToInitial()
   {
   }
   

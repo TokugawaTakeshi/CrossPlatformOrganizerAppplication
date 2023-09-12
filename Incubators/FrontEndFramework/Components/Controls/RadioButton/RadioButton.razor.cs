@@ -1,6 +1,6 @@
 ﻿using FrontEndFramework.Components.Abstractions;
 
-using Utils;
+using YamatoDaiwaCS_Extensions;
 
 
 namespace FrontEndFramework.Components.Controls.RadioButton;
@@ -115,10 +115,10 @@ public partial class RadioButton : Microsoft.AspNetCore.Components.ComponentBase
     RadioButton.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration;
+  protected string _decoration = RadioButton.StandardDecorativeVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public required object decoration
+  public object decoration
   {
     get => _decoration;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<RadioButton.StandardDecorativeVariations>(

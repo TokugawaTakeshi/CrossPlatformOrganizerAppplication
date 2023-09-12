@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using FrontEndFramework.Components.Abstractions;
+﻿using FrontEndFramework.Components.Abstractions;
 using FrontEndFramework.ValidatableControl;
-using Utils;
+using YamatoDaiwaCS_Extensions;
 
 
 namespace FrontEndFramework.Components.Controls.RadioButtonsGroup;
@@ -44,7 +43,7 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
   }
   
   // TODO 変化検討中
-  public Microsoft.AspNetCore.Components.ElementReference GetRootElement()
+  public IValidatableControl.IRootElementOffsetCoordinates GetRootElementOffsetCoordinates()
   {
     throw new NotImplementedException();
   }
@@ -56,7 +55,7 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
     return this;
   }
 
-  public void ResetStateToInitial()
+  public void ResetValidityHighlightingToInitial()
   {
   }
   

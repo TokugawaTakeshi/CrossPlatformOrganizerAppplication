@@ -1,4 +1,4 @@
-﻿using Utils;
+﻿using YamatoDaiwaCS_Extensions;
 
 
 namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;

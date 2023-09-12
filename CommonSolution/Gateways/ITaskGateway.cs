@@ -10,7 +10,6 @@ public interface ITaskGateway
   /* ━━━ 取得 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   Task<Task[]> RetrieveAll();
   
-  
   Task<SelectionRetrieving.ResponseData> RetrieveSelection(SelectionRetrieving.RequestParameters requestParameters);
   
   public abstract class SelectionRetrieving
@@ -18,16 +17,16 @@ public interface ITaskGateway
     
     public struct RequestParameters
     {
-      public required uint PaginationPageNumber { get; init; }
-      public required uint ItemsCountPerPaginationPage { get; init; }
-      public string? SearchingByFullOrPartialTitle { get; init; }
+      public string? SearchingByFullOrPartialTitleOrDescription { get; init; }
+      public bool? OnlyTasksWithAssociatedDate { get; init; }
+      public bool? OnlyTasksWithAssociatedDateTime { get; init; }
     }
 
     public struct ResponseData
     {
       public required uint TotalItemsCount;
       public required uint TotalItemsCountInSelection;
-      public required Task[] ItemsOfTargetPaginationPage;
+      public required Task[] Items;
     }
     
   }
@@ -75,9 +74,12 @@ public interface ITaskGateway
       public CommonSolution.Entities.Location? AssociatedLocation { get; init; }
     }
   }
+
+  
+  System.Threading.Tasks.Task ToggleCompletion(string targetTaskID);
   
 
-  /* === 削除 ======================================================================================================= */
+  /* ━━━ 削除 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   System.Threading.Tasks.Task Delete(string targetTaskID);
   
 }

@@ -8,8 +8,8 @@ using MockDataSource.SamplesRepositories;
 using MockDataSource.AdditionalStructures;
 
 using System.Diagnostics;
-using Utils;
-using Utils.DataMocking;
+using YamatoDaiwaCS_Extensions;
+using YamatoDaiwaCS_Extensions.DataMocking;
 
 
 namespace MockDataSource;
@@ -95,7 +95,7 @@ public class MockDataSource
         new()
         {
           NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
-          Quantity = 5
+          Quantity = 10
         },
         new()
         {
@@ -115,7 +115,7 @@ public class MockDataSource
   /* === 人 ========================================================================================================= */
   public Person[] RetrieveAllPeople()
   {
-    return People.ToArray();
+    return People.Select(person => person.clone()).ToArray();
   }
 
   public IPersonGateway.Adding.ResponseData AddPerson(IPersonGateway.Adding.RequestData requestData)
@@ -182,7 +182,7 @@ public class MockDataSource
   /* === 課題 ======================================================================================================= */
   public Task[] RetrieveAllTasks()
   {
-    return Tasks.ToArray();
+    return Tasks.Select(task => task.clone()).ToArray();
   }
 
   public ITaskGateway.Adding.ResponseData AddTask(ITaskGateway.Adding.RequestData requestData)

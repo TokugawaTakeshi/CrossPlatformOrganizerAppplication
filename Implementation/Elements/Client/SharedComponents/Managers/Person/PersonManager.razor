@@ -204,9 +204,9 @@
           label="姓"
           guidance=@(
             $"上の名前を**{ Person.FamilyName.MINIMAL_CHARACTERS_COUNT }~{ Person.FamilyName.MAXIMAL_CHARACTERS_COUNT }文字内**" +
-              "入力して下さい。"
+                "入力して下さい。"
           )
-          payload=@controlsPayload.familyName
+          payload=@personControlsPayload.familyName
           @ref=@familyNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -215,9 +215,9 @@
           label="名"
           guidance=@(
             $"下の名前を**{ Person.GivenName.MINIMAL_CHARACTERS_COUNT }~{ Person.GivenName.MAXIMAL_CHARACTERS_COUNT }文字内**" +
-              "入力して下さい。"
+                "入力して下さい。"
           )
-          payload=@controlsPayload.givenName
+          payload=@personControlsPayload.givenName
           @ref=@givenNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -228,7 +228,7 @@
             $"上の名前をの読み方を**{ Person.FamilyNameSpell.MINIMAL_CHARACTERS_COUNT }~" +
               $"{ Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
           )
-          payload=@controlsPayload.familyNameSpell
+          payload=@personControlsPayload.familyNameSpell
           @ref=@familyNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -239,7 +239,7 @@
             $"下の名前の読み方を**{ Person.GivenNameSpell.MINIMAL_CHARACTERS_COUNT }~" +
               $"{ Person.GivenNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
           )
-          payload=@controlsPayload.givenNameSpell
+          payload=@personControlsPayload.givenNameSpell
           @ref=@givenNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -253,7 +253,7 @@
         <FilesUploader
           label="写真"
           guidance="写真をアップロードして下さい"
-          payload=@controlsPayload.avatarURI
+          payload=@personControlsPayload.avatarURI
           noDragAndDropArea=@(true)
           maximalFilesCount=@(1)
           @ref=@avatarUploader
@@ -263,7 +263,7 @@
         <TextBox
           label="メールアドレス"
           HTML_Type=@TextBox.HTML_Types.email
-          payload=@controlsPayload.emailAddress
+          payload=@personControlsPayload.emailAddress
           @ref=@emailAddressTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
         />
@@ -271,7 +271,7 @@
         <TextBox
           label="電話番号"
           HTML_Type=@TextBox.HTML_Types.phoneNumber
-          payload=@controlsPayload.phoneNumber
+          payload=@personControlsPayload.phoneNumber
           @ref=@phoneNumberTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
         />

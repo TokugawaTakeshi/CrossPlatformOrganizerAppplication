@@ -1,18 +1,38 @@
 ﻿@page "/"
 
 
+@using Client.SharedComponents.Controls.TasksFilteringPanel;
 @using Client.SharedComponents.Viewers.Tasks
 @using Client.SharedComponents.Managers.Task
+
+@using Microsoft.AspNetCore.Components.Sections
+@using FrontEndFramework.Components.ModalDialog
 
 
 <div class="TasksManagementPage-SpecificContent MainLayout-SpecificContentFillingElement">
 
-	<TasksViewer spaceSeparatedAdditionalCSS_Classes="TasksManagementPage-TasksViewer" />
+	<TasksViewer 
+		rootElementModifierCSS_Class="TasksManagementPage-TasksViewer"
+		onClickTaskAddingButtonEventHandler=@beginInputOfNewTaskData
+	/>
   
 	<TaskManager 
 		rootElementModifierCSS_Class=@($"TasksManagementPage-TaskManager { taskManagerAdditionalCSS_Class }")
 		activationGuidance=@taskManagerActivationGuidance
-		targetTask="@activeTask"
+		targetTask=@activeTask
+		onExistingTaskEditingComplete=@onExistingTaskEditingCompleted
+		@ref=@taskManager
 	/>
-
+	
 </div>
+
+<SectionContent SectionName="FloatingAndFixedContent">
+	
+	<ModalDialog
+		title="課題の絞り込み"
+		onInitializedEventCallback=@onTasksFilteringModalDialogInitialized
+	>
+		<TasksFilteringPanel />
+	</ModalDialog>
+	
+</SectionContent>

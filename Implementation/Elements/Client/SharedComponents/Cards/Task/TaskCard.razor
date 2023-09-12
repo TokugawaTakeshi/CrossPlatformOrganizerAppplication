@@ -23,6 +23,8 @@
     role="checkbox"
     tabindex="0"
     aria-checked=@targetTask.isComplete
+    @onclick:stopPropagation
+    @onclick=@onClickCheckbox
   >
 
     @if (targetTask.isComplete)
@@ -38,16 +40,38 @@
 
   <div class="TaskCard-Title">@targetTask.title</div>
 
-  <div class="TaskCard-BadgesFlow">
-    <Badge
-      value="一時的"
-      decoration=@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
-    >
-      <PrependedSVG_Icon>
-        <CalendarIcon__Time rootElementModifierCSS_Class="Badge--YDF-SVG_Icon" />
-      </PrependedSVG_Icon>
-    </Badge>
-  </div>
+  @if (hasAtLeastOneBadge)
+  {
+    <div class="TaskCard-BadgesFlow">
+      
+      @if (dateTimeBadgeLabel is not null)
+      {
+        <Badge
+          key="日時"
+          value=@dateTimeBadgeLabel
+          decoration=@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
+        >
+          <PrependedSVG_Icon>
+            <CalendarIcon__Time rootElementModifierCSS_Class="Badge--YDF-SVG_Icon"/>
+          </PrependedSVG_Icon>
+        </Badge>  
+      }
+      
+      @if (dateBadgeLabel is not null)
+      {
+        <Badge
+          key="日付"
+          value=@dateBadgeLabel
+          decoration=@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.catchyBright
+        >
+          <PrependedSVG_Icon>
+            <CalendarIcon__Date rootElementModifierCSS_Class="Badge--YDF-SVG_Icon"/>
+          </PrependedSVG_Icon>
+        </Badge>  
+      }
+      
+    </div> 
+  }
   
   @if (!String.IsNullOrEmpty(targetTask.description))
   {

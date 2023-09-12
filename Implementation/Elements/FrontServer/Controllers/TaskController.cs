@@ -26,17 +26,17 @@ public class TaskController : ControllerBase
   /* --- 標本 -------------------------------------------------------------------------------------------------------- */
   [HttpGet("selection")]
   public async System.Threading.Tasks.Task<ActionResult<ITaskGateway.SelectionRetrieving.ResponseData>> Get(
-    [FromQuery(Name="pagination_page_number")] [Required] uint paginationPageNumber,
-    [FromQuery(Name="items_count_per_pagination_page")] [Required] uint itemsCountPerPaginationPage,
+    [FromQuery(Name="only_tasks_with_associated_date")] bool onlyTasksWithAssociatedDate,
+    [FromQuery(Name="only_tasks_with_associated_date_time")] bool onlyTasksWithAssociatedDateTime,
     [FromQuery(Name="searching_by_full_or_partial_title")] string? searchingByFullOrPartialTitle
   ) {
     return base.Ok(
       await this.taskGateway.RetrieveSelection(
         new ITaskGateway.SelectionRetrieving.RequestParameters
         {
-          PaginationPageNumber = paginationPageNumber,
-          ItemsCountPerPaginationPage = itemsCountPerPaginationPage,
-          SearchingByFullOrPartialTitle = searchingByFullOrPartialTitle
+          OnlyTasksWithAssociatedDate = onlyTasksWithAssociatedDate,
+          OnlyTasksWithAssociatedDateTime = onlyTasksWithAssociatedDateTime,
+          SearchingByFullOrPartialTitleOrDescription = searchingByFullOrPartialTitle
         })
     );
   }

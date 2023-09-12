@@ -1,4 +1,4 @@
-.TasksGroupsTreeManager
+.TasksFilteringPanel
 
   &-Title
 
@@ -11,32 +11,37 @@
   &-List
 
     PositionalRelationship({
-      definitions: (".TasksGroupsTreeManager-Title" { retireFromIt: { y: 8px }, pushItFromSelf: { y: 16px } })
+      definitions: (".TasksFilteringPanel-Title" { retireFromIt: { y: 8px }, pushItFromSelf: { y: 16px } })
     })
 
 
     &-Item
 
-      &:has(.TasksGroupsTreeManager-List-Item-CollapsingToggle)
+      &:has(.TasksFilteringPanel-List-Item-CollapsingToggle)
 
         display grid
-        grid-template-areas "COLLAPSING_TOGGLE LINK_BUTTON" "CHILD_LIST CHILD_LIST"
+        grid-template-areas "COLLAPSING_TOGGLE BUTTON" "CHILD_LIST CHILD_LIST"
         grid-template-columns auto minmax(0, 1fr)
         column-gap 6px
 
 
-      &-LinkButton
+      &-Button
 
+        ButtonLikeElementsPrimer()
+        
         display flex
         align-items center
         column-gap 6px
-
+        
+        width 100%
         Paddings({
           horizontalSymmetric: 4px,
           verticalSymmetric: 4px
         })
 
-        grid-area LINK_BUTTON
+        cursor pointer
+        
+        grid-area BUTTON
 
 
         &:hover
@@ -51,21 +56,34 @@
 
         &:active
 
-          background: YDF_ColorPalette.skyBlue.pastelSlightlyLight
+          background-color: YDF_ColorPalette.skyBlue.pastelSlightlyLight
 
+          
+        &:disabled
 
-        &__Selected
+          pointer-events none
+          
+
+        &__SelectedState
 
           background: YDF_ColorPalette.deepSkyBlue.pastelMediumLight
+          pointer-events none
 
 
       &-Icon
 
         width 20px
+        height 20px
 
         fill: ShadesOfGray__39ColorsW3C_Palette[20]
 
         flex-shrink 0
+        
+        
+        /.TasksFilteringPanel-List-Item-Button:disabled &
+
+          fill: ShadesOfGray__39ColorsW3C_Palette[28]
+          
 
 
       &-Label
@@ -77,6 +95,11 @@
         })
 
         color: ShadesOfGray__39ColorsW3C_Palette[12]
+
+
+        /.TasksFilteringPanel-List-Item-Button:disabled &
+
+          color: ShadesOfGray__39ColorsW3C_Palette[28]
 
 
       &-CollapsingToggle
@@ -116,7 +139,7 @@
             fill: ShadesOfGray__39ColorsW3C_Palette[16]
 
 
-      >.TasksGroupsTreeManager-List
+      >.TasksFilteringPanel-List
 
         padding-left 8px
 

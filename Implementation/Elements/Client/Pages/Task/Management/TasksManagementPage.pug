@@ -51,3 +51,14 @@ block append SpecificContent
           [ "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" ] : 
           [ "TasksManagementPage-TaskManager__HiddenAtNarrowScreens" ]
     })
+
+    
+block FloatingAndFixedContent
+
+  //- 
+    〔 理論 〕 コンテナークエリの為、モーダルダイアログを「SpecificContent」の中に入れると正しく表示されない。
+            https://stackoverflow.com/a/52937920/4818123
+  +ModalDialog--YDF(
+    { title: "課題の絞り込み" },
+    { mustDisplay: false }
+  ): +TasksFilteringPanel
