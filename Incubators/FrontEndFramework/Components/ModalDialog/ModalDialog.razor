@@ -1,7 +1,7 @@
 ﻿@using FrontEndFramework.Components.Controls.Buttons.Closing
 
 
-@if (mustDisplay)
+@if (isDisplaying)
 {
   <div 
     class=@($"ModalDialog--YDF { rootElementModifierCSS_Classes }")
@@ -23,7 +23,7 @@
           @if (!noDismissingButton)
           {
             <ClosingButton
-              onClick=@onPressDismissingButton
+              onClick=@dismiss
               rootElementModifierCSS_Class="ModalDialog--YDF-DismissingButton"
             />     
           }

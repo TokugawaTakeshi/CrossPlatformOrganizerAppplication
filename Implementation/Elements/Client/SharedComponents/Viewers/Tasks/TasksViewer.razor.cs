@@ -59,9 +59,8 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
 
   private void openTasksFilteringModalDialog()
   {
-    TasksFilteringModalDialogService.openModalDialog();
+    TasksFilteringModalDialogService.displayModalDialog();
   }
-
   
   
   /* ─── 課題を選択 ────────────────────────────────────────────────────────────────────────────────────────────────────── */

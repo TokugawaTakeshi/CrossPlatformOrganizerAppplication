@@ -19,6 +19,11 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
 
   [Microsoft.AspNetCore.Components.Parameter] 
   public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Gateways.ITaskGateway.Adding.RequestData
+  > onInputtingDataOfNewTaskComplete { get; set; }
+  
+  [Microsoft.AspNetCore.Components.Parameter] 
+  public required Microsoft.AspNetCore.Components.EventCallback<
     CommonSolution.Gateways.ITaskGateway.Updating.RequestData
   > onExistingTaskEditingComplete { get; set; }
   
@@ -68,10 +73,7 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
   /* ─── 新規課題追加 ───────────────────────────────────────────────────────────────────────────────────────────────────── */
   public void beginInputNewTaskData()
   {
-
-    this.utilizeTaskEditing();
-
-    // TODO 再開点
+    this.isViewingMode = false;
   }
   
   private void beginTaskEditing()
@@ -107,27 +109,34 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
     }
     
     
-    if (this.targetTask == null)
-    {
-      // TODO OnNewPersonHasBeenAdded event
-      return;
-    }
-
-
-    this.targetTask.title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>();
-    this.targetTask.description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>();
-
     try
     {
 
-      await this.onExistingTaskEditingComplete.InvokeAsync(
-        new CommonSolution.Gateways.ITaskGateway.Updating.RequestData
-        {
-          ID = this.targetTask.ID,
-          Title = this.targetTask.title,
-          Description = this.targetTask.description
-        }
-      );
+      if (this.targetTask == null)
+      {
+
+        await this.onInputtingDataOfNewTaskComplete.InvokeAsync(
+          new CommonSolution.Gateways.ITaskGateway.Adding.RequestData
+          {
+            Title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>(),
+            Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
+          }
+        );
+
+      }
+      else
+      {
+      
+        await this.onExistingTaskEditingComplete.InvokeAsync(
+          new CommonSolution.Gateways.ITaskGateway.Updating.RequestData
+          {
+            ID = this.targetTask.ID,
+            Title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>(),
+            Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
+          }
+        );
+        
+      }
 
     }
     finally

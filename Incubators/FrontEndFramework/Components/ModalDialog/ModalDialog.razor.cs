@@ -8,34 +8,55 @@ namespace FrontEndFramework.Components.ModalDialog;
 public partial class ModalDialog : Microsoft.AspNetCore.Components.ComponentBase
 {
 
+  /* ━━━ Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
   public string? title { get; set; }
-  
+
   [Microsoft.AspNetCore.Components.Parameter]
-  public required bool mustDisplay { get; set; }
+  public required bool isInitiallyDisplaying { get; set; } = false;
 
   [Microsoft.AspNetCore.Components.Parameter]
   public bool noDismissingButton { get; set; } = false;
   
   [Microsoft.AspNetCore.Components.Parameter]
-  public required Microsoft.AspNetCore.Components.EventCallback onPressDismissingButtonEventCallback { get; set; }
+  public required Microsoft.AspNetCore.Components.EventCallback<ModalDialog> onInitializedEventCallback { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.RenderFragment ChildContent { get; set; }
   
   
-  /* ━━━ Actions handing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected async void onPressDismissingButton()
+  /* ━━━ State ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private bool isDisplaying = false;
+  
+  
+  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public void display()
   {
-    await this.onPressDismissingButtonEventCallback.InvokeAsync();
+    this.isDisplaying = true;
+  }
+
+  public void dismiss()
+  {
+    this.isDisplaying = false;
   }
   
   
+  /* ━━━ Actions handing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected async void onPressDismissingButton()
+  /* ━━━ Lifecycle hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected override void OnInitialized()
+  {
+    base.OnInitialized();
+    this.isDisplaying = this.isInitiallyDisplaying;
+    this.onInitializedEventCallback.InvokeAsync(this);
+  }
+
+
   /* ━━━ CSS classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
   public string? rootElementModifierCSS_Class { get; set; }
 
-  private string rootElementModifierCSS_Classes => new List<string>().
+  private string rootElementModifierCSS_Classes => new List<string> { "ModalDialog--YDF__FillingOfScreenWithSmallGapGeometry" }.
     
       AddElementToEndIf(
         this.rootElementModifierCSS_Class ?? "", String.IsNullOrEmpty(this.rootElementModifierCSS_Class)

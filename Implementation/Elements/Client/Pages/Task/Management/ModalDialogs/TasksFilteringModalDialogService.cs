@@ -1,27 +1,27 @@
-﻿namespace Client.Pages.Task.Management.ModalDialogs;
+﻿using FrontEndFramework.Components.ModalDialog;
+
+namespace Client.Pages.Task.Management.ModalDialogs;
 
 
 public class TasksFilteringModalDialogService
 {
  
-  public static event Action? onStateChanged;
-  protected static void NotifyStateChanged() => TasksFilteringModalDialogService.onStateChanged?.Invoke();
+  protected static ModalDialog? modalDialogInstance = null;
+
   
-  protected static bool _isModalDialogDisplaying = false;
-  public static bool isModalDialogDisplaying
+  public static void initialize(ModalDialog modalDialogInstance)
   {
-    get => TasksFilteringModalDialogService._isModalDialogDisplaying;
-    protected set
-    {
-      TasksFilteringModalDialogService._isModalDialogDisplaying = value;
-      TasksFilteringModalDialogService.NotifyStateChanged();
-    }
+    TasksFilteringModalDialogService.modalDialogInstance = modalDialogInstance;
+  }
+  
+  public static void displayModalDialog()
+  {
+    TasksFilteringModalDialogService.modalDialogInstance?.display();
   }
 
-
-  public static void openModalDialog()
+  public static void dismissModalDialog()
   {
-    TasksFilteringModalDialogService.isModalDialogDisplaying = true;
+    TasksFilteringModalDialogService.modalDialogInstance?.dismiss();
   }
   
 }

@@ -8,12 +8,12 @@
   name=@rootElementTag
   attributes=@(
     new Dictionary<string, object> {
-      { "class", $"TaskCard { rootElementModifierCSS_Class }" },
+      { "class", $"TaskCard { rootElementModifierCSS_Classes }" },
       { "tabindex", "0" },
       /* 【 理論 】 キャストが無いと、警告
        * 「CS8974: メソッド グループ 'onClickOutermostElement' を非デリゲート型 'object' に変換中です。このメソッドを呼び出すつもりでしたか?」
        * が発生する。 */
-      { "onclick", (object)this.onClickOutermostElement }
+      { "onclick", (object)this.onClickRootElement }
     }
   )
 >
