@@ -1,10 +1,11 @@
-﻿using YamatoDaiwaCS_Extensions;
+﻿using YamatoDaiwa.CSharpExtensions;
 
 
 namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
-public class EmailAddressInputtedValueValidationRule : InputtedValueValidation.IRule
+public class EmailAddressInputtedValueValidationRule : 
+    YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule
 {
 
   public interface ILocalization
@@ -33,7 +34,7 @@ public class EmailAddressInputtedValueValidationRule : InputtedValueValidation.I
   public string? ErrorMessage { get; init; }
 
 
-  public InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
+  public YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
       new()
       {
         ErrorMessage = rawValue is String stringValue && EmailAddress.IsValid(stringValue) ?

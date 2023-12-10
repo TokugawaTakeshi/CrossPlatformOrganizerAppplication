@@ -1,7 +1,7 @@
 ﻿@using CommonSolution.Fundamentals
 @using CommonSolution.Entities
 
-@using FrontEndFramework.Components.AttentionBox
+@using YamatoDaiwa.Frontend.Components.AdmonitionBlock
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.RadioButtonsGroup
 @using FrontEndFramework.Components.Controls.TextBox
@@ -15,6 +15,7 @@
 @using FrontEndFramework.SVG_Icons.MultiplicationSign
 
 @using Utils
+@using YamatoDaiwa.CSharpExtensions.OfficialLocalizations.Japanese
 
 
 <div class="PersonManager @rootElementModifierCSS_Class">
@@ -29,13 +30,13 @@
   
   @if (targetPerson is null && !String.IsNullOrEmpty(activationGuidance))
   {
-    <AttentionBox
+    <AdmonitionBlock
       rootElementModifierCSS_Class="PersonManager-Guidance"
-      decoration=@AttentionBox.StandardDecorativeVariations.guidance
+      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
     >
       <p>@activationGuidance</p>
-    </AttentionBox>
+    </AdmonitionBlock>
   }
   
   @* ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
@@ -207,6 +208,7 @@
                 "入力して下さい。"
           )
           payload=@personControlsPayload.familyName
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@familyNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -218,6 +220,7 @@
                 "入力して下さい。"
           )
           payload=@personControlsPayload.givenName
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@givenNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -229,6 +232,7 @@
               $"{ Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
           )
           payload=@personControlsPayload.familyNameSpell
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@familyNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -240,6 +244,7 @@
               $"{ Person.GivenNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
           )
           payload=@personControlsPayload.givenNameSpell
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@givenNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
@@ -250,20 +255,11 @@
         @*   @ref=@genderRadioButtonsGroup *@
         @* /> *@
   
-        <FilesUploader
-          label="写真"
-          guidance="写真をアップロードして下さい"
-          payload=@personControlsPayload.avatarURI
-          noDragAndDropArea=@(true)
-          maximalFilesCount=@(1)
-          @ref=@avatarUploader
-          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Big"
-        />
-  
         <TextBox
           label="メールアドレス"
           HTML_Type=@TextBox.HTML_Types.email
           payload=@personControlsPayload.emailAddress
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@emailAddressTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
         />
@@ -272,6 +268,7 @@
           label="電話番号"
           HTML_Type=@TextBox.HTML_Types.phoneNumber
           payload=@personControlsPayload.phoneNumber
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@phoneNumberTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
         />

@@ -62,7 +62,7 @@ public class Task
   
   public abstract class AssociatedDateTime
   {
-    public const bool IS_REQUIRED = true;
+    public const bool IS_REQUIRED = false;
   } 
 
   public DateOnly? associatedDate

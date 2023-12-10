@@ -1,6 +1,4 @@
-﻿using FrontEndFramework.Components.Abstractions;
-
-namespace FrontEndFramework.Components.Controls.Buttons.Closing;
+﻿namespace FrontEndFramework.Components.Controls.Buttons.Closing;
 
 
 public partial class ClosingButton : Microsoft.AspNetCore.Components.ComponentBase

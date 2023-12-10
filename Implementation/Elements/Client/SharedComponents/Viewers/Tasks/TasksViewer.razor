@@ -7,10 +7,9 @@
 
 @using Client.SharedComponents.Controls.TasksFilteringPanel
 
-@using FrontEndFramework.Components.AttentionBox
+@using YamatoDaiwa.Frontend.Components.AdmonitionBlock
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.SearchBox
-@using FrontEndFramework.Components.ModalDialog;
 
 @using FrontEndFramework.SVG_Icons.Person
 @using FrontEndFramework.SVG_Icons.Filtering
@@ -18,6 +17,7 @@
 
 <div class="TasksViewer @rootElementModifierCSS_Class">
 
+  @* [ Extra container adding reason ] Usage of container queries *@
   <div class="TasksViewer-VariableComposition">
     
     <TasksFilteringPanel rootElementModifierCSS_Class="TasksViewer-Sidebar"/>
@@ -25,8 +25,8 @@
     <div class="TasksViewer-TopActionBar">
       
       <SearchBox
-        placeholder="課題の見出しや記述で検索"
-        accessibilityGuidance="課題の見出しや記述で検索"
+        placeholder=@localization.searchBox.placeholder
+        accessibilityGuidance=@localization.searchBox.accessibilityGuidance
         mustSynchronizeDisplayingSearchRequestWith=@TasksSharedState.searchingByFullOrPartialTitleOrDescription
         onNewSearchRequest=@onNewTaskSearchingByFullOrPartialTitleOrDescriptionRequestHasBeenEmitted
         disabled=@mustDisableSearchBox
@@ -34,7 +34,7 @@
       />
       
       <Button
-        label="新規課題追加"
+        label=@localization.buttons.taskAdding.label
         onClick=@onClickTaskAddingButton
         spaceSeparatedAdditionalCSS_Classes="TasksViewer-TopActionBar-ButtonForWideContainers"
       >
@@ -44,11 +44,11 @@
       </Button>
       
     </div>
-  
+
     @if (TasksSharedState.isTasksRetrievingInProgressOrNotStartedYet)
     {
       <div class="TasksViewer-CardsFlow">
-        @for (uint cardNumber = 0; cardNumber < 12; cardNumber++)
+        @for (uint cardNumber = 0; cardNumber < LOADING_PLACEHOLDER_CARDS_COUNT; cardNumber++)
         {
           <TaskCardLoadingPlaceholder/>  
         }
@@ -57,60 +57,61 @@
     
     else if (TasksSharedState.hasTasksSelectionRetrievingErrorOccurred)
     {
-      <AttentionBox
-        decoration=@AttentionBox.StandardDecorativeVariations.error
+      <AdmonitionBlock
+        title=@localization.errors.tasksRetrieving.title
+        decoration=@AdmonitionBlock.StandardDecorativeVariations.error
         hasPrependedSVG_Icon
-        rootElementModifierCSS_Class="TasksViewer-AttentionBox"
+        rootElementModifierCSS_Class="TasksViewer-AdmonitionBlock"
       >
 
-        <p>情報取得中不具合が発生しました。</p>
+        <p>@( localization.errors.tasksRetrieving.description )</p>
         
         <Button
-          label="再試験"
+          label=@localization.buttons.retryingOfDataRetrieving.label
           onClick=@onClickTasksSelectionRetrievingRetryingButton
-          spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+          spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
         />
         
-      </AttentionBox>
+      </AdmonitionBlock>
     }
     
     else if (TasksSharedState.totalTasksCountInDataSource == 0)
     {
-      <AttentionBox
-        decoration=@AttentionBox.StandardDecorativeVariations.guidance
+      <AdmonitionBlock
+        decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
         hasPrependedSVG_Icon
-        rootElementModifierCSS_Class="TasksViewer-AttentionBox"
+        rootElementModifierCSS_Class="TasksViewer-AdmonitionBlock"
       >
 
-        <p>現在、課題が一件も登録させていません。</p>
+        <p>@(localization.guidances.noItemsAvailable)</p>
         
         <Button
-          label="早速登録しましょう"
+          label=@localization.buttons.immediateAddingOfFirstTask.label
           onClick=@onClickTaskAddingButton
           
-          spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+          spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
         />
         
-      </AttentionBox>
+      </AdmonitionBlock>
     }
     
     else if (TasksSharedState.totalTasksCountInSelection == 0)
     {
-      <AttentionBox
-        decoration=@AttentionBox.StandardDecorativeVariations.guidance
+      <AdmonitionBlock
+        decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
         hasPrependedSVG_Icon
-        rootElementModifierCSS_Class="TasksViewer-AttentionBox"
+        rootElementModifierCSS_Class="TasksViewer-AdmonitionBlock"
       >
 
-        <p>検索結果と合っている件はありません。</p>
+        <p>@(localization.guidances.noItemsFound)</p>
         
         <Button
-          label="検索条件をリセット"
-          onClick=@onClickFilteringResettingButton
-          spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+          label=@localization.buttons.resettingOfFiltering.label
+          onClick=@onClickTasksFilteringResettingButton
+          spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
         />
         
-      </AttentionBox>
+      </AdmonitionBlock>
     }
 
     else
@@ -131,7 +132,7 @@
     <div class="TasksViewer-BottomActionBarForNarrowContainers">
       
       <Button
-        label="新規課題先追加"
+        label=@localization.buttons.taskAdding.label
         onClick=@onClickTaskAddingButton
       >
         <PrependedSVG_Icon>
@@ -140,7 +141,7 @@
       </Button>
 
       <Button
-        label="フィルタリング"
+        label="Filtering"
         onClick=@openTasksFilteringModalDialog
       >
         <PrependedSVG_Icon>

@@ -7,17 +7,15 @@ public interface IValidatableControl
   IValidatableControl HighlightInvalidInput();
   
   
-  IRootElementOffsetCoordinates GetRootElementOffsetCoordinates();
+  ValueTask<IValidatableControl.RootElementOffsetCoordinates> GetRootElementOffsetCoordinates();
 
-  struct IRootElementOffsetCoordinates
+  struct RootElementOffsetCoordinates
   {
-    public uint top { get; init; }
-    public uint left { get; init; }
+    public required double Top { get; init; }
+    public required double Left { get; init; }
   }
   
   
   IValidatableControl Focus();
-  
-  void ResetValidityHighlightingToInitial();
 
 }

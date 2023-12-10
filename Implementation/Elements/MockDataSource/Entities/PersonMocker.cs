@@ -4,7 +4,7 @@ using CommonSolution.Fundamentals;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
-using YamatoDaiwaCS_Extensions.DataMocking;
+using YamatoDaiwa.CSharpExtensions.DataMocking;
 using Utils;
 
 
@@ -155,7 +155,6 @@ internal abstract class PersonMocker
       familyNameSpell = familyNameSpell,
       givenNameSpell = givenNameSpell,
       gender = gender,
-      avatarURI = avatarURI,
       birthYear = birthYear,
       birthMonthNumber__numerationFrom1 = birthMonthNumber__numerationFrom1,
       birthDayOfMonth__numerationFrom1 = birthDayOfMonth__numerationFrom1,

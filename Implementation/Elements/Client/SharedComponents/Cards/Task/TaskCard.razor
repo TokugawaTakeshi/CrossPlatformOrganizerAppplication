@@ -1,4 +1,4 @@
-﻿@using FrontEndFramework.Components.Badge
+﻿@using YamatoDaiwa.Frontend.Components.Badge
 @using FrontEndFramework.SVG_Icons.Checkbox
 @using FrontEndFramework.SVG_Icons.Calendar
 @using FrontEndFramework.Helpers
@@ -49,7 +49,7 @@
         <Badge
           key="日時"
           value=@dateTimeBadgeLabel
-          decoration=@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
+          decoration=@YamatoDaiwa.Frontend.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
         >
           <PrependedSVG_Icon>
             <CalendarIcon__Time rootElementModifierCSS_Class="Badge--YDF-SVG_Icon"/>
@@ -62,8 +62,7 @@
         <Badge
           key="日付"
           value=@dateBadgeLabel
-          decoration=@FrontEndFramework.Components.Badge.Badge.StandardDecorativeVariations.catchyBright
-        >
+          decoration=@YamatoDaiwa.Frontend.Components.Badge.Badge.StandardDecorativeVariations.catchyBright>
           <PrependedSVG_Icon>
             <CalendarIcon__Date rootElementModifierCSS_Class="Badge--YDF-SVG_Icon"/>
           </PrependedSVG_Icon>

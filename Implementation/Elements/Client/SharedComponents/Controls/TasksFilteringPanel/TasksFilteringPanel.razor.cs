@@ -2,7 +2,7 @@
 using Client.SharedState;
 using CommonSolution.Gateways;
 using Utils;
-using YamatoDaiwaCS_Extensions;
+using YamatoDaiwa.CSharpExtensions;
 
 
 namespace Client.SharedComponents.Controls.TasksFilteringPanel;
@@ -34,7 +34,7 @@ public partial class TasksFilteringPanel : Microsoft.AspNetCore.Components.Compo
   private System.Threading.Tasks.Task retrieveTasksWithAssociatedDate()
   {
     return TasksSharedState.retrieveTasksSelection(
-      requestParameters: new ITaskGateway.SelectionRetrieving.RequestParameters
+      requestParameters: new TaskGateway.SelectionRetrieving.RequestParameters
       {
         OnlyTasksWithAssociatedDate = true
       }
@@ -44,7 +44,7 @@ public partial class TasksFilteringPanel : Microsoft.AspNetCore.Components.Compo
   private System.Threading.Tasks.Task retrieveTasksWithAssociatedDateTime()
   {
     return TasksSharedState.retrieveTasksSelection(
-      requestParameters: new ITaskGateway.SelectionRetrieving.RequestParameters
+      requestParameters: new TaskGateway.SelectionRetrieving.RequestParameters
       {
         OnlyTasksWithAssociatedDateTime = true
       }

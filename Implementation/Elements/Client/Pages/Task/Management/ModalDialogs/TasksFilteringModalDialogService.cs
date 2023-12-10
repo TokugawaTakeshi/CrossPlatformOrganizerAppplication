@@ -1,4 +1,5 @@
-﻿using FrontEndFramework.Components.ModalDialog;
+﻿using FrontEndFramework.Components.ModalDialogs.Common;
+
 
 namespace Client.Pages.Task.Management.ModalDialogs;
 

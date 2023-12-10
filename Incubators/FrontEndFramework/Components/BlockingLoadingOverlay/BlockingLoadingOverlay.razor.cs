@@ -1,7 +1,7 @@
-﻿namespace FrontEndFramework.Components.BlockingLoadingOverlay;
+﻿using YamatoDaiwa.Frontend.Components.LoadingIndicator;
 
 
-using LoadingIndicator = LoadingIndicator.LoadingIndicator; 
+namespace FrontEndFramework.Components.BlockingLoadingOverlay;
 
 
 public partial class BlockingLoadingOverlay : Microsoft.AspNetCore.Components.ComponentBase 

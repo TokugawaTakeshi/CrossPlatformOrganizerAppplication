@@ -1,6 +1,6 @@
-﻿using FrontEndFramework.Components.Abstractions;
-using FrontEndFramework.ValidatableControl;
-using YamatoDaiwaCS_Extensions;
+﻿using FrontEndFramework.ValidatableControl;
+using YamatoDaiwa.Frontend.Helpers;
+using YamatoDaiwa.CSharpExtensions;
 
 
 namespace FrontEndFramework.Components.Controls.RadioButtonsGroup;
@@ -36,14 +36,17 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
     
   
   /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Inject] 
+  protected Microsoft.JSInterop.IJSRuntime JSRuntime { get; set; } = null!;
+  
+  
   public new IValidatableControl HighlightInvalidInput()
   {
     base.HighlightInvalidInput();
     return this;
   }
   
-  // TODO 変化検討中
-  public IValidatableControl.IRootElementOffsetCoordinates GetRootElementOffsetCoordinates()
+  public ValueTask<IValidatableControl.RootElementOffsetCoordinates> GetRootElementOffsetCoordinates()
   {
     throw new NotImplementedException();
   }
@@ -53,10 +56,6 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
     // TODO 非同期呼び出し始末
     // TODO 偽造フォカス
     return this;
-  }
-
-  public void ResetValidityHighlightingToInitial()
-  {
   }
   
   

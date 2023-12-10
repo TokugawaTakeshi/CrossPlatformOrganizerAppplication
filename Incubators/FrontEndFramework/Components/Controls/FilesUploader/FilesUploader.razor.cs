@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using FrontEndFramework.Components.Abstractions;
 using FrontEndFramework.Components.Controls.Buttons.Plain;
 using FrontEndFramework.ValidatableControl;
 using Microsoft.JSInterop;
 using Utils;
-using YamatoDaiwaCS_Extensions;
+using YamatoDaiwa.Frontend.Helpers;
+using YamatoDaiwa.CSharpExtensions;
 
 namespace FrontEndFramework.Components.Controls.FilesUploader;
 
@@ -24,7 +24,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   private void onInputEventHandler(Microsoft.AspNetCore.Components.ChangeEventArgs inputtingEvent)
   {
-    this._payload.Value = inputtingEvent.Value?.ToString() ?? "";
+    this._payload.SetValue(inputtingEvent.Value?.ToString() ?? "");
   }
   
   
@@ -98,8 +98,7 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
     return this;
   }
   
-  // TODO 変化検討中
-  public IValidatableControl.IRootElementOffsetCoordinates GetRootElementOffsetCoordinates()
+  public ValueTask<IValidatableControl.RootElementOffsetCoordinates> GetRootElementOffsetCoordinates()
   {
     throw new NotImplementedException();
   }
@@ -109,10 +108,6 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
     // TODO 非同期呼び出し始末
     JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputElement);
     return this;
-  }
-  
-  public void ResetValidityHighlightingToInitial()
-  {
   }
   
   

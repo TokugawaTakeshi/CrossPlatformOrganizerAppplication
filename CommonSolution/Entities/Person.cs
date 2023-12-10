@@ -9,7 +9,8 @@ public class Person
 
   public required string ID { get; init; }
 
-  /* ━━━ 名義 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  
+  /* ━━━ Name ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public required string familyName { get; set; }
 
   public abstract class FamilyName
@@ -53,10 +54,30 @@ public class Person
   }
 
 
-  public string fullNameSpell => this.familyNameSpell + (this.familyNameSpell ?? "");
+  public string? fullNameSpell
+  {
+    get
+    {
+
+      if (this.familyNameSpell is not null && this.givenNameSpell is not null)
+      {
+        return this.familyNameSpell + this.givenNameSpell;
+      } 
+      
+      
+      if (this.familyNameSpell is null && this.givenNameSpell is null)
+      {
+        return null;
+      }
 
 
-  /* ━━━ 性別 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+      return (this.familyNameSpell ?? "") + (this.givenNameSpell ?? "");
+
+    }
+  }
+  
+  
+  /* ━━━ Gender ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public Genders? gender { get; set; }
 
   public abstract class Gender

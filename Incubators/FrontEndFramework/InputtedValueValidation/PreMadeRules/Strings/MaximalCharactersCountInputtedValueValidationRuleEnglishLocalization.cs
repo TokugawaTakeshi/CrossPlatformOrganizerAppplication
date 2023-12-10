@@ -2,7 +2,7 @@
 
 
 public struct MaximalCharactersCountInputtedValueValidationRuleEnglishLocalization : 
-  MaximalCharactersCountInputtedValueValidationRule.ILocalization
+    MaximalCharactersCountInputtedValueValidationRule.ILocalization
 {
   
   public Func<

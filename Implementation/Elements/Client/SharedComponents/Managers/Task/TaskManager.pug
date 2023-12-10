@@ -36,19 +36,23 @@ mixin TaskManager(properties, statesSimulations)
 
   .TaskManager&attributes(attributes)
 
-    .TaskManager-Heading(
-      id=HEADING_ID
-    ) 課題詳細
+    .TaskManager-Header
+    
+      .TaskManager-Heading(
+        id=HEADING_ID
+      ) Task Manager
+
+      +ClosingButton--YDF.TaskManager-ClosingButtonForNarrowScreens
 
     if !targetTask && activationGuidance
 
-      +AttentionBox--YDF({
-        decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+      +AdmonitionBlock--YDF({
+        decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
         hasPrependedSVG_Icon: true
       }).TaskManager-Guidance= activationGuidance
 
 
-    //- ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //- ━━━ Top action bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     .TaskManager-ActionBar
 
       if viewingMode
@@ -57,49 +61,48 @@ mixin TaskManager(properties, statesSimulations)
           disabled: !targetTask
         })
           +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 編集
+          span.Button--YDF-Label Edit task
 
       +Button--YDF({
         disabled: !targetTask
       })
         +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
-        span.Button--YDF-Label 削除
+        span.Button--YDF-Label Delete task
         
       if editingMode
 
         +Button--YDF
           +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 編集中断
-      
-
-    //- ━━━ 閲覧モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          span.Button--YDF-Label Cancel editing
+    
+    //- ━━━ Viewing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     if viewingMode
 
       dl.TaskManager-Metadata
 
-        dt 見出し
+        dt Title
         dd= targetTask ? targetTask.title : ""
 
         if targetTask && targetTask.description
-          dt 記述
+          dt Description
           dd= targetTask.description
 
     else
 
-      //- ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      //- ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       form.TaskManager-Form(
         aria-labelledby=HEADING_ID
       )
 
         +TextBox--YDF({
-          label: "見出し",
-          guidance: "**1~255文字**を入力して下さい。",
+          label: "Title",
+          guidance: "Please input **1~25** characters.",
           value: targetTask ? targetTask.title : ""
         }).TaskManager-Control
         
         +TextBox--YDF({
-          label: "記述",
-          guidance: "**1文字以上**を入力して下さい。",
+          label: "Description",
+          guidance: "Please input **at least 1** character.",
           multiline: true,
           value: targetTask ? nullToEmptyString(targetTask.description) : ""
         }).TaskManager-Control
@@ -111,10 +114,10 @@ mixin TaskManager(properties, statesSimulations)
             decoration: Button__YDF.DecorativeVariations.accented
           })
             +FloppyDisk--YDF_Icon.Button--YDF-SVG_Icon
-            span.Button--YDF-Label 保存
+            span.Button--YDF-Label Save task
           
           +Button--YDF
             +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
-            span.Button--YDF-Label 編集を止める
+            span.Button--YDF-Label Cancel editing
 
-        +HighDummy
+        //- +HighDummy

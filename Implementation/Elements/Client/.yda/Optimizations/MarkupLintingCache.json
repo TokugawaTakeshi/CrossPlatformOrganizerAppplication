@@ -33,7 +33,7 @@
   },
   "Pages/Task/Management/TasksManagementPage.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-12-03T07:41:09.007Z"
+    "modificationDatetime__ISO_8601": "2023-12-08T06:34:44.099Z"
   },
   "SharedComponents/Reusables/NavigationMenu/NavigationMenu.pug": {
     "issues": [],
@@ -101,11 +101,11 @@
   },
   "SharedComponents/Managers/Person/PersonManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-31T07:04:57.797Z"
+    "modificationDatetime__ISO_8601": "2024-01-02T04:00:22.161Z"
   },
   "SharedComponents/Managers/Task/TaskManager.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-18T03:48:28.021Z"
+    "modificationDatetime__ISO_8601": "2024-01-02T04:00:39.496Z"
   },
   "SharedComponents/Managers/Tasks/TasksManager.pug": {
     "issues": [],
@@ -121,11 +121,11 @@
   },
   "SharedComponents/Viewers/People/PeopleViewer.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-01T09:21:40.545Z"
+    "modificationDatetime__ISO_8601": "2024-01-02T04:00:59.466Z"
   },
   "SharedComponents/Viewers/Tasks/TasksViewer.pug": {
     "issues": [],
-    "modificationDatetime__ISO_8601": "2023-10-06T04:01:14.392Z"
+    "modificationDatetime__ISO_8601": "2024-01-02T04:01:12.171Z"
   },
   "SharedComponents/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
     "issues": [],
@@ -140,15 +140,7 @@
     "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
   },
   "SharedComponents/Controls/TasksFilteringPanel/TasksFilteringPanel.pug": {
-    "issues": [
-      {
-        "code": "PUG:LINT_REQUIRECLASSLITERALSBEFOREATTRIBUTES",
-        "message": "All class literals must be written before any attribute blocks",
-        "sourceListing": "mixin TasksFilteringPanel\n\n  .TasksFilteringPanel&attributes(attributes)\n\n    .TasksFilteringPanel-Title 自動生成群\n\n    ul.TasksFilteringPanel-List\n\n      li.TasksFilteringPanel-List-Item\n        //- 【 CSSクラステスト 】 .TasksFilteringPanel-List-Item-Button__SelectedState\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\").TasksFilteringPanel-List-Item-Button__SelectedState\n          +Checklist--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 全課題\n      \n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 日付連想\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar__Time--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 日時連想\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Location__BottomCircle--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 場所\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar__Repeat--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 定期\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Folder__Stationery--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 計画\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Calendar__Date--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 本日\n\n      li.TasksFilteringPanel-List-Item\n        button.TasksFilteringPanel-List-Item-Button(type=\"button\")\n          +Person__Clock__Rectangled__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label 他人に依存\n\n\n    .TasksFilteringPanel-Title カスタム整理\n\n    ul.TasksFilteringPanel-List\n\n      li.TasksFilteringPanel-List-Item\n\n        button.TasksFilteringPanel-List-Item-CollapsingToggle(\n          type=\"button\"\n          aria-label=\"Collapse\"\n        ): +Triangle__Upward__Circled__Filled--YDF_Icon.TasksFilteringPanel-List-Item-CollapsingToggle-Icon\n\n        a.TasksFilteringPanel-List-Item-Button(href=\"#\")\n          +Folder__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n          span.TasksFilteringPanel-List-Item-Label カスタム群1\n\n        ul.TasksFilteringPanel-List\n\n          li.TasksFilteringPanel-List-Item\n            a.TasksFilteringPanel-List-Item-Button(href=\"#\")\n              +Folder__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n              span.TasksFilteringPanel-List-Item-Label カスタム群1-1\n\n          li.TasksFilteringPanel-List-Item\n            a.TasksFilteringPanel-List-Item-Button(href=\"#\")\n              +Folder__Filled--YDF_Icon.TasksFilteringPanel-List-Item-Icon\n              span.TasksFilteringPanel-List-Item-Label カスタム群1-2\n",
-        "lineNumber": 11,
-        "columnNumber": 67
-      }
-    ],
-    "modificationDatetime__ISO_8601": "2023-10-02T03:42:38.493Z"
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-12-03T07:44:05.723Z"
   }
 }

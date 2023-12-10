@@ -13,7 +13,6 @@ public class Location
   {
     public const bool IS_REQUIRED = true;
     public const byte MINIMAL_CHARACTERS_COUNT = 1;
-    public const byte MAXIMAL_CHARACTERS_COUNT = Byte.MaxValue;
   }
   
   
@@ -21,8 +20,8 @@ public class Location
   public abstract class Latitude
   {
     public const bool IS_REQUIRED = true;
-    public const double MINIMAL_Value = 0;
-    public const double MAXIMAL_Value = Double.MaxValue;
+    public const double MINIMAL_VALUE = -90;
+    public const double MAXIMAL_VALUE = 90;
   }
   
   
@@ -30,8 +29,8 @@ public class Location
   public abstract class Longitude
   {
     public const bool IS_REQUIRED = true;
-    public const double MINIMAL_Value = 0;
-    public const double MAXIMAL_Value = Double.MaxValue;
+    public const double MINIMAL_VALUE = -180;
+    public const double MAXIMAL_VALUE = 180;
   }
 
   

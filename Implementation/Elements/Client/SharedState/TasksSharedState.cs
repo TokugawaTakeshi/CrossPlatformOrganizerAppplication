@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using CommonSolution.Gateways;
 using Utils;
-using YamatoDaiwaCS_Extensions.Exceptions;
+using YamatoDaiwa.CSharpExtensions.Exceptions;
 
 
 namespace Client.SharedState;
@@ -13,26 +13,37 @@ internal abstract class TasksSharedState
   public static event Action? onStateChanged;
   private static void NotifyStateChanged() => TasksSharedState.onStateChanged?.Invoke();
 
-  private static ITaskGateway? _taskGateway;
-  private static ITaskGateway taskGateway =>
+  private static TaskGateway? _taskGateway;
+  private static TaskGateway taskGateway =>
       TasksSharedState._taskGateway ??
       (TasksSharedState._taskGateway = ClientDependencies.Injector.gateways().Task);
 
 
-  /* ━━━ 選択 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Selecting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private static CommonSolution.Entities.Task? _currentlySelectedTask = null;
+  public delegate void OnSelectedTaskHasChanged(CommonSolution.Entities.Task newTask);
+  public static OnSelectedTaskHasChanged? onSelectedTaskHasChanged;
+  
   public static CommonSolution.Entities.Task? currentlySelectedTask
   {
     get => TasksSharedState._currentlySelectedTask;
     set
     {
+      
       TasksSharedState._currentlySelectedTask = value;
+
+      if (value is not null)
+      {
+        TasksSharedState.onSelectedTaskHasChanged?.Invoke(value);
+      }
+      
       TasksSharedState.NotifyStateChanged();
+      
     }
   }
   
   
-  /* ━━━ 取得 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private static List<CommonSolution.Entities.Task> _tasksSelection = new();
   public static List<CommonSolution.Entities.Task> tasksSelection
   {
@@ -138,7 +149,7 @@ internal abstract class TasksSharedState
       TasksSharedState.isWaitingForTasksSelectionRetrieving || TasksSharedState.isTasksSelectionBeingRetrievedNow;
   
   public static async System.Threading.Tasks.Task retrieveTasksSelection(
-    ITaskGateway.SelectionRetrieving.RequestParameters? requestParameters = null,
+    TaskGateway.SelectionRetrieving.RequestParameters? requestParameters = null,
     bool mustResetSearchingByFullOrPartialTitleOrDescription = false,
     bool mustResetFilteringByAssociatedDate = false,
     bool mustResetFilteringByAssociatedDateTime = false
@@ -196,13 +207,13 @@ internal abstract class TasksSharedState
     }
 
     
-    ITaskGateway.SelectionRetrieving.ResponseData responseData;
+    TaskGateway.SelectionRetrieving.ResponseData responseData;
     
     try
     {
 
       responseData = await ClientDependencies.Injector.gateways().Task.RetrieveSelection(
-        new ITaskGateway.SelectionRetrieving.RequestParameters
+        new TaskGateway.SelectionRetrieving.RequestParameters
         {
           SearchingByFullOrPartialTitleOrDescription = TasksSharedState.searchingByFullOrPartialTitleOrDescription,
           OnlyTasksWithAssociatedDate = TasksSharedState.onlyTasksWithAssociatedDate,
@@ -233,9 +244,10 @@ internal abstract class TasksSharedState
   
 
   
-  /* ━━━ 追加 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public static async System.Threading.Tasks.Task addTask(
-    CommonSolution.Gateways.ITaskGateway.Adding.RequestData requestData
+  /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public static async System.Threading.Tasks.Task<CommonSolution.Entities.Task> addTask(
+    CommonSolution.Gateways.TaskGateway.Adding.RequestData requestData,
+    bool mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions
   )
   {
 
@@ -247,25 +259,61 @@ internal abstract class TasksSharedState
     }
     catch (Exception exception)
     {
-      throw new DataSubmittingFailedException("新規課題追加中不具合が発生", exception);
+      throw new DataSubmittingFailedException("Failed to ndd new task.", exception);
     }
 
 
-    // TODO やっぱり完全に課題を返してほしいが、但しコピー
     CommonSolution.Entities.Task newTask = new()
     {
       ID = newTaskID,
       title = requestData.Title,
       description = requestData.Description,
-      isComplete = requestData.IsComplete,
+      isComplete = requestData.IsComplete
     };
 
-    TasksSharedState.tasksSelection = TasksSharedState.tasksSelection.AddElementsToStart(newTask);
+    TaskGateway.SelectionRetrieving.RequestParameters currentFiltering = new()
+    {
+      SearchingByFullOrPartialTitleOrDescription = TasksSharedState.searchingByFullOrPartialTitleOrDescription,
+      OnlyTasksWithAssociatedDate = TasksSharedState.onlyTasksWithAssociatedDate,
+      OnlyTasksWithAssociatedDateTime = TasksSharedState.onlyTasksWithAssociatedDateTime
+    };
+
+    if (TaskGateway.IsTaskSatisfyingToFilteringConditions(newTask, currentFiltering))
+    {
+
+
+      TasksSharedState.tasksSelection = TaskGateway.ArrangeTasks(
+        TaskGateway.FilterTasks(
+          TasksSharedState.tasksSelection.AddElementsToStart(newTask).ToArray(), currentFiltering
+        ) 
+      ).ToList();
+      
+      TasksSharedState.totalTasksCountInDataSource++;
+      TasksSharedState.totalTasksCountInSelection++;
+
+      return newTask;
+
+    }
+
+
+    if (mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions)
+    {
+      _ = TasksSharedState.retrieveTasksSelection(
+        new TaskGateway.SelectionRetrieving.RequestParameters
+        {
+          SearchingByFullOrPartialTitleOrDescription = null,
+          OnlyTasksWithAssociatedDate = null,
+          OnlyTasksWithAssociatedDateTime = null
+        }
+      );
+    }
+
+    return newTask;
 
   }
   
   
-  /* ━━━ 更新 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private static bool _isTaskBeingUpdatedNow = false;
   public static bool isTaskBeingUpdatedNow
   {
@@ -278,7 +326,7 @@ internal abstract class TasksSharedState
   }
   
   public static async System.Threading.Tasks.Task updateTask(
-    CommonSolution.Gateways.ITaskGateway.Updating.RequestData requestData
+    CommonSolution.Gateways.TaskGateway.Updating.RequestData requestData
   )
   {
 

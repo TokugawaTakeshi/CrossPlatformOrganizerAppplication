@@ -1,7 +1,7 @@
 ﻿@using CommonSolution.Entities
 @using Task = CommonSolution.Entities.Task
 
-@using FrontEndFramework.Components.AttentionBox
+@using YamatoDaiwa.Frontend.Components.AdmonitionBlock
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.TextBox
 
@@ -17,28 +17,29 @@
     class="TaskManager-Heading"
     id=@HEADING_ID
   >
-    課題詳細
+    @(localization.heading)
   </div>
-  
+
   @if (targetTask is null && !String.IsNullOrEmpty(activationGuidance))
   {
-    <AttentionBox
+    <AdmonitionBlock
       rootElementModifierCSS_Class="TaskManager-Guidance"
-      decoration=@AttentionBox.StandardDecorativeVariations.guidance
+      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
     >
       <p>@activationGuidance</p>
-    </AttentionBox>
+    </AdmonitionBlock>
   }
 
-  @* ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  
+  @* ━━━ Top action bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   <div class="TaskManager-ActionBar">
   
     @if (isViewingMode)
     {
       <Button
         disabled=@(targetTask is null)
-        label="編集"
+        label=@localization.buttons.taskEditing.label
         onClick=@beginTaskEditing
       >
         <PrependedSVG_Icon>
@@ -49,7 +50,7 @@
     
     <Button
       disabled=@(targetTask is null)
-      label="削除"
+      label=@localization.buttons.taskDeleting.label
       onClick=@displayTaskDeletingConfirmationDialog
     >
       <PrependedSVG_Icon>
@@ -60,7 +61,7 @@
     @if (isEditingMode)
     {
       <Button
-        label="編集中断"
+        label=@localization.buttons.terminatingOfEditing.label
         onClick=@utilizeTaskEditing
       >
         <PrependedSVG_Icon>
@@ -72,16 +73,16 @@
   </div>
   
   
-  @* ━━━ 閲覧モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @* ━━━ Veiwing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   @if (isViewingMode)
   {
   
     <dl class="TaskManager-Metadata">
     
-      <dt>見出し</dt>
+      <dt>@( localization.metadataKeys.title )</dt>
       <dd>@(targetTask?.title ?? "" )</dd>
     
-      <dt>記述</dt>
+      <dt>@( localization.metadataKeys.descriptioin )</dt>
       <dd>@(targetTask?.description ?? "")</dd>
     
     </dl>
@@ -90,29 +91,28 @@
 
   else
   {
-   
-    @* ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  
+    @* ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
     <form
       class="TaskManager-Form"
       aria-labelledby=@HEADING_ID
     >
         
       <TextBox
-        label="見出し"
-        guidance=@(
-          $"見出しを**{ Task.Title.MINIMAL_CHARACTERS_COUNT }~{ Task.Title.MAXIMAL_CHARACTERS_COUNT }文字内**" +
-              "入力して下さい。"
-        )
+        label=@localization.controls.taskTitle.label
+        guidance=@localization.controls.taskTitle.guidance
         payload=@taskControlsPayload.title
+        validityHighlightingActivationMode=@validityHighlightingActivationMode
         @ref=@titleTextBox
         spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
       />
       
       <TextBox
-        label="記述"
-        guidance=@($"詳細をを**{ Task.Description.MINIMAL_CHARACTERS_COUNT }文字以上**入力して下さい。")
+        label=@localization.controls.taskTitle.label
+        guidance=@localization.controls.taskTitle.guidance
         multiline
         payload=@taskControlsPayload.description
+        validityHighlightingActivationMode=@validityHighlightingActivationMode
         @ref=@descriptionTextBox
         spaceSeparatedAdditionalCSS_Classes="TaskManager-Control"
       />
@@ -120,7 +120,7 @@
       <div class="TaskManager-ActionBar">
         
         <Button
-          label="保存"
+          label=@localization.buttons.taskSaving.label
           HTML_Type=@Button.HTML_Types.inputSubmit
           onClick=@onClickTaskDataSavingButton
           decoration=@Button.StandardDecorativeVariations.accented.ToString()
@@ -131,7 +131,7 @@
         </Button>
         
         <Button
-          label="編集を止める"
+          label=@localization.buttons.taskEditing.label
           onClick=@utilizeTaskEditing
         >
           <PrependedSVG_Icon>

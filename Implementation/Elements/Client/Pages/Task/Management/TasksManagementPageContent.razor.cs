@@ -1,62 +1,89 @@
-﻿using System.Diagnostics;
-using Client.Pages.Task.Management.ModalDialogs;
-using Client.SharedComponents.Managers.Task;
+﻿using Client.Pages.Task.Management.Localizations;
+
 using Client.SharedState;
+
+using Client.SharedComponents.Managers.Task;
+
 using FrontEndFramework.Components.BlockingLoadingOverlay;
-using FrontEndFramework.Components.ModalDialog;
 using FrontEndFramework.Components.Snackbar;
-using Microsoft.AspNetCore.Components;
+
+using System.Globalization;
+using System.Diagnostics;
 
 
 namespace Client.Pages.Task.Management;
 
 
-public partial class TasksManagementPageContent : ComponentBase
+public partial class TasksManagementPageContent : Microsoft.AspNetCore.Components.ComponentBase
 {
-  
-  /* ━━━ フィルド ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private CommonSolution.Entities.Task? activeTask => TasksSharedState.currentlySelectedTask;
 
-  private readonly string taskManagerActivationGuidance = "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。";
+  /* ━━━ Fields ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private CommonSolution.Entities.Task? activeTask = null;
 
   private string taskManagerAdditionalCSS_Class =>
       this.activeTask is not null ? "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" : "";
-
   
-  /* ━━━ ライフサイクルフック ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private readonly TasksManagementPageLocalization localization = 
+      ClientConfigurationRepresentative.MustForceDefaultLocalization ?
+          new TasksManagementPageEnglishLocalization() :
+          CultureInfo.CurrentCulture.Name switch
+          {
+            SupportedCultures.JAPANESE => new TasksManagementPageJapaneseLocalization(),
+            _ => new TasksManagementPageEnglishLocalization()
+          };
+
+
+  /* ━━━ Livecycle Hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected override void OnInitialized()
   {
     TasksSharedState.onStateChanged += base.StateHasChanged;
+    TasksSharedState.onSelectedTaskHasChanged += this.onTaskHasBeenSelected;
+  }
+
+
+  /* ━━━ Actions Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Task Selecting ───────────────────────────────────────────────────────────────────────────────────────────── */
+  private void onTaskHasBeenSelected(CommonSolution.Entities.Task newTask)
+  {
+    this.activeTask = newTask;
   }
   
-
-  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* ─── 新規課題追加 ───────────────────────────────────────────────────────────────────────────────────────────────────── */
+  
+  /* ─── Adding of New Task ───────────────────────────────────────────────────────────────────────────────────────── */
   private TaskManager taskManager = null!;
   
-  private void beginInputOfNewTaskData()
+  private void onClickStartingOfNewTaskInputtingButton()
   {
+    this.activeTask = null;
     this.taskManager.beginInputNewTaskData();
   }
   
-  private async void onNewTaskEditingCompleted(CommonSolution.Gateways.ITaskGateway.Adding.RequestData requestData)
+  private async System.Threading.Tasks.Task onNewTaskInputtingCompleted(
+    CommonSolution.Gateways.TaskGateway.Adding.RequestData newTaskData
+  )
   {
     
     BlockingLoadingOverlayService.displayBlockingLoadingOverlay();
 
+    CommonSolution.Entities.Task newTask;
+    
     try
     {
-      await TasksSharedState.addTask(requestData);
+      newTask = await TasksSharedState.addTask(
+        newTaskData, 
+        mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions: true
+      );
     }
     catch (Exception exception)
     {
 
-      await SnackbarService.displaySnackbarForAWhile(
-        message: "課題の追加中不具合が発生しました。お詫び申し上げます。",
+      _ = SnackbarService.displaySnackbarForAWhile(
+        message: this.localization.errorMessages.taskAddingFailed,
         decorativeVariation: Snackbar.StandardDecorativeVariations.error
       );
 
       Debug.WriteLine(exception);
+      
       return;
 
     }
@@ -64,19 +91,21 @@ public partial class TasksManagementPageContent : ComponentBase
     {
       BlockingLoadingOverlayService.dismissBlockingLoadingOverlay();  
     }
+
+    this.taskManager.utilizeTaskEditing();
+    this.activeTask = newTask;
     
-    
-    await SnackbarService.displaySnackbarForAWhile(
-      message: "課題が追加されました。",
+    _ = SnackbarService.displaySnackbarForAWhile(
+      message: this.localization.successMessages.taskUpdatingSucceeded,
       decorativeVariation: Snackbar.StandardDecorativeVariations.success
     );
     
   }
-  
-  
-  /* ─── 既存編集 ─────────────────────────────────────────────────────────────────────────────────────────────────────── */
-  private async void onExistingTaskEditingCompleted(
-    CommonSolution.Gateways.ITaskGateway.Updating.RequestData requestData
+
+
+  /* ─── Editing of Existing Task ─────────────────────────────────────────────────────────────────────────────────── */
+  private async System.Threading.Tasks.Task onExistingTaskEditingCompleted(
+    CommonSolution.Gateways.TaskGateway.Updating.RequestData updatedTaskData
   )
   {
     
@@ -84,13 +113,13 @@ public partial class TasksManagementPageContent : ComponentBase
 
     try
     {
-      await TasksSharedState.updateTask(requestData);
+      await TasksSharedState.updateTask(updatedTaskData);
     }
     catch (Exception exception)
     {
 
-      await SnackbarService.displaySnackbarForAWhile(
-        message: "課題の更新中不具合が発生しました。お詫び申し上げます。",
+      _ = SnackbarService.displaySnackbarForAWhile(
+        message: this.localization.errorMessages.taskUpdatingFailed,
         decorativeVariation: Snackbar.StandardDecorativeVariations.error
       );
       
@@ -103,18 +132,57 @@ public partial class TasksManagementPageContent : ComponentBase
       BlockingLoadingOverlayService.dismissBlockingLoadingOverlay();  
     }
   
-    await SnackbarService.displaySnackbarForAWhile(
-      message: "課題の更新が完了しました。",
+    this.taskManager.utilizeTaskEditing();
+    
+    _ = SnackbarService.displaySnackbarForAWhile(
+      message: this.localization.successMessages.taskUpdatingSucceeded,
       decorativeVariation: Snackbar.StandardDecorativeVariations.success
     );
     
   }
   
   
-  /* ━━━ 他のイベント処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private void onTasksFilteringModalDialogInitialized(ModalDialog tasksFilteringModalDialogInstance)
+  /* ─── Deleting of Existing Task ────────────────────────────────────────────────────────────────────────────────── */
+  private async System.Threading.Tasks.Task onDeleteTask()
   {
-    TasksFilteringModalDialogService.initialize(tasksFilteringModalDialogInstance);
+
+    if (this.activeTask is null)
+    {
+      throw new Exception("\"onDeleteTask\" method has been called while \"activeTask\" is still \"null\".");
+    }
+    
+    
+    BlockingLoadingOverlayService.displayBlockingLoadingOverlay();
+
+    try
+    {
+      await TasksSharedState.deleteTask(this.activeTask.ID);
+    } catch (Exception exception)
+    {
+      
+      _ = SnackbarService.displaySnackbarForAWhile(
+        message: this.localization.errorMessages.taskDeletingFailed,
+        decorativeVariation: Snackbar.StandardDecorativeVariations.error
+      );
+      
+      Debug.WriteLine(exception.ToString());
+      return;
+      
+    }
+    finally
+    {
+      BlockingLoadingOverlayService.dismissBlockingLoadingOverlay();  
+    }
+
+    this.taskManager.utilizeTaskEditing();
+
+    this.activeTask = null;
+    
+    _ = SnackbarService.displaySnackbarForAWhile(
+      message: this.localization.successMessages.taskDeletingSucceeded,
+      decorativeVariation: Snackbar.StandardDecorativeVariations.success
+    );
+    
   }
-  
+
 }

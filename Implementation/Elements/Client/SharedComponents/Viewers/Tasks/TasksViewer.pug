@@ -20,12 +20,12 @@
       .TasksViewer-TopActionBar
   
         +SearchBox--YDF({
-          placeholder: "課題の見出しや記述で検索"
+          placeholder: "Search by Title or Description"
         }).TasksViewer-TopActionBar-SearchBox
   
         +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers
           +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 新規課題追加
+          span.Button--YDF-Label Add Task
         
       if statesSimulations.loading
   
@@ -37,43 +37,44 @@
   
       else if statesSimulations.error
   
-        +AttentionBox--YDF({
-          decoration: AttentionBox__YDF.DecorativeVariations.error,
+        +AdmonitionBlock--YDF({
+          title: "Tasks Retrieving Failure",
+          decoration: AdmonitionBlock__YDF.DecorativeVariations.error,
           hasPrependedSVG_Icon: true
-        }).TasksViewer-AttentionBox
+        }).TasksViewer-AdmonitionBlock
   
-          p 情報取得中不具合が発生しました。
+          p The tasks selection retrieving has failed.
   
           +Button--YDF({
-            label: "再試験"
-          }).AttentionBox--YDF-CenteredButton
+            label: "Retry to Retrieve"
+          }).AdmonitionBlock--YDF-CenteredButton
   
       else if statesSimulations.noItems
   
-        +AttentionBox--YDF({
-          decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+        +AdmonitionBlock--YDF({
+          decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
           hasPrependedSVG_Icon: true
-        }).TasksViewer-AttentionBox
+        }).TasksViewer-AdmonitionBlock
   
-          p 現在、課題が一件も登録させていません。
+          p No tasks has been added yet.
   
           +Button--YDF({
-            label: "早速追加しましょう！",
+            label: "Let add first one",
             decoration: Button__YDF.DecorativeVariations.accented
-          }).AttentionBox--YDF-CenteredButton
+          }).AdmonitionBlock--YDF-CenteredButton
   
       else if statesSimulations.noSearchResults
   
-        +AttentionBox--YDF({
-          decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+        +AdmonitionBlock--YDF({
+          decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
           hasPrependedSVG_Icon: true
-        }).TasksViewer-AttentionBox
+        }).TasksViewer-AdmonitionBlock
   
-          p 検索結果と合っている件はありません。
+          p No tasks matching with filtering conditions.
   
           +Button--YDF({
-            label: "検索条件をリセット",
-          }).AttentionBox--YDF-CenteredButton
+            label: "Reset Filtering",
+          }).AdmonitionBlock--YDF-CenteredButton
   
       else
 
@@ -90,8 +91,8 @@
   
         +Button--YDF
           +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 新規課題先追加
+          span.Button--YDF-Label Add Task
           
         +Button--YDF
           +Filtering__Outlined--YDF_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label フィルタリング
+          span.Button--YDF-Label Filter Tasks

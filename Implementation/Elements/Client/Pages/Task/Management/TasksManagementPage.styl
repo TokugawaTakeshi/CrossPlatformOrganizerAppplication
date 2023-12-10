@@ -26,11 +26,11 @@
 
   &-TasksViewer
 
-    height 100% // 【 理論 】 「max-height 100%」は聞いてくれないが、「height 100%」は要る
+    height 100% //** [ Theory ] `max-height 100%` will not work, but `height 100%` will. */
     
     padding 8px
 
-    overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。 
+    overflow-y hidden //**　[ Theory ]　In this case, it only limits the maximal height */ 
 
 
   &-TaskManager
@@ -38,7 +38,12 @@
     max-height 100%
     padding 8px
 
-    overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。
+    overflow-y hidden //**　[ Theory ]　In this case, it only limits the maximal height */
+
+    
+    +WideContainersConfiguration()
+    
+      TaskManager-HiddenButtonForNarrowScreens()
 
 
     &__VisibleAtNarrowScreens

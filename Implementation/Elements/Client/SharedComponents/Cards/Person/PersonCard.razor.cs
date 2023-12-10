@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using FrontEndFramework.Components.Abstractions;
+using YamatoDaiwa.Frontend.Components.Abstractions;
 
 
 namespace Client.SharedComponents.Cards.Person;

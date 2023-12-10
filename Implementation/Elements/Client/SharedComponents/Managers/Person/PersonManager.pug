@@ -43,8 +43,8 @@ mixin PersonManager(properties, statesSimulations)
       
     if !targetPerson && activationGuidance
       
-      +AttentionBox--YDF({
-        decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+      +AdmonitionBlock--YDF({
+        decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
         hasPrependedSVG_Icon: true
       }).PersonManager-Guidance= activationGuidance
       
@@ -201,8 +201,8 @@ mixin PersonManager(properties, statesSimulations)
           
             legend 誕生
             
-            +AttentionBox--YDF({
-              decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+            +AdmonitionBlock--YDF({
+              decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
               hasPrependedSVG_Icon: true
             }).PersonManager-Fieldset-Guidance 誕生日の知らせを受けるには、月日の指定は十分だが、年齢を算出するには生年の指定が必要。
   

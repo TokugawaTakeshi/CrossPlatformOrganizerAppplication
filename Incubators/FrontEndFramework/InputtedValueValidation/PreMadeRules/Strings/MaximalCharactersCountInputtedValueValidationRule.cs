@@ -1,7 +1,7 @@
 ﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
-public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueValidation.IRule
+public class MaximalCharactersCountInputtedValueValidationRule : YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule
 {
   
   public interface ILocalization
@@ -32,7 +32,7 @@ public class MaximalCharactersCountInputtedValueValidationRule : InputtedValueVa
   public string? ErrorMessage { get; init; }
 
   
-  public InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
+  public YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
       new()
       {
         ErrorMessage = rawValue is String stringValue && stringValue.Length <= this.MaximalCharactersCount ? 

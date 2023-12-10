@@ -1,4 +1,5 @@
-﻿using FrontEndFramework.Components.Abstractions;
+﻿using YamatoDaiwa.Frontend.Helpers;
+
 
 namespace FrontEndFramework.Components.Snackbar;
 
@@ -10,7 +11,7 @@ public abstract class SnackbarService
   protected static void NotifyStateChanged() => SnackbarService.onStateChanged?.Invoke();
 
 
-  protected const ushort MESSAGE_DISPLAYING_DURATION__SECONDS = 1000;
+  protected const ushort MESSAGE_DISPLAYING_DURATION__SECONDS = 5;
   
   
   protected static bool _isSnackbarDisplaying = false;

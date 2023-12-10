@@ -1,7 +1,7 @@
 ﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
-public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueValidation.IRule
+public class MinimalCharactersCountInputtedValueValidationRule : YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule
 {
   
   public interface ILocalization
@@ -32,17 +32,17 @@ public class MinimalCharactersCountInputtedValueValidationRule : InputtedValueVa
   public string? ErrorMessage { get; init; }
 
   
-  public InputtedValueValidation.IRule.CheckingResult Check(object rawValue)
+  public YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult Check(object rawValue)
   {
 
-    return new InputtedValueValidation.IRule.CheckingResult
+    return new YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult
     {
       ErrorMessage = rawValue is String stringValue && stringValue.Length >= this.MinimalCharactersCount ? 
-          null : 
-          this.buildErrorMessage(new ILocalization.ErrorMessage.TemplateVariables()
-          {
-            RawValue = rawValue.ToString() ?? "null", MinimalCharactersCount = this.MinimalCharactersCount
-          })
+        null : 
+        this.buildErrorMessage(new ILocalization.ErrorMessage.TemplateVariables()
+        {
+          RawValue = rawValue.ToString() ?? "null", MinimalCharactersCount = this.MinimalCharactersCount
+        })
     };
   }
 

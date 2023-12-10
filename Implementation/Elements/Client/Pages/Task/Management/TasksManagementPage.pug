@@ -9,7 +9,7 @@ block append Requirements
 
     class TasksManagementPage {
 
-      static mustDisplayTaskManagerAtNarrowScreens = false;
+      static mustDisplayTaskManagerAtNarrowScreens = true;
 
       static displayTaskManagerAtNarrowScreens() {
         TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
@@ -24,7 +24,7 @@ block append Metadata
   -
 
     HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "課題管理 ｜ やまとダイワ几帳面さ";
+    HTML_PAGE_TITLE = "Tasks management — Yamato Diawa Punctuality";
 
     styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
 
@@ -43,7 +43,7 @@ block append SpecificContent
     +TaskManager(
       {
         targetTask: getRandomArrayElement(DummyData.Tasks),
-        activationGuidance: "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        activationGuidance: "Click or tap the task card to view details or edit the dedicated task."
       },
       { editingMode: true }
     ).TasksManagementPage-TaskManager&attributes({
@@ -56,9 +56,11 @@ block append SpecificContent
 block FloatingAndFixedContent
 
   //- 
-    〔 理論 〕 コンテナークエリの為、モーダルダイアログを「SpecificContent」の中に入れると正しく表示されない。
-            https://stackoverflow.com/a/52937920/4818123
+    [ Theory ] Because of container queries brakes the fixed positioning, the modal dialog could not be placed inside 
+      the "SpecificContent" block.
+      https://stackoverflow.com/a/52937920/4818123
+     
   +ModalDialog--YDF(
-    { title: "課題の絞り込み" },
+    { title: "Filter Tasks" },
     { mustDisplay: false }
   ): +TasksFilteringPanel

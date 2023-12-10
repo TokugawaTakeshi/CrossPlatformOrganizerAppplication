@@ -1,7 +1,7 @@
 ﻿namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
-public class NumericMaximumInputtedValueValidationRule : InputtedValueValidation.IRule
+public class NumericMaximumInputtedValueValidationRule : YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule
 {
   
   public interface ILocalization
@@ -32,7 +32,7 @@ public class NumericMaximumInputtedValueValidationRule : InputtedValueValidation
   public string? ErrorMessage { get; init; }
   
   
-  public InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
+  public YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
       new()
       {
         ErrorMessage = rawValue is uint uintValue && uintValue <= this.MaximalValue ? 

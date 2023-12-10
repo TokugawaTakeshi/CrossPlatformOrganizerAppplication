@@ -1,4 +1,4 @@
-﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
+﻿@using YamatoDaiwa.Frontend.Components.Controls.CompoundControlShell
 
 
 @inherits FrontEndFramework.Components.Controls.InputtableControl
@@ -16,6 +16,7 @@
   labelElementHTML_ID=@labelElementHTML_ID
   validationErrorsMessages=@payload.ValidationErrorsMessages
   invalidInputHighlightingIfAnyValidationErrorsMessages="mustHighlightInvalidInputIfAnyValidationErrorsMessages"
+  @ref=@compoundControlShell
 >
  
   @if (multiline)

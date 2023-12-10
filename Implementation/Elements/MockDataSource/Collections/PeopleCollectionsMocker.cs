@@ -2,7 +2,7 @@
 using CommonSolution.Fundamentals;
 using MockDataSource.AdditionalStructures;
 using MockDataSource.Entities;
-using YamatoDaiwaCS_Extensions.DataMocking;
+using YamatoDaiwa.CSharpExtensions.DataMocking;
 
 
 namespace MockDataSource.Collections;

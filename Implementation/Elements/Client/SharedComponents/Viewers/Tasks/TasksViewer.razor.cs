@@ -1,9 +1,16 @@
 ﻿using CommonSolution.Gateways;
+
 using Client.SharedState;
-using System.Diagnostics;
+
+using Client.Pages.Task.Management.Localizations;
+
 using Client.Pages.Task.Management.ModalDialogs;
+using Client.SharedComponents.Viewers.Tasks.Localizations;
 using FrontEndFramework.Components.BlockingLoadingOverlay;
 using FrontEndFramework.Components.Snackbar;
+
+using System.Diagnostics;
+using System.Globalization;
 
 
 namespace Client.SharedComponents.Viewers.Tasks;
@@ -12,6 +19,7 @@ namespace Client.SharedComponents.Viewers.Tasks;
 public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase 
 {
 
+  /* ━━━ Component parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.EventCallback<string> onClickTaskAddingButtonEventHandler { get; set; }
   
@@ -19,26 +27,38 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
   public string? rootElementModifierCSS_Class { get; set; }
  
   
-  /* ━━━ ライフサイクルフック ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Fields ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private readonly TasksViewerLocalization localization = 
+      ClientConfigurationRepresentative.MustForceDefaultLocalization ?
+          new TasksViewerEnglishLocalization() :
+          CultureInfo.CurrentCulture.Name switch
+          {
+            SupportedCultures.JAPANESE => new TasksViewerJapaneseLocalization(),
+            _ => new TasksViewerEnglishLocalization()
+          };
+
+
+  /* ━━━ Livecycle hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
     TasksSharedState.onStateChanged += base.StateHasChanged;
     await TasksSharedState.retrieveTasksSelection();
   }
-  
-  
-  /* ━━━ 操作の処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* ─── 課題取得・再取得 ─────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+
+  /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Tasks retrieving ─────────────────────────────────────────────────────────────────────────────────────────── */
   private async System.Threading.Tasks.Task onNewTaskSearchingByFullOrPartialTitleOrDescriptionRequestHasBeenEmitted(
-    string? newPersonSearchingByFullOrPartialTitleOrDescription 
+    string? newSearchingOfTaskByFullOrPartialTitleOrDescriptionRequest 
   )
   {
     await TasksSharedState.retrieveTasksSelection(
-      new ITaskGateway.SelectionRetrieving.RequestParameters
+      new TaskGateway.SelectionRetrieving.RequestParameters
       {
-        SearchingByFullOrPartialTitleOrDescription = newPersonSearchingByFullOrPartialTitleOrDescription
+        SearchingByFullOrPartialTitleOrDescription = newSearchingOfTaskByFullOrPartialTitleOrDescriptionRequest
       },
-      mustResetSearchingByFullOrPartialTitleOrDescription: newPersonSearchingByFullOrPartialTitleOrDescription is null
+      mustResetSearchingByFullOrPartialTitleOrDescription: 
+          newSearchingOfTaskByFullOrPartialTitleOrDescriptionRequest is null
     );
   }
 
@@ -47,30 +67,32 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
     await TasksSharedState.retrieveTasksSelection();
   }
 
-  private async void onClickFilteringResettingButton()
+  private async void onClickTasksFilteringResettingButton()
   {
     await TasksSharedState.retrieveTasksSelection(mustResetSearchingByFullOrPartialTitleOrDescription: true);
   }
   
-  private async System.Threading.Tasks.Task onClickTaskAddingButton()
-  {
-    await this.onClickTaskAddingButtonEventHandler.InvokeAsync(null);
-  }
-
   private void openTasksFilteringModalDialog()
   {
     TasksFilteringModalDialogService.displayModalDialog();
   }
   
   
-  /* ─── 課題を選択 ────────────────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ─── Adding of new task ───────────────────────────────────────────────────────────────────────────────────────── */
+  private System.Threading.Tasks.Task onClickTaskAddingButton()
+  {
+    return this.onClickTaskAddingButtonEventHandler.InvokeAsync(null);
+  }
+  
+  
+  /* ─── Task selecting ───────────────────────────────────────────────────────────────────────────────────────────── */
   private void onSelectTask(CommonSolution.Entities.Task targetTask)
   {
     TasksSharedState.currentlySelectedTask = targetTask;
   }
 
   
-  /* ─── 課題完成切り替え ─────────────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ─── Toggling of task completion ──────────────────────────────────────────────────────────────────────────────── */
   private async void onToggleTaskCompletion(CommonSolution.Entities.Task targetTask)
   {
 
@@ -89,11 +111,12 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
     
   }
 
-
   
-  /* ━━━ 条件的表示 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Rendering ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private bool mustDisableSearchBox =>
       TasksSharedState.isTasksRetrievingInProgressOrNotStartedYet ||
       TasksSharedState.totalTasksCountInDataSource == 0;
+
+  private const byte LOADING_PLACEHOLDER_CARDS_COUNT = 12;
 
 }

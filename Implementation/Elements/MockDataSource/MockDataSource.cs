@@ -1,6 +1,5 @@
 ﻿using CommonSolution.Entities;
 using CommonSolution.Gateways;
-using Task = CommonSolution.Entities.Task;
 
 using MockDataSource.Entities;
 using MockDataSource.Collections;
@@ -8,8 +7,8 @@ using MockDataSource.SamplesRepositories;
 using MockDataSource.AdditionalStructures;
 
 using System.Diagnostics;
-using YamatoDaiwaCS_Extensions;
-using YamatoDaiwaCS_Extensions.DataMocking;
+using YamatoDaiwa.CSharpExtensions;
+using YamatoDaiwa.CSharpExtensions.DataMocking;
 
 
 namespace MockDataSource;
@@ -18,13 +17,13 @@ namespace MockDataSource;
 public class MockDataSource
 {
 
-  /* === データ ======================================================================================================= */
+  /* ━━━ Data ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public readonly List<Person> People;
-  public readonly List<Task> Tasks;
+  public readonly List<CommonSolution.Entities.Task> Tasks;
   public readonly List<Location> Locations;
 
-  
-  /* === 初期化 ====================================================================================================== */
+
+  /* ━━━ Initialization ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private static MockDataSource? selfSoleInstance;
 
   public static MockDataSource GetInstance()
@@ -103,7 +102,7 @@ public class MockDataSource
           Quantity = 5
         }
       },
-      new TasksCollectionsMocker.Dependencies()
+      new TasksCollectionsMocker.Dependencies
       {
         Locations = this.Locations.ToArray()
       }
@@ -112,7 +111,7 @@ public class MockDataSource
   }
 
 
-  /* === 人 ========================================================================================================= */
+  /* ━━━ 人 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public Person[] RetrieveAllPeople()
   {
     return People.Select(person => person.clone()).ToArray();
@@ -164,7 +163,6 @@ public class MockDataSource
     targetPerson.familyNameSpell = requestData.FamilyNameSpell;
     targetPerson.givenNameSpell = requestData.GivenNameSpell;
     targetPerson.gender = requestData.Gender;
-    targetPerson.avatarURI = requestData.AvatarURI;
     targetPerson.birthYear = requestData.BirthYear;
     targetPerson.birthMonthNumber__numerationFrom1 = requestData.BirthMonthNumber__NumerationFrom1;
     targetPerson.birthDayOfMonth__numerationFrom1 = requestData.BirthDayOfMonth__NumerationFrom1;
@@ -179,16 +177,16 @@ public class MockDataSource
   }
   
   
-  /* === 課題 ======================================================================================================= */
-  public Task[] RetrieveAllTasks()
+  /* ━━━ 課題 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public CommonSolution.Entities.Task[] RetrieveAllTasks()
   {
     return Tasks.Select(task => task.clone()).ToArray();
   }
 
-  public ITaskGateway.Adding.ResponseData AddTask(ITaskGateway.Adding.RequestData requestData)
+  public TaskGateway.Adding.ResponseData AddTask(TaskGateway.Adding.RequestData requestData)
   {
 
-    Task newTask = TaskMocker.Generate(
+    CommonSolution.Entities.Task newTask = TaskMocker.Generate(
       new TaskMocker.PreDefines
       {
         title = requestData.Title,
@@ -197,7 +195,7 @@ public class MockDataSource
         subtasks = requestData.SubtasksIDs == null ? 
           null : Tasks.FindAll(task => requestData.SubtasksIDs.Any(task.ID.Contains)),
         associatedDateTime = requestData.AssociatedDate__ISO8601 is not null ? 
-            DateTimeExtensions.createDateTimeFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
+            DateTimeExtensions.CreateDateTimeFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
         associatedDate = requestData.AssociatedDate__ISO8601 is not null ?
             DateOnlyExtensions.CreateDateOnlyFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
         associatedLocation = requestData.AssociatedLocation
@@ -215,14 +213,14 @@ public class MockDataSource
     
     Tasks.Insert(0, newTask);
 
-    return new ITaskGateway.Adding.ResponseData() { AddedTaskID = newTask.ID };
+    return new TaskGateway.Adding.ResponseData() { AddedTaskID = newTask.ID };
 
   }
 
-  public void UpdateTask(ITaskGateway.Updating.RequestData requestData)
+  public void UpdateTask(TaskGateway.Updating.RequestData requestData)
   {
 
-    Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
+    CommonSolution.Entities.Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
 
     if (targetTask == null)
     {

@@ -12,8 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.2" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.8" />
+    <PackageReference Include="YamatoDaiwaCS_Extensions.Localizations.Japanese" Version="0.0.4" />
+    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Components\AttentionBox\AttentionBox.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\Button.razor" />
     <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
     <AdditionalFiles Include="Components\Controls\RadioButton\RadioButton.razor" />
@@ -39,7 +40,10 @@
 
   </ItemGroup>
 
-
-
+  <ItemGroup>
+    <Reference Include="Package">
+      <HintPath>C:\Users\Takeshi Tokugawa\.nuget\packages\yamatodaiwafrontend\0.0.2\lib\net8.0\Package.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

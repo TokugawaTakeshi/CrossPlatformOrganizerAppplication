@@ -5,7 +5,7 @@
 @using Client.SharedComponents.Cards.Person.LoadingPlaceholder
 @using Client.SharedComponents.Cards.Person
 
-@using FrontEndFramework.Components.AttentionBox
+@using YamatoDaiwa.Frontend.Components.AdmonitionBlock
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.SearchBox
 @using FrontEndFramework.SVG_Icons.Person
@@ -49,10 +49,10 @@
   
   else if (PeopleSharedState.hasPeopleSelectionRetrievingErrorOccurred)
   {
-    <AttentionBox
-      decoration=@AttentionBox.StandardDecorativeVariations.error
+    <AdmonitionBlock
+      decoration=@AdmonitionBlock.StandardDecorativeVariations.error
       hasPrependedSVG_Icon
-      rootElementModifierCSS_Class="TasksManager-AttentionBox"
+      rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
     >
 
       <p>情報取得中不具合が発生しました。</p>
@@ -60,18 +60,18 @@
       <Button
         label="再試験"
         onClick=@onClickPeopleSelectionRetrievingRetryingButton
-        spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+        spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
       />
       
-    </AttentionBox>
+    </AdmonitionBlock>
   }
   
   else if (PeopleSharedState.totalPeopleCountInDataSource == 0)
   {
-    <AttentionBox
-      decoration=@AttentionBox.StandardDecorativeVariations.guidance
+    <AdmonitionBlock
+      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
-      rootElementModifierCSS_Class="TasksManager-AttentionBox"
+      rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
     >
 
       <p>現在、人が一件も登録させていません。</p>
@@ -79,18 +79,18 @@
       <Button
         label="早速登録しましょう"
         onClick=@onClickPersonAddingButton
-        spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+        spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
       />
       
-    </AttentionBox>
+    </AdmonitionBlock>
   }
   
   else if (PeopleSharedState.totalPeopleCountInSelection == 0)
   {
-    <AttentionBox
-      decoration=@AttentionBox.StandardDecorativeVariations.guidance
+    <AdmonitionBlock
+      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
-      rootElementModifierCSS_Class="TasksManager-AttentionBox"
+      rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
     >
 
       <p>検索結果と合っている件はありません。</p>
@@ -98,10 +98,10 @@
       <Button
         label="検索条件をリセット"
         onClick=@onClickFilteringResettingButton
-        spaceSeparatedAdditionalCSS_Classes="AttentionBox--YDF-CenteredButton"
+        spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
       />
       
-    </AttentionBox>
+    </AdmonitionBlock>
   }
   
   else
@@ -113,9 +113,6 @@
           targetPerson=@person
           rootElementTag="li"
           onClick=@onSelectPerson
-          rootElementModifierCSS_Class="A"
-          rootElementModifierCSS_Classes=@(new[] { "B", "C" })
-          rootElementSpaceSeparatedModifierCSS_Classes="E F"
         />
       }
     </ul>

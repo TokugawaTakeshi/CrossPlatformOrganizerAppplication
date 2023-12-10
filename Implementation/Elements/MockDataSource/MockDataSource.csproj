@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.17" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.5" />
+    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.8" />
   </ItemGroup>
 
   <ItemGroup>

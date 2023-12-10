@@ -1,9 +1,10 @@
-﻿using FrontEndFramework.Components.Abstractions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using FrontEndFramework.ValidatableControl;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using YamatoDaiwaCS_Extensions;
-using Utils;
+using YamatoDaiwa.CSharpExtensions;
+using YamatoDaiwa.Frontend.Components.Controls.CompoundControlShell;
+using YamatoDaiwa.Frontend.Helpers;
 
 
 namespace FrontEndFramework.Components.Controls.TextBox;
@@ -12,28 +13,7 @@ namespace FrontEndFramework.Components.Controls.TextBox;
 public partial class TextBox : InputtableControl, IValidatableControl
 {
 
-  /* ━━━ Payload ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected string rawValue = "";
-  protected ValidatableControl.Payload _payload;
-  
-  [Microsoft.AspNetCore.Components.Parameter]
-  public required ValidatableControl.Payload payload
-  {
-    get => _payload;
-    set
-    {
-      this._payload = value;
-      this.synchronizeRawValueWithPayloadValue();
-    }
-  }
-  
-  private void onInputEventHandler(Microsoft.AspNetCore.Components.ChangeEventArgs inputtingEvent)
-  {
-    this._payload.Value = inputtingEvent.Value?.ToString() ?? "";
-  }
-  
-  
-  /* ━━━ HTML type ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ HTML type ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public enum HTML_Types
   {
     regular,
@@ -44,15 +24,106 @@ public partial class TextBox : InputtableControl, IValidatableControl
     URI,
     hidden
   }
-
+  
   [Microsoft.AspNetCore.Components.Parameter]
   public HTML_Types HTML_Type { get; set; } = HTML_Types.regular;
   
+  [Microsoft.AspNetCore.Components.Parameter]  
+  public bool multiline { get; set; } = false;
+  
+  
+  /* ━━━ Payload / Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected string rawValue = "";
+  
+  /* [ Initialization ] Will be initialized via required property "payload". */
+  protected ValidatableControl.Payload _payload = default!;
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.EditorRequired]
+  public required ValidatableControl.Payload payload
+  {
+    get => _payload;
+    set
+    {
+      this._payload = value;
+      this.synchronizeRawValueWithPayloadValue();
+    }
+  }
+  
+  
+  public enum ValidityHighlightingActivationModes
+  {
+    immediate,
+    onFirstInputtedCharacter,
+    onFocusOut
+  }
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.EditorRequired]
+  public required TextBox.ValidityHighlightingActivationModes validityHighlightingActivationMode { get; set; }
+
+  protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = false;
+  
+  
+  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Requirements ─────────────────────────────────────────────────────────────────────────────────────────────── */
+  protected CompoundControlShell compoundControlShell = null!;
+  
+  [Microsoft.AspNetCore.Components.Inject]
+  protected Microsoft.JSInterop.IJSRuntime JSRuntime { get; set; } = null!;
 
   
-  /* ━━━ Textings ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? placeholder { get; set; }
+  /* ─── Interface implementation ─────────────────────────────────────────────────────────────────────────────────── */
+  public new IValidatableControl HighlightInvalidInput()
+  {
+    base.HighlightInvalidInput();
+    return this;
+  }
+  
+  public ValueTask<IValidatableControl.RootElementOffsetCoordinates> GetRootElementOffsetCoordinates()
+  {
+    return this.JSRuntime.InvokeAsync<IValidatableControl.RootElementOffsetCoordinates>(
+          "getDOM_ElementOffsetCoordinates", this.compoundControlShell
+        );
+  }
+  
+  public IValidatableControl Focus()
+  {
+    _ = this.JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputAcceptingElement);
+    return this;
+  }
+
+  
+  /* ━━━ Constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public TextBox()
+  {
+    this.INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID = base.coreElementHTML_ID ?? TextBox.generateInputOrTextAreaElementHTML_ID();
+  }
+  
+  
+  /* ━━━ Lifecycle hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected override void OnInitialized()
+  {
+    
+    base.OnInitialized();
+
+    if (
+      String.IsNullOrEmpty(this.label) &&
+      String.IsNullOrEmpty(this.externalLabelHTML_ID) &&
+      String.IsNullOrEmpty(this.accessibilityGuidance)
+    )
+    {
+      throw new Exception(
+        "For the basic accessibility, either \"label\" or \"externalLabelHTML_ID\" or \"accessibilityGuidance\"" +
+            "must be specific with non-empty string for the \"TextBox\" component."
+      );
+    }
+    
+    this.synchronizeRawValueWithPayloadValue();
+    this.mustHighlightInvalidInputIfAnyValidationErrorsMessages =
+          this.validityHighlightingActivationMode == TextBox.ValidityHighlightingActivationModes.immediate;
+
+  }
 
   
   /* ━━━ Preventing of inputting of invalid value ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -75,14 +146,75 @@ public partial class TextBox : InputtableControl, IValidatableControl
    
   [Microsoft.AspNetCore.Components.Parameter]  
   public bool valueMustBeTheDigitsSequence { get; set; } = false;
+
   
-  
-  /* ━━━ Raw value transformations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Raw value transforments ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter] 
   public bool mustConvertEmptyStringToNull { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public bool mustConvertEmptyStringToZero { get; set; }
+  
+  
+  /* ━━━ Events handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private void onKeyDown(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs keyboardEventArguments)
+  {
+    if (
+      (this.valueMustBeTheNonNegativeIntegerOfRegularNotation || this.valueMustBeTheDigitsSequence) && 
+      new Regex("^[+\\-e.]$").IsMatch(keyboardEventArguments.Key))
+    {
+    }
+  }
+  
+  private void onInputEventHandler(Microsoft.AspNetCore.Components.ChangeEventArgs inputtingEvent)
+  {
+
+    string stringifiedValue = inputtingEvent.Value?.ToString() ?? "";
+    
+    if (stringifiedValue.Length == 0)
+    {
+
+      if (this.mustConvertEmptyStringToZero)
+      {
+        this.rawValue = "0";
+        this.payload.SetValue(0, asynchronousValidationDelay__seconds: 1);
+        return;
+      }
+    
+      
+      if (this.mustConvertEmptyStringToNull)
+      {
+        this.payload.SetValue(null, asynchronousValidationDelay__seconds: 1);
+      }
+      
+    }
+
+    
+    
+    this._payload.SetValue(inputtingEvent.Value?.ToString() ?? "");
+
+    if (
+      this.validityHighlightingActivationMode == TextBox.ValidityHighlightingActivationModes.onFirstInputtedCharacter &&
+      !this.mustHighlightInvalidInputIfAnyValidationErrorsMessages
+    )
+    {
+      this.mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
+    }
+    
+  }
+  
+  }
+
+  
+  /* ━━━ Textings ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? placeholder { get; set; }
+
+  
+  
+  
+  
+  /* ━━━ Raw value transformations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   
   
   /* ━━━ HTML IDs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -91,7 +223,7 @@ public partial class TextBox : InputtableControl, IValidatableControl
   
   protected static string generateInputOrTextAreaElementHTML_ID() {
     TextBox.counterForInputOrTextAreaElementHTML_ID_Generating++;
-    return $"TEXT_BOX--YDF-INPUT_OR_TEXT_AREA_ELEMENT-${ TextBox.counterForInputOrTextAreaElementHTML_ID_Generating }";
+    return $"TEXT_BOX--YDF-INPUT_OR_TEXT_AREA_ELEMENT-{ TextBox.counterForInputOrTextAreaElementHTML_ID_Generating }";
   }
 
   protected readonly string INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID;
@@ -99,43 +231,13 @@ public partial class TextBox : InputtableControl, IValidatableControl
   /* ─── Label ───────────────────────────────────────────────────────────────────────────────────────────────────── */
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? labelElementHTML_ID { get; set; }
-
-  
-  /* ━━━ Other flags ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public bool multiline { get; set; } = false;
-  
-  [Microsoft.AspNetCore.Components.Parameter]  
-  public bool @readonly { get; set; } = false;
   
   
   /* ━━━ Children components/elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected Microsoft.AspNetCore.Components.ElementReference nativeInputAcceptingElement;
 
   
-  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public new IValidatableControl HighlightInvalidInput()
-  {
-    base.HighlightInvalidInput();
-    return this;
-  }
   
-  // TODO 変化検討中
-  public IValidatableControl.IRootElementOffsetCoordinates GetRootElementOffsetCoordinates()
-  {
-    throw new NotImplementedException();
-  }
-  
-  public IValidatableControl Focus()
-  {
-    // TODO 非同期呼び出し始末
-    JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputAcceptingElement);
-    return this;
-  }
-
-  public void ResetValidityHighlightingToInitial()
-  {
-  }
   
 
   /* ━━━ Theming ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -199,7 +301,7 @@ public partial class TextBox : InputtableControl, IValidatableControl
   }
   
   
-  /* ─── Decorative variations ────────────────────────────────────────────────────────────────────────────────────── */
+  /* ─── Decoration ───────────────────────────────────────────────────────────────────────────────────────────────── */
   public enum StandardDecorativeVariations { regular }
 
   protected internal static Type? CustomDecorativeVariations;
@@ -255,23 +357,6 @@ public partial class TextBox : InputtableControl, IValidatableControl
       StringifyEachElementAndJoin(" ");
    
   
-  /* ━━━  Constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public TextBox()
-  {
-    this.INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID = base.coreElementHTML_ID ?? TextBox.generateInputOrTextAreaElementHTML_ID();
-  }
   
-  
-  /* ━━━ Other ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected void synchronizeRawValueWithPayloadValue()
-  {
-    this.rawValue = (string)this.payload.Value;
-  }
-  
-  protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
-  
-  
-  [Microsoft.AspNetCore.Components.Inject] 
-  protected IJSRuntime JSRuntime { get; set; } = null!;
   
 }

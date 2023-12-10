@@ -1,10 +1,13 @@
-﻿using System.Diagnostics;
-using Client.Data.FromUser.Entities.Task;
-
-using FrontEndFramework.Components.Controls.TextBox;
+﻿using Client.Data.FromUser.Entities.Task;
 using FrontEndFramework.InputtedValueValidation;
 
-using ValidatableControl = FrontEndFramework.ValidatableControl;
+using Client.SharedComponents.Managers.Task.Localizations;
+using Client.SharedComponents.Viewers.Tasks.Localizations;
+using YamatoDaiwa.Frontend.Components.Controls.Validation;
+using FrontEndFramework.Components.Controls.TextBox;
+
+using System.Diagnostics;
+using System.Globalization;
 
 
 namespace Client.SharedComponents.Managers.Task;
@@ -13,64 +16,92 @@ namespace Client.SharedComponents.Managers.Task;
 public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
 {
   
-  /* ━━━ Blazorコンポーネント引数 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Component parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter] 
   public CommonSolution.Entities.Task? targetTask { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter] 
   public required Microsoft.AspNetCore.Components.EventCallback<
-    CommonSolution.Gateways.ITaskGateway.Adding.RequestData
-  > onInputtingDataOfNewTaskComplete { get; set; }
+    CommonSolution.Gateways.TaskGateway.Adding.RequestData
+  > onInputtingDataOfNewTaskCompleteEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public required Microsoft.AspNetCore.Components.EventCallback<
-    CommonSolution.Gateways.ITaskGateway.Updating.RequestData
-  > onExistingTaskEditingComplete { get; set; }
+    CommonSolution.Gateways.TaskGateway.Updating.RequestData
+  > onExistingTaskEditingCompleteEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter]
   public required string activationGuidance { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? rootElementModifierCSS_Class { get; set; }
-
-
-  /* ━━━ ステート ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private bool isViewingMode = true;
-  private bool isEditingMode => !this.isViewingMode;
   
-  private readonly string ID = TaskManager.generateComponentID();
-  private string HEADING_ID => $"{ this.ID }-HEADING";
-
+  
+  /* ━━━ Fields ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private (
+    FrontEndFramework.ValidatableControl.Payload title, 
+    FrontEndFramework.ValidatableControl.Payload description
+  ) taskControlsPayload;
   
   private TextBox titleTextBox = null!;
   private TextBox descriptionTextBox = null!;
   
-  private (
-    ValidatableControl.Payload title, 
-    ValidatableControl.Payload description
-  ) taskControlsPayload;
+  private bool isViewingMode = true;
+  private bool isEditingMode => !this.isViewingMode;
+
+  private readonly string ID = TaskManager.generateComponentID();
+  private readonly string HEADING_ID;
   
+  private TextBox.ValidityHighlightingActivationModes validityHighlightingActivationMode => 
+      this.targetTask is null ?
+        TextBox.ValidityHighlightingActivationModes.onFocusOut :
+        TextBox.ValidityHighlightingActivationModes.immediate;
   
-  /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private readonly TaskManagerLocalization localization = 
+      ClientConfigurationRepresentative.MustForceDefaultLocalization ?
+          new TaskManagerEnglishLocalization() :
+          CultureInfo.CurrentCulture.Name switch
+          {
+            SupportedCultures.JAPANESE => new TaskManagerJapaneseLocalization(),
+            _ => new TaskManagerEnglishLocalization()
+          };
+
+
+  /* ━━━ Constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public TaskManager()
   {
+    
+    this.HEADING_ID = $"{ this.ID }-HEADING";
+    
     this.taskControlsPayload = (
-      title: new ValidatableControl.Payload(
+      title: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "", 
         validation: new TaskTitleInputtedDataValidation(),
         componentInstanceAccessor: () => this.titleTextBox
       ),
-      description: new ValidatableControl.Payload(
+      description: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "", 
         validation: new TaskDescriptionInputtedDataValidation(),
         componentInstanceAccessor: () => this.descriptionTextBox
       ) 
     );
+    
+  }
+  
+  
+  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public void utilizeTaskEditing()
+  {
+    
+    this.isViewingMode = true;
+
+    this.taskControlsPayload.title.SetValue("");
+    this.taskControlsPayload.description.SetValue("");
+
   }
 
   
-  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* ─── 新規課題追加 ───────────────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public void beginInputNewTaskData()
   {
     this.isViewingMode = false;
@@ -81,12 +112,12 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
 
     if (this.targetTask is null)
     {
-      throw new Exception("「beginTaskEditing」メソッドは呼び出されたが、「targetTask」は「null」のまま。");
+      throw new Exception("\"beginTaskEditing\" has been called while \"targetTask\" is still \"null\".");
     }
 
 
-    this.taskControlsPayload.title.Value = this.targetTask.title;
-    this.taskControlsPayload.description.Value = this.targetTask.description ?? ""; 
+    this.taskControlsPayload.title.SetValue(this.targetTask.title);
+    this.taskControlsPayload.description.SetValue(this.targetTask.description ?? ""); 
     
     this.isViewingMode = false;
 
@@ -97,9 +128,7 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
     // TODO
   }
 
-  
-  /* ─── 新規追加・編集 ──────────────────────────────────────────────────────────────────────────────────────────────────── */
-  async private void onClickTaskDataSavingButton()
+  private async void onClickTaskDataSavingButton()
   {
 
     if (ValidatableControlsGroup.HasInvalidInputs(this.taskControlsPayload))
@@ -108,57 +137,36 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
       return;
     }
     
-    
-    try
+
+    if (this.targetTask == null)
     {
 
-      if (this.targetTask == null)
-      {
-
-        await this.onInputtingDataOfNewTaskComplete.InvokeAsync(
-          new CommonSolution.Gateways.ITaskGateway.Adding.RequestData
-          {
-            Title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>(),
-            Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
-          }
-        );
-
-      }
-      else
-      {
+      await this.onInputtingDataOfNewTaskCompleteEventHandler.InvokeAsync(
+        new CommonSolution.Gateways.TaskGateway.Adding.RequestData
+        {
+          Title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>(),
+          Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
+        }
+      );
       
-        await this.onExistingTaskEditingComplete.InvokeAsync(
-          new CommonSolution.Gateways.ITaskGateway.Updating.RequestData
-          {
-            ID = this.targetTask.ID,
-            Title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>(),
-            Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
-          }
-        );
-        
-      }
+      return;
 
     }
-    finally
-    {
-      this.utilizeTaskEditing();      
-    }
-
-  }
-
-  private void utilizeTaskEditing()
-  {
     
-    this.isViewingMode = true;
-
-    this.taskControlsPayload.title.Value = "";
-    this.taskControlsPayload.description.Value = "";
+    await this.onExistingTaskEditingCompleteEventHandler.InvokeAsync(
+      new CommonSolution.Gateways.TaskGateway.Updating.RequestData
+      {
+        ID = this.targetTask.ID,
+        Title = this.taskControlsPayload.title.GetExpectedToBeValidValue<string>(),
+        Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
+      }
+    );
 
   }
   
   
-  /* ━━━ ルーチン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* ─── ID生成 ─────────────────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ━━━ Routines ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Generating of ID ─────────────────────────────────────────────────────────────────────────────────────────── */
   private static uint counterForComponentID_Generating = 0;
   
   private static string generateComponentID()
@@ -166,5 +174,5 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
     TaskManager.counterForComponentID_Generating++;
     return $"TASK_MANAGER-{ TaskManager.counterForComponentID_Generating }";
   }
-
+  
 }

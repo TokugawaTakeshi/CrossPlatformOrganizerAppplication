@@ -1,9 +1,6 @@
 ﻿using System.Diagnostics;
-using FrontEndFramework.Components.Abstractions;
-using FrontEndFramework.Components.Badge;
 using Microsoft.AspNetCore.Components;
-using Utils;
-using YamatoDaiwaCS_Extensions;
+using YamatoDaiwa.CSharpExtensions;
 
 
 namespace Client.SharedComponents.Cards.Task;

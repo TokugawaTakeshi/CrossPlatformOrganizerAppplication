@@ -6,12 +6,13 @@ using FrontEndFramework.Components.Controls.FilesUploader;
 using FrontEndFramework.Components.Controls.TextBox;
 using FrontEndFramework.Components.Controls.RadioButtonsGroup;
 using FrontEndFramework.InputtedValueValidation;
+using YamatoDaiwa.Frontend.Components.Controls.Validation;
 
 using ValidatableControl = FrontEndFramework.ValidatableControl;
 
 using Microsoft.EntityFrameworkCore;
 
-using YamatoDaiwaCS_Extensions;
+using YamatoDaiwa.CSharpExtensions;
 using Utils;
 
 
@@ -44,7 +45,6 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private TextBox familyNameSpellTextBox = null!;
   private TextBox givenNameSpellTextBox = null!;
   private RadioButtonsGroup genderRadioButtonsGroup = null!;
-  private FilesUploader avatarUploader = null!;
   private TextBox emailAddressTextBox = null!;
   private TextBox phoneNumberTextBox = null!;
 
@@ -68,7 +68,6 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     ValidatableControl.Payload familyNameSpell, 
     ValidatableControl.Payload givenNameSpell,
     ValidatableControl.Payload gender,
-    ValidatableControl.Payload avatarURI,
     ValidatableControl.Payload emailAddress, 
     ValidatableControl.Payload phoneNumber
   ) personControlsPayload;
@@ -103,11 +102,6 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
         validation: new PersonGenderInputtedDataValidation(),
         componentInstanceAccessor: () => this.genderRadioButtonsGroup
       ),
-      avatarURI: new ValidatableControl.Payload(
-        initialValue: "",
-        validation: new PersonAvatarURI_InputtedDataValidation(),
-        componentInstanceAccessor: () => this.avatarUploader
-      ), 
       emailAddress: new ValidatableControl.Payload(
         initialValue: "",
         validation: new PersonEmailInputtedDataValidation(),
@@ -132,12 +126,12 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     }
 
     
-    this.personControlsPayload.familyName.Value = this.targetPerson.familyName;
-    this.personControlsPayload.givenName.Value = this.targetPerson.givenName ?? "";
-    this.personControlsPayload.familyNameSpell.Value = this.targetPerson.familyNameSpell ?? "";
-    this.personControlsPayload.givenNameSpell.Value = this.targetPerson.givenNameSpell ?? "";
-    this.personControlsPayload.emailAddress.Value = this.targetPerson.emailAddress ?? "";
-    this.personControlsPayload.phoneNumber.Value = this.targetPerson.phoneNumber__digitsOnly ?? "";
+    this.personControlsPayload.familyName.SetValue(this.targetPerson.familyName);
+    this.personControlsPayload.givenName.SetValue(this.targetPerson.givenName ?? "");
+    this.personControlsPayload.familyNameSpell.SetValue(this.targetPerson.familyNameSpell ?? "");
+    this.personControlsPayload.givenNameSpell.SetValue(this.targetPerson.givenNameSpell ?? "");
+    this.personControlsPayload.emailAddress.SetValue(this.targetPerson.emailAddress ?? "");
+    this.personControlsPayload.phoneNumber.SetValue(this.targetPerson.phoneNumber__digitsOnly ?? "");
     
     this.isViewingMode = false;
     
@@ -173,7 +167,7 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     this.targetPerson.givenNameSpell = this.personControlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>();
     this.targetPerson.emailAddress = this.personControlsPayload.emailAddress.GetExpectedToBeValidValue<string>();
     this.targetPerson.phoneNumber__digitsOnly = this.personControlsPayload.phoneNumber.GetExpectedToBeValidValue<string>().
-        RemoveAllSpecifiedCharacters(new []{ '-' });
+        RemoveAllSpecifiedCharacters(['-']);
     // TODO 其の他のフィルド
     // TODO そのままでtargetPersonを更新してもとは限らん
 
@@ -184,11 +178,11 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
     
     this.isViewingMode = true;
     
-    this.personControlsPayload.familyName.Value = "";
-    this.personControlsPayload.givenName.Value = "";
-    this.personControlsPayload.familyNameSpell.Value = "";
-    this.personControlsPayload.givenNameSpell.Value = "";
-    this.personControlsPayload.emailAddress.Value = "";
+    this.personControlsPayload.familyName.SetValue("");
+    this.personControlsPayload.givenName.SetValue("");
+    this.personControlsPayload.familyNameSpell.SetValue("");
+    this.personControlsPayload.givenNameSpell.SetValue("");
+    this.personControlsPayload.emailAddress.SetValue("");
     // TODO 其の他のフィルド
 
   }

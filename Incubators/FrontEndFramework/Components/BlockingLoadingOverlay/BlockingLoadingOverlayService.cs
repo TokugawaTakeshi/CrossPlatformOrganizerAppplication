@@ -1,4 +1,4 @@
-﻿using LoadingIndicatorTypes = FrontEndFramework.Components.LoadingIndicator.LoadingIndicator.Types;
+﻿using LoadingIndicatorTypes = YamatoDaiwa.Frontend.Components.LoadingIndicator.LoadingIndicator.Types;
 
 
 namespace FrontEndFramework.Components.BlockingLoadingOverlay;

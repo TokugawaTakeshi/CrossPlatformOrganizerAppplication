@@ -1,6 +1,6 @@
 ﻿using Person = CommonSolution.Entities.Person;
 using CommonSolution.Gateways;
-using YamatoDaiwaCS_Extensions.DataMocking;
+using YamatoDaiwa.CSharpExtensions.DataMocking;
 
 
 namespace MockDataSource.Gateways;
@@ -134,7 +134,11 @@ public class PersonMockGateway : IPersonGateway
   {
     return MockGatewayHelper.SimulateDataSubmitting<string, object>(
       targetPersonID,
-      getResponseData: () => null,
+      getResponseData: () =>
+      {
+        this.mockDataSource.DeleteTask(targetPersonID);
+        return null;
+      },
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
