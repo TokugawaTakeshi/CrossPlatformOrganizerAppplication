@@ -8,6 +8,7 @@ using FrontEndFramework.Components.Controls.TextBox;
 
 using System.Diagnostics;
 using System.Globalization;
+using FrontEndFramework.Components.ModalDialogs.Confirmation;
 
 
 namespace Client.SharedComponents.Managers.Task;
@@ -20,17 +21,26 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
   [Microsoft.AspNetCore.Components.Parameter] 
   public CommonSolution.Entities.Task? targetTask { get; set; }
 
-  [Microsoft.AspNetCore.Components.Parameter] 
+  [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.EditorRequired]
   public required Microsoft.AspNetCore.Components.EventCallback<
     CommonSolution.Gateways.TaskGateway.Adding.RequestData
   > onInputtingDataOfNewTaskCompleteEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
+  [Microsoft.AspNetCore.Components.EditorRequired]
   public required Microsoft.AspNetCore.Components.EventCallback<
     CommonSolution.Gateways.TaskGateway.Updating.RequestData
   > onExistingTaskEditingCompleteEventHandler { get; set; }
   
+  [Microsoft.AspNetCore.Components.Parameter] 
+  [Microsoft.AspNetCore.Components.EditorRequired]
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Entities.Task
+  > onDeleteTaskEventHandler { get; set; }
+  
   [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.EditorRequired]
   public required string activationGuidance { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
@@ -125,7 +135,14 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
 
   private void displayTaskDeletingConfirmationDialog()
   {
-    // TODO
+    ConfirmationModalDialogService.displayModalDialog(
+      new ConfirmationModalDialog.Options
+      {
+        title = "Confirmation",
+        question = "Are you sure?",
+        onConfirmationButtonClickedEventHandler = this.deleteTask
+      }  
+    );
   }
 
   private async void onClickTaskDataSavingButton()
@@ -161,6 +178,19 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
         Description = this.taskControlsPayload.description.GetExpectedToBeValidValue<string>()
       }
     );
+
+  }
+
+  private async void deleteTask()
+  {
+
+    if (this.targetTask is null)
+    {
+      throw new Exception("\"deleteTask\" method has been called while \"targetTask\" is still \"null\".");
+    }
+
+    
+    await this.onDeleteTaskEventHandler.InvokeAsync(this.targetTask);
 
   }
   

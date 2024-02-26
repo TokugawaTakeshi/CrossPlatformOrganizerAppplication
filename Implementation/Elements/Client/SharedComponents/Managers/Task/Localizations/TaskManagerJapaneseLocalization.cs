@@ -20,7 +20,7 @@ internal record TaskManagerJapaneseLocalization : TaskManagerLocalization
   internal override MetadataKeys metadataKeys { get; } = new()
   {
     title = "見出し",
-    descriptioin = "詳細"
+    description = "詳細"
   };
   
   internal override Controls controls { get; } = new()

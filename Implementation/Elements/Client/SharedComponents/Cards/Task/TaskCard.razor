@@ -8,11 +8,8 @@
   name=@rootElementTag
   attributes=@(
     new Dictionary<string, object> {
-      { "class", $"TaskCard { rootElementModifierCSS_Classes }" },
+      { "class", composeClassAttributeValueForRootElement("TaskCard") },
       { "tabindex", "0" },
-      /* 【 理論 】 キャストが無いと、警告
-       * 「CS8974: メソッド グループ 'onClickOutermostElement' を非デリゲート型 'object' に変換中です。このメソッドを呼び出すつもりでしたか?」
-       * が発生する。 */
       { "onclick", (object)this.onClickRootElement }
     }
   )
@@ -47,7 +44,7 @@
       @if (dateTimeBadgeLabel is not null)
       {
         <Badge
-          key="日時"
+          key=@localization.badges.dateTime
           value=@dateTimeBadgeLabel
           decoration=@YamatoDaiwa.Frontend.Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
         >
@@ -60,7 +57,7 @@
       @if (dateBadgeLabel is not null)
       {
         <Badge
-          key="日付"
+          key=@localization.badges.date
           value=@dateBadgeLabel
           decoration=@YamatoDaiwa.Frontend.Components.Badge.Badge.StandardDecorativeVariations.catchyBright>
           <PrependedSVG_Icon>
@@ -74,7 +71,7 @@
   
   @if (!String.IsNullOrEmpty(targetTask.description))
   {
-    <div class="TaskCard-Description"> @targetTask.description </div>
+    <div class="TaskCard-Description">@(targetTask.description)</div>
   }
 
 </DynamicTag>

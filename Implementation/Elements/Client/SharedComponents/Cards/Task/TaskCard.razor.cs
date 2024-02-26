@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Components;
+﻿using System.Globalization;
+using Client.SharedComponents.Cards.Task.Localization;
 using YamatoDaiwa.CSharpExtensions;
+using Utils;
 
 
 namespace Client.SharedComponents.Cards.Task;
@@ -9,14 +10,19 @@ namespace Client.SharedComponents.Cards.Task;
 public partial class TaskCard : Microsoft.AspNetCore.Components.ComponentBase
 {
 
+  /* ━━━ Component Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
   public required CommonSolution.Entities.Task targetTask { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public required EventCallback<CommonSolution.Entities.Task> onClickRootElementEventHandler { get; set; }
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Entities.Task
+  > onClickRootElementEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter]
-  public required EventCallback<CommonSolution.Entities.Task> onClickCheckboxEventHandler { get; set; }
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Entities.Task
+  > onClickCheckBoxEventHandler { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter]
   public string rootElementTag { get; set; } = "div";
@@ -25,46 +31,26 @@ public partial class TaskCard : Microsoft.AspNetCore.Components.ComponentBase
   public bool disabled { get; set; } = false;
 
 
-  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Events Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private async System.Threading.Tasks.Task onClickRootElement()
   {
-
-    try
-    {
-      await this.onClickRootElementEventHandler.InvokeAsync(this.targetTask);
-    }
-    catch (Exception exception)
-    {
-      Debug.WriteLine(exception);
-      throw;
-    }
-    
+    await this.onClickRootElementEventHandler.InvokeAsync(this.targetTask);
   }
 
   private async System.Threading.Tasks.Task onClickCheckbox()
   {
-
-    try
-    {
-      await this.onClickCheckboxEventHandler.InvokeAsync(this.targetTask);
-    }
-    catch (Exception exception)
-    {
-      Debug.WriteLine(exception);
-      throw;
-    }
-
+    await this.onClickCheckBoxEventHandler.InvokeAsync(this.targetTask);
   }
 
 
-  /* ━━━ 補助ゲッター ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Auxiliary Getters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private string? dateBadgeLabel => this.targetTask.associatedDate?.ToString();
   private string? dateTimeBadgeLabel => this.targetTask.associatedDateTime?.ToString();
 
   private bool hasAtLeastOneBadge => this.dateBadgeLabel is not null || this.dateTimeBadgeLabel is not null;
   
   
-  /* ━━━ CSSクラス ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ CSS Classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
   public string? rootElementModifierCSS_Class { get; set; } = null;
   
@@ -76,5 +62,24 @@ public partial class TaskCard : Microsoft.AspNetCore.Components.ComponentBase
       ).
           
       StringifyEachElementAndJoin(" ");
+  
+  private string composeClassAttributeValueForRootElement(string namespaceCSS_Class) => new List<string?> { namespaceCSS_Class }.
+
+      AddElementToEndIf("TaskCard__DisabledState", this.disabled).
+      
+      AddElementToEndIfNotNull(this.rootElementModifierCSS_Class).
+
+      StringifyEachElementAndJoin(" ");
+  
+  
+  /* ━━━ Localization ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private readonly TaskCardLocalization localization = 
+      ClientConfigurationRepresentative.MustForceDefaultLocalization ?
+          new TaskCardEnglishLocalization() :
+          CultureInfo.CurrentCulture.Name switch
+          {
+            SupportedCultures.JAPANESE => new TaskCardJapaneseLocalization(),
+            _ => new TaskCardEnglishLocalization()
+          };
 
 }

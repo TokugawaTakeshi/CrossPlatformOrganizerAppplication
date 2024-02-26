@@ -24,7 +24,7 @@ internal abstract record TaskManagerLocalization
   internal record MetadataKeys
   {
     internal required string title { get; init; }
-    internal required string descriptioin { get; init; }
+    internal required string description { get; init; }
   }
   
   internal abstract MetadataKeys metadataKeys { get; }

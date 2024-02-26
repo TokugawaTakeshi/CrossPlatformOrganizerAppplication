@@ -60,13 +60,13 @@ mixin TaskManager(properties, statesSimulations)
         +Button--YDF({
           disabled: !targetTask
         })
-          +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
+          +Checklist__Editing--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label Edit task
 
       +Button--YDF({
         disabled: !targetTask
       })
-        +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
+        +Checklist__Deleting--YDF_Icon.Button--YDF-SVG_Icon
         span.Button--YDF-Label Delete task
         
       if editingMode

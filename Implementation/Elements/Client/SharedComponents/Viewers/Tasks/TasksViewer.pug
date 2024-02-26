@@ -12,7 +12,7 @@
  
   .TasksViewer&attributes(attributes)
     
-    //- 【 方法論 】 「container-type inline-size」の為、根要素を２つに別けざる得ない。
+    //- [ Extra container adding reason ] Usage of container queries
     .TasksViewer-VariableComposition
     
       +TasksFilteringPanel.TasksViewer-Sidebar
@@ -24,7 +24,7 @@
         }).TasksViewer-TopActionBar-SearchBox
   
         +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers
-          +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
+          +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label Add Task
         
       if statesSimulations.loading
@@ -90,7 +90,7 @@
       .TasksViewer-BottomActionBarForNarrowContainers
   
         +Button--YDF
-          +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
+          +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label Add Task
           
         +Button--YDF

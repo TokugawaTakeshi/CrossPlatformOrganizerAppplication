@@ -19,7 +19,7 @@ namespace Client.SharedComponents.Viewers.Tasks;
 public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase 
 {
 
-  /* ━━━ Component parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Component Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.EventCallback<string> onClickTaskAddingButtonEventHandler { get; set; }
   
@@ -38,7 +38,7 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
           };
 
 
-  /* ━━━ Livecycle hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Livecycle Hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected override async System.Threading.Tasks.Task OnInitializedAsync()
   {
     TasksSharedState.onStateChanged += base.StateHasChanged;
@@ -46,8 +46,8 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
   }
 
 
-  /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* ─── Tasks retrieving ─────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ━━━ Actions Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Tasks Retrieving ─────────────────────────────────────────────────────────────────────────────────────────── */
   private async System.Threading.Tasks.Task onNewTaskSearchingByFullOrPartialTitleOrDescriptionRequestHasBeenEmitted(
     string? newSearchingOfTaskByFullOrPartialTitleOrDescriptionRequest 
   )
@@ -78,21 +78,21 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
   }
   
   
-  /* ─── Adding of new task ───────────────────────────────────────────────────────────────────────────────────────── */
+  /* ─── Adding of New Task ───────────────────────────────────────────────────────────────────────────────────────── */
   private System.Threading.Tasks.Task onClickTaskAddingButton()
   {
     return this.onClickTaskAddingButtonEventHandler.InvokeAsync(null);
   }
   
   
-  /* ─── Task selecting ───────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ─── Task Selecting ───────────────────────────────────────────────────────────────────────────────────────────── */
   private void onSelectTask(CommonSolution.Entities.Task targetTask)
   {
     TasksSharedState.currentlySelectedTask = targetTask;
   }
 
   
-  /* ─── Toggling of task completion ──────────────────────────────────────────────────────────────────────────────── */
+  /* ─── Toggling of Task Completion ──────────────────────────────────────────────────────────────────────────────── */
   private async void onToggleTaskCompletion(CommonSolution.Entities.Task targetTask)
   {
 

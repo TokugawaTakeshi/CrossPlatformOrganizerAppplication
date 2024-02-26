@@ -20,7 +20,7 @@ internal record TaskManagerEnglishLocalization : TaskManagerLocalization
   internal override MetadataKeys metadataKeys { get; } = new()
   {
     title = "Title",
-    descriptioin = "Description"
+    description = "Description"
   };
 
   internal override Controls controls { get; } = new()

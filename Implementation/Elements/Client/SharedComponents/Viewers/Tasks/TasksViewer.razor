@@ -11,6 +11,7 @@
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.SearchBox
 
+@using FrontEndFramework.SVG_Icons.Checklist
 @using FrontEndFramework.SVG_Icons.Person
 @using FrontEndFramework.SVG_Icons.Filtering
 
@@ -39,7 +40,7 @@
         spaceSeparatedAdditionalCSS_Classes="TasksViewer-TopActionBar-ButtonForWideContainers"
       >
         <PrependedSVG_Icon>
-          <PersonIcon__Plus rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+          <ChecklistIcon__Adding rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
         </PrependedSVG_Icon>
       </Button>
       
@@ -136,7 +137,7 @@
         onClick=@onClickTaskAddingButton
       >
         <PrependedSVG_Icon>
-          <PersonIcon__Plus rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+          <ChecklistIcon__Adding rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
         </PrependedSVG_Icon>
       </Button>
 
