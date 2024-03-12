@@ -123,14 +123,14 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
     RadioButtonsGroup.CustomGeometricVariations = CustomGeometricVariations;
   }
 
-  protected string _geometry = RadioButtonsGroup.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = RadioButtonsGroup.StandardGeometricVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public object geometry
+  public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<RadioButtonsGroup.StandardGeometricVariations>(
-    value, RadioButtonsGroup.CustomGeometricVariations, ref this._geometry
+    value, RadioButtonsGroup.CustomGeometricVariations, ref this._geometricVariation
     );
   }
   
@@ -145,14 +145,14 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
     RadioButtonsGroup.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration = RadioButtonsGroup.StandardDecorativeVariations.regular.ToString();
+  protected string _decorativeVariation = RadioButtonsGroup.StandardDecorativeVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public required object decoration
+  public required object decorativeVariation
   {
-    get => _decoration;
+    get => _decorativeVariation;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<RadioButtonsGroup.StandardDecorativeVariations>(
-      value, RadioButtonsGroup.CustomDecorativeVariations, ref this._decoration
+      value, RadioButtonsGroup.CustomDecorativeVariations, ref this._decorativeVariation
     );
   }
   
@@ -178,14 +178,14 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
       ).
       
       AddElementToEndIf(
-        $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        $"Badge--YDF__{ this._geometricVariation.ToUpperCamelCase() }GeometricVariation",
         YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
           typeof(RadioButtonsGroup.StandardGeometricVariations), RadioButtonsGroup.CustomGeometricVariations
         )
       ).
       
       AddElementToEndIf(
-        $"Badge--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        $"Badge--YDF__{ this._decorativeVariation.ToUpperCamelCase() }DecorativeVariation",
         YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
           typeof(RadioButtonsGroup.StandardDecorativeVariations), RadioButtonsGroup.CustomDecorativeVariations
         )

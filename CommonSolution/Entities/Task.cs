@@ -30,11 +30,11 @@ public class Task
   
   public abstract class IsComplete
   {
-    public const bool IS_REQUIRED = false;
+    public const bool IS_REQUIRED = true;
   }
 
 
-  public List<Task> subtasks { get; set; } = new(); 
+  public List<Task> subtasks { get; set; } = []; 
   
   public abstract class Subtasks
   {
@@ -95,7 +95,6 @@ public class Task
   }
 
 
-  /* ━━━ 其の他 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public Task clone()
   {
     return new Task

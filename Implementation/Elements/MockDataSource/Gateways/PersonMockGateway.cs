@@ -6,16 +6,16 @@ using YamatoDaiwa.CSharpExtensions.DataMocking;
 namespace MockDataSource.Gateways;
 
 
-public class PersonMockGateway : IPersonGateway
+public class PersonMockGateway : PersonGateway
 {
 
   private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
   
-  /* 【 用途 】 手動変更専用 */
+  /* [ Usage ] Must be prenamed manually for testing purposes. */
   private static readonly bool NO_ITEMS_SIMULATION_MODE = false;
 
 
-  public Task<Person[]> RetrieveAll()
+  public override Task<Person[]> RetrieveAll()
   {
     return MockGatewayHelper.SimulateDataRetrieving<object, Person[]>(
       requestParameters: null,
@@ -31,8 +31,8 @@ public class PersonMockGateway : IPersonGateway
     );
   }
 
-  public Task<IPersonGateway.SelectionRetrieving.ResponseData> RetrieveSelection(
-    IPersonGateway.SelectionRetrieving.RequestParameters? requestParameters
+  public override Task<PersonGateway.SelectionRetrieving.ResponseData> RetrieveSelection(
+    PersonGateway.SelectionRetrieving.RequestParameters? requestParameters
   )
   {
 
@@ -44,9 +44,9 @@ public class PersonMockGateway : IPersonGateway
 
         if (PersonMockGateway.NO_ITEMS_SIMULATION_MODE)
         {
-          return new IPersonGateway.SelectionRetrieving.ResponseData
+          return new PersonGateway.SelectionRetrieving.ResponseData
           {
-            Items = Array.Empty<Person>(),
+            Items = [],
             TotalItemsCountInSelection = 0,
             TotalItemsCount = 0
           }; 
@@ -74,7 +74,7 @@ public class PersonMockGateway : IPersonGateway
           filteredPeople = mockDataSource.People.ToArray();
         }
 
-        return new IPersonGateway.SelectionRetrieving.ResponseData
+        return new PersonGateway.SelectionRetrieving.ResponseData
         {
           Items = filteredPeople,
           TotalItemsCountInSelection = Convert.ToUInt32(filteredPeople.Length),
@@ -94,7 +94,7 @@ public class PersonMockGateway : IPersonGateway
     
   }
 
-  public Task<IPersonGateway.Adding.ResponseData> Add(IPersonGateway.Adding.RequestData requestData)
+  public override Task<Person> Add(PersonGateway.Adding.RequestData requestData)
   {
     return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
@@ -110,27 +110,23 @@ public class PersonMockGateway : IPersonGateway
     );
   }
 
-  public Task Update(IPersonGateway.Updating.RequestData requestData)
+  public override Task<Person> Update(PersonGateway.Updating.RequestData requestData)
   {
-    return MockGatewayHelper.SimulateDataSubmitting<IPersonGateway.Updating.RequestData, object>(
+    return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
-      getResponseData: () =>
-      {
-        mockDataSource.UpdatePerson(requestData);
-        return null;
-      },
+      getResponseData: () => mockDataSource.UpdatePerson(requestData),
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
         MaximalPendingPeriod__Seconds = 2,
         MustSimulateError = false,
         GatewayName = nameof(PersonMockGateway),
-        TransactionName = nameof(IPersonGateway.Adding)
+        TransactionName = nameof(PersonGateway.Adding)
       }
     );
   }
 
-  public Task Delete(string targetPersonID)
+  public override Task Delete(string targetPersonID)
   {
     return MockGatewayHelper.SimulateDataSubmitting<string, object>(
       targetPersonID,
@@ -145,8 +141,9 @@ public class PersonMockGateway : IPersonGateway
         MaximalPendingPeriod__Seconds = 2,
         MustSimulateError = false,
         GatewayName = nameof(PersonMockGateway),
-        TransactionName = nameof(IPersonGateway.Adding)
+        TransactionName = nameof(PersonGateway.Adding)
       }
     );
   }
+  
 }

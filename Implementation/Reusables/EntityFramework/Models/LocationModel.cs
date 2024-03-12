@@ -4,8 +4,6 @@
 namespace EntityFramework.Models;
 
 [System.ComponentModel.DataAnnotations.Schema.Table("Locations")]
-
-// [System.ComponentModel.DataAnnotations.Schema.Table("Locations")]
 public class LocationModel
 {
   

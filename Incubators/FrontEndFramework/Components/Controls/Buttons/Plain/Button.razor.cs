@@ -118,24 +118,24 @@ public partial class Button : ComponentBase
 
   }
   
-  protected string _geometry = Button.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = Button.StandardGeometricVariations.regular.ToString();
   
-  [Parameter] public object geometry
+  [Parameter] public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set
     {
 
       if (value is Button.StandardGeometricVariations standardGeometricVariation)
       {
-        this._geometry = standardGeometricVariation.ToString();
+        this._geometricVariation = standardGeometricVariation.ToString();
         return;
       }
       
       
       // TODO CustomGeometricVariations https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
 
-      this._geometry = value.ToString();
+      this._geometricVariation = value.ToString();
 
     }
   }
@@ -163,24 +163,24 @@ public partial class Button : ComponentBase
       
   }  
   
-  protected string _decoration = Button.StandardDecorativeVariations.regular.ToString();
+  protected string _decorativeVariation = Button.StandardDecorativeVariations.regular.ToString();
 
-  [Parameter] public required object decoration
+  [Parameter] public required object decorativeVariation
   {
-    get => _decoration;
+    get => _decorativeVariation;
     set
     {
 
       if (value is Button.StandardDecorativeVariations standardDecorativeVariation)
       {
-        this._decoration = standardDecorativeVariation.ToString();
+        this._decorativeVariation = standardDecorativeVariation.ToString();
         return;
       }
 
       
       // TODO CustomDecorativeVariations確認 https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
       
-      this._decoration = value.ToString();
+      this._decorativeVariation = value.ToString();
 
     }
   }
@@ -240,11 +240,11 @@ public partial class Button : ComponentBase
         _ => Enum.GetNames(typeof(Button.StandardThemes)).Length > 1 && !this.areThemesExternal
       ).
       AddElementToEndIf(
-        $"Button--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        $"Button--YDF__{ this._geometricVariation.ToUpperCamelCase() }GeometricVariation",
         _ => Enum.GetNames(typeof(Button.StandardGeometricVariations)).Length > 1
       ).
       AddElementToEndIf(
-        $"Button--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        $"Button--YDF__{ this._decorativeVariation.ToUpperCamelCase() }DecorativeVariation",
         _ => Enum.GetNames(typeof(Button.StandardDecorativeVariations)).Length > 1
       ).
       StringifyEachElementAndJoin(" ");

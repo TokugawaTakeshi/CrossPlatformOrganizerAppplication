@@ -1,52 +1,77 @@
-﻿namespace FrontEndFramework.Components.ModalDialogs.Confirmation;
+﻿using FrontEndFramework.Components.ModalDialogs.Common;
+
+namespace FrontEndFramework.Components.ModalDialogs.Confirmation;
 
 
 public partial class ConfirmationModalDialog : Microsoft.AspNetCore.Components.ComponentBase
 {
   
-  /* ━━━ Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]
-  [Microsoft.AspNetCore.Components.EditorRequired]
-  public required string title { get; set; }
-  
-  [Microsoft.AspNetCore.Components.Parameter]
-  [Microsoft.AspNetCore.Components.EditorRequired]
-  public required string question { get; set; }
-
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string confirmationButtonLabel { get; set; } = "Yes";
-  
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string cancellationButtonLabel { get; set; } = "No";
-  
-  
   /* ━━━ State ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private bool isDisplaying = false;
-  
-  
-  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public void display()
+  protected string title = "";
+  protected string question = "";
+  protected string confirmationButtonLabel = "Yes";
+  protected string cancellationButtonLabel = "No";
+  protected Action onConfirmationButtonClickedEventHandler = () => {}; 
+
+  protected ModalDialog genericModalDialogInstance = null!; 
+
+  protected override void OnInitialized()
   {
-    this.isDisplaying = true;
+    base.OnInitialized();
+    ConfirmationModalDialogService.initialize(this);
+  }
+
+  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public record Options
+  {
+    public required string title;
+    public required string question;
+    public string? confirmationButtonLabel;
+    public string? cancellationButtonLabel;
+    public required Action onConfirmationButtonClickedEventHandler;
+  }
+  
+  public void display(ConfirmationModalDialog.Options options)
+  {
+    
+    this.title = options.title;
+    this.question = options.question;
+    this.confirmationButtonLabel = options.confirmationButtonLabel ?? "Yes";
+    this.cancellationButtonLabel = options.cancellationButtonLabel ?? "No";
+    
+    this.onConfirmationButtonClickedEventHandler = options.onConfirmationButtonClickedEventHandler;
+    
+    this.genericModalDialogInstance.display();
+    
     base.StateHasChanged();
+    
   }
 
   public void dismiss()
   {
-    this.isDisplaying = false;
+    
+    this.genericModalDialogInstance.dismiss();
+
+    this.title = "";
+    this.question = "";
+    this.confirmationButtonLabel = "Yes";
+    this.cancellationButtonLabel = "No";
+    
     base.StateHasChanged();
+    
   }
 
   
   /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected void onConfirmationButtonClicked()
   {
-    this.isDisplaying = false;
+    this.onConfirmationButtonClickedEventHandler();
+    this.genericModalDialogInstance.dismiss();
   }
   
   protected void onCancellationButtonClicked()
   {
-    this.isDisplaying = false;
+    this.genericModalDialogInstance.dismiss();
   }
   
 }

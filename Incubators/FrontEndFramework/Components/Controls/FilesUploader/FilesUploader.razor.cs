@@ -173,14 +173,14 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
     FilesUploader.CustomGeometricVariations = CustomGeometricVariations;
   }
 
-  protected string _geometry = FilesUploader.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = FilesUploader.StandardGeometricVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public object geometry
+  public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<FilesUploader.StandardGeometricVariations>(
-    value, FilesUploader.CustomGeometricVariations, ref this._geometry
+    value, FilesUploader.CustomGeometricVariations, ref this._geometricVariation
     );
   }
   
@@ -194,14 +194,14 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
     FilesUploader.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration = FilesUploader.StandardDecorativeVariations.regular.ToString();
+  protected string _decorativeVariation = FilesUploader.StandardDecorativeVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public required object decoration
+  public required object decorativeVariation
   {
-    get => _decoration;
+    get => _decorativeVariation;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<FilesUploader.StandardDecorativeVariations>(
-      value, FilesUploader.CustomDecorativeVariations, ref this._decoration
+      value, FilesUploader.CustomDecorativeVariations, ref this._decorativeVariation
     );
   }
   
@@ -222,14 +222,14 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
       ).
       
       AddElementToEndIf(
-        $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        $"Badge--YDF__{ this._geometricVariation.ToUpperCamelCase() }GeometricVariation",
         YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
           typeof(FilesUploader.StandardGeometricVariations), FilesUploader.CustomGeometricVariations
         )
       ).
       
       AddElementToEndIf(
-        $"Badge--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        $"Badge--YDF__{ this._decorativeVariation.ToUpperCamelCase() }DecorativeVariation",
         YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
           typeof(FilesUploader.StandardDecorativeVariations), FilesUploader.CustomDecorativeVariations
         )

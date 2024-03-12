@@ -3,8 +3,7 @@
 
 namespace EntityFramework.Models;
 
-// TODO 要らないと確認したら削除
-// [System.ComponentModel.DataAnnotations.Schema.Table("Tasks")]
+[System.ComponentModel.DataAnnotations.Schema.Table("Tasks")]
 [Microsoft.EntityFrameworkCore.EntityTypeConfiguration(typeof(TaskModel.Configuration))]
 public class TaskModel
 {
@@ -32,7 +31,7 @@ public class TaskModel
   /* ━━━ TODO > ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   
   
-  public CommonSolution.Entities.Task ToEntity()
+  public CommonSolution.Entities.Task ToBusinessRulesEntity()
   {
     return new CommonSolution.Entities.Task
     {

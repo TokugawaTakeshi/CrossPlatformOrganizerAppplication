@@ -5,7 +5,6 @@ using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
 using YamatoDaiwa.CSharpExtensions.DataMocking;
-using Utils;
 
 
 namespace MockDataSource.Entities;
@@ -77,7 +76,8 @@ internal abstract class PersonMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<Genders?>
       {
         PreDefinedValue = preDefines?.gender,
-        RandomValueGenerator = () => RandomValuesGenerator.GetRandomBoolean() ? Genders.Male : Genders.Female,
+        RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomBoolean() ? 
+            Genders.Male : Genders.Female,
         Strategy = options.NullablePropertiesDecisionStrategy
       }
     );
@@ -97,7 +97,7 @@ internal abstract class PersonMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<ushort?>
       {
         PreDefinedValue = preDefines?.birthYear,
-        RandomValueGenerator = () => RandomValuesGenerator.GetRandomUShort(
+        RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomUShort(
           minimalValue: Person.BirthYear.MINIMAL_VALUE,
           maximalValue: Person.BirthYear.MAXIMAL_VALUE
         ),
@@ -109,7 +109,7 @@ internal abstract class PersonMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<byte?>
       {
         PreDefinedValue = preDefines?.birthMonthNumber__numerationFrom1,
-        RandomValueGenerator = () => RandomValuesGenerator.GetRandomByte(
+        RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomByte(
           minimalValue: Person.BirthMonthNumber__NumerationFrom1.MINIMAL_VALUE,
           maximalValue: Person.BirthMonthNumber__NumerationFrom1.MAXIMAL_VALUE
         ),
@@ -123,7 +123,7 @@ internal abstract class PersonMocker
     {
       birthDayOfMonth__numerationFrom1 =
         preDefines?.birthDayOfMonth__numerationFrom1 ??
-        RandomValuesGenerator.GetRandomByte(
+        YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomByte(
           minimalValue: Person.BirthDayOfMonth__NumerationFrom1.MINIMAL_VALUE,
           maximalValue: Person.BirthDayOfMonth__NumerationFrom1.MAXIMAL_VALUE
         );
@@ -133,7 +133,7 @@ internal abstract class PersonMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>
       {
         PreDefinedValue = preDefines?.emailAddress,
-        RandomValueGenerator = RandomValuesGenerator.GetRandomEmailAddress,
+        RandomValueGenerator = Utils.RandomValuesGenerator.GetRandomEmailAddress,
         Strategy = options.NullablePropertiesDecisionStrategy,
       }
     );
@@ -142,7 +142,7 @@ internal abstract class PersonMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<string?>
       {
         PreDefinedValue = preDefines?.phoneNumber,
-        RandomValueGenerator = RandomValuesGenerator.GenerateRandomJapanesePhoneNumber,
+        RandomValueGenerator = Utils.RandomValuesGenerator.GenerateRandomJapanesePhoneNumber,
         Strategy = options.NullablePropertiesDecisionStrategy
       }
     );

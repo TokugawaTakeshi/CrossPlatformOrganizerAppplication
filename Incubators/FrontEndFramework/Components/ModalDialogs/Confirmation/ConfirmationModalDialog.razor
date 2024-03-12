@@ -6,6 +6,7 @@
   title=@title 
   noDismissingButton=@true
   rootElementModifierCSS_Class="ConfirmationModalDialog--YDF"
+  @ref=genericModalDialogInstance
 >
  
   <div class="ConfirmationModalDialog--YDF-Question">
@@ -15,7 +16,7 @@
   <div class="ConfirmationModalDialog--YDF-ActionBar">
     <Button
       label=@confirmationButtonLabel
-      decoration=@Button.StandardDecorativeVariations.accented
+      decorativeVariation=@Button.StandardDecorativeVariations.accented
       onClick=@onConfirmationButtonClicked
     />
     <Button

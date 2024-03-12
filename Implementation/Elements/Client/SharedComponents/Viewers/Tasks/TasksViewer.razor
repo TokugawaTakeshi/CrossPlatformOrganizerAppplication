@@ -11,6 +11,7 @@
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.SearchBox
 
+@using FrontEndFramework.SVG_Icons.Checklist
 @using FrontEndFramework.SVG_Icons.Person
 @using FrontEndFramework.SVG_Icons.Filtering
 
@@ -20,7 +21,7 @@
   @* [ Extra container adding reason ] Usage of container queries *@
   <div class="TasksViewer-VariableComposition">
     
-    <TasksFilteringPanel rootElementModifierCSS_Class="TasksViewer-Sidebar"/>
+    <TasksFilteringPanel rootElementModifierCSS_Class="TasksViewer-Sidebar" />
     
     <div class="TasksViewer-TopActionBar">
       
@@ -39,7 +40,7 @@
         spaceSeparatedAdditionalCSS_Classes="TasksViewer-TopActionBar-ButtonForWideContainers"
       >
         <PrependedSVG_Icon>
-          <PersonIcon__Plus rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+          <ChecklistIcon__Adding rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
         </PrependedSVG_Icon>
       </Button>
       
@@ -59,7 +60,7 @@
     {
       <AdmonitionBlock
         title=@localization.errors.tasksRetrieving.title
-        decoration=@AdmonitionBlock.StandardDecorativeVariations.error
+        decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.error
         hasPrependedSVG_Icon
         rootElementModifierCSS_Class="TasksViewer-AdmonitionBlock"
       >
@@ -78,7 +79,7 @@
     else if (TasksSharedState.totalTasksCountInDataSource == 0)
     {
       <AdmonitionBlock
-        decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
+        decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
         hasPrependedSVG_Icon
         rootElementModifierCSS_Class="TasksViewer-AdmonitionBlock"
       >
@@ -98,7 +99,7 @@
     else if (TasksSharedState.totalTasksCountInSelection == 0)
     {
       <AdmonitionBlock
-        decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
+        decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
         hasPrependedSVG_Icon
         rootElementModifierCSS_Class="TasksViewer-AdmonitionBlock"
       >
@@ -123,7 +124,7 @@
             targetTask=@task
             rootElementTag="li"
             onClickRootElementEventHandler=@onSelectTask
-            onClickCheckboxEventHandler=@onToggleTaskCompletion
+            onClickCheckBoxEventHandler=@onToggleTaskCompletion
           />    
         }
       </ul> 
@@ -136,7 +137,7 @@
         onClick=@onClickTaskAddingButton
       >
         <PrependedSVG_Icon>
-          <PersonIcon__Plus rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+          <ChecklistIcon__Adding rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
         </PrependedSVG_Icon>
       </Button>
 

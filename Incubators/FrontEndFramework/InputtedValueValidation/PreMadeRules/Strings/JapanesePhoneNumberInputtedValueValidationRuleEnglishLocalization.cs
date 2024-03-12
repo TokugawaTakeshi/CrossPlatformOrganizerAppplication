@@ -8,7 +8,7 @@ public class JapanesePhoneNumberInputtedValueValidationRuleEnglishLocalization:
   public Func<
     JapanesePhoneNumberInputtedValueValidationRule.ILocalization.ErrorMessage.TemplateVariables, string
   > ErrorMessageBuilder =>
-      (JapanesePhoneNumberInputtedValueValidationRule.ILocalization.ErrorMessage.TemplateVariables _) =>
+      _ =>
           "The inputted phone number is not the Japanese format." +
           "It must the mistyping. " +
           "Please check the correct phone number. ";

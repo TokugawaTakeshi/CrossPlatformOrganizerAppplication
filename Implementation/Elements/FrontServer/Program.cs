@@ -1,15 +1,20 @@
+using EntityFramework;
+using EntityFramework.Gateways;
 using FrontServer;
-using MockDataSource.Gateways;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
 
+
+DatabaseContext databaseContext = new RemoteDatabaseContext();
 
 FrontServerDependencies.Injector.SetDependencies(
   new FrontServerDependencies
   {
     gateways = new FrontServerDependencies.Gateways
     {
-      Person = new PersonMockGateway(),
-      Task = new TaskMockGateway()
+      // Person = new PersonMockGateway(),
+      Person = new PersonEntityFrameworkGateway(databaseContext),
+      // Task = new TaskMockGateway()
+      Task = new TaskEntityFrameworkGateway(databaseContext)
     }
   }
 );

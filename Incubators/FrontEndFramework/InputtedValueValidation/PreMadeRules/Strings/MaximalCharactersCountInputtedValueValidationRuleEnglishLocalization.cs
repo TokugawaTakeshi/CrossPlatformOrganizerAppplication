@@ -7,10 +7,9 @@ public struct MaximalCharactersCountInputtedValueValidationRuleEnglishLocalizati
   
   public Func<
     MaximalCharactersCountInputtedValueValidationRule.ILocalization.ErrorMessage.TemplateVariables, string
-  > ErrorMessageBuilder => (
-    MaximalCharactersCountInputtedValueValidationRule.ILocalization.ErrorMessage.TemplateVariables templateVariables
-  ) =>
-      "Too much characters has been inputted. " +
-      $"Please input maximum { templateVariables.MaximalCharactersCount } characters.";
+  > ErrorMessageBuilder => 
+      templateVariables =>
+          "Too much characters has been inputted. " +
+          $"Please input maximum { templateVariables.MaximalCharactersCount } characters.";
 
 }

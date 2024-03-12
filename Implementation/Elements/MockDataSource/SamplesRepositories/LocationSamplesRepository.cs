@@ -6,12 +6,12 @@ namespace MockDataSource.SamplesRepositories;
 public class LocationSamplesRepository
 {
 
-  public static Location[] Locactions => LocationSamplesRepository.RailwayStations.
+  public static IEnumerable<Location> Locations => LocationSamplesRepository.RailwayStations.
       Concat(LocationSamplesRepository.MedicalFacilities).
       ToArray();
 
 
-  public static Location[] RailwayStations => new[]
+  public static IEnumerable<Location> RailwayStations => new[]
   {
     new Location
     {
@@ -37,8 +37,8 @@ public class LocationSamplesRepository
     }
   };
   
-  public static Location[] MedicalFacilities => new[]
-  {
+  public static Location[] MedicalFacilities =>
+  [
     new Location
     {
       ID = LocationSamplesRepository.GenerateID(),
@@ -61,7 +61,7 @@ public class LocationSamplesRepository
       longitude = 139.69986084671515,
       category = Location.Categories.MedicalFacility
     }
-  };
+  ];
   
   
   private static uint counterForID_Generating;

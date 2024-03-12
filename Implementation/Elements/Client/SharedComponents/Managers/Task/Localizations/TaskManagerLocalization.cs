@@ -24,7 +24,7 @@ internal abstract record TaskManagerLocalization
   internal record MetadataKeys
   {
     internal required string title { get; init; }
-    internal required string descriptioin { get; init; }
+    internal required string description { get; init; }
   }
   
   internal abstract MetadataKeys metadataKeys { get; }
@@ -32,12 +32,13 @@ internal abstract record TaskManagerLocalization
 
   internal record Controls
   {
-
     internal required SharedStaticStrings.ControlWithLabelAndGuidance taskTitle { get; init; }
     internal required SharedStaticStrings.ControlWithLabelAndGuidance taskDescription { get; init; }
-    
   }
   
   internal abstract Controls controls { get; }
+  
+  
+  internal abstract SharedStaticStrings.ModalDialog taskDeletingConfirmationModalDialog { get; init; }
   
 }

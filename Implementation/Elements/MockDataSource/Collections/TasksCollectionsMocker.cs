@@ -20,7 +20,7 @@ internal abstract class TasksCollectionsMocker
   public static IEnumerable<Task> Generate(IEnumerable<Subset> order, Dependencies dependencies)
   {
 
-    List<Task> accumulatingCollection = new();
+    List<Task> accumulatingCollection = [];
 
     foreach (Subset subset in order)
     {

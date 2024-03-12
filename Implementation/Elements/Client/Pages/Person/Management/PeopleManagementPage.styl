@@ -26,9 +26,9 @@
 
   &-PeopleViewer
 
-    height 100%
+    height 100% //** [ Theory ] `max-height 100%` will not work, but `height 100%` will. */
 
-    overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。 
+    overflow-y hidden //**　[ Theory ]　In this case, it only limits the maximal height */ 
 
 
     +WideContainersConfiguration()
@@ -41,7 +41,7 @@
     max-height 100%
     padding 8px
 
-    overflow-y hidden //　【 論理 】　此の場合、最大の高さを限っているだけ。
+    overflow-y hidden //**　[ Theory ]　In this case, it only limits the maximal height */
 
 
     &__VisibleAtNarrowScreens

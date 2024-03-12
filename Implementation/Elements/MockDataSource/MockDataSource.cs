@@ -87,7 +87,7 @@ public class MockDataSource
       }
     }).ToList();
 
-    this.Locations = LocationSamplesRepository.Locactions.ToList();
+    this.Locations = LocationSamplesRepository.Locations.ToList();
     
     this.Tasks = TasksCollectionsMocker.Generate(
       new TasksCollectionsMocker.Subset[] {
@@ -111,13 +111,13 @@ public class MockDataSource
   }
 
 
-  /* ━━━ 人 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ People ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public Person[] RetrieveAllPeople()
   {
     return People.Select(person => person.clone()).ToArray();
   }
 
-  public IPersonGateway.Adding.ResponseData AddPerson(IPersonGateway.Adding.RequestData requestData)
+  public Person AddPerson(PersonGateway.Adding.RequestData requestData)
   {
 
     Person newPerson = PersonMocker.Generate(
@@ -133,7 +133,7 @@ public class MockDataSource
         birthMonthNumber__numerationFrom1 = requestData.BirthMonthNumber__NumerationFrom1,
         birthDayOfMonth__numerationFrom1 = requestData.BirthDayOfMonth__NumerationFrom1,
         emailAddress = requestData.EmailAddress,
-        phoneNumber = requestData.PhoneNumber
+        phoneNumber = requestData.PhoneNumber__DigitsOnly
       },
       new PersonMocker.Options
       {
@@ -143,18 +143,18 @@ public class MockDataSource
 
     People.Insert(0, newPerson);
 
-    return new IPersonGateway.Adding.ResponseData { AddedPersonID = newPerson.ID };
-    
+    return newPerson;
+
   }
 
-  public void UpdatePerson(IPersonGateway.Updating.RequestData requestData)
+  public Person UpdatePerson(PersonGateway.Updating.RequestData requestData)
   {
 
     Person? targetPerson = People.Find(person => person.ID == requestData.ID);
 
     if (targetPerson == null)
     {
-      throw new InvalidDataException($"ID「{ requestData.ID }」の人が発見されず。");
+      throw new InvalidDataException($"The person with ID \"{ requestData.ID }\" not found.");
     }
     
     
@@ -167,8 +167,10 @@ public class MockDataSource
     targetPerson.birthMonthNumber__numerationFrom1 = requestData.BirthMonthNumber__NumerationFrom1;
     targetPerson.birthDayOfMonth__numerationFrom1 = requestData.BirthDayOfMonth__NumerationFrom1;
     targetPerson.emailAddress = requestData.EmailAddress;
-    targetPerson.phoneNumber__digitsOnly = requestData.PhoneNumber;
-    
+    targetPerson.phoneNumber__digitsOnly = requestData.PhoneNumber__DigitsOnly;
+
+    return targetPerson;
+
   }
 
   public void DeletePerson(string targetPersonID)
@@ -177,13 +179,13 @@ public class MockDataSource
   }
   
   
-  /* ━━━ 課題 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public CommonSolution.Entities.Task[] RetrieveAllTasks()
   {
     return Tasks.Select(task => task.clone()).ToArray();
   }
 
-  public TaskGateway.Adding.ResponseData AddTask(TaskGateway.Adding.RequestData requestData)
+  public CommonSolution.Entities.Task AddTask(TaskGateway.Adding.RequestData requestData)
   {
 
     CommonSolution.Entities.Task newTask = TaskMocker.Generate(
@@ -213,18 +215,18 @@ public class MockDataSource
     
     Tasks.Insert(0, newTask);
 
-    return new TaskGateway.Adding.ResponseData() { AddedTaskID = newTask.ID };
+    return newTask;
 
   }
 
-  public void UpdateTask(TaskGateway.Updating.RequestData requestData)
+  public CommonSolution.Entities.Task UpdateTask(TaskGateway.Updating.RequestData requestData)
   {
 
     CommonSolution.Entities.Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
 
     if (targetTask == null)
     {
-      throw new InvalidDataException($"ID「{ requestData.ID }」の課題が発見されず。");
+      throw new InvalidDataException($"The task with ID \"{ requestData.ID }\" not found.");
     }
 
     targetTask.title = requestData.Title;
@@ -240,6 +242,8 @@ public class MockDataSource
     targetTask.associatedDate = targetTask.associatedDate;
 
     targetTask.associatedLocation = targetTask.associatedLocation;
+
+    return targetTask;
 
   }
 

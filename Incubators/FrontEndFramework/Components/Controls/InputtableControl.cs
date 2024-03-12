@@ -43,14 +43,14 @@ public abstract class InputtableControl : ComponentBase
   
   
   /* === State ====================================================================================================== */
-  protected bool invalidInputHighlightingIfAnyValidationErrorsMessages = false;
+  protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = false;
   protected bool validInputHighlightingIfAnyErrorsMessages = false;
   
   
   /* === Methods ==================================================================================================== */
   public InputtableControl HighlightInvalidInput()
   {
-    this.invalidInputHighlightingIfAnyValidationErrorsMessages = true;
+    this.mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
     return this;
   }
   

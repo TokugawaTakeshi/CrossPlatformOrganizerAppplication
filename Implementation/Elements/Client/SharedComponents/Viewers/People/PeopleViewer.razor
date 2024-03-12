@@ -16,8 +16,8 @@
   <div class="PeopleViewer-TopActionBar">
   
     <SearchBox
-      placeholder="名義や名前の読み方で検索"
-      accessibilityGuidance="名義や名前の読み方で検索"
+      placeholder=@localization.searchBox.placeholder
+      accessibilityGuidance=@localization.searchBox.accessibilityGuidance
       mustSynchronizeDisplayingSearchRequestWith=@PeopleSharedState.searchingByFullOrPartialNameOrItsSpell
       onNewSearchRequest=@onNewPersonSearchingRequestByFullOrPartialNameOrItsSpellHasBeenEmitted
       disabled=@mustDisableSearchBox
@@ -25,7 +25,7 @@
     />
     
     <Button
-      label="新規連絡先追加"
+      label=@localization.buttons.personAdding.label
       onClick=@onClickPersonAddingButton
       spaceSeparatedAdditionalCSS_Classes="PeopleViewer-TopActionBar-ButtonForWideContainers"
     >
@@ -40,7 +40,7 @@
   @if (PeopleSharedState.isPeopleRetrievingInProgressOrNotStartedYet)
   {
     <div class="PeopleViewer-CardsFlow">
-      @for (uint cardNumber = 0; cardNumber < 12; cardNumber++)
+      @for (uint cardNumber = 0; cardNumber < LOADING_PLACEHOLDER_CARDS_COUNT; cardNumber++)
       {
         <PersonCardLoadingPlaceholder/>
       }
@@ -50,15 +50,16 @@
   else if (PeopleSharedState.hasPeopleSelectionRetrievingErrorOccurred)
   {
     <AdmonitionBlock
-      decoration=@AdmonitionBlock.StandardDecorativeVariations.error
+      title=@localization.errors.tasksRetrieving.title
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.error
       hasPrependedSVG_Icon
       rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
     >
 
-      <p>情報取得中不具合が発生しました。</p>
+      <p>@(localization.errors.tasksRetrieving.description)</p>
       
       <Button
-        label="再試験"
+        label=@localization.buttons.retryingOfDataRetrieving.label
         onClick=@onClickPeopleSelectionRetrievingRetryingButton
         spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
       />
@@ -69,15 +70,15 @@
   else if (PeopleSharedState.totalPeopleCountInDataSource == 0)
   {
     <AdmonitionBlock
-      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
       rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
     >
 
-      <p>現在、人が一件も登録させていません。</p>
+      <p>@(localization.guidances.noItemsAvailable)</p>
       
       <Button
-        label="早速登録しましょう"
+        label=@localization.buttons.immediateAddingOfFirstPerson.label
         onClick=@onClickPersonAddingButton
         spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
       />
@@ -88,15 +89,15 @@
   else if (PeopleSharedState.totalPeopleCountInSelection == 0)
   {
     <AdmonitionBlock
-      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
       rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
     >
 
-      <p>検索結果と合っている件はありません。</p>
+      <p>@(localization.guidances.noItemsFound)</p>
       
       <Button
-        label="検索条件をリセット"
+        label=@localization.buttons.resettingOfFiltering.label
         onClick=@onClickFilteringResettingButton
         spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
       />
@@ -112,7 +113,7 @@
         <PersonCard 
           targetPerson=@person
           rootElementTag="li"
-          onClick=@onSelectPerson
+          onClickRootElementEventHandler=@onSelectPerson
         />
       }
     </ul>
@@ -121,7 +122,7 @@
   <div class="PeopleViewer-BottomActionBarForNarrowContainers">
 
     <Button
-      label="新規連絡先追加"
+      label=@localization.buttons.personAdding.label
       onClick=@onClickPersonAddingButton
     >
       <PrependedSVG_Icon>

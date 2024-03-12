@@ -54,14 +54,9 @@ public class NumericMaximumInputtedValueValidationRule : YamatoDaiwa.Frontend.Co
     }
 
 
-    if (this.ErrorMessage is not null)
-    {
-      return this.ErrorMessage;
-    }
-
-
-    return NumericMaximumInputtedValueValidationRule.Localization.ErrorMessageBuilder(templateVariables);
-
+    return this.ErrorMessage ?? 
+        NumericMaximumInputtedValueValidationRule.Localization.ErrorMessageBuilder(templateVariables);
+    
   }
   
 }

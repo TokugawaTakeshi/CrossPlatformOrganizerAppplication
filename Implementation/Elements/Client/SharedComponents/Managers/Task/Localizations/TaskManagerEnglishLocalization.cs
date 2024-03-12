@@ -14,13 +14,13 @@ internal record TaskManagerEnglishLocalization : TaskManagerLocalization
     taskEditing = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Edit Task"},
     taskDeleting = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Delete Task"},
     taskSaving = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Save Task"},
-    terminatingOfEditing = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Cancel editing"}
+    terminatingOfEditing = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Cancel Editing"}
   };
 
   internal override MetadataKeys metadataKeys { get; } = new()
   {
     title = "Title",
-    descriptioin = "Description"
+    description = "Description"
   };
 
   internal override Controls controls { get; } = new()
@@ -38,6 +38,12 @@ internal record TaskManagerEnglishLocalization : TaskManagerLocalization
       guidance = $"Please input **at least { CommonSolution.Entities.Task.Description.MINIMAL_CHARACTERS_COUNT }**" + 
           "characters" 
     }
+  };
+  
+  internal override SharedStaticStrings.ModalDialog taskDeletingConfirmationModalDialog { get; init; } = new()
+  {
+    title = "Deleting Confirmation",
+    question = "Are you sure about deleting of this person?"
   };
 
 }

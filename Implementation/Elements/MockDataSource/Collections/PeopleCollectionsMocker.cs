@@ -14,7 +14,7 @@ internal abstract class PeopleCollectionsMocker
   public static IEnumerable<Person> Generate(IEnumerable<Subset> order)
   {
 
-    List<Person> accumulatingCollection = new();
+    List<Person> accumulatingCollection = [];
 
     foreach (Subset subset in order)
     {
@@ -42,7 +42,9 @@ internal abstract class PeopleCollectionsMocker
             NullablePropertiesDecisionStrategy = subset.NullablePropertiesDecisionStrategy
           }
         ));
+        
       }
+      
     }
 
     return accumulatingCollection.ToArray();

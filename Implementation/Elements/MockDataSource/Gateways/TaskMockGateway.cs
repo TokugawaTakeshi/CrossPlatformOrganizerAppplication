@@ -10,13 +10,13 @@ public class TaskMockGateway : TaskGateway
   
   private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
 
-  /* [ Usage ] Intended to be changed manually during prototype development stage.*/
+  /* [ Usage ] Intended to be changed manually for testing purposes. */
   private static readonly bool NO_ITEMS_SIMULATION_MODE = false;
   
   
   public override System.Threading.Tasks.Task<CommonSolution.Entities.Task[]> RetrieveAll()
   {
-    return MockGatewayHelper.SimulateDataRetrieving<object, CommonSolution.Entities.Task[]>(
+    return MockGatewayHelper.SimulateDataRetrieving<object?, CommonSolution.Entities.Task[]>(
       requestParameters: null,
       getResponseData: mockDataSource.RetrieveAllTasks,
       new MockGatewayHelper.SimulationOptions
@@ -43,15 +43,15 @@ public class TaskMockGateway : TaskGateway
         {
           return new TaskGateway.SelectionRetrieving.ResponseData
           {
-            Items = Array.Empty<CommonSolution.Entities.Task>(),
+            Items = [],
             TotalItemsCountInSelection = 0,
             TotalItemsCount = 0
           };
         }
 
 
-        CommonSolution.Entities.Task[] arrangedTasksSelection = TaskGateway.ArrangeTasks(
-          TaskGateway.FilterTasks(mockDataSource.Tasks.ToArray(), requestParameters)
+        CommonSolution.Entities.Task[] arrangedTasksSelection = TaskGateway.Arrange(
+          TaskGateway.Filter(mockDataSource.Tasks.ToArray(), requestParameters)
         ); 
         
         return new TaskGateway.SelectionRetrieving.ResponseData
@@ -76,7 +76,9 @@ public class TaskMockGateway : TaskGateway
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override Task<TaskGateway.Adding.ResponseData> Add(TaskGateway.Adding.RequestData requestData)
+  public override System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(
+    TaskGateway.Adding.RequestData requestData
+  )
   {
     return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
@@ -94,15 +96,13 @@ public class TaskMockGateway : TaskGateway
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override System.Threading.Tasks.Task Update(TaskGateway.Updating.RequestData requestData)
+  public override System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(
+    TaskGateway.Updating.RequestData requestData
+  )
   {
-    return MockGatewayHelper.SimulateDataSubmitting<TaskGateway.Updating.RequestData, object>(
+    return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
-      getResponseData: () =>
-      {
-        mockDataSource.UpdateTask(requestData);
-        return null;
-      },
+      getResponseData: () => mockDataSource.UpdateTask(requestData),
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,

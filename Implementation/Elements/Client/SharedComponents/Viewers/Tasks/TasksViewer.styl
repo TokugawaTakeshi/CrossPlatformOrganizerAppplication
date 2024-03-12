@@ -96,7 +96,7 @@
     margin-top: "calc(%s - %s)" % (VERTICAL_SPACING_AFTER_TOP_ACTION_BAR TaskCard.shadowThickness)
     
 
-    // 【 理論 】 「margin-top」利用済みで、「:before」がグリッドの一子に成るので、どちらも使えない。
+    // [ Approach ] `margin-top` already used, while `:before` will be a child of the grid, so both are not available. 
     provideClippedShadowsAndOutlinesVisibility({
       requiredHorizontalSymmetricSpace: TaskCard.shadowThickness,
       requiredVerticalSymmetricSpace: TaskCard.shadowThickness,

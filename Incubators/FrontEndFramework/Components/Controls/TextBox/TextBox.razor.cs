@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using FrontEndFramework.ValidatableControl;
 using Microsoft.JSInterop;
+using Utils;
 using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.Frontend.Components.Controls.CompoundControlShell;
 using YamatoDaiwa.Frontend.Helpers;
@@ -61,8 +62,6 @@ public partial class TextBox : InputtableControl, IValidatableControl
   [Microsoft.AspNetCore.Components.Parameter]
   [Microsoft.AspNetCore.Components.EditorRequired]
   public required TextBox.ValidityHighlightingActivationModes validityHighlightingActivationMode { get; set; }
-
-  protected bool mustHighlightInvalidInputIfAnyValidationErrorsMessages = false;
   
   
   /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -150,28 +149,32 @@ public partial class TextBox : InputtableControl, IValidatableControl
   
   /* ━━━ Raw value transforments ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter] 
-  public bool mustConvertEmptyStringToNull { get; set; }
+  public bool mustConvertEmptyStringToNull { get; set; } = false;
   
   [Microsoft.AspNetCore.Components.Parameter] 
-  public bool mustConvertEmptyStringToZero { get; set; }
+  public bool mustConvertEmptyStringToZero { get; set; } = false;
   
   
   /* ━━━ Events handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private void onKeyDown(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs keyboardEventArguments)
-  {
-    if (
-      (this.valueMustBeTheNonNegativeIntegerOfRegularNotation || this.valueMustBeTheDigitsSequence) && 
-      new Regex("^[+\\-e.]$").IsMatch(keyboardEventArguments.Key))
-    {
-    }
-  }
-  
-  private void onInputEventHandler(Microsoft.AspNetCore.Components.ChangeEventArgs inputtingEvent)
+  // TODO https://stackoverflow.com/q/77744176/4818123
+  protected bool mustPreventOnKeyDownEvent(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs keyboardEventArguments) =>
+      (this.valueMustBeTheNonNegativeIntegerOfRegularNotation || this.valueMustBeTheDigitsSequence) &&
+      new Regex("^[+\\-e.]$").IsMatch(keyboardEventArguments.Key);
+
+  protected void onInput(Microsoft.AspNetCore.Components.ChangeEventArgs inputtingEvent)
   {
 
-    string stringifiedValue = inputtingEvent.Value?.ToString() ?? "";
+    if (
+      this.validityHighlightingActivationMode == TextBox.ValidityHighlightingActivationModes.onFirstInputtedCharacter &&
+      !this.mustHighlightInvalidInputIfAnyValidationErrorsMessages
+    )
+    {
+      this.mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
+    }
     
-    if (stringifiedValue.Length == 0)
+    string stringifiedInputtedValue = inputtingEvent.Value?.ToString() ?? "";
+    
+    if (stringifiedInputtedValue.Length == 0)
     {
 
       if (this.mustConvertEmptyStringToZero)
@@ -189,34 +192,68 @@ public partial class TextBox : InputtableControl, IValidatableControl
       
     }
 
-    
-    
-    this._payload.SetValue(inputtingEvent.Value?.ToString() ?? "");
 
-    if (
-      this.validityHighlightingActivationMode == TextBox.ValidityHighlightingActivationModes.onFirstInputtedCharacter &&
-      !this.mustHighlightInvalidInputIfAnyValidationErrorsMessages
-    )
+    if (this.HTML_Type == TextBox.HTML_Types.number)
     {
-      this.mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
+
+      if (this.mustConvertEmptyStringToZero && stringifiedInputtedValue.StartsWith('0'))
+      {
+      
+        string inputtedValueWithPaddedZeros = Regex.Replace(stringifiedInputtedValue, "^0+", "");
+        
+        if (inputtedValueWithPaddedZeros.Length == 0)
+        {
+          this.payload.SetValue(0);
+          return;
+        }
+
+
+        this.rawValue = inputtedValueWithPaddedZeros;
+        // TODO First we need which value the user needs
+        // this.payload.SetValue(this.rawValue.Contains('.') ? Int32.TryParse(inputtedValueWithPaddedZeros, out intVluae)  );
+        return;
+        
+      }
+
+
+      if (this.HTML_Type == TextBox.HTML_Types.number)
+      {
+        // TODO As above
+      }
+      
+      return;
+      
     }
     
+    
+    this.payload.SetValue(stringifiedInputtedValue);
+    
+  }
+
+  protected void onFocusOut()
+  {
+    this.mustHighlightInvalidInputIfAnyValidationErrorsMessages = true;
   }
   
+  
+  protected void synchronizeRawValueWithPayloadValue()
+  {
+    this.rawValue = this.payload.Value switch
+    {
+      string stringValue => stringValue,
+      IConvertible convertibleValue => Convert.ToString(convertibleValue),
+      null => "",
+      _ => this.rawValue
+    };
   }
 
   
   /* ━━━ Textings ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
-  public string? placeholder { get; set; }
-
+  public string? placeholder { get; set; } = null;
   
   
-  
-  
-  /* ━━━ Raw value transformations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  
-  
+  // TODO コンストラクタの前になければいけない
   /* ━━━ HTML IDs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   /* ─── Input or text area ──────────────────────────────────────────────────────────────────────────────────────── */
   protected static uint counterForInputOrTextAreaElementHTML_ID_Generating = 0;
@@ -289,14 +326,14 @@ public partial class TextBox : InputtableControl, IValidatableControl
     TextBox.CustomGeometricVariations = CustomGeometricVariations;
   }
 
-  protected string _geometry = TextBox.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = TextBox.StandardGeometricVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public object geometry
+  public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<TextBox.StandardGeometricVariations>(
-    value, TextBox.CustomGeometricVariations, ref this._geometry
+    value, TextBox.CustomGeometricVariations, ref this._geometricVariation
     );
   }
   
@@ -311,14 +348,14 @@ public partial class TextBox : InputtableControl, IValidatableControl
     TextBox.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration = TextBox.StandardDecorativeVariations.regular.ToString();
+  protected string _decorativeVariation = TextBox.StandardDecorativeVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public required object decoration
+  public required object decorativeVariation
   {
-    get => _decoration;
+    get => _decorativeVariation;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<TextBox.StandardDecorativeVariations>(
-      value, TextBox.CustomDecorativeVariations, ref this._decoration
+      value, TextBox.CustomDecorativeVariations, ref this._decorativeVariation
     );
   }
   
@@ -341,17 +378,27 @@ public partial class TextBox : InputtableControl, IValidatableControl
       ).
       
       AddElementToEndIf(
-        $"Badge--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        $"Badge--YDF__{ this._geometricVariation.ToUpperCamelCase() }GeometricVariation",
         YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
           typeof(TextBox.StandardGeometricVariations), TextBox.CustomGeometricVariations
         )
       ).
       
       AddElementToEndIf(
-        $"Badge--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        $"Badge--YDF__{ this._decorativeVariation.ToUpperCamelCase() }DecorativeVariation",
         YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
           typeof(TextBox.StandardDecorativeVariations), TextBox.CustomDecorativeVariations
         )
+      ).
+      
+      AddElementToEndIf(
+        "Badge--YDF__InvalidValueState",
+        this.mustHighlightInvalidInputIfAnyValidationErrorsMessages && this.payload.IsInvalid
+      ).
+      
+      AddElementToEndIf(
+        "Badge--YDF__InvalidValueState",
+        base.validInputHighlightingIfAnyErrorsMessages && this.payload.IsInvalid
       ).
       
       StringifyEachElementAndJoin(" ");

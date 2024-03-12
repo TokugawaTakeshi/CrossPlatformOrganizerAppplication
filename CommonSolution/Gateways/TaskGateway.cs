@@ -14,25 +14,70 @@ public abstract class TaskGateway
   public abstract class SelectionRetrieving
   {
     
-    public struct RequestParameters
+    public record RequestParameters
     {
       public string? SearchingByFullOrPartialTitleOrDescription { get; init; }
-      public bool? OnlyTasksWithAssociatedDate { get; init; }
-      public bool? OnlyTasksWithAssociatedDateTime { get; init; }
+      
+      private readonly bool? _onlyTasksWithAssociatedDate = null;
+      private readonly bool? _onlyTasksWithAssociatedDateTime = null;
+      
+      private class IncompatiblePropertiesException : Exception
+      {
+        public IncompatiblePropertiesException() : base(
+          "\"OnlyTasksWithAssociatedDate\" and \"OnlyTasksWithAssociatedDateTime\" are mutually exclusive. " +
+          "Only one of them can be initialized with \"true\" value."
+        ) { }
+      }
+      
+
+      public bool? OnlyTasksWithAssociatedDate
+      {
+        get => this._onlyTasksWithAssociatedDate;
+        init
+        {
+
+          if (this._onlyTasksWithAssociatedDateTime is true)
+          {
+            throw new IncompatiblePropertiesException();
+          }
+          
+          
+          this._onlyTasksWithAssociatedDate = value;
+          
+        }
+      }
+
+      public bool? OnlyTasksWithAssociatedDateTime
+      {
+        get => this._onlyTasksWithAssociatedDateTime;
+        init
+        {
+
+          if (this._onlyTasksWithAssociatedDate is true)
+          {
+            throw new IncompatiblePropertiesException();
+          }
+
+
+          this._onlyTasksWithAssociatedDateTime = value;
+
+        }
+      }
+      
     }
 
-    public struct ResponseData
+    public record ResponseData
     {
-      public required uint TotalItemsCount;
-      public required uint TotalItemsCountInSelection;
-      public required CommonSolution.Entities.Task[] Items;
+      public required uint TotalItemsCount { get; init; }
+      public required uint TotalItemsCountInSelection { get; init; }
+      public required CommonSolution.Entities.Task[] Items { get; init; }
     }
     
   }
 
   
-  /* ─── Filtering & arranging ────────────────────────────────────────────────────────────────────────────────────── */
-  public static CommonSolution.Entities.Task[] FilterTasks(
+  /* ─── Filtering & Arranging ────────────────────────────────────────────────────────────────────────────────────── */
+  public static CommonSolution.Entities.Task[] Filter(
     CommonSolution.Entities.Task[] tasks, SelectionRetrieving.RequestParameters filtering
   )
   {
@@ -70,25 +115,26 @@ public abstract class TaskGateway
     CommonSolution.Entities.Task task, SelectionRetrieving.RequestParameters filtering
   )
   {
-    return TaskGateway.FilterTasks([ task ], filtering).Length == 1;
+    return TaskGateway.Filter([ task ], filtering).Length == 1;
   }
   
-  public static CommonSolution.Entities.Task[] ArrangeTasks(CommonSolution.Entities.Task[] tasks)
+  public static CommonSolution.Entities.Task[] Arrange(CommonSolution.Entities.Task[] tasks)
   {
     return tasks.
-        OrderByDescending((CommonSolution.Entities.Task task) => task.associatedDateTime is not null).
+        OrderBy((CommonSolution.Entities.Task task) => task.isComplete).
+        ThenByDescending((CommonSolution.Entities.Task task) => task.associatedDateTime is not null).
         ThenByDescending((CommonSolution.Entities.Task task) => task.associatedDate is not null).
         ToArray();
   }
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public abstract Task<Adding.ResponseData> Add(Adding.RequestData requestData);
+  public abstract System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(Adding.RequestData requestData);
 
   public abstract class Adding
   {
     
-    public struct RequestData
+    public record RequestData
     {
       public required string Title { get; init; }
       public string? Description { get; init; }
@@ -99,23 +145,18 @@ public abstract class TaskGateway
       public CommonSolution.Entities.Location? AssociatedLocation { get; init; }
     }
 
-    public struct ResponseData
-    {
-      public required string AddedTaskID { get; init; }
-    }
-    
   }
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public abstract System.Threading.Tasks.Task Update(Updating.RequestData requestData);
+  public abstract System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(Updating.RequestData requestData);
   
   public abstract class Updating
   {
-    public struct RequestData
+    public record RequestData
     {
       public required string ID { get; init; }
-      public string Title { get; init; }
+      public required string Title { get; init; }
       public string? Description { get; init; }
       public bool IsComplete { get; init; }
       public string[]? SubtasksIDs { get; init; }
@@ -125,7 +166,6 @@ public abstract class TaskGateway
     }
   }
 
-  
   public abstract System.Threading.Tasks.Task ToggleCompletion(string targetTaskID);
   
 

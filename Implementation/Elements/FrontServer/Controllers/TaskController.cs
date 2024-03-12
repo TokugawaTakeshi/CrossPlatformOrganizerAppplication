@@ -14,33 +14,47 @@ public class TaskController : Microsoft.AspNetCore.Mvc.ControllerBase
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Mvc.HttpGet(TasksTransactions.RetrievingOfAll.URN_PATH)]
-  public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Task[]>> retrieveAllTasks()
+  public async System.Threading.Tasks.Task<
+    Microsoft.AspNetCore.Mvc.ActionResult<CommonSolution.Entities.Task[]>
+  > retrieveAllTasks()
   {
     return base.Ok(await this.taskGateway.RetrieveAll());
   }
   
   [Microsoft.AspNetCore.Mvc.HttpGet(TasksTransactions.RetrievingOfSelection.URN_PATH)]
   public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TaskGateway.SelectionRetrieving.ResponseData>> Get(
-    [Microsoft.AspNetCore.Mvc.FromQuery(Name="only_tasks_with_associated_date")] bool onlyTasksWithAssociatedDate,
-    [Microsoft.AspNetCore.Mvc.FromQuery(Name="only_tasks_with_associated_date_time")] bool onlyTasksWithAssociatedDateTime,
-    [Microsoft.AspNetCore.Mvc.FromQuery(Name="searching_by_full_or_partial_title")] string? searchingByFullOrPartialTitle
+    [
+      Microsoft.AspNetCore.Mvc.FromQuery(
+        Name=TasksTransactions.RetrievingOfSelection.QueryParameters.onlyTasksWithAssociatedDate
+      )
+    ] bool onlyTasksWithAssociatedDate,
+    [
+      Microsoft.AspNetCore.Mvc.FromQuery(
+        Name=TasksTransactions.RetrievingOfSelection.QueryParameters.onlyTasksWithAssociatedDateTime)
+    ] bool onlyTasksWithAssociatedDateTime,
+    [
+      Microsoft.AspNetCore.Mvc.FromQuery(
+        Name=TasksTransactions.RetrievingOfSelection.QueryParameters.searchingByFullOrPartialTitleOrDescription
+      )
+    ] string? searchingByFullOrPartialTitle
   ) {
     return base.Ok(
       await this.taskGateway.RetrieveSelection(
       new TaskGateway.SelectionRetrieving.RequestParameters
-      {
-        OnlyTasksWithAssociatedDate = onlyTasksWithAssociatedDate,
-        OnlyTasksWithAssociatedDateTime = onlyTasksWithAssociatedDateTime,
-        SearchingByFullOrPartialTitleOrDescription = searchingByFullOrPartialTitle
-      }
-    ));
+        {
+          OnlyTasksWithAssociatedDate = onlyTasksWithAssociatedDate,
+          OnlyTasksWithAssociatedDateTime = onlyTasksWithAssociatedDateTime,
+          SearchingByFullOrPartialTitleOrDescription = searchingByFullOrPartialTitle
+        }
+      )
+    );
     
   }
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Mvc.HttpPost(TasksTransactions.Adding.URN_PATH)]
-  public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<CommonSolution.Entities.Task>> Add(
+  public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<CommonSolution.Entities.Task>> AddTask(
     [Microsoft.AspNetCore.Mvc.FromBody] TaskGateway.Adding.RequestData requestData
   ) {
     return base.Ok(
@@ -51,12 +65,21 @@ public class TaskController : Microsoft.AspNetCore.Mvc.ControllerBase
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Mvc.HttpPut(TasksTransactions.Updating.URN_PATH)]
-  public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> Update(
+  public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> UpdateTask(
     [Microsoft.AspNetCore.Mvc.FromBody] TaskGateway.Updating.RequestData requestData
   ) {
     return base.Ok(
       await this.taskGateway.Update(requestData)
     );
+  }
+  
+  [Microsoft.AspNetCore.Mvc.HttpPatch(TasksTransactions.TogglingCompletion.URN_PATH_TEMPLATE)]
+  public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> ToggleTaskCompletion(
+    string targetTaskID
+  )
+  {
+    await this.taskGateway.ToggleCompletion(targetTaskID);
+    return base.Ok();
   }
 
   

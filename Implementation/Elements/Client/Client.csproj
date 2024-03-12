@@ -57,21 +57,22 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Incubators\Utils\Utils.csproj" />
     <ProjectReference Include="..\..\..\Incubators\FrontEndFramework\FrontEndFramework.csproj" />
+    <ProjectReference Include="..\..\Interactions\ClientAndFrontServer\ClientAndFrontServer.csproj" />
+    <ProjectReference Include="..\..\Reusables\EntityFramework\EntityFramework.csproj" />
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.3" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.8" />
-    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.7" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.7" />
+    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.9" />
+    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SharedComponents\Viewers\Tasks\Localizations\" />
     <Folder Include="StaticPreview\.Build" />
   </ItemGroup>
 

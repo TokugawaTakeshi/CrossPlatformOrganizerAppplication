@@ -80,14 +80,14 @@ public partial class RadioButton : Microsoft.AspNetCore.Components.ComponentBase
     RadioButton.CustomGeometricVariations = CustomGeometricVariations;
   }
 
-  protected string _geometry = RadioButton.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = RadioButton.StandardGeometricVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public object geometry
+  public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<RadioButton.StandardGeometricVariations>(
-    value, RadioButton.CustomGeometricVariations, ref this._geometry
+    value, RadioButton.CustomGeometricVariations, ref this._geometricVariation
     );
   }
   
@@ -114,14 +114,14 @@ public partial class RadioButton : Microsoft.AspNetCore.Components.ComponentBase
     RadioButton.CustomDecorativeVariations = CustomDecorativeVariations;
   }
 
-  protected string _decoration = RadioButton.StandardDecorativeVariations.regular.ToString();
+  protected string _decorativeVariation = RadioButton.StandardDecorativeVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public object decoration
+  public object decorativeVariation
   {
-    get => _decoration;
+    get => _decorativeVariation;
     set => YDF_ComponentsHelper.AssignDecorativeVariationIfItIsValid<RadioButton.StandardDecorativeVariations>(
-      value, RadioButton.CustomDecorativeVariations, ref this._decoration
+      value, RadioButton.CustomDecorativeVariations, ref this._decorativeVariation
     );
   }
   
@@ -149,7 +149,7 @@ public partial class RadioButton : Microsoft.AspNetCore.Components.ComponentBase
       ).
       
       AddElementToEndIf(
-        $"RadioButton--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        $"RadioButton--YDF__{ this._geometricVariation.ToUpperCamelCase() }GeometricVariation",
         YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
           typeof(RadioButton.StandardGeometricVariations), RadioButton.CustomGeometricVariations
         )
@@ -176,7 +176,7 @@ public partial class RadioButton : Microsoft.AspNetCore.Components.ComponentBase
       ).
       
       AddElementToEndIf(
-        $"RadioButton--YDF__{ this._decoration.ToUpperCamelCase() }Decoration",
+        $"RadioButton--YDF__{ this._decorativeVariation.ToUpperCamelCase() }DecorativeVariation",
         YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
           typeof(RadioButton.StandardDecorativeVariations), RadioButton.CustomDecorativeVariations
         )

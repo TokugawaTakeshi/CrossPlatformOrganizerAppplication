@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using CommonSolution.Gateways;
-using Utils;
+using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.CSharpExtensions.Exceptions;
 
 
@@ -14,13 +14,14 @@ internal abstract class TasksSharedState
   private static void NotifyStateChanged() => TasksSharedState.onStateChanged?.Invoke();
 
   private static TaskGateway? _taskGateway;
-  private static TaskGateway taskGateway =>
-      TasksSharedState._taskGateway ??
-      (TasksSharedState._taskGateway = ClientDependencies.Injector.gateways().Task);
+  private static TaskGateway taskGateway => 
+      TasksSharedState._taskGateway ??= 
+      ClientDependencies.Injector.gateways().Task;
 
 
   /* ━━━ Selecting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private static CommonSolution.Entities.Task? _currentlySelectedTask = null;
+  
   public delegate void OnSelectedTaskHasChanged(CommonSolution.Entities.Task newTask);
   public static OnSelectedTaskHasChanged? onSelectedTaskHasChanged;
   
@@ -44,7 +45,7 @@ internal abstract class TasksSharedState
   
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static List<CommonSolution.Entities.Task> _tasksSelection = new();
+  private static List<CommonSolution.Entities.Task> _tasksSelection = [];
   public static List<CommonSolution.Entities.Task> tasksSelection
   {
     get => TasksSharedState._tasksSelection;
@@ -182,28 +183,20 @@ internal abstract class TasksSharedState
     {
       TasksSharedState.onlyTasksWithAssociatedDate = false;
     }
-    else
+    else if (requestParameters?.OnlyTasksWithAssociatedDate == true)
     {
-      TasksSharedState.onlyTasksWithAssociatedDate =
-          requestParameters?.OnlyTasksWithAssociatedDate ??
-          TasksSharedState.onlyTasksWithAssociatedDate;
+      TasksSharedState.onlyTasksWithAssociatedDate = true;
+      TasksSharedState.onlyTasksWithAssociatedDateTime = false;
     }
 
     if (mustResetFilteringByAssociatedDateTime)
     {
       TasksSharedState.onlyTasksWithAssociatedDateTime = false;
     }
-    else
+    else if (requestParameters?.OnlyTasksWithAssociatedDateTime == true)
     {
-      TasksSharedState.onlyTasksWithAssociatedDateTime =
-          requestParameters?.OnlyTasksWithAssociatedDateTime ??
-          TasksSharedState.onlyTasksWithAssociatedDateTime;
-
-      if (TasksSharedState.onlyTasksWithAssociatedDateTime && TasksSharedState.onlyTasksWithAssociatedDate)
-      {
-        TasksSharedState.onlyTasksWithAssociatedDate = false;
-      }
-      
+      TasksSharedState.onlyTasksWithAssociatedDateTime = true;
+      TasksSharedState.onlyTasksWithAssociatedDate = false;
     }
 
     
@@ -212,7 +205,7 @@ internal abstract class TasksSharedState
     try
     {
 
-      responseData = await ClientDependencies.Injector.gateways().Task.RetrieveSelection(
+      responseData = await TasksSharedState.taskGateway.RetrieveSelection(
         new TaskGateway.SelectionRetrieving.RequestParameters
         {
           SearchingByFullOrPartialTitleOrDescription = TasksSharedState.searchingByFullOrPartialTitleOrDescription,
@@ -227,6 +220,7 @@ internal abstract class TasksSharedState
       
       TasksSharedState.hasTasksSelectionRetrievingErrorOccurred = true;
       TasksSharedState.isTasksSelectionBeingRetrievedNow = false;
+      
       Debug.WriteLine(exception);
       
       return;
@@ -242,7 +236,6 @@ internal abstract class TasksSharedState
 
   }
   
-
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public static async System.Threading.Tasks.Task<CommonSolution.Entities.Task> addTask(
@@ -251,25 +244,17 @@ internal abstract class TasksSharedState
   )
   {
 
-    string newTaskID;
+    CommonSolution.Entities.Task newTask;
     
     try
     {
-      newTaskID = (await TasksSharedState.taskGateway.Add(requestData)).AddedTaskID;
+      newTask = await TasksSharedState.taskGateway.Add(requestData);
     }
     catch (Exception exception)
     {
-      throw new DataSubmittingFailedException("Failed to ndd new task.", exception);
+      throw new DataSubmittingFailedException("Failed to add the new task.", exception);
     }
 
-
-    CommonSolution.Entities.Task newTask = new()
-    {
-      ID = newTaskID,
-      title = requestData.Title,
-      description = requestData.Description,
-      isComplete = requestData.IsComplete
-    };
 
     TaskGateway.SelectionRetrieving.RequestParameters currentFiltering = new()
     {
@@ -278,17 +263,18 @@ internal abstract class TasksSharedState
       OnlyTasksWithAssociatedDateTime = TasksSharedState.onlyTasksWithAssociatedDateTime
     };
 
+    
+    TasksSharedState.totalTasksCountInDataSource++;
+    
     if (TaskGateway.IsTaskSatisfyingToFilteringConditions(newTask, currentFiltering))
     {
-
-
-      TasksSharedState.tasksSelection = TaskGateway.ArrangeTasks(
-        TaskGateway.FilterTasks(
+      
+      TasksSharedState.tasksSelection = TaskGateway.Arrange(
+        TaskGateway.Filter(
           TasksSharedState.tasksSelection.AddElementsToStart(newTask).ToArray(), currentFiltering
         ) 
       ).ToList();
       
-      TasksSharedState.totalTasksCountInDataSource++;
       TasksSharedState.totalTasksCountInSelection++;
 
       return newTask;
@@ -338,7 +324,9 @@ internal abstract class TasksSharedState
     }
     catch (Exception exception)
     {
-      throw new DataRetrievingFailedException($"ID「${requestData.ID}」課題の更新中エラーが発生。", exception);
+      throw new DataSubmittingFailedException(
+        $"The error has occurred during the updating of task with ID \"{ requestData.ID }\"", exception
+      );
     }
     finally
     {
@@ -350,6 +338,9 @@ internal abstract class TasksSharedState
 
     targetTask.title = requestData.Title;
     targetTask.description = requestData.Description;
+    targetTask.isComplete = requestData.IsComplete;
+    
+    TasksSharedState.NotifyStateChanged();
 
   }
 
@@ -362,7 +353,9 @@ internal abstract class TasksSharedState
     }
     catch (Exception exception)
     {
-      throw new DataRetrievingFailedException($"ID「${ targetTaskID }」課題の更新中エラーが発生。", exception);
+      throw new DataRetrievingFailedException(
+        $"The error has occurred during the updating of task with ID \"{ targetTaskID }\"",  exception
+      );
     }
     
 
@@ -372,5 +365,35 @@ internal abstract class TasksSharedState
     TasksSharedState.NotifyStateChanged();
 
   } 
+  
+  
+  /* ━━━ Deleting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public static async System.Threading.Tasks.Task deleteTask(string targetTaskID)
+  {
+
+    try
+    {
+      await TasksSharedState.taskGateway.Delete(targetTaskID);  
+    } catch (Exception exception)
+    {
+      throw new DataSubmittingFailedException($"Failed to delete the task with ID \"{ targetTaskID }\"", exception);
+    }
+
+
+    if (targetTaskID == TasksSharedState.currentlySelectedTask?.ID)
+    {
+      TasksSharedState.currentlySelectedTask = null;
+    }
+
+    TasksSharedState.totalTasksCountInDataSource--;
+
+    if (TasksSharedState.tasksSelection.Any(task => task.ID == targetTaskID))
+    {
+      TasksSharedState.totalTasksCountInSelection--;
+    }
+    
+    TasksSharedState.tasksSelection.RemoveAll(task => task.ID == targetTaskID);
+
+  }
   
 }

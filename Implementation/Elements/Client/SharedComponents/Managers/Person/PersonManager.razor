@@ -24,7 +24,7 @@
     class="PersonManager-Heading"
     id="@HEADING_ID"
   >
-    人（連絡先）詳細
+    @(localization.heading)
   </div>
 
   
@@ -32,21 +32,21 @@
   {
     <AdmonitionBlock
       rootElementModifierCSS_Class="PersonManager-Guidance"
-      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
     >
-      <p>@activationGuidance</p>
+      <p>@(activationGuidance)</p>
     </AdmonitionBlock>
   }
   
-  @* ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @* ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   <div class="PersonManager-ActionBar">
     
     @if (isViewingMode)
     {
       <Button
         disabled=@(targetPerson is null)
-        label="編集"
+        label=@localization.buttons.personEditing.label
         onClick=@beginPersonEditing
       >
         <PrependedSVG_Icon>
@@ -57,7 +57,7 @@
       
     <Button
       disabled=@(targetPerson is null)
-      label="削除"
+      label=@localization.buttons.personDeleting.label
       onClick=@displayPersonDeletingConfirmationDialog
     >
       <PrependedSVG_Icon>
@@ -68,7 +68,7 @@
     @if (isEditingMode)
     {
       <Button
-        label="編集中断"
+        label=@localization.buttons.terminatingOfEditing.label
         onClick=@utilizePersonEditing
       >
         <PrependedSVG_Icon>
@@ -80,96 +80,87 @@
   </div>
   
   
-  @* ━━━ 閲覧モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @* ━━━ Veiwing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   @if (isViewingMode)
   {
 
     @if (targetPerson is not null)
     {
-  
-      @if (targetPerson.avatarURI is not null)
+      
+      @switch (targetPerson.gender)
       {
-        <div
-          class="PersonManager-Avatar"
-          role="img"
-          style=@($"background-image: url(\"{ targetPerson.avatarURI }\");")
-        ></div>
+
+        case Genders.Male:
+
+          <PersonIcon__Male rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
+          break;
+
+        case Genders.Female:
+
+          <PersonIcon__Female rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
+          break;
+
+        default:
+
+          <PersonIcon rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
+          break;
+
       }
-      else
-      {
-        @switch (targetPerson.gender)
-        {
-  
-          case Genders.Male:
-  
-            <PersonIcon__Male rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
-            break;
-  
-          case Genders.Female:
-  
-            <PersonIcon__Female rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
-            break;
-  
-          default:
-  
-            <PersonIcon rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
-            break;
-  
-        }
-      }
-  
+
     }
   
   
     <dl class="PersonManager-Metadata">
     
-      <dt>名前</dt>
+      <dt>@(localization.metadataKeys.name)</dt>
       <dd>@(targetPerson?.fullName ?? "")</dd>
     
-      <dt>名前の読み方</dt>
+      <dt>@(localization.metadataKeys.nameSpell)</dt>
       <dd>@(targetPerson?.fullNameSpell ?? "")</dd>
     
-      <dt>性別</dt>
+      <dt>@(localization.metadataKeys.gender)</dt>
       <dd>
         @if (targetPerson is not null)
         {
           if (targetPerson.gender is not null)
           {
-            @(targetPerson.gender is Genders.Male ? "男性" : "女性")
+            @(targetPerson.gender is Genders.Male ? sharedStaticStrings.genders.male : sharedStaticStrings.genders.female)
           }
           else
           {
-            @("不明")
+            @(sharedStaticStrings.commonWords.unknown)
           }
         }
       </dd>
     
-      <dt>生年月日</dt>
+      <dt>@(localization.metadataKeys.birthDate)</dt>
       <dd>
         @if (targetPerson is not null)
         {
           @if (targetPerson.birthYear is not null)
           {
-            @($"{ targetPerson.birthYear }年")
+            @($"{ targetPerson.birthYear }/")
           }
           @if (targetPerson.birthMonthNumber__numerationFrom1 is not null)
           {
-            @($"{ targetPerson.birthMonthNumber__numerationFrom1 }月")
+            @($"{ targetPerson.birthMonthNumber__numerationFrom1 }/")
           }
           @if (targetPerson.birthDayOfMonth__numerationFrom1 is not null)
           {
-            @($"{ targetPerson.birthDayOfMonth__numerationFrom1 }日")
+            @($"{ targetPerson.birthDayOfMonth__numerationFrom1 }")
           }
           @if (targetPerson.age is not null)
           {
-            @($"{ targetPerson.age }際)")
+            @(
+              $"({ targetPerson.age }{ sharedStaticStrings.availableDependingOnLanguageSpace }" +
+              $"{ sharedStaticStrings.commonWords.yearsOld })")
           }
         }
       </dd>
     
       @if (targetPerson?.emailAddress is not null)
       {
-        <dt>メールアドレス</dt>
+        <dt>@(localization.metadataKeys.emailAddress)</dt>
         <dd>
           <a href=@(AnchorElementHelper.BuildEmailLinkHrefAttributeValue(targetPerson.emailAddress))>
             @targetPerson.emailAddress
@@ -179,7 +170,7 @@
     
       @if (targetPerson?.phoneNumber__digitsOnly is not null)
       {
-        <dt>電話番号</dt>
+        <dt>@(localization.metadataKeys.phoneNumber)</dt>
         <dd>
           <a href=@(AnchorElementHelper.BuildPhoneNumberLinkHrefAttributeValue(targetPerson.phoneNumber__digitsOnly))>
             @(JapanesePhoneNumber.Format(targetPerson.phoneNumber__digitsOnly))
@@ -190,8 +181,7 @@
     </dl>
   }
   
-  
-  @* ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @* ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   else
   {
     <form
@@ -202,23 +192,17 @@
       <div class="PersonManager-ScrollableGrid">
   
         <TextBox
-          label="姓"
-          guidance=@(
-            $"上の名前を**{ Person.FamilyName.MINIMAL_CHARACTERS_COUNT }~{ Person.FamilyName.MAXIMAL_CHARACTERS_COUNT }文字内**" +
-                "入力して下さい。"
-          )
+          label=@localization.controls.familyName.label
+          guidance=@localization.controls.familyName.guidance
           payload=@personControlsPayload.familyName
           validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@familyNameTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
-  
+ 
         <TextBox
-          label="名"
-          guidance=@(
-            $"下の名前を**{ Person.GivenName.MINIMAL_CHARACTERS_COUNT }~{ Person.GivenName.MAXIMAL_CHARACTERS_COUNT }文字内**" +
-                "入力して下さい。"
-          )
+          label=@localization.controls.givenName.label
+          guidance=@localization.controls.givenName.guidance
           payload=@personControlsPayload.givenName
           validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@givenNameTextBox
@@ -226,11 +210,8 @@
         />
   
         <TextBox
-          label="性の読み方"
-          guidance=@(
-            $"上の名前をの読み方を**{ Person.FamilyNameSpell.MINIMAL_CHARACTERS_COUNT }~" +
-              $"{ Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
-          )
+          label=@localization.controls.familyNameSpell.label
+          guidance=@localization.controls.familyNameSpell.guidance
           payload=@personControlsPayload.familyNameSpell
           validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@familyNameSpellTextBox
@@ -238,25 +219,22 @@
         />
   
         <TextBox
-          label="名の読み方"
-          guidance=@(
-            $"下の名前の読み方を**{ Person.GivenNameSpell.MINIMAL_CHARACTERS_COUNT }~" +
-              $"{ Person.GivenNameSpell.MAXIMAL_CHARACTERS_COUNT }文字内**入力して下さい。"
-          )
+          label=@localization.controls.givenNameSpell.label
+          guidance=@localization.controls.givenNameSpell.guidance
           payload=@personControlsPayload.givenNameSpell
           validityHighlightingActivationMode=@validityHighlightingActivationMode
           @ref=@givenNameSpellTextBox
           spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
         />
-  
+        
         @* <RadioButtonsGroup *@
-        @*   label="性別" *@
+        @*   label=@localization.controls.gender.label *@
         @*   selectingOptions=@genderRadioButtonsGroupSelectingOptions *@
         @*   @ref=@genderRadioButtonsGroup *@
         @* /> *@
-  
+        
         <TextBox
-          label="メールアドレス"
+          label=@localization.controls.emailAddress
           HTML_Type=@TextBox.HTML_Types.email
           payload=@personControlsPayload.emailAddress
           validityHighlightingActivationMode=@validityHighlightingActivationMode
@@ -265,7 +243,7 @@
         />
   
         <TextBox
-          label="電話番号"
+          label=@localization.controls.phoneNumber
           HTML_Type=@TextBox.HTML_Types.phoneNumber
           payload=@personControlsPayload.phoneNumber
           validityHighlightingActivationMode=@validityHighlightingActivationMode
@@ -274,14 +252,14 @@
         />
   
       </div>
-  
+      
       <div class="PersonManager-ActionBar">
   
         <Button
-          label="保存"
+          label=@localization.buttons.personSaving.label
           HTML_Type=@Button.HTML_Types.inputSubmit
           onClick=@onClickPersonDataSavingButton
-          decoration=@Button.StandardDecorativeVariations.accented
+          decorativeVariation=@Button.StandardDecorativeVariations.accented
         >
           <PrependedSVG_Icon>
             <FloppyDiskIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />
@@ -289,7 +267,7 @@
         </Button>
   
         <Button
-          label="編集を止める"
+          label=@localization.buttons.terminatingOfEditing.label
           onClick=@utilizePersonEditing
         >
           <PrependedSVG_Icon>

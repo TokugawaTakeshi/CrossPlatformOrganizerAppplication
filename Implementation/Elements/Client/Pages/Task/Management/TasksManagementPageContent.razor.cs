@@ -1,4 +1,6 @@
-﻿using Client.Pages.Task.Management.Localizations;
+﻿using CommonSolution.Gateways;
+
+using Client.Pages.Task.Management.Localizations;
 
 using Client.SharedState;
 
@@ -59,7 +61,7 @@ public partial class TasksManagementPageContent : Microsoft.AspNetCore.Component
   }
   
   private async System.Threading.Tasks.Task onNewTaskInputtingCompleted(
-    CommonSolution.Gateways.TaskGateway.Adding.RequestData newTaskData
+    TaskGateway.Adding.RequestData newTaskData
   )
   {
     
@@ -96,7 +98,7 @@ public partial class TasksManagementPageContent : Microsoft.AspNetCore.Component
     this.activeTask = newTask;
     
     _ = SnackbarService.displaySnackbarForAWhile(
-      message: this.localization.successMessages.taskUpdatingSucceeded,
+      message: this.localization.successMessages.taskAddingSucceeded,
       decorativeVariation: Snackbar.StandardDecorativeVariations.success
     );
     
@@ -105,7 +107,7 @@ public partial class TasksManagementPageContent : Microsoft.AspNetCore.Component
 
   /* ─── Editing of Existing Task ─────────────────────────────────────────────────────────────────────────────────── */
   private async System.Threading.Tasks.Task onExistingTaskEditingCompleted(
-    CommonSolution.Gateways.TaskGateway.Updating.RequestData updatedTaskData
+    TaskGateway.Updating.RequestData updatedTaskData
   )
   {
     

@@ -13,9 +13,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.8" />
+    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.9" />
     <PackageReference Include="YamatoDaiwaCS_Extensions.Localizations.Japanese" Version="0.0.4" />
-    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.7" />
+    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +29,7 @@
     <AdditionalFiles Include="Components\Controls\SearchBox\SearchBox.razor" />
     <AdditionalFiles Include="Components\Controls\TextBox\TextBox.razor" />
     <AdditionalFiles Include="Components\Controls\FilesUploader\FilesUploader.razor" />
+    <AdditionalFiles Include="Components\ModalDialogs\Common\ModalDialog.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Date.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Time.razor" />
     <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Checked.razor" />
@@ -44,6 +45,13 @@
     <Reference Include="Package">
       <HintPath>C:\Users\Takeshi Tokugawa\.nuget\packages\yamatodaiwafrontend\0.0.2\lib\net8.0\Package.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="SVG_Icons\ExclamationMark\ExclamationMarkIcon__Circled__Filled.razor" />
+    <UpToDateCheckInput Remove="SVG_Icons\ExclamationMark\ExclamationMarkIcon__Triangled__Filled.razor" />
+    <UpToDateCheckInput Remove="Components\LoadingIndicator\LoadingIndicator.razor" />
+    <UpToDateCheckInput Remove="Components\Controls\CompoundControlShell\CompoundControlShell.razor" />
   </ItemGroup>
 
 </Project>

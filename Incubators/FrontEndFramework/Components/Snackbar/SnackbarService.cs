@@ -37,13 +37,13 @@ public abstract class SnackbarService
   }
 
 
-  protected static string _decoration = Snackbar.StandardDecorativeVariations.error.ToString();
-  public static string decoration
+  protected static string _decorativeVariation = Snackbar.StandardDecorativeVariations.error.ToString();
+  public static string decorativeVariation
   {
-    get => SnackbarService._decoration;
+    get => SnackbarService._decorativeVariation;
     set
     {
-      SnackbarService._decoration = value;
+      SnackbarService._decorativeVariation = value;
       SnackbarService.NotifyStateChanged();
     }
   }
@@ -64,7 +64,7 @@ public abstract class SnackbarService
       decorativeVariation, Snackbar.CustomDecorativeVariations, ref validDecoration
     );
 
-    SnackbarService.decoration = validDecoration;
+    SnackbarService.decorativeVariation = validDecoration;
     SnackbarService.isSnackbarDisplaying = true;
 
     await Task.Delay(

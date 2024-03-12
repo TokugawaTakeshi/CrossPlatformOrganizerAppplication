@@ -1,11 +1,11 @@
-﻿using CommonSolution.Fundamentals;
+﻿using CommonSolution.Entities;
+using CommonSolution.Fundamentals;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace EntityFramework.Models;
 
-// TODO 要らないと確認したら削除
-// [System.ComponentModel.DataAnnotations.Schema.Table(PersonModel.TABLE_NAME)]
+[System.ComponentModel.DataAnnotations.Schema.Table("People")]
 [Microsoft.EntityFrameworkCore.EntityTypeConfiguration(typeof(PersonModel.Configuration))]
 public class PersonModel
 {
@@ -21,13 +21,13 @@ public class PersonModel
   public string FamilyName { get; set; } = null!;
   
   [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Person.GivenName.MAXIMAL_CHARACTERS_COUNT)]
-  public string GivenName { get; set; } = null!;
+  public string? GivenName { get; set; } = null;
   
   [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Person.FamilyNameSpell.MAXIMAL_CHARACTERS_COUNT)]
-  public string FamilyNameSpell { get; set; } = null!;
+  public string? FamilyNameSpell { get; set; } = null;
   
   [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Person.GivenNameSpell.MAXIMAL_CHARACTERS_COUNT)]
-  public string GivenNameSpell { get; set; } = null!;
+  public string? GivenNameSpell { get; set; } = null;
   
   
   /* ━━━ Gender ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -56,10 +56,29 @@ public class PersonModel
   
   /* ━━━ Email Address ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Person.EmailAddress.MAXIMAL_CHARACTERS_COUNT)]
-  public string EmailAddress { get; set; } = null!;
+  public string? EmailAddress { get; set; } = null;
   
-  public string PhoneNumber__DigitsOnly { get; set; } = null!;
+  public string? PhoneNumber__DigitsOnly { get; set; } = null;
 
+  
+  public Person ToBusinessRulesEntity()
+  {
+    return new Person
+    {
+      ID = this.ID,
+      familyName = this.FamilyName,
+      givenName = this.GivenName,
+      familyNameSpell = this.FamilyNameSpell,
+      givenNameSpell = this.GivenNameSpell,
+      gender = this.Gender,
+      birthYear = this.BirthYear,
+      birthMonthNumber__numerationFrom1 = this.BirthMonthNumber__NumerationFrom1,
+      birthDayOfMonth__numerationFrom1 = this.BirthDayOfMonth__NumerationFrom1,
+      emailAddress = this.EmailAddress,
+      phoneNumber__digitsOnly = this.PhoneNumber__DigitsOnly
+    };
+  }
+  
 
   public class Configuration : Microsoft.EntityFrameworkCore.IEntityTypeConfiguration<PersonModel>
   {

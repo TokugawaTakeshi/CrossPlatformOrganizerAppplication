@@ -5,7 +5,7 @@
 
 
 <CompoundControlShell
-  spaceSeparatedAdditionalCSS_Classes="@string.Concat("TextBox--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)"
+  rootElementModifierCSS_Class=@string.Concat("TextBox--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)
   label=@label
   guidance=@guidance
   required=@required
@@ -21,7 +21,7 @@
  
   @if (multiline)
   {
-  
+
     <textarea
       class="TextBox--YDF-InputOrTextAreaElement"
       placeholder=@placeholder
@@ -34,7 +34,8 @@
       aria-label=@accessibilityGuidance
       aria-labelledby=@externalLabelHTML_ID
       value=@rawValue
-      @oninput=@onInputEventHandler
+      @oninput=@onInput
+      @onblur=@onFocusOut
       @ref=@nativeInputAcceptingElement
     ></textarea>  
   }
@@ -56,7 +57,8 @@
       aria-label=@accessibilityGuidance
       aria-labelledby=@externalLabelHTML_ID
       value=@rawValue
-      @oninput=@onInputEventHandler
+      @oninput=@onInput
+      @onblur=@onFocusOut
       @ref=@nativeInputAcceptingElement
     />  
   }

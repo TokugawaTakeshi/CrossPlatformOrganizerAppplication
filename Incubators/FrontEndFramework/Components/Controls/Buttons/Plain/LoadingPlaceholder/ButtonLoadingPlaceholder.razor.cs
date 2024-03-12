@@ -36,24 +36,24 @@ public partial class ButtonLoadingPlaceholder : ComponentBase
   
   
   /* --- Geometry --------------------------------------------------------------------------------------------------- */
-  protected string _geometry = Buttons.Plain.Button.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = Buttons.Plain.Button.StandardGeometricVariations.regular.ToString();
 
-  [Parameter] public object geometry
+  [Parameter] public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set
     {
 
       if (value is Buttons.Plain.Button.StandardGeometricVariations standardGeometricVariation)
       {
-        this._geometry = standardGeometricVariation.ToString();
+        this._geometricVariation = standardGeometricVariation.ToString();
         return;
       }
       
       
       // TODO CustomGeometricVariations https://github.com/TokugawaTakeshi/ExperimentalCSharpApplication1/issues/34#issuecomment-1500788874
 
-      this._geometry = value.ToString();
+      this._geometricVariation = value.ToString();
 
     }
   }
@@ -68,7 +68,7 @@ public partial class ButtonLoadingPlaceholder : ComponentBase
         _ => Enum.GetNames(typeof(Buttons.Plain.Button.StandardThemes)).Length > 1 && !this.areThemesExternal
       ).
       AddElementToEndIf(
-        $"Button--YDF__{ this._geometry.ToLowerCamelCase() }Geometry",
+        $"Button--YDF__{ this._geometricVariation.ToLowerCamelCase() }GeometricVariation",
         _ => Enum.GetNames(typeof(Buttons.Plain.Button.StandardGeometricVariations)).Length > 1
       ).
       StringifyEachElementAndJoin("");

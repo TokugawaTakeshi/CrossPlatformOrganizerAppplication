@@ -7,12 +7,19 @@
 
 <div class="PeopleManagementPage-SpecificContent MainLayout-SpecificContentFillingElement">
   
-  <PeopleViewer spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleViewer" />
+  <PeopleViewer 
+    spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleViewer"
+    onClickPersonAddingButtonEventHandler=@onClickStartingOfNewPersonInputtingButton
+  />
   
   <PersonManager
     rootElementModifierCSS_Class=@($"PeopleManagementPage-PersonManager { personManagerAdditionalCSS_Class }")
-    activationGuidance=@personManagerActivationGuidance
+    activationGuidance=@localization.personManagerActivationGuidance
     targetPerson=@activePerson
+    onInputtingDataOfNewPersonCompleteEventHandler=@onNewPersonInputtingCompleted
+    onExistingPersonEditingCompleteEventHandler=@onExistingPersonEditingCompleted
+    onDeletePersonEventHandler=@onDeletePerson
+    @ref=@personManager
   />
   
 </div>

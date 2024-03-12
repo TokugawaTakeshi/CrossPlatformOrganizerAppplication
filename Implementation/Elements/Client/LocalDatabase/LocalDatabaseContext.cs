@@ -1,34 +1,21 @@
-﻿using Client.LocalDataBase.Models;
-using Microsoft.Data.Sqlite;
+﻿using EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 
 
 namespace Client.LocalDataBase;
 
 
-public class LocalDatabaseContext : DbContext
+public class LocalDatabaseContext : DatabaseContext
 {
 
-  private static LocalDatabaseContext? selfSoleInstance = null;
-  
-  public static LocalDatabaseContext GetInstance()
-  {
-    return selfSoleInstance ?? (LocalDatabaseContext.selfSoleInstance = new LocalDatabaseContext());
-  }
-  
-  
-  public DbSet<TaskModel> TasksModels { get; internal set; } = null!;
-  public DbSet<LocationModel> LocationModels { get; internal set; } = null!;
-  public DbSet<PersonModel> PeopleModels { get; internal set; } = null!; 
-
-  
-  protected LocalDatabaseContext()
+  public LocalDatabaseContext()
   {
     base.Database.EnsureDeleted();
     base.Database.EnsureCreated();
   }
   
-
+  
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
     
@@ -36,7 +23,7 @@ public class LocalDatabaseContext : DbContext
 
     string stringifiedConnectionData = new SqliteConnectionStringBuilder
     {
-      /* 〔 実例 〕 C:\Users\Takeshi Tokugawa\AppData\Local\Packages\2302D388(中略)yvjzm\LocalState\TestTest.sq3 */
+      /* [ Example ] C:\Users\Takeshi Tokugawa\AppData\Local\Packages\2302D388(中略)yvjzm\LocalState\TestTest.sq3 */
       DataSource = Path.Combine(FileSystem.AppDataDirectory, "LocalDatabase.sq3")
     }.ToString();
     

@@ -1,6 +1,9 @@
 ﻿@using FrontEndFramework.SVG_Icons.ExclamationMark;
 @using FrontEndFramework.SVG_Icons.InfoSign;
 @using FrontEndFramework.SVG_Icons.Checkmark;
+@* @using YamatoDaiwa.Frontend.SVG_Icons.Checkmark; *@
+@* @using YamatoDaiwa.Frontend.SVG_Icons.ExclamationMark; *@
+@* @using YamatoDaiwa.Frontend.SVG_Icons.InfoSign; *@
 @using FrontEndFramework.SVG_Icons.MultiplicationSign;
 
 
@@ -13,16 +16,16 @@
     aria-live="polite"  
   >
     
-    @if (SnackbarService.decoration == StandardDecorativeVariations.error.ToString())
+    @if (SnackbarService.decorativeVariation == StandardDecorativeVariations.error.ToString())
     {
       <ExclamationMarkIcon__Circled__Filled rootElementModifierCSS_Class="Snackbar--YDF-Icon" />  
-    } else if (SnackbarService.decoration == StandardDecorativeVariations.warning.ToString())
+    } else if (SnackbarService.decorativeVariation == StandardDecorativeVariations.warning.ToString())
     {
       <ExclamationMarkIcon__Triangled__Filled rootElementModifierCSS_Class="Snackbar--YDF-Icon"/>  
-    } else if (SnackbarService.decoration == StandardDecorativeVariations.info.ToString())
+    } else if (SnackbarService.decorativeVariation == StandardDecorativeVariations.info.ToString())
     {
       <InfoSignIcon__Circled__Filled rootElementModifierCSS_Class="Snackbar--YDF-Icon" /> 
-    } else if (SnackbarService.decoration == StandardDecorativeVariations.success.ToString())
+    } else if (SnackbarService.decorativeVariation == StandardDecorativeVariations.success.ToString())
     {
       <CheckmarkIcon__Circled__Filled rootElementModifierCSS_Class="Snackbar--YDF-Icon" />   
     }

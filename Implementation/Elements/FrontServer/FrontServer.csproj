@@ -1,21 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>9aa3042c-1eb5-4960-9500-4f56d8c6d401</UserSecretsId>
+    <UserSecretsId>ae619771-2592-4d7a-82ae-f1c264e1968e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CommonSolution\CommonSolution.csproj" />
+    <ProjectReference Include="..\..\Interactions\ClientAndFrontServer\ClientAndFrontServer.csproj" />
+    <ProjectReference Include="..\..\Reusables\EntityFramework\EntityFramework.csproj" />
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 

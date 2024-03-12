@@ -1,0 +1,23 @@
+version: "3.5"
+
+services:
+
+  Database:
+
+    image: postgres
+    container_name: ExperimentalCSharpApplication-Local-Database
+    ports: [ "5432:5432" ]
+
+    environment:
+
+      # [ Theory ] Must be specified to avoid of `Error: Database is uninitialized and superuser password is not 
+      #    specified.` error.
+      - "POSTGRES_PASSWORD=pass1234"
+
+    volumes:
+      - DatabaseData:/var/lib/postgresql/data
+
+volumes:
+  DatabaseData:
+    name: ExperimentalCSharpApplication-Local-DatabaseData
+    driver: local

@@ -9,27 +9,30 @@ internal class FrontServerDependencies {
   public required Gateways gateways { get; init; }
 
   public struct Gateways {
-    public required IPersonGateway Person { get; init; }
+    public required PersonGateway Person { get; init; }
     public required TaskGateway Task { get; init; }
   }
   
   public abstract class Injector {
 
-    private static FrontServerDependencies? _dependencies;
+    private static FrontServerDependencies? dependencies;
 
     public static void SetDependencies(FrontServerDependencies dependencies) {
-      _dependencies = dependencies;
+      Injector.dependencies = dependencies;
     }
 
 
     private static FrontServerDependencies getDependencies() {
 
-      if (_dependencies == null) {
-        throw new NullReferenceException("FrontServerDependenciesは初期化されなかった。");
+      if (Injector.dependencies == null) {
+        throw new NullReferenceException(
+          "\"FrontServerDependencies.Injector\" has not been initialized." +
+          "Invoke \"FrontServerDependencies.Injector.SetDependencies\" to complete initialization."
+        );
       }
 
 
-      return _dependencies;
+      return Injector.dependencies;
       
     }
 

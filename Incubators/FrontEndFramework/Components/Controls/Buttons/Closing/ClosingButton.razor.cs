@@ -19,6 +19,5 @@ public partial class ClosingButton : Microsoft.AspNetCore.Components.ComponentBa
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> onClick { get; set; }
-
   
 }

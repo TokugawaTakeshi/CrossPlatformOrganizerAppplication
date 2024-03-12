@@ -5,6 +5,7 @@
 @using FrontEndFramework.Components.Controls.Buttons.Plain
 @using FrontEndFramework.Components.Controls.TextBox
 
+@using FrontEndFramework.SVG_Icons.Checklist
 @using FrontEndFramework.SVG_Icons.FloppyDisk
 @using FrontEndFramework.SVG_Icons.Pencil
 @using FrontEndFramework.SVG_Icons.TrashCan
@@ -24,15 +25,15 @@
   {
     <AdmonitionBlock
       rootElementModifierCSS_Class="TaskManager-Guidance"
-      decoration=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
       hasPrependedSVG_Icon
     >
-      <p>@activationGuidance</p>
+      <p>@(activationGuidance)</p>
     </AdmonitionBlock>
   }
 
   
-  @* ━━━ Top action bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @* ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   <div class="TaskManager-ActionBar">
   
     @if (isViewingMode)
@@ -43,7 +44,7 @@
         onClick=@beginTaskEditing
       >
         <PrependedSVG_Icon>
-          <PencilIcon__Filled rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+          <ChecklistIcon__Editing rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
         </PrependedSVG_Icon>
       </Button>
     }
@@ -54,7 +55,7 @@
       onClick=@displayTaskDeletingConfirmationDialog
     >
       <PrependedSVG_Icon>
-        <TrashCan__Filled rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+        <ChecklistIcon__Deleting rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
       </PrependedSVG_Icon>
     </Button>
 
@@ -73,7 +74,7 @@
   </div>
   
   
-  @* ━━━ Veiwing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @* ━━━ Veiwing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
   @if (isViewingMode)
   {
   
@@ -82,7 +83,7 @@
       <dt>@( localization.metadataKeys.title )</dt>
       <dd>@(targetTask?.title ?? "" )</dd>
     
-      <dt>@( localization.metadataKeys.descriptioin )</dt>
+      <dt>@( localization.metadataKeys.description )</dt>
       <dd>@(targetTask?.description ?? "")</dd>
     
     </dl>
@@ -108,8 +109,8 @@
       />
       
       <TextBox
-        label=@localization.controls.taskTitle.label
-        guidance=@localization.controls.taskTitle.guidance
+        label=@localization.controls.taskDescription.label
+        guidance=@localization.controls.taskDescription.guidance
         multiline
         payload=@taskControlsPayload.description
         validityHighlightingActivationMode=@validityHighlightingActivationMode
@@ -121,9 +122,9 @@
         
         <Button
           label=@localization.buttons.taskSaving.label
-          HTML_Type=@Button.HTML_Types.inputSubmit
+          HTML_Type=@Button.HTML_Types.submit
           onClick=@onClickTaskDataSavingButton
-          decoration=@Button.StandardDecorativeVariations.accented.ToString()
+          decorativeVariation=@Button.StandardDecorativeVariations.accented.ToString()
         >
           <PrependedSVG_Icon>
             <FloppyDiskIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />
@@ -131,7 +132,7 @@
         </Button>
         
         <Button
-          label=@localization.buttons.taskEditing.label
+          label=@localization.buttons.terminatingOfEditing.label
           onClick=@utilizeTaskEditing
         >
           <PrependedSVG_Icon>

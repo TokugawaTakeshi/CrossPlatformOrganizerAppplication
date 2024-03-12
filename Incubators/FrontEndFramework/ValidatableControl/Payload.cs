@@ -7,9 +7,6 @@ using InputtedValueValidation = YamatoDaiwa.Frontend.Components.Controls.Validat
 public class Payload
 {
 
-  /* TODO 検討中
-  public readonly string ID;*/ 
-
   public readonly InputtedValueValidation Validation;
 
   protected object value;
@@ -121,10 +118,14 @@ public class Payload
 
       this.validationResult = value;
 
+      /* ━━━ TODO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+      // TODO Use delegates
+      
     }
   }
 
   
+  /* ━━━ TODO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public IValidatableControl GetComponentInstance()
   {
 

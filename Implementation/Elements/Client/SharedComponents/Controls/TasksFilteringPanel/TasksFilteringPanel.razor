@@ -4,7 +4,7 @@
 
 <div class="TasksFilteringPanel @rootElementModifierCSS_Class">
   
-  <div class="TasksFilteringPanel-Title">自動生成群</div>
+  <div class="TasksFilteringPanel-Title">@(localization.titles.summary)</div>
   
   <ul class="TasksFilteringPanel-List">
     
@@ -16,7 +16,7 @@
         @onclick=@retrieveAllTasks
       >
         <ChecklistIcon rootElementModifierCSS_Class="TasksFilteringPanel-List-Item-Icon"/>
-        <span class="TasksFilteringPanel-List-Item-Label">全課題</span> 
+        <span class="TasksFilteringPanel-List-Item-Label">@(localization.summaryCategories.all)</span> 
       </button>
     </li>
     
@@ -25,10 +25,10 @@
         class=@($"TasksFilteringPanel-List-Item-Button { retrievingOfTasksAssociatedWithDateButtonAdditionalCSS_Classes }")
         type="button"
         disabled=@isDisabled
-        @onclick=@retrieveTasksWithAssociatedDate
+        @onclick=@retrieveTasksWithAssociatedDateTime
       >
         <CalendarIcon__Date rootElementModifierCSS_Class="TasksFilteringPanel-List-Item-Icon"/>
-        <span class="TasksFilteringPanel-List-Item-Label">日時連想</span>
+        <span class="TasksFilteringPanel-List-Item-Label">@(localization.summaryCategories.associatedWithDateAndTime)</span>
       </button>
     </li>
     
@@ -37,10 +37,10 @@
         class=@($"TasksFilteringPanel-List-Item-Button { retrievingOfTasksAssociatedWithDateTimeButtonAdditionalCSS_Classes }")
         type="button"
         disabled=@isDisabled
-        @onclick=@retrieveTasksWithAssociatedDateTime
+        @onclick=@retrieveTasksWithAssociatedDate
       >
         <CalendarIcon__Time rootElementModifierCSS_Class="TasksFilteringPanel-List-Item-Icon" />
-        <span class="TasksFilteringPanel-List-Item-Label">日付連想</span>
+        <span class="TasksFilteringPanel-List-Item-Label">@(localization.summaryCategories.associatedWithDate)</span>
       </button>
     </li>
     

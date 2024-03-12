@@ -61,14 +61,14 @@ public partial class Snackbar : Microsoft.AspNetCore.Components.ComponentBase
     Snackbar.CustomGeometricVariations = CustomGeometricVariations;
   }
 
-  protected string _geometry = Snackbar.StandardGeometricVariations.regular.ToString();
+  protected string _geometricVariation = Snackbar.StandardGeometricVariations.regular.ToString();
 
   [Microsoft.AspNetCore.Components.Parameter]
-  public object geometry
+  public object geometricVariation
   {
-    get => this._geometry;
+    get => this._geometricVariation;
     set => YDF_ComponentsHelper.AssignGeometricVariationIfItIsValid<Snackbar.StandardGeometricVariations>(
-    value, Snackbar.CustomGeometricVariations, ref this._geometry
+    value, Snackbar.CustomGeometricVariations, ref this._geometricVariation
     );
   }
   
@@ -103,14 +103,14 @@ public partial class Snackbar : Microsoft.AspNetCore.Components.ComponentBase
       ).
       
       AddElementToEndIf(
-        $"Snackbar--YDF__{ this._geometry.ToUpperCamelCase() }Geometry",
+        $"Snackbar--YDF__{ this._geometricVariation.ToUpperCamelCase() }GeometricVariation",
         YDF_ComponentsHelper.MustApplyGeometricVariationModifierCSS_Class(
           typeof(Snackbar.StandardGeometricVariations), Snackbar.CustomGeometricVariations
         )
       ).
 
       AddElementToEndIf(
-        $"Snackbar--YDF__{ SnackbarService.decoration.ToUpperCamelCase() }Decoration",
+        $"Snackbar--YDF__{ SnackbarService.decorativeVariation.ToUpperCamelCase() }DecorativeVariation",
         YDF_ComponentsHelper.MustApplyDecorativeVariationModifierCSS_Class(
           typeof(Snackbar.StandardDecorativeVariations), Snackbar.CustomDecorativeVariations
         )

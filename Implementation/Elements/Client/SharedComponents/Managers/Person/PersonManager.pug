@@ -38,18 +38,18 @@ mixin PersonManager(properties, statesSimulations)
 
     .PersonManager-Heading(
       id=HEADING_ID
-    ) 人（連絡先）詳細
+    ) Person (Contact) Manager
       
       
     if !targetPerson && activationGuidance
       
       +AdmonitionBlock--YDF({
-        decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
-        hasPrependedSVG_Icon: true
+        decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+        SVG_Icon: true
       }).PersonManager-Guidance= activationGuidance
       
 
-    //- ━━━ 上部アクションバー ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //- ━━━ Top action bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     .PersonManager-ActionBar
 
       if viewingMode
@@ -58,22 +58,22 @@ mixin PersonManager(properties, statesSimulations)
           disabled: !targetPerson
         })
           +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 編集
+          span.Button--YDF-Label Edit Person
         
       +Button--YDF({
         disabled: !targetPerson
       })
         +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
-        span.Button--YDF-Label 削除
+        span.Button--YDF-Label Delete Person
         
       if editingMode
 
         +Button--YDF
           +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon.Button--YDF-SVG_Icon
-          span.Button--YDF-Label 編集中断
+          span.Button--YDF-Label Cancel Editing
         
       
-    //- ━━━ 閲覧モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //- ━━━ Viewing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     if viewingMode
       
       if targetPerson
@@ -101,40 +101,38 @@ mixin PersonManager(properties, statesSimulations)
       
       dl.PersonManager-Metadata
       
-        dt 名前
+        dt Name
         dd= targetPerson ? `${ targetPerson.familyName }${ targetPerson.givenName }` : ""
         
-        dt 名前の読み方
+        dt Name Spell
         dd
           if targetPerson && targetPerson.fullNameSpell  
             | #{ targetPerson.fullNameSpell }
 
-        dt 性別
+        dt Gender
         dd
           if targetPerson
             if targetPerson.gender
-              | #{ targetPerson.gender === Genders.Male ? "男性" : "女性" }
-            else
-              | 不明
+              | #{ targetPerson.gender === Genders.Male ? "Make" : "Female" }
           
-        dt 生年月日
+        dt Birth Date
         dd
           if targetPerson
             if targetPerson.birthYear
-              | #{ targetPerson.birthYear }年
+              | #{ targetPerson.birthYear }.
             if targetPerson.birthMonthNumber__numerationFrom1
-              | #{ targetPerson.birthMonthNumber__numerationFrom1 }月
+              | #{ targetPerson.birthMonthNumber__numerationFrom1 }.
             if targetPerson.birthDayOfMonth__numerationFrom1
-              | #{ targetPerson.birthDayOfMonth__numerationFrom1 }日
+              | #{ targetPerson.birthDayOfMonth__numerationFrom1 }
             if targetPerson.age
-              | （#{ targetPerson.age }歳）
+              | (Age: #{ targetPerson.age })
             
-        dt メールアドレス
+        dt Email Address
         dd
           if targetPerson && targetPerson.emailAddress 
             a(href=buildEmailLinkHrefAttributeValue(targetPerson.emailAddress))= targetPerson.emailAddress
             
-        dt 電話番号
+        dt Phone Number
         dd
           if targetPerson && targetPerson.phoneNumber
             a(
@@ -143,7 +141,7 @@ mixin PersonManager(properties, statesSimulations)
       
     else
 
-      //- ━━━ 編集モード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      //- ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       form.PersonManager-Form(
         aria-labelledby=HEADING_ID
       )
@@ -151,90 +149,93 @@ mixin PersonManager(properties, statesSimulations)
         .PersonManager-ScrollableGrid
         
           +TextBox--YDF({
-            label: "姓",
-            guidance: "上の名前を**1~255文字内**入力して下さい。",
+            label: "Family Name",
+            guidance: "Please input **1~255** characters.",
             value: targetPerson ? targetPerson.familyName : "",
             required: true
           }).PersonManager-Control.PersonManager-Control__Small
           
           +TextBox--YDF({
-            label: "名",
-            guidance: "上の名前を**1~255文字内**入力して下さい。",
+            label: "Given Name",
+            guidance: "Please input **1~255** characters.",
             value: targetPerson ? nullToEmptyString(targetPerson.givenName) : ""
           }).PersonManager-Control.PersonManager-Control__Small
           
           +TextBox--YDF({
-            label: "性の読み方",
-            guidance: "上の名前を**1~255文字内**入力して下さい。",
+            label: "Family Name Spell",
+            guidance: "Please input **1~255** characters.",
             value: targetPerson ? nullToEmptyString(targetPerson.familyNameSpell) : "",
             required: true
           }).PersonManager-Control.PersonManager-Control__Small
           
           +TextBox--YDF({
-            label: "名の読み方",
-            guidance: "上の名前を**1~255文字内**入力して下さい。",
+            label: "Given Name Spell",
+            guidance: "Please input **1~255** characters.",
             value: targetPerson ? nullToEmptyString(targetPerson.givenNameSpell) : "",
             required: true
           }).PersonManager-Control.PersonManager-Control__Small
           
           +RadioButtonsGroup--YDF({
-            label: "性別",
+            label: "Gender",
             selectingOptions: [
-              { label: "男", value: "MALE", isSelected: true },
-              { label: "女", value: "FEMALE" }
+              { label: "Male", key: "MALE" },
+              { label: "Female", key: "FEMALE" }
             ]
           })
             
-          +FilesUploader--YDF(
-            {
-              label: "写真",
-              guidance: "写真をアップロードして下さい",
-              noDragAndDropArea: true,
-              maximalFilesCount: 1
-            },
-            {
-              singleImagePreview: true
-            }
-          ).PersonManager-Control.PersonManager-Control__Big
+          //-
+            +FilesUploader--YDF(
+              {
+                label: "Photo",
+                guidance: "Please upload the proto of this person",
+                noDragAndDropArea: true,
+                maximalFilesCount: 1
+              },
+              {
+                singleImagePreview: true
+              }
+            ).PersonManager-Control.PersonManager-Control__Big
           
           fieldset.PersonManager-Fieldset
           
-            legend 誕生
+            legend Birthdate
             
             +AdmonitionBlock--YDF({
-              decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
-              hasPrependedSVG_Icon: true
-            }).PersonManager-Fieldset-Guidance 誕生日の知らせを受けるには、月日の指定は十分だが、年齢を算出するには生年の指定が必要。
+              decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+              SVG_Icon: true
+            }).PersonManager-Fieldset-Guidance.
+              To receive the birthday notifications, it is enough to input only month and day, but to compute the age
+                the birth year also will required.
   
             +TextBox--YDF({
-              label: "年",
+              label: "Year",
               HTML_Type: TextBox__YDF.HTML_Types.number,
               value: targetPerson ? nullToEmptyString(targetPerson.birthYear) : "",
               required: true
             }).PersonManager-Fieldset-TextBox
             
             +TextBox--YDF({
-              label: "月",
+              label: "Month",
               HTML_Type: TextBox__YDF.HTML_Types.number,
               value: targetPerson ? nullToEmptyString(targetPerson.birthMonthNumber__numerationFrom1) : "",
               required: true
             }).PersonManager-Fieldset-TextBox
             
             +TextBox--YDF({
-              label: "日",
+              label: "Day",
               HTML_Type: TextBox__YDF.HTML_Types.number,
               value: targetPerson ? nullToEmptyString(targetPerson.birthDayOfMonth__numerationFrom1) : "",
               required: true
             }).PersonManager-Fieldset-TextBox
             
           +TextBox--YDF({
-            label: "メール",
+            label: "Email Address",
             HTML_Type: TextBox__YDF.HTML_Types.emailAddress,
             value: targetPerson ? nullToEmptyString(targetPerson.emailAddress) : ""
           }).PersonManager-Control.PersonManager-Control__Big
   
           +TextBox--YDF({
-            label: "電話",
+            label: "Phone Number",
             HTML_Type: TextBox__YDF.HTML_Types.phoneNumber__digitsOnly,
             value: targetPerson ? nullToEmptyString(targetPerson.phoneNumber__digitsOnly) : ""
           }).PersonManager-Control.PersonManager-Control__Big
@@ -244,11 +245,13 @@ mixin PersonManager(properties, statesSimulations)
     
           +Button--YDF({
             HTML_Type: Button__YDF.HTML_Types.submit,
-            decoration: Button__YDF.DecorativeVariations.accented
+            decorativeVariation: Button__YDF.DecorativeVariations.accented
           })
             +FloppyDisk--YDF_Icon.Button--YDF-SVG_Icon
-            span.Button--YDF-Label 保存
+            span.Button--YDF-Label Save Person
           
           +Button--YDF
             +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
-            span.Button--YDF-Label 編集を止める
+            span.Button--YDF-Label Cancel Editing
+
+        //- +HighDummy

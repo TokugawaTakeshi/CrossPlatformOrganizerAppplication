@@ -2,17 +2,17 @@
 
   -
     /**
-     * @type {object}
-     * @property {boolean} loading
-     * @property {boolean} error
-     * @property {boolean} noItems
-     * @property {boolean} noSearchResults
+     * @type { object }
+     * @property { boolean } loading
+     * @property { boolean } error
+     * @property { boolean } noItems
+     * @property { boolean } noSearchResults
      */  
     statesSimulations = statesSimulations ?? {}
  
   .TasksViewer&attributes(attributes)
     
-    //- 【 方法論 】 「container-type inline-size」の為、根要素を２つに別けざる得ない。
+    //- [ Additional container adding reason ] Usage of container queries
     .TasksViewer-VariableComposition
     
       +TasksFilteringPanel.TasksViewer-Sidebar
@@ -24,7 +24,7 @@
         }).TasksViewer-TopActionBar-SearchBox
   
         +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers
-          +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
+          +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label Add Task
         
       if statesSimulations.loading
@@ -39,35 +39,35 @@
   
         +AdmonitionBlock--YDF({
           title: "Tasks Retrieving Failure",
-          decoration: AdmonitionBlock__YDF.DecorativeVariations.error,
-          hasPrependedSVG_Icon: true
+          decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.error,
+          SVG_Icon: true
         }).TasksViewer-AdmonitionBlock
   
-          p The tasks selection retrieving has failed.
+          p The tasks retrieving has failed.
   
           +Button--YDF({
-            label: "Retry to Retrieve"
+            label: "Retry to retrieve"
           }).AdmonitionBlock--YDF-CenteredButton
   
       else if statesSimulations.noItems
   
         +AdmonitionBlock--YDF({
-          decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
-          hasPrependedSVG_Icon: true
+          decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+          SVG_Icon: true
         }).TasksViewer-AdmonitionBlock
   
           p No tasks has been added yet.
   
           +Button--YDF({
-            label: "Let add first one",
-            decoration: Button__YDF.DecorativeVariations.accented
+            label: "Let us add the first one!",
+            decorativeVariation: Button__YDF.DecorativeVariations.accented
           }).AdmonitionBlock--YDF-CenteredButton
   
       else if statesSimulations.noSearchResults
   
         +AdmonitionBlock--YDF({
-          decoration: AdmonitionBlock__YDF.DecorativeVariations.guidance,
-          hasPrependedSVG_Icon: true
+          decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+          SVG_Icon: true
         }).TasksViewer-AdmonitionBlock
   
           p No tasks matching with filtering conditions.
@@ -90,7 +90,7 @@
       .TasksViewer-BottomActionBarForNarrowContainers
   
         +Button--YDF
-          +Person__Plus--YDF_Icon.Button--YDF-SVG_Icon
+          +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label Add Task
           
         +Button--YDF

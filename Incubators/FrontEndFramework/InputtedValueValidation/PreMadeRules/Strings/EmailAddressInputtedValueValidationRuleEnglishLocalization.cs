@@ -8,7 +8,7 @@ public class EmailAddressInputtedValueValidationRuleEnglishLocalization :
   public Func<
     EmailAddressInputtedValueValidationRule.ILocalization.ErrorMessage.TemplateVariables, string
   > ErrorMessageBuilder => 
-    (EmailAddressInputtedValueValidationRule.ILocalization.ErrorMessage.TemplateVariables _) =>
+    _ =>
         "The inputted email address is impossible. " +
         "It must the mistyping. " +
         "Please correct the correct email addres. ";

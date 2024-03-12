@@ -17,7 +17,7 @@ internal record TasksViewerEnglishLocalization : TasksViewerLocalization
   {
     taskAdding = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Add Task" },
     retryingOfDataRetrieving = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Retry to Retrieve" },
-    immediateAddingOfFirstTask = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Let add first one" },
+    immediateAddingOfFirstTask = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Let add the first one" },
     resettingOfFiltering = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Reset Filtering" },
     tasksFiltering = new SharedStaticStrings.ButtonWithVisibleLabel { label = "Filter Tasks" }
   };

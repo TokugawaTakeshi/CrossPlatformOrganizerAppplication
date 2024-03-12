@@ -4,7 +4,8 @@ mixin PersonCard(properties)
 
     const {
       person,
-      rootElementTag = "div"
+      rootElementTag = "div",
+      disabled = false
     } = properties;
     
     if (rootElementTag === "a") {
@@ -17,15 +18,16 @@ mixin PersonCard(properties)
     const fullName = `${ person.familyName }${ person.givenName ?? "" }`
 
 
-  #{rootElementTag}.PersonCard&attributes(attributes)(
+  #{ rootElementTag }.PersonCard&attributes(attributes)(
     tabindex="0"
+    class=(disabled ? "TaskCard__DisabledState" : null)
   )
 
     if person.avatarURI
     
       img.PersonCard-Avatar(
         src=person.avatarURI
-        alt=`${ fullName }という人物の写真又は画像`
+        alt=`The photo of ${ fullName }`
       )
     
     else
@@ -45,18 +47,18 @@ mixin PersonCard(properties)
     
     dl.PersonCard-Metadata
     
-      dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__VisuallyHidden 名前
+      dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__VisuallyHidden Name
       dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__OfficialName= fullName
       
       if person.familyNameSpell || person.givenNameSpell
-        dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__VisuallyHidden 名前の読み方
+        dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__VisuallyHidden Name Spell
         dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__OfficialNameSpell
           | #{ nullToEmptyString(person.familyNameSpell) }#{ nullToEmptyString(person.givenNameSpell) }
       
       if person.emailAddress
         dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__Email
           +Mail__Filled--YDF_Icon.PersonCard-Metadata-Key-Icon
-          span.PersonCard-Metadata-Key-Label メール
+          span.PersonCard-Metadata-Key-Label Email Address
         dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__Email
           a.PersonCard-Link(
             href=buildEmailLinkHrefAttributeValue(person.emailAddress)
@@ -65,7 +67,7 @@ mixin PersonCard(properties)
       if person.phoneNumber__digitsOnly
         dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__Phone
           +Phone__Filled--YDF_Icon.PersonCard-Metadata-Key-Icon
-          span.PersonCard-Metadata-Key-Label 電話
+          span.PersonCard-Metadata-Key-Label Phone Number
         dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__Phone
           a.PersonCard-Link(
             href=buildPhoneNumberLinkHrefAttributeValue(person.phoneNumber__digitsOnly)

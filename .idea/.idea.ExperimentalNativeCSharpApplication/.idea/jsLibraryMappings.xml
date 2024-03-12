@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <excludedPredefinedLibrary name="ExperimentalNativeCSharpApplication/Implementation/Elements/Client/node_modules/@yamato-daiwa/frontend/node_modules/@yamato-daiwa/automation/node_modules/@yamato-daiwa/es-extensions-nodejs/node_modules/@yamato-daiwa/es-extensions/node_modules/eslint-scope/node_modules" />
+    <excludedPredefinedLibrary name="ExperimentalNativeCSharpApplication/Implementation/Elements/Client/node_modules/@yamato-daiwa/frontend/node_modules/@yamato-daiwa/automation/node_modules/@yamato-daiwa/es-extensions-nodejs/node_modules/@yamato-daiwa/es-extensions/node_modules/vue-eslint-parser/node_modules" />
+    <excludedPredefinedLibrary name="ExperimentalNativeCSharpApplication/Implementation/Elements/Client/node_modules/@yamato-daiwa/frontend/node_modules/@yamato-daiwa/automation/node_modules/@yamato-daiwa/es-extensions/node_modules/eslint-scope/node_modules" />
+    <excludedPredefinedLibrary name="ExperimentalNativeCSharpApplication/Implementation/Elements/Client/node_modules/@yamato-daiwa/frontend/node_modules/@yamato-daiwa/automation/node_modules/@yamato-daiwa/es-extensions/node_modules/vue-eslint-parser/node_modules" />
+  </component>
+</project>

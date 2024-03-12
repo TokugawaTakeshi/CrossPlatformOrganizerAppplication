@@ -1,17 +1,19 @@
-﻿using CommonSolution.Fundamentals;
+﻿using Client.Data.FromUser.Entities.Person;
 
-using Client.Data.FromUser.Entities.Person;
+using Client.SharedComponents.Managers.Person.Localization;
 
-using FrontEndFramework.Components.Controls.FilesUploader;
-using FrontEndFramework.Components.Controls.TextBox;
-using FrontEndFramework.Components.Controls.RadioButtonsGroup;
-using FrontEndFramework.InputtedValueValidation;
 using YamatoDaiwa.Frontend.Components.Controls.Validation;
+using FrontEndFramework.InputtedValueValidation;
 
-using ValidatableControl = FrontEndFramework.ValidatableControl;
+using FrontEndFramework.Components.Controls.TextBox;
+using FrontEndFramework.Components.Controls.FilesUploader;
+using FrontEndFramework.Components.Controls.RadioButtonsGroup;
+using FrontEndFramework.Components.ModalDialogs.Confirmation;
 
-using Microsoft.EntityFrameworkCore;
+using CommonSolution.Fundamentals;
 
+using System.Globalization;
+using Client.Resources.Localizations;
 using YamatoDaiwa.CSharpExtensions;
 using Utils;
 
@@ -22,23 +24,46 @@ namespace Client.SharedComponents.Managers.Person;
 public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBase
 {
 
-  /* ━━━ Blazorコンポーネント引数 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Component parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter] 
   public CommonSolution.Entities.Person? targetPerson { get; set; }
 
+  [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.EditorRequired]
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Gateways.PersonGateway.Adding.RequestData
+  > onInputtingDataOfNewPersonCompleteEventHandler { get; set; }
+  
   [Microsoft.AspNetCore.Components.Parameter] 
+  [Microsoft.AspNetCore.Components.EditorRequired]
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Gateways.PersonGateway.Updating.RequestData
+  > onExistingPersonEditingCompleteEventHandler { get; set; }
+  
+  [Microsoft.AspNetCore.Components.Parameter] 
+  [Microsoft.AspNetCore.Components.EditorRequired]
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Entities.Person
+  > onDeletePersonEventHandler { get; set; }
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  [Microsoft.AspNetCore.Components.EditorRequired]
   public required string activationGuidance { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? rootElementModifierCSS_Class { get; set; }
 
   
-  /* ━━━ ステート ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private bool isViewingMode = true;
-  private bool isEditingMode => !this.isViewingMode;
-  
-  private readonly string ID = PersonManager.generateComponentID();
-  private string HEADING_ID => $"{ this.ID }-HEADING";
+  /* ━━━ Fields ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private (
+    FrontEndFramework.ValidatableControl.Payload familyName, 
+    FrontEndFramework.ValidatableControl.Payload givenName, 
+    FrontEndFramework.ValidatableControl.Payload familyNameSpell, 
+    FrontEndFramework.ValidatableControl.Payload givenNameSpell,
+    FrontEndFramework.ValidatableControl.Payload gender,
+    FrontEndFramework.ValidatableControl.Payload emailAddress, 
+    FrontEndFramework.ValidatableControl.Payload phoneNumber
+  ) personControlsPayload;
   
   private TextBox familyNameTextBox = null!;
   private TextBox givenNameTextBox = null!;
@@ -48,81 +73,126 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   private TextBox emailAddressTextBox = null!;
   private TextBox phoneNumberTextBox = null!;
 
-  private readonly RadioButtonsGroup.SelectingOption[] genderRadioButtonsGroupSelectingOptions = {
-    new()
-    {
-      label = "男性",
-      key = Genders.Male.ToString()
-    },
-    new()
-    {
-      label = "女性",
-      key = Genders.Female.ToString()
-    }
-  };
-      
+  private readonly RadioButtonsGroup.SelectingOption[] genderRadioButtonsGroupSelectingOptions;
   
-  private (
-    ValidatableControl.Payload familyName, 
-    ValidatableControl.Payload givenName, 
-    ValidatableControl.Payload familyNameSpell, 
-    ValidatableControl.Payload givenNameSpell,
-    ValidatableControl.Payload gender,
-    ValidatableControl.Payload emailAddress, 
-    ValidatableControl.Payload phoneNumber
-  ) personControlsPayload;
+  private TextBox.ValidityHighlightingActivationModes validityHighlightingActivationMode => 
+      this.targetPerson is null ?
+        TextBox.ValidityHighlightingActivationModes.onFocusOut :
+        TextBox.ValidityHighlightingActivationModes.immediate;
+  
+  private bool isViewingMode = true;
+  private bool isEditingMode => !this.isViewingMode;
+  
+  private readonly string ID = PersonManager.generateComponentID();
+  private string HEADING_ID;
+  
+  private readonly PersonManagerLocalization localization = 
+      ClientConfigurationRepresentative.MustForceDefaultLocalization ?
+          new PersonManagerEnglishLocalization() :
+          CultureInfo.CurrentCulture.Name switch
+          {
+            SupportedCultures.JAPANESE => new PersonManagerJapaneseLocalization(),
+            _ => new PersonManagerEnglishLocalization()
+          };
+  
+  private readonly SharedStaticStrings sharedStaticStrings = 
+      ClientConfigurationRepresentative.MustForceDefaultLocalization ?
+          SharedStaticEnglishStrings.SingleInstance : 
+          CultureInfo.CurrentCulture.Name switch
+          {
+            SupportedCultures.JAPANESE => SharedStaticJapaneseStrings.SingleInstance,
+            _ => SharedStaticEnglishStrings.SingleInstance
+          };
   
   
-  /* ━━━ コンストラクタ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public PersonManager()
   {
+    
+    this.HEADING_ID = $"{ this.ID }-HEADING";
+    
     this.personControlsPayload = (
-      familyName: new ValidatableControl.Payload(
+      familyName: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "", 
         validation: new PersonFamilyNameInputtedDataValidation(),
         componentInstanceAccessor: () => this.familyNameTextBox
       ),
-      givenName: new ValidatableControl.Payload(
+      givenName: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "", 
         validation: new PersonGivenNameInputtedDataValidation(),
         componentInstanceAccessor: () => this.givenNameTextBox
       ),
-      familyNameSpell: new ValidatableControl.Payload(
+      familyNameSpell: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "", 
         validation: new PersonFamilyNameSpellInputtedDataValidation(),
         componentInstanceAccessor: () => this.familyNameSpellTextBox
       ),
-      givenNameSpell: new ValidatableControl.Payload(
+      givenNameSpell: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "", 
         validation: new PersonGivenNameSpellInputtedDataValidation(),
         componentInstanceAccessor: () => this.givenNameSpellTextBox
       ),
-      gender: new ValidatableControl.Payload(
+      gender: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "",
         validation: new PersonGenderInputtedDataValidation(),
         componentInstanceAccessor: () => this.genderRadioButtonsGroup
       ),
-      emailAddress: new ValidatableControl.Payload(
+      emailAddress: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "",
         validation: new PersonEmailInputtedDataValidation(),
         componentInstanceAccessor: () => this.emailAddressTextBox
       ),
-      phoneNumber: new ValidatableControl.Payload(
+      phoneNumber: new FrontEndFramework.ValidatableControl.Payload(
         initialValue: "",
         validation: new PersonPhoneNumberInputtedDataValidation(),
         componentInstanceAccessor: () => this.phoneNumberTextBox
       )
     );
+    
+    this.genderRadioButtonsGroupSelectingOptions =
+    [
+      new RadioButtonsGroup.SelectingOption
+      {
+        label = this.localization.controls.gender.optionsLabels.male,
+        key = Genders.Male.ToString()
+      },
+      new RadioButtonsGroup.SelectingOption()
+      {
+        label = this.localization.controls.gender.optionsLabels.female,
+        key = Genders.Female.ToString()
+      }
+    ];
+    
+  }
+  
+  /* ━━━ Public methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public void utilizePersonEditing()
+  {
+    
+    this.isViewingMode = true;
+    
+    this.personControlsPayload.familyName.SetValue("");
+    this.personControlsPayload.givenName.SetValue("");
+    this.personControlsPayload.familyNameSpell.SetValue("");
+    this.personControlsPayload.givenNameSpell.SetValue("");
+    this.personControlsPayload.emailAddress.SetValue("");
+    this.personControlsPayload.phoneNumber.SetValue("");
+
   }
 
   
-  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Actions handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public void beginInputNewPersonData()
+  {
+    this.isViewingMode = false;
+  }
+  
   private void beginPersonEditing()
   {
 
     if (this.targetPerson is null)
     {
-      throw new Exception("「beginPersonEditing」メソッドは呼び出されたが、「targetPerson」は「null」のまま。");
+      throw new Exception("\"beginPersonEditing\" has been called while \"targetPerson\" is still \"null\".");
     }
 
     
@@ -139,12 +209,17 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
   
   private void displayPersonDeletingConfirmationDialog()
   {
-    // TODO
+    ConfirmationModalDialogService.displayModalDialog(
+      new ConfirmationModalDialog.Options()
+      {
+        title = this.localization.personDeletingConfirmationModalDialog.title,
+        question = this.localization.personDeletingConfirmationModalDialog.question,
+        onConfirmationButtonClickedEventHandler = this.deletePerson
+      }  
+    );
   }
 
-  
-  /* ─── 新規追加・編集 ──────────────────────────────────────────────────────────────────────────────────────────────── */
-  private void onClickPersonDataSavingButton()
+  private async void onClickPersonDataSavingButton()
   {
 
     if (ValidatableControlsGroup.HasInvalidInputs(this.personControlsPayload))
@@ -156,40 +231,57 @@ public partial class PersonManager : Microsoft.AspNetCore.Components.ComponentBa
 
     if (this.targetPerson is null)
     {
-      // TODO OnNewPersonHasBeenAdded event
+      
+      await this.onInputtingDataOfNewPersonCompleteEventHandler.InvokeAsync(
+        new CommonSolution.Gateways.PersonGateway.Adding.RequestData
+        {
+          FamilyName = this.personControlsPayload.familyName.GetExpectedToBeValidValue<string>(),
+          GivenName = this.personControlsPayload.givenName.GetExpectedToBeValidValue<string>(),
+          FamilyNameSpell = this.personControlsPayload.familyNameSpell.GetExpectedToBeValidValue<string>(),
+          GivenNameSpell = this.personControlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>(),
+          Gender = this.personControlsPayload.gender.GetExpectedToBeValidValue<Genders>(),
+          EmailAddress = this.personControlsPayload.emailAddress.GetExpectedToBeValidValue<string>(),
+          PhoneNumber__DigitsOnly = this.personControlsPayload.phoneNumber.GetExpectedToBeValidValue<string>()
+        }
+      );
+      
       return;
+      
     }
+
+
+    await this.onExistingPersonEditingCompleteEventHandler.InvokeAsync(
+      new CommonSolution.Gateways.PersonGateway.Updating.RequestData
+      {
+        ID = this.targetPerson.ID,
+        FamilyName = this.personControlsPayload.familyName.GetExpectedToBeValidValue<string>(),
+        GivenName = this.personControlsPayload.givenName.GetExpectedToBeValidValue<string>(),
+        FamilyNameSpell = this.personControlsPayload.familyNameSpell.GetExpectedToBeValidValue<string>(),
+        GivenNameSpell = this.personControlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>(),
+        Gender = this.personControlsPayload.gender.GetExpectedToBeValidValue<Genders>(),
+        EmailAddress = this.personControlsPayload.emailAddress.GetExpectedToBeValidValue<string>(),
+        PhoneNumber__DigitsOnly = this.personControlsPayload.phoneNumber.GetExpectedToBeValidValue<string>()
+      }
+    );
     
+  }
+
+  private async void deletePerson()
+  {
+
+    if (this.targetPerson is null)
+    {
+      throw new Exception("\"deletePerson\" method has been called while \"targetPerson\" is still \"null\".");
+    }
+
     
-    this.targetPerson.familyName = this.personControlsPayload.familyName.GetExpectedToBeValidValue<string>();
-    this.targetPerson.givenName = this.personControlsPayload.givenName.GetExpectedToBeValidValue<string>();
-    this.targetPerson.familyNameSpell = this.personControlsPayload.familyNameSpell.GetExpectedToBeValidValue<string>();
-    this.targetPerson.givenNameSpell = this.personControlsPayload.givenNameSpell.GetExpectedToBeValidValue<string>();
-    this.targetPerson.emailAddress = this.personControlsPayload.emailAddress.GetExpectedToBeValidValue<string>();
-    this.targetPerson.phoneNumber__digitsOnly = this.personControlsPayload.phoneNumber.GetExpectedToBeValidValue<string>().
-        RemoveAllSpecifiedCharacters(['-']);
-    // TODO 其の他のフィルド
-    // TODO そのままでtargetPersonを更新してもとは限らん
+    await this.onDeletePersonEventHandler.InvokeAsync(this.targetPerson);
 
   }
   
-  private void utilizePersonEditing()
-  {
-    
-    this.isViewingMode = true;
-    
-    this.personControlsPayload.familyName.SetValue("");
-    this.personControlsPayload.givenName.SetValue("");
-    this.personControlsPayload.familyNameSpell.SetValue("");
-    this.personControlsPayload.givenNameSpell.SetValue("");
-    this.personControlsPayload.emailAddress.SetValue("");
-    // TODO 其の他のフィルド
 
-  }
-
-
-  /* ━━━ ルーチン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ * /
-  /* ─── ID生成 ────────────────────────────────────────────────────────────────────────────────────────────────────── */
+  /* ━━━ Routines ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Generating of ID ─────────────────────────────────────────────────────────────────────────────────────────── */
   private static uint counterForComponentID_Generating = 0;
 
   private static string generateComponentID()

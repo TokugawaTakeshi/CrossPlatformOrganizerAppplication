@@ -5,7 +5,6 @@ using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
 using YamatoDaiwa.CSharpExtensions.DataMocking;
-using Utils;
 
 
 namespace MockDataSource.Entities;
@@ -61,7 +60,7 @@ internal abstract class TaskMocker
     DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow.Date);
     DateOnly oneYearLater = DateOnly.FromDateTime(DateTime.Today).AddYears(1);
 
-    bool isComplete = preDefines?.isComplete ?? RandomValuesGenerator.GetRandomBoolean();
+    bool isComplete = preDefines?.isComplete ?? YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomBoolean();
 
     
     DateTime? associatedDateTime = null; 
@@ -77,7 +76,7 @@ internal abstract class TaskMocker
           new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
           {
             PreDefinedValue = preDefines?.associatedDateTime,
-            RandomValueGenerator = () => RandomValuesGenerator.GetRandomDateTime(
+            RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDateTime(
               earliestDate: today, latestDate: oneYearLater
             ),
             Strategy = DataMocking.NullablePropertiesDecisionStrategies.
@@ -92,7 +91,7 @@ internal abstract class TaskMocker
             new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
             {
               PreDefinedValue = preDefines?.associatedDate,
-              RandomValueGenerator = () => RandomValuesGenerator.GetRandomDate(
+              RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDate(
                 earliestDate: today, latestDate: oneYearLater
               ),
               Strategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll
@@ -108,13 +107,14 @@ internal abstract class TaskMocker
       case DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined:
       {
 
-        bool mustGenerateEitherAssociatedDateTimeOrDateOnly = RandomValuesGenerator.GetRandomBoolean();
+        bool mustGenerateEitherAssociatedDateTimeOrDateOnly = YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.
+          GetRandomBoolean();
         
         associatedDateTime = DataMocking.DecideOptionalValue(
           new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
           {
             PreDefinedValue = preDefines?.associatedDateTime,
-            RandomValueGenerator = () => RandomValuesGenerator.GetRandomDateTime(
+            RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDateTime(
               earliestDate: today, latestDate: oneYearLater
             ),
             Strategy = DataMocking.NullablePropertiesDecisionStrategies.
@@ -129,7 +129,7 @@ internal abstract class TaskMocker
             new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
             {
               PreDefinedValue = preDefines?.associatedDate,
-              RandomValueGenerator = () => RandomValuesGenerator.GetRandomDate(
+              RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDate(
                 earliestDate: today, latestDate: oneYearLater
               ),
               Strategy = mustGenerateEitherAssociatedDateTimeOrDateOnly ? 
@@ -163,7 +163,7 @@ internal abstract class TaskMocker
       new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<Location?>
       {
         PreDefinedValue = preDefines?.associatedLocation,
-        RandomValueGenerator = () => RandomValuesGenerator.GetRandomArrayElement(dependencies.Locations),
+        RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomArrayElement(dependencies.Locations),
         Strategy = options.NullablePropertiesDecisionStrategy
       }
     ); 
@@ -175,7 +175,7 @@ internal abstract class TaskMocker
       title = title,
       description = description,
       isComplete = isComplete,
-      subtasks = preDefines?.subtasks ?? new List<Task>(),
+      subtasks = preDefines?.subtasks ?? [],
       associatedDateTime = associatedDateTime,
       associatedDate = associatedDate,
       associatedLocation = associatedLocation

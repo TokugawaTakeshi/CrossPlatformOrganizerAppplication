@@ -32,11 +32,13 @@ public partial class ModalDialog : Microsoft.AspNetCore.Components.ComponentBase
   public void display()
   {
     this.isDisplaying = true;
+    base.StateHasChanged();
   }
 
   public void dismiss()
   {
     this.isDisplaying = false;
+    base.StateHasChanged();
   }
    
   
@@ -56,7 +58,7 @@ public partial class ModalDialog : Microsoft.AspNetCore.Components.ComponentBase
   [Microsoft.AspNetCore.Components.Parameter]
   public string? rootElementModifierCSS_Class { get; set; }
 
-  private string rootElementModifierCSS_Classes => new List<string> { "ModalDialog--YDF__FillingOfScreenWithSmallGapGeometry" }.
+  private string rootElementModifierCSS_Classes => new List<string> { "ModalDialog--YDF__FillingOfScreenWithSmallGapGeometricVariation" }.
     
       AddElementToEndIf(
         this.rootElementModifierCSS_Class ?? "", String.IsNullOrEmpty(this.rootElementModifierCSS_Class)

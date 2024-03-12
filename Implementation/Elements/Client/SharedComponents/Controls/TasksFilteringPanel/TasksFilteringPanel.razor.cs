@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
+﻿using CommonSolution.Gateways;
+using Client.SharedComponents.Controls.TasksFilteringPanel.Localization;
 using Client.SharedState;
-using CommonSolution.Gateways;
-using Utils;
+using System.Globalization;
 using YamatoDaiwa.CSharpExtensions;
+using Utils;
 
 
 namespace Client.SharedComponents.Controls.TasksFilteringPanel;
@@ -13,31 +14,30 @@ public partial class TasksFilteringPanel : Microsoft.AspNetCore.Components.Compo
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string? rootElementModifierCSS_Class { get; set; }
+  
+  private readonly TasksFilteringPanelLocalization localization = ClientConfigurationRepresentative.
+        MustForceDefaultLocalization ?
+        new TasksFilteringPanelEnglishLocalization() :
+        CultureInfo.CurrentCulture.Name switch
+        {
+          SupportedCultures.JAPANESE => new TasksFilteringPanelJapaneseLocalization(),
+          _ => new TasksFilteringPanelEnglishLocalization()
+        };
  
 
-  /* ━━━ ライフサイクルフック ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Lifecycle Hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected override void OnInitialized()
   {
     TasksSharedState.onStateChanged += base.StateHasChanged;
   }
   
   
-  /* ━━━ 行動処理 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Actions Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private System.Threading.Tasks.Task retrieveAllTasks()
   {
     return TasksSharedState.retrieveTasksSelection(
       mustResetFilteringByAssociatedDate: true,
       mustResetFilteringByAssociatedDateTime: true
-    );
-  }
-  
-  private System.Threading.Tasks.Task retrieveTasksWithAssociatedDate()
-  {
-    return TasksSharedState.retrieveTasksSelection(
-      requestParameters: new TaskGateway.SelectionRetrieving.RequestParameters
-      {
-        OnlyTasksWithAssociatedDate = true
-      }
     );
   }
   
@@ -51,8 +51,18 @@ public partial class TasksFilteringPanel : Microsoft.AspNetCore.Components.Compo
     );
   }
   
+  private System.Threading.Tasks.Task retrieveTasksWithAssociatedDate()
+  {
+    return TasksSharedState.retrieveTasksSelection(
+      requestParameters: new TaskGateway.SelectionRetrieving.RequestParameters
+      {
+        OnlyTasksWithAssociatedDate = true
+      }
+    );
+  }
   
-  /* ━━━ 条件描画 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  
+  /* ━━━ Conditional Rendering ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private bool isDisabled => TasksSharedState.isTasksRetrievingInProgressOrNotStartedYet;
 
   private string retrievingOfAllTasksButtonAdditionalCSS_Classes => new List<string>().

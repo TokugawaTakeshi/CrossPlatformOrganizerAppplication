@@ -1,6 +1,10 @@
-﻿using System.Diagnostics;
-using Client.LocalDataBase.Gateways;
+﻿using Client.Data.FromServer;
+using Client.LocalDataBase;
+
+using EntityFramework;
 using MockDataSource.Gateways;
+
+using System.Diagnostics;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
 
 
@@ -12,14 +16,17 @@ public partial class App : Application
   public App()
   {
 
+    DatabaseContext databaseContext = new LocalDatabaseContext();
+    
     ClientDependencies.Injector.SetDependencies(
       new ClientDependencies
       {
         gateways = new ClientDependencies.Gateways
         {
           Person = new PersonMockGateway(),
-          Task = new TaskEntityFrameworkSQLiteGateway()
+          Task = new TaskHTTP_ClientGateway()
           // Task = new TaskMockGateway()
+          // Task = new TaskHTTP_ClientGateway()
         }
       }
     );

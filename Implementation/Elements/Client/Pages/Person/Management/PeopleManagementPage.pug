@@ -23,8 +23,7 @@ block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "人管理 ｜ やまとダイワ几帳面さ";
+    HTML_PAGE_TITLE = "People Management — Experimental CSharp Application";
 
     styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
     
@@ -43,7 +42,7 @@ block append SpecificContent
     +PersonManager(
       {
         targetPerson: getRandomArrayElement(DummyData.People),
-        activationGuidance: "人の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        activationGuidance: "Click or tap the person card to view details or edit the dedicated person data."
       },
       { editingMode: true }
     ).PeopleManagementPage-PersonManager&attributes({

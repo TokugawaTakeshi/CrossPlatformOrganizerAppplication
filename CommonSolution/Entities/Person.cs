@@ -84,9 +84,11 @@ public class Person
   {
     public const bool IS_REQUIRED = false;
   }
-
-
-  /* ━━━ アバター ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  
+  
+  /* ━━━ Avatar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  // TODO Planned in following versions
+  /*
   public string? avatarURI { get; set; }
 
   public abstract class AvatarURI
@@ -94,10 +96,11 @@ public class Person
     public const bool IS_REQUIRED = false;
     public const byte MINIMAL_CHARACTERS_COUNT = 10;
   }
+  */
 
-  
-  /* ━━━ 誕生 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* 【 理論 】 生年を知らなくても、生月日を知っている事が多いが、年齢を算出するには年迄知る事が必要。 */
+  /* ━━━ Birth Date / Age ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* [ Theory ] To notify use about someone's birthday, it is enough to know just the birth month and birth day,
+  *     however to compute the age, the birth year also required. */
   public ushort? birthYear { get; set; }
 
   public abstract class BirthYear
@@ -165,9 +168,9 @@ public class Person
 
     }
   }
-
   
-  /* ━━━ メールアドレス ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  
+  /* ━━━ Email Address ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public string? emailAddress { get; set; }
   
   public abstract class EmailAddress
@@ -177,7 +180,7 @@ public class Person
   }
 
 
-  /* ━━━ 電話番号 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Phone Number ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public string? phoneNumber__digitsOnly { get; set; }
   
   public abstract class PhoneNumber__DigitsOnly
@@ -186,7 +189,7 @@ public class Person
   }
   
   
-  /* ━━━ 其の他 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ Routines ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public Person clone()
   {
     return new Person
@@ -197,7 +200,6 @@ public class Person
       familyNameSpell = this.familyNameSpell,
       givenNameSpell = this.givenNameSpell,
       gender = this.gender,
-      avatarURI = this.avatarURI,
       birthYear = this.birthYear,
       birthMonthNumber__numerationFrom1 = this.birthMonthNumber__numerationFrom1,
       birthDayOfMonth__numerationFrom1 = this.birthDayOfMonth__numerationFrom1,
