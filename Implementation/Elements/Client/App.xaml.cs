@@ -1,4 +1,11 @@
-﻿using MockDataSource.Gateways;
+﻿using Client.Data.FromServer;
+using Client.LocalDataBase;
+
+using EntityFramework;
+using MockDataSource.Gateways;
+
+using System.Diagnostics;
+using YamatoDaiwa.CSharpExtensions.DataMocking;
 
 
 namespace Client;
@@ -9,23 +16,23 @@ public partial class App : Application
   public App()
   {
 
+    DatabaseContext databaseContext = new LocalDatabaseContext();
+    
     ClientDependencies.Injector.SetDependencies(
       new ClientDependencies
       {
         gateways = new ClientDependencies.Gateways
         {
           Person = new PersonMockGateway(),
-          Task = new TaskMockGateway()
+          Task = new TaskHTTP_ClientGateway()
+          // Task = new TaskMockGateway()
+          // Task = new TaskHTTP_ClientGateway()
         }
       }
     );
-
-    // === ＜ テスト専用 ==================================================================================================
-    FrontEndFramework.Components.Badge.Badge.defineNewDecorativeVariations(
-      typeof(Client.Components.SharedReusable.Badge.Badge.DecorativeVariations)
-    );
-    // === テスト専用 ＞ ==================================================================================================
     
+    MockGatewayHelper.SetLogger((string message) => { Debug.WriteLine(message); });
+
     InitializeComponent();
 
     MainPage = new MainPage();

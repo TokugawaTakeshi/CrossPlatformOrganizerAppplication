@@ -9,27 +9,30 @@ internal class ClientDependencies {
   public required Gateways gateways { get; init; }
 
   public struct Gateways {
-    public required IPersonGateway Person { get; init; }
-    public required ITaskGateway Task { get; init; }
+    public required PersonGateway Person { get; init; }
+    public required TaskGateway Task { get; init; }
   }
   
   public abstract class Injector {
 
-    private static ClientDependencies? _dependencies;
+    private static ClientDependencies? dependencies;
 
     public static void SetDependencies(ClientDependencies dependencies) {
-      _dependencies = dependencies;
+      Injector.dependencies = dependencies;
     }
 
 
     private static ClientDependencies getDependencies() {
 
-      if (_dependencies == null) {
-        throw new NullReferenceException("ClientDependenciesは初期化されなかった。");
+      if (Injector.dependencies == null) {
+        throw new NullReferenceException(
+          "\"ClientDependencies.Injector\" has not been initialized." +
+          "Invoke \"ClientDependencies.Injector.SetDependencies\" to complete initialization."
+        );
       }
 
 
-      return _dependencies;
+      return Injector.dependencies;
       
     }
 

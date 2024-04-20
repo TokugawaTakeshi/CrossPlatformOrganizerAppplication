@@ -1,18 +1,25 @@
 ﻿@page "/PeopleManagement"
 
 
-@using Client.Components.SharedReusable.Managers.People
-@using Client.Components.SharedReusable.Managers.Person
+@using Client.SharedComponents.Viewers.People
+@using Client.SharedComponents.Managers.Person
 
 
 <div class="PeopleManagementPage-SpecificContent MainLayout-SpecificContentFillingElement">
   
-  <PeopleManager spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleManager" />
+  <PeopleViewer 
+    spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PeopleViewer"
+    onClickPersonAddingButtonEventHandler=@onClickStartingOfNewPersonInputtingButton
+  />
   
-  <PersonManager 
-    spaceSeparatedAdditionalCSS_Classes="PeopleManagementPage-PersonManager"
-    activationGuidance=@personManagerActivationGuidance
+  <PersonManager
+    rootElementModifierCSS_Class=@($"PeopleManagementPage-PersonManager { personManagerAdditionalCSS_Class }")
+    activationGuidance=@localization.personManagerActivationGuidance
     targetPerson=@activePerson
+    onInputtingDataOfNewPersonCompleteEventHandler=@onNewPersonInputtingCompleted
+    onExistingPersonEditingCompleteEventHandler=@onExistingPersonEditingCompleted
+    onDeletePersonEventHandler=@onDeletePerson
+    @ref=@personManager
   />
   
 </div>

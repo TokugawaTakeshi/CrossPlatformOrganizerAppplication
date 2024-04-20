@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0-maccatalyst;net7.0-ios;net7.0-android</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net8.0-maccatalyst;net8.0-ios;net8.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
     <!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
     <OutputType>Exe</OutputType>
@@ -57,19 +57,35 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Incubators\Utils\Utils.csproj" />
     <ProjectReference Include="..\..\..\Incubators\FrontEndFramework\FrontEndFramework.csproj" />
+    <ProjectReference Include="..\..\Interactions\ClientAndFrontServer\ClientAndFrontServer.csproj" />
+    <ProjectReference Include="..\..\Reusables\EntityFramework\EntityFramework.csproj" />
     <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-rc.1.22426.7" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.7" />
+    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.9" />
+    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\SharedReusable\Cards\Person" />
-    <Folder Include="Components\SharedReusable\Managers\People" />
     <Folder Include="StaticPreview\.Build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="SharedComponents\Cards\Person\LoadingPlaceholder\PersonCardLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Person\PersonCard.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Task\LoadingPlaceholder\TaskCardLoadingPlaceholder.razor" />
+    <AdditionalFiles Include="SharedComponents\Cards\Task\TaskCard.razor" />
+    <AdditionalFiles Include="SharedComponents\Managers\Person\PersonManager.razor" />
+    <AdditionalFiles Include="SharedComponents\Managers\Task\TaskManager.razor" />
+    <AdditionalFiles Include="SharedComponents\NavigationMenu\NavigationMenu.razor" />
+    <AdditionalFiles Include="SharedComponents\Viewers\People\PeopleViewer.razor" />
+    <AdditionalFiles Include="SharedComponents\Viewers\Tasks\TasksViewer.razor" />
   </ItemGroup>
 
 </Project>

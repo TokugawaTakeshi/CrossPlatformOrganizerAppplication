@@ -1,0 +1,284 @@
+﻿@using CommonSolution.Fundamentals
+@using CommonSolution.Entities
+
+@using YamatoDaiwa.Frontend.Components.AdmonitionBlock
+@using FrontEndFramework.Components.Controls.Buttons.Plain
+@using FrontEndFramework.Components.Controls.RadioButtonsGroup
+@using FrontEndFramework.Components.Controls.TextBox
+@using FrontEndFramework.Components.Controls.FilesUploader
+@using FrontEndFramework.Helpers
+
+@using FrontEndFramework.SVG_Icons.FloppyDisk
+@using FrontEndFramework.SVG_Icons.Pencil
+@using FrontEndFramework.SVG_Icons.Person
+@using FrontEndFramework.SVG_Icons.TrashCan
+@using FrontEndFramework.SVG_Icons.MultiplicationSign
+
+@using Utils
+@using YamatoDaiwa.CSharpExtensions.OfficialLocalizations.Japanese
+
+
+<div class="PersonManager @rootElementModifierCSS_Class">
+  
+  <div 
+    class="PersonManager-Heading"
+    id="@HEADING_ID"
+  >
+    @(localization.heading)
+  </div>
+
+  
+  @if (targetPerson is null && !String.IsNullOrEmpty(activationGuidance))
+  {
+    <AdmonitionBlock
+      rootElementModifierCSS_Class="PersonManager-Guidance"
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      hasPrependedSVG_Icon
+    >
+      <p>@(activationGuidance)</p>
+    </AdmonitionBlock>
+  }
+  
+  @* ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  <div class="PersonManager-ActionBar">
+    
+    @if (isViewingMode)
+    {
+      <Button
+        disabled=@(targetPerson is null)
+        label=@localization.buttons.personEditing.label
+        onClick=@beginPersonEditing
+      >
+        <PrependedSVG_Icon>
+          <PencilIcon__Filled rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button>
+    }
+      
+    <Button
+      disabled=@(targetPerson is null)
+      label=@localization.buttons.personDeleting.label
+      onClick=@displayPersonDeletingConfirmationDialog
+    >
+      <PrependedSVG_Icon>
+        <TrashCan__Filled rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
+    
+    @if (isEditingMode)
+    {
+      <Button
+        label=@localization.buttons.terminatingOfEditing.label
+        onClick=@utilizePersonEditing
+      >
+        <PrependedSVG_Icon>
+          <MultiplicationSignIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button> 
+    }
+
+  </div>
+  
+  
+  @* ━━━ Veiwing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if (isViewingMode)
+  {
+
+    @if (targetPerson is not null)
+    {
+      
+      @switch (targetPerson.gender)
+      {
+
+        case Genders.Male:
+
+          <PersonIcon__Male rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
+          break;
+
+        case Genders.Female:
+
+          <PersonIcon__Female rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
+          break;
+
+        default:
+
+          <PersonIcon rootElementModifierCSS_Class="PersonManager-AvatarPlaceholder"/>
+          break;
+
+      }
+
+    }
+  
+  
+    <dl class="PersonManager-Metadata">
+    
+      <dt>@(localization.metadataKeys.name)</dt>
+      <dd>@(targetPerson?.fullName ?? "")</dd>
+    
+      <dt>@(localization.metadataKeys.nameSpell)</dt>
+      <dd>@(targetPerson?.fullNameSpell ?? "")</dd>
+    
+      <dt>@(localization.metadataKeys.gender)</dt>
+      <dd>
+        @if (targetPerson is not null)
+        {
+          if (targetPerson.gender is not null)
+          {
+            @(targetPerson.gender is Genders.Male ? sharedStaticStrings.genders.male : sharedStaticStrings.genders.female)
+          }
+          else
+          {
+            @(sharedStaticStrings.commonWords.unknown)
+          }
+        }
+      </dd>
+    
+      <dt>@(localization.metadataKeys.birthDate)</dt>
+      <dd>
+        @if (targetPerson is not null)
+        {
+          @if (targetPerson.birthYear is not null)
+          {
+            @($"{ targetPerson.birthYear }/")
+          }
+          @if (targetPerson.birthMonthNumber__numerationFrom1 is not null)
+          {
+            @($"{ targetPerson.birthMonthNumber__numerationFrom1 }/")
+          }
+          @if (targetPerson.birthDayOfMonth__numerationFrom1 is not null)
+          {
+            @($"{ targetPerson.birthDayOfMonth__numerationFrom1 }")
+          }
+          @if (targetPerson.age is not null)
+          {
+            @(
+              $"({ targetPerson.age }{ sharedStaticStrings.availableDependingOnLanguageSpace }" +
+              $"{ sharedStaticStrings.commonWords.yearsOld })")
+          }
+        }
+      </dd>
+    
+      @if (targetPerson?.emailAddress is not null)
+      {
+        <dt>@(localization.metadataKeys.emailAddress)</dt>
+        <dd>
+          <a href=@(AnchorElementHelper.BuildEmailLinkHrefAttributeValue(targetPerson.emailAddress))>
+            @targetPerson.emailAddress
+          </a>
+        </dd>
+      }
+    
+      @if (targetPerson?.phoneNumber__digitsOnly is not null)
+      {
+        <dt>@(localization.metadataKeys.phoneNumber)</dt>
+        <dd>
+          <a href=@(AnchorElementHelper.BuildPhoneNumberLinkHrefAttributeValue(targetPerson.phoneNumber__digitsOnly))>
+            @(JapanesePhoneNumber.Format(targetPerson.phoneNumber__digitsOnly))
+          </a>
+        </dd>
+      }
+    
+    </dl>
+  }
+  
+  @* ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  else
+  {
+    <form
+      class="PersonManager-Form"
+      aria-labelledby=@HEADING_ID
+    >
+  
+      <div class="PersonManager-ScrollableGrid">
+  
+        <TextBox
+          label=@localization.controls.familyName.label
+          guidance=@localization.controls.familyName.guidance
+          payload=@personControlsPayload.familyName
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
+          @ref=@familyNameTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
+        />
+ 
+        <TextBox
+          label=@localization.controls.givenName.label
+          guidance=@localization.controls.givenName.guidance
+          payload=@personControlsPayload.givenName
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
+          @ref=@givenNameTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
+        />
+  
+        <TextBox
+          label=@localization.controls.familyNameSpell.label
+          guidance=@localization.controls.familyNameSpell.guidance
+          payload=@personControlsPayload.familyNameSpell
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
+          @ref=@familyNameSpellTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
+        />
+  
+        <TextBox
+          label=@localization.controls.givenNameSpell.label
+          guidance=@localization.controls.givenNameSpell.guidance
+          payload=@personControlsPayload.givenNameSpell
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
+          @ref=@givenNameSpellTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control PersonManager-Control__Small"
+        />
+        
+        @* <RadioButtonsGroup *@
+        @*   label=@localization.controls.gender.label *@
+        @*   selectingOptions=@genderRadioButtonsGroupSelectingOptions *@
+        @*   @ref=@genderRadioButtonsGroup *@
+        @* /> *@
+        
+        <TextBox
+          label=@localization.controls.emailAddress
+          HTML_Type=@TextBox.HTML_Types.email
+          payload=@personControlsPayload.emailAddress
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
+          @ref=@emailAddressTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+  
+        <TextBox
+          label=@localization.controls.phoneNumber
+          HTML_Type=@TextBox.HTML_Types.phoneNumber
+          payload=@personControlsPayload.phoneNumber
+          validityHighlightingActivationMode=@validityHighlightingActivationMode
+          @ref=@phoneNumberTextBox
+          spaceSeparatedAdditionalCSS_Classes="PersonManager-Control"
+        />
+  
+      </div>
+      
+      <div class="PersonManager-ActionBar">
+  
+        <Button
+          label=@localization.buttons.personSaving.label
+          HTML_Type=@Button.HTML_Types.inputSubmit
+          onClick=@onClickPersonDataSavingButton
+          decorativeVariation=@Button.StandardDecorativeVariations.accented
+        >
+          <PrependedSVG_Icon>
+            <FloppyDiskIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />
+          </PrependedSVG_Icon>
+        </Button>
+  
+        <Button
+          label=@localization.buttons.terminatingOfEditing.label
+          onClick=@utilizePersonEditing
+        >
+          <PrependedSVG_Icon>
+            <MultiplicationSignIcon rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />
+          </PrependedSVG_Icon>
+        </Button>
+  
+      </div>
+  
+    </form>
+  
+  }
+  
+</div>

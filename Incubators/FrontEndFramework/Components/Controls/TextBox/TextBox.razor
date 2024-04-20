@@ -1,27 +1,31 @@
-﻿@using FrontEndFramework.Components.Controls.CompoundControlShell
+﻿@using YamatoDaiwa.Frontend.Components.Controls.CompoundControlShell
 
 
-@inherits InputtableControl
+@inherits FrontEndFramework.Components.Controls.InputtableControl
 
 
 <CompoundControlShell
-  spaceSeparatedAdditionalCSS_Classes="@string.Concat("TextBox--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)"
+  rootElementModifierCSS_Class=@string.Concat("TextBox--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)
   label=@label
   guidance=@guidance
   required=@required
   mustDisplayAppropriateBadgeIfInputIsRequired=@mustDisplayAppropriateBadgeIfInputIsRequired
   mustDisplayAppropriateBadgeIfInputIsOptional=@mustDisplayAppropriateBadgeIfInputIsOptional
+  mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge=@mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge
   coreElementHTML_ID=@INPUT_OR_TEXT_AREA_ELEMENT_HTML_ID
   labelElementHTML_ID=@labelElementHTML_ID
+  validationErrorsMessages=@payload.ValidationErrorsMessages
+  invalidInputHighlightingIfAnyValidationErrorsMessages="mustHighlightInvalidInputIfAnyValidationErrorsMessages"
+  @ref=@compoundControlShell
 >
  
   @if (multiline)
   {
-  
+
     <textarea
       class="TextBox--YDF-InputOrTextAreaElement"
       placeholder=@placeholder
-      readonly=@isReadonly
+      readonly=@(@readonly)
       disabled=@disabled
       required=@required
       minlength=@minimalCharactersCount
@@ -30,7 +34,9 @@
       aria-label=@accessibilityGuidance
       aria-labelledby=@externalLabelHTML_ID
       value=@rawValue
-      @oninput=@onInputEventHandler
+      @oninput=@onInput
+      @onblur=@onFocusOut
+      @ref=@nativeInputAcceptingElement
     ></textarea>  
   }
 
@@ -40,7 +46,7 @@
       type="text"
       class="TextBox--YDF-InputOrTextAreaElement"
       placeholder=@placeholder
-      readonly=@isReadonly
+      readonly=@(@readonly)
       disabled=@disabled
       required=@required
       minlength=@minimalCharactersCount
@@ -51,7 +57,9 @@
       aria-label=@accessibilityGuidance
       aria-labelledby=@externalLabelHTML_ID
       value=@rawValue
-      @oninput=@onInputEventHandler
+      @oninput=@onInput
+      @onblur=@onFocusOut
+      @ref=@nativeInputAcceptingElement
     />  
   }
   

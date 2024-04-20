@@ -1,0 +1,28 @@
+﻿@using YamatoDaiwa.Frontend.Components.Abstractions
+
+
+@implements ISupportsFlexibleExternalCSS_ClassesSpecifyingForRootElement
+
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 15.25 20"
+  class=@rootElementModifierCSS_Class
+>
+  <path d="M13.45 2.21h-1.59v1.01c0 .12-.01.24-.04.36h1.8c.2 0 .36.16.36.36v13.92c0 .2-.16.36-.36.36H1.63a.36.36 0 0 1-.36-.36V3.94c0-.2.16-.36.36-.36h1.8a1.98 1.98 0 0 1-.04-.36V2.21H1.8c-.99 0-1.8.81-1.8 1.8V18.2c0 .99.81 1.8 1.8 1.8h11.65c.99 0 1.8-.81 1.8-1.8V4.01c0-.99-.81-1.8-1.8-1.8Z"></path>
+  <path d="M5.1 4.3h5.04c.6 0 1.08-.48 1.08-1.08V2.14c0-.6-.48-1.08-1.08-1.08H8.77C8.72.47 8.22 0 7.62 0s-1.1.47-1.15 1.06H5.1c-.6 0-1.08.48-1.08 1.08v1.08c0 .6.48 1.08 1.08 1.08ZM7.62.64c.29 0 .53.24.53.53s-.24.53-.53.53-.53-.24-.53-.53.24-.53.53-.53ZM4.44 8.4l.46-.46 1.28-1.28-.47-.46-1.27 1.28-.82-.82-.46.47L4.44 8.4zM5.71 9.53l-1.27 1.28-.82-.81-.46.46 1.28 1.28.46-.47L6.18 10l-.47-.47zM3.62 13.33l-.46.47 1.28 1.27.46-.46 1.28-1.28-.47-.46-1.27 1.28-.82-.82zM6.67 7.22h5.41v.91H6.67zM6.67 10.57h5.41v.91H6.67zM6.67 13.92h5.41v.91H6.67z"></path>
+</svg>
+
+
+@code {
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? rootElementModifierCSS_Class { get; set; } = null;
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string[]? rootElementModifierCSS_Classes { get; set; } = null;
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? rootElementSpaceSeparatedModifierCSS_Classes { get; set; } = null;
+
+}

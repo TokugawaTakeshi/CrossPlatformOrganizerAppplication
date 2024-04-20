@@ -1,0 +1,135 @@
+@using Person = CommonSolution.Entities.Person
+
+@using Client.SharedState
+
+@using Client.SharedComponents.Cards.Person.LoadingPlaceholder
+@using Client.SharedComponents.Cards.Person
+
+@using YamatoDaiwa.Frontend.Components.AdmonitionBlock
+@using FrontEndFramework.Components.Controls.Buttons.Plain
+@using FrontEndFramework.Components.Controls.SearchBox
+@using FrontEndFramework.SVG_Icons.Person
+
+
+<div class="PeopleViewer @spaceSeparatedAdditionalCSS_Classes">
+
+  <div class="PeopleViewer-TopActionBar">
+  
+    <SearchBox
+      placeholder=@localization.searchBox.placeholder
+      accessibilityGuidance=@localization.searchBox.accessibilityGuidance
+      mustSynchronizeDisplayingSearchRequestWith=@PeopleSharedState.searchingByFullOrPartialNameOrItsSpell
+      onNewSearchRequest=@onNewPersonSearchingRequestByFullOrPartialNameOrItsSpellHasBeenEmitted
+      disabled=@mustDisableSearchBox
+      spaceSeparatedAdditionalCSS_Classes="PeopleViewer-TopActionBar-SearchBox"
+    />
+    
+    <Button
+      label=@localization.buttons.personAdding.label
+      onClick=@onClickPersonAddingButton
+      spaceSeparatedAdditionalCSS_Classes="PeopleViewer-TopActionBar-ButtonForWideContainers"
+    >
+      <PrependedSVG_Icon>
+        <PersonIcon__Plus rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
+    
+  </div>
+  
+  
+  @if (PeopleSharedState.isPeopleRetrievingInProgressOrNotStartedYet)
+  {
+    <div class="PeopleViewer-CardsFlow">
+      @for (uint cardNumber = 0; cardNumber < LOADING_PLACEHOLDER_CARDS_COUNT; cardNumber++)
+      {
+        <PersonCardLoadingPlaceholder/>
+      }
+    </div>  
+  }
+  
+  else if (PeopleSharedState.hasPeopleSelectionRetrievingErrorOccurred)
+  {
+    <AdmonitionBlock
+      title=@localization.errors.tasksRetrieving.title
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.error
+      hasPrependedSVG_Icon
+      rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
+    >
+
+      <p>@(localization.errors.tasksRetrieving.description)</p>
+      
+      <Button
+        label=@localization.buttons.retryingOfDataRetrieving.label
+        onClick=@onClickPeopleSelectionRetrievingRetryingButton
+        spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
+      />
+      
+    </AdmonitionBlock>
+  }
+  
+  else if (PeopleSharedState.totalPeopleCountInDataSource == 0)
+  {
+    <AdmonitionBlock
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      hasPrependedSVG_Icon
+      rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
+    >
+
+      <p>@(localization.guidances.noItemsAvailable)</p>
+      
+      <Button
+        label=@localization.buttons.immediateAddingOfFirstPerson.label
+        onClick=@onClickPersonAddingButton
+        spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
+      />
+      
+    </AdmonitionBlock>
+  }
+  
+  else if (PeopleSharedState.totalPeopleCountInSelection == 0)
+  {
+    <AdmonitionBlock
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      hasPrependedSVG_Icon
+      rootElementModifierCSS_Class="TasksManager-AdmonitionBlock"
+    >
+
+      <p>@(localization.guidances.noItemsFound)</p>
+      
+      <Button
+        label=@localization.buttons.resettingOfFiltering.label
+        onClick=@onClickFilteringResettingButton
+        spaceSeparatedAdditionalCSS_Classes="AdmonitionBlock--YDF-CenteredButton"
+      />
+      
+    </AdmonitionBlock>
+  }
+  
+  else
+  {
+    <ul class="PeopleViewer-CardsFlow">
+      @foreach (Person person in PeopleSharedState.peopleSelection)
+      {
+        <PersonCard 
+          targetPerson=@person
+          rootElementTag="li"
+          onClickRootElementEventHandler=@onSelectPerson
+        />
+      }
+    </ul>
+  }
+  
+  <div class="PeopleViewer-BottomActionBarForNarrowContainers">
+
+    <Button
+      label=@localization.buttons.personAdding.label
+      onClick=@onClickPersonAddingButton
+    >
+      <PrependedSVG_Icon>
+        <PersonIcon__Plus rootElementModifierCSS_Class="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
+  
+  </div>
+  
+</div>

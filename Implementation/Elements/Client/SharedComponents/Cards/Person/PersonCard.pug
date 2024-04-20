@@ -1,0 +1,77 @@
+mixin PersonCard(properties)
+
+  -
+
+    const {
+      person,
+      rootElementTag = "div",
+      disabled = false
+    } = properties;
+    
+    if (rootElementTag === "a") {
+      throw new Error(
+        "The \"a\" could not be the root element of \"PersonCard\" component because it has the internal links while " +
+          "the nested links are not allowed by HTML5 standard."
+      )
+    }
+    
+    const fullName = `${ person.familyName }${ person.givenName ?? "" }`
+
+
+  #{ rootElementTag }.PersonCard&attributes(attributes)(
+    tabindex="0"
+    class=(disabled ? "TaskCard__DisabledState" : null)
+  )
+
+    if person.avatarURI
+    
+      img.PersonCard-Avatar(
+        src=person.avatarURI
+        alt=`The photo of ${ fullName }`
+      )
+    
+    else
+
+      .PersonCard-AvatarPlaceholder
+      
+        case person.gender
+          
+          when Genders.Male
+            +Person__Male--YDF_Icon.PersonCard-AvatarPlaceholder-Icon
+            
+          when Genders.Female
+            +Person__Female--YDF_Icon.PersonCard-AvatarPlaceholder-Icon
+            
+          default
+            +Person--YDF_Icon.PersonCard-AvatarPlaceholder-Icon
+    
+    dl.PersonCard-Metadata
+    
+      dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__VisuallyHidden Name
+      dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__OfficialName= fullName
+      
+      if person.familyNameSpell || person.givenNameSpell
+        dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__VisuallyHidden Name Spell
+        dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__OfficialNameSpell
+          | #{ nullToEmptyString(person.familyNameSpell) }#{ nullToEmptyString(person.givenNameSpell) }
+      
+      if person.emailAddress
+        dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__Email
+          +Mail__Filled--YDF_Icon.PersonCard-Metadata-Key-Icon
+          span.PersonCard-Metadata-Key-Label Email Address
+        dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__Email
+          a.PersonCard-Link(
+            href=buildEmailLinkHrefAttributeValue(person.emailAddress)
+          )= person.emailAddress
+        
+      if person.phoneNumber__digitsOnly
+        dt.PersonCard-Metadata-Key.PersonCard-Metadata-Key__Phone
+          +Phone__Filled--YDF_Icon.PersonCard-Metadata-Key-Icon
+          span.PersonCard-Metadata-Key-Label Phone Number
+        dd.PersonCard-Metadata-Value.PersonCard-Metadata-Value__Phone
+          a.PersonCard-Link(
+            href=buildPhoneNumberLinkHrefAttributeValue(person.phoneNumber__digitsOnly)
+          )= formatJapanesePhoneNumber(person.phoneNumber__digitsOnly)
+
+      
+include LoadingPlaceholder/PersonCardLoadingPlaceholder.pug

@@ -1,0 +1,29 @@
+﻿@using YamatoDaiwa.Frontend.Components.Abstractions
+
+
+@implements ISupportsFlexibleExternalCSS_ClassesSpecifyingForRootElement
+
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 15.58 20"
+  class=@rootElementModifierCSS_Class
+>
+  <path d="M6.86 1.61c.26 0 .48-.21.48-.48S7.13.65 6.86.65s-.48.21-.48.48.21.48.48.48Z" style="fill:none;"></path>
+  <path d="M13.72 3.7c0-.9-.73-1.62-1.62-1.62h-1.43v.91c0 .11-.01.22-.03.32h1.62c.18 0 .32.15.32.32v8.41c.4.04.78.12 1.14.26V3.7ZM7.64 16.49H1.47a.32.32 0 0 1-.32-.32V3.63c0-.18.15-.32.32-.32h1.62c-.02-.1-.03-.21-.03-.32v-.91H1.63C.73 2.08 0 2.8 0 3.7v12.77c0 .89.73 1.62 1.62 1.62h6.32c-.19-.5-.3-1.03-.3-1.59v-.01ZM4.59 3.96h4.54c.54 0 .97-.44.97-.97v-.97a.97.97 0 0 0-.97-.97H7.9a1.04 1.04 0 0 0-2.08 0H4.59a.97.97 0 0 0-.97.97v.97c0 .54.44.97.97.97ZM6.86.66c.26 0 .48.21.48.48s-.21.48-.48.48-.48-.21-.48-.48.21-.48.48-.48Z"></path>
+  <path d="m3.99 7.65.42-.42 1.15-1.15-.42-.41-1.15 1.15-.73-.74-.42.42 1.15 1.15zM5.14 8.67 3.99 9.82l-.73-.73-.42.41 1.15 1.15.42-.41 1.15-1.15-.42-.42zM3.26 12.09l-.42.42 1.15 1.15.42-.42 1.15-1.15-.42-.42-1.15 1.15-.73-.73zM6 6.59h4.87v.82H6zM6 9.6h4.87v.82H6zM9.91 12.61H6v.82h2.86c.3-.32.66-.59 1.04-.82ZM12.08 13a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm2.32 3.56V17a.27.27 0 0 1-.26.22h-1.16a.27.27 0 0 0-.19.08.26.26 0 0 0-.07.19v1.08c0 .13-.09.24-.22.26H11.65a.26.26 0 0 1-.21-.26v-1.08a.26.26 0 0 0-.08-.19.26.26 0 0 0-.19-.08h-1.16a.27.27 0 0 1-.26-.22V16.13a.27.27 0 0 1 .26-.22h1.16c.07 0 .14-.03.19-.08a.26.26 0 0 0 .07-.19v-1.19c0-.13.09-.24.22-.26H12.5c.12.02.22.13.22.26v1.19c0 .07.03.14.08.19.05.05.11.08.19.08h1.16c.13 0 .24.1.26.22v.44Z"></path>
+</svg>
+
+
+@code {
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? rootElementModifierCSS_Class { get; set; } = null;
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string[]? rootElementModifierCSS_Classes { get; set; } = null;
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? rootElementSpaceSeparatedModifierCSS_Classes { get; set; } = null;
+
+}

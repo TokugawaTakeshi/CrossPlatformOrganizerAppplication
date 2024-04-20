@@ -5,7 +5,7 @@ block append Metadata
 
   -
     HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "実験様アプリ　静的プレビュー";
+    HTML_PAGE_TITLE = "Experimental Application - Static Preview Anywhere Page";
 
 
 block append TableOfContents
@@ -13,19 +13,19 @@ block append TableOfContents
   h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
 
   +PageLink({
-    label: "日読み",
+    label: "Calendar",
     URI: "@Pages/Calendar/CalendarPage",
     progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
   })
   
   +PageLinksGroup({
-    title: "課題管理",
+    title: "Tasks Management",
     linksData: [
-      { label: "通常表示", URI: "@Pages/Task/Management/TasksManagementPage" },
-      { label: "ロード中表示", URI: "@Pages/Task/Management/TasksManagementPage__Loading" },
-      { label: "エラー発生表示", URI: "@Pages/Task/Management/TasksManagementPage__Error" },
-      { label: "件が無い表示", URI: "@Pages/Task/Management/TasksManagementPage__NoItems" },
-      { label: "検索結果無い表示", URI: "@Pages/Task/Management/TasksManagementPage__NoSearchResults" }
+      { label: "Normal Displaying", URI: "@Pages/Task/Management/TasksManagementPage" },
+      { label: "Loading Displaying", URI: "@Pages/Task/Management/TasksManagementPage__Loading" },
+      { label: "Error Displaying", URI: "@Pages/Task/Management/TasksManagementPage__Error" },
+      { label: "No Items Displaying", URI: "@Pages/Task/Management/TasksManagementPage__NoItems" },
+      { label: "No Search Results Displaying", URI: "@Pages/Task/Management/TasksManagementPage__NoSearchResults" }
     ],
     progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
   })
@@ -33,11 +33,11 @@ block append TableOfContents
   +PageLinksGroup({
     title: "人管理",
     linksData: [
-      { label: "通常表示", URI: "@Pages/Person/Management/PeopleManagementPage" },
-      { label: "ロード中表示", URI: "@Pages/Person/Management/PeopleManagementPage__Loading" },
-      { label: "エラー発生表示", URI: "@Pages/Person/Management/PeopleManagementPage__Error" },
-      { label: "件が無い表示", URI: "@Pages/Person/Management/PeopleManagementPage__NoItems" },
-      { label: "検索結果無い表示", URI: "@Pages/Person/Management/PeopleManagementPage__NoSearchResults" },
+      { label: "Normal Displaying", URI: "@Pages/Person/Management/PeopleManagementPage" },
+      { label: "Loading Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__Loading" },
+      { label: "Error Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__Error" },
+      { label: "No Items Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__NoItems" },
+      { label: "No Search Results Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__NoSearchResults" }
     ],
     progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
   })
