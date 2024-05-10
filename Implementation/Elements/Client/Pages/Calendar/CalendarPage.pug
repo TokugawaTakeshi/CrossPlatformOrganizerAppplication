@@ -1,60 +1,63 @@
 ﻿extends ../../Layouts/Main/MainLayout.pug
 
+
 block Data
 
   -
+    
     const tabsData = {
       
       monthOverview: {
         tabHTML_ID: "MONTH_OVERVIEW--TAB",
         panelHTML_ID: "MONTH_OVERVIEW--TAB_PANEL",
         isInitiallySelected: true,
-        label: "月"
+        label: "Month"
       },
       weekOverview: {
         tabHTML_ID: "WEEK_OVERVIEW--TAB",
         panelHTML_ID: "WEEK_OVERVIEW--TAB_PANEL",
         isInitiallySelected: false,
-        label: "週"
+        label: "Week"
       },
       dayOverview: {
         tabHTML_ID: "DAY_OVERVIEW--TAB",
         panelHTML_ID: "DAY_OVERVIEW--TAB_PANEL",
         isInitiallySelected: false,
-        label: "日"
+        label: "Day"
       }
       
     };
 
+  
+block append Requirements
+
+  include ../../StaticPreview/_Requirements.pug
+    
 
 block append Metadata
 
   -
 
     HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "日読み ｜ やまとダイワ几帳面さ";
+    HTML_PAGE_TITLE = "People Management — Experimental CSharp Application";
 
     styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
 
-
-block append Requirements
-
-  include ../../StaticPreview/_Requirements.pug
+    RoutingEmulator.setCurrentRoute("calendar");
 
 
 block append SpecificContent
 
   .CalendarPage-SpecificContent.MainLayout-SpecificContentFillingElement
     
-    +TabsList--YDF({ accessibilityGuidance: "日読みの表示を選択する" }).CalendarPage-TabsList
+    +TabsList--YDF({ accessibilityGuidance: "Select View" }).CalendarPage-TabsList
       +Tab--YDF(tabsData.monthOverview)
       +Tab--YDF(tabsData.weekOverview)
       +Tab--YDF(tabsData.dayOverview)
       
     +TabPanel--YDF(tabsData.monthOverview).CalendarPage-TabPanel
 
-      +MonthViewer().CalendarPage-MonthViewer
-              
+      +MonthViewer.CalendarPage-MonthViewer
     //- === TODO =======================================================================================================
     +TabPanel--YDF(tabsData.weekOverview)
     
@@ -63,9 +66,10 @@ block append SpecificContent
       
     +TabPanel--YDF(tabsData.dayOverview)
 
-      h1.CalendarPage-SpecificContent 日付閲覧
-      h2.CalendarPage-SpecificContent 時間連想課題
-              
-      h2.CalendarPage-SpecificContent 時間に結び付ていない課題
+      //-
+        h1.CalendarPage-SpecificContent 日付閲覧
+        h2.CalendarPage-SpecificContent 時間連想課題
+                
+        h2.CalendarPage-SpecificContent 時間に結び付ていない課題
       
       //- ul.CalendarPage-SpecificContent

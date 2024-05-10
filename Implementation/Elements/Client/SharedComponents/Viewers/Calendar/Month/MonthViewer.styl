@@ -14,7 +14,7 @@
     
   tbody
   
-    tr:not(:last-child)
+    tr
     
       border-top-width 1px
       
@@ -60,16 +60,19 @@
         {block}
 
 
-    // 【 理論 】 tdには「container-type」を適応しても効果無いので、「container queries」機能を使うには新規包みを追加せざる得ない。
+    // [ Theory ] Zero effect will be if set `container-type` to `td` element, addition container required to use container queries feature.
     &-ContainerQueryProvider
 
       display flex
       flex-direction column
 
-      // 【 理論 】 「container-type: size」は高さの自動調節を崩し、「container queries」機能有効かするには相対単位でも良いが、明示的に高さを指定する必要がある。
       container-type size
+
+      // [ Theory ] If no set height explicitly to this element, the height computing will brake. 
       height 100%
 
+      background-color aliceblue
+      
 
     &-Title
 
@@ -80,85 +83,85 @@
       color: ShadesOfGray__39ColorsW3C_Palette[16]
 
       flex-shrink 0
-  
-  
-    &-ScrollViewForLargeContainers
-
-      overflow-y auto
-      
-      flex-shrink 1
-
-
-      +NarrowContainersConfiguration()
-
-        display none
-
-
-      &-Title
-
-        applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
-          fontSize: 14px,
-          lineSpacing: 4px,
-          mustAllowWordsBreakingAnywhere: true
-        })
-
-        font-weight bold
-        color: ShadesOfGray__39ColorsW3C_Palette[16]
-
-
-      &-List
-
-        margin-top 6px
-
-        
-        &-Item
-
-          display flex
-          align-items center
-          column-gap 4px
-          
-          retireFromElementWithSameSelector({ y: 4px })
-          
-
-        &-IconDecorativeWrapper
-          
-          border-radius 50%
-          padding 6px
-          
-          flex-shrink 0
-          
-          /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificTime &
-
-            background-color: YDF_ColorPalette.red.light
-            
-          
-          /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificDate &
-
-            background-color: YDF_ColorPalette.deepYellow.light
-            
-            
-          /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__DocumentsAssociatedWithSpecificTime &
-
-            background-color: YDF_ColorPalette.mint.light
-          
-          
-        &-Icon
-
-          display block // [ Theory ] Removing of extra space below self
-          
-          width 16px
-          height 16px
-          
-          fill: ShadesOfGray__39ColorsW3C_Palette[16]
-          
-          
-        &-Label
-
-          applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
-            fontSize: 14px,
-            lineSpacing: 4px,
-            mustAllowWordsBreakingAnywhere: true
-          })
+    //
+    //
+    //&-ScrollViewForLargeContainers
+    //
+    //  overflow-y auto
+    //  
+    //  flex-shrink 1
+    //
+    //
+    //  +NarrowContainersConfiguration()
+    //
+    //    display none
+    //
+    //
+    //  &-Title
+    //
+    //    applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+    //      fontSize: 14px,
+    //      lineSpacing: 4px,
+    //      mustAllowWordsBreakingAnywhere: true
+    //    })
+    //
+    //    font-weight bold
+    //    color: ShadesOfGray__39ColorsW3C_Palette[16]
+    //
+    //
+    //  &-List
+    //
+    //    margin-top 6px
+    //
+    //    
+    //    &-Item
+    //
+    //      display flex
+    //      align-items center
+    //      column-gap 4px
+    //      
+    //      retireFromElementWithSameSelector({ y: 4px })
+    //      
+    //
+    //    &-IconDecorativeWrapper
+    //      
+    //      border-radius 50%
+    //      padding 6px
+    //      
+    //      flex-shrink 0
+    //      
+    //      /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificTime &
+    //
+    //        background-color: YDF_ColorPalette.red.light
+    //        
+    //      
+    //      /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificDate &
+    //
+    //        background-color: YDF_ColorPalette.deepYellow.light
+    //        
+    //        
+    //      /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__DocumentsAssociatedWithSpecificTime &
+    //
+    //        background-color: YDF_ColorPalette.mint.light
+    //      
+    //      
+    //    &-Icon
+    //
+    //      display block // [ Theory ] Removing of extra space below self
+    //      
+    //      width 16px
+    //      height 16px
+    //      
+    //      fill: ShadesOfGray__39ColorsW3C_Palette[16]
+    //      
+    //      
+    //    &-Label
+    //
+    //      applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+    //        fontSize: 14px,
+    //        lineSpacing: 4px,
+    //        mustAllowWordsBreakingAnywhere: true
+    //      })
 
 
 //

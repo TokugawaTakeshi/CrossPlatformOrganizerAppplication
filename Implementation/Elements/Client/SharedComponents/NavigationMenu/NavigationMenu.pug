@@ -2,25 +2,53 @@ mixin NavigationMenu
 
   nav.NavigationMenu&attributes(attributes)
 
+    -
+      
+      const linksData = {
+
+        calendar: {
+          label: "Calendar",
+          URI: routingForStaticPreview.calendar.$URI
+        },
+        
+        tasksManagement: {
+          label: "Tasks Management",
+          URI: routingForStaticPreview.tasksManagement.$URI
+        },
+        
+        peopleManagement: {
+          label: "People",
+          URI: routingForStaticPreview.peopleManagement.$URI
+        }
+        
+      };
+
+
     ul
 
-      li
-        a.NavigationMenu-Link(
-          href="@Pages/Calendar/CalendarPage"
-        )
-          +Calendar--YDF_Icon.NavigationMenu-Link-Icon
-          span.NavigationMenu-Link-Label Calendar
-      
-      li
-        a.NavigationMenu-Link(
-          href="@Pages/Task/Management/TasksManagementPage"
-        )
-          +Checklist--YDF_Icon.NavigationMenu-Link-Icon
-          span.NavigationMenu-Link-Label Tasks
+      each linkData, key in linksData
 
-      li
-        a.NavigationMenu-Link(
-          href="@Pages/Person/Management/PeopleManagementPage"
-        )
-          +Person__Clock__Rectangled__Filled--YDF_Icon.NavigationMenu-Link-Icon
-          span.NavigationMenu-Link-Label People
+        -
+
+          const isCurrentLink = isNotNull(RoutingEmulator.currentRoute) &&
+              linkData.URI === getObjectPropertySafely(routingForStaticPreview, RoutingEmulator.currentRoute)?.$URI
+          
+        li
+        
+          a.NavigationMenu-Link(
+            href= linkData.URI
+            class= (isCurrentLink ? "NavigationMenu-Link__Current" : null)
+          )
+          
+            case key
+              
+              when "calendar"
+                +Calendar--YDF_Icon.NavigationMenu-Link-Icon
+                
+              when "tasksManagement"
+                +Checklist--YDF_Icon.NavigationMenu-Link-Icon
+                
+              when "peopleManagement"
+                +Person__Clock__Rectangled__Filled--YDF_Icon.NavigationMenu-Link-Icon
+                
+            span.NavigationMenu-Link-Label= linkData.label

@@ -1,146 +1,92 @@
 {
-  "SharedComponents/SharedComponents.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-18T03:48:28.027Z"
-  },
-  "StaticPreview/StaticPreviewAnywherePage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-01-07T03:46:25.241Z"
-  },
-  "StaticPreview/_Requirements.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-27T03:11:04.963Z"
-  },
-  "Layouts/Main/MainLayout.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-10T01:37:29.065Z"
-  },
-  "Pages/Calendar/CalendarPage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-09-07T06:36:19.614Z"
-  },
-  "StaticPreview/_Requirements/BusinessRules.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-07-27T03:11:04.958Z"
-  },
-  "StaticPreview/_Requirements/Functions.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-06T02:42:16.702Z"
-  },
-  "Pages/Person/Management/PeopleManagementPage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-02-29T00:14:25.609Z"
-  },
-  "Pages/Task/Management/TasksManagementPage.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-02-29T00:14:25.604Z"
-  },
-  "SharedComponents/Reusables/NavigationMenu/NavigationMenu.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:36:40.052Z"
-  },
-  "SharedComponents/Singletons/Header/Header.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:35:45.192Z"
-  },
-  "SharedComponents/Reusables/Cards/Person/PersonCard.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:35:43.080Z"
-  },
-  "SharedComponents/Reusables/Cards/Task/TaskCard.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:35:39.231Z"
-  },
-  "SharedComponents/Reusables/Managers/Person/PersonManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:34:59.201Z"
-  },
-  "SharedComponents/Reusables/Managers/Task/TaskManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-05T02:31:30.609Z"
-  },
-  "SharedComponents/Reusables/Managers/Tasks/TasksManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:52:30.766Z"
-  },
-  "SharedComponents/Reusables/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:56:38.383Z"
-  },
-  "SharedComponents/Reusables/Viewers/People/PeopleViewer.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-02T04:58:06.263Z"
-  },
-  "SharedComponents/Reusables/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-22T02:51:16.046Z"
-  },
-  "SharedComponents/Reusables/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-04-07T08:26:58.566Z"
-  },
-  "SharedComponents/Reusables/Viewers/Calendar/Month/MonthViewer.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
-  },
-  "SharedComponents/Reusables/Viewers/Tasks/TasksViewer.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:34:59.208Z"
-  },
-  "SharedComponents/NavigationMenu/NavigationMenu.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:36:40.052Z"
-  },
-  "SharedComponents/Cards/Person/PersonCard.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-03T02:26:40.001Z"
-  },
-  "SharedComponents/Cards/Task/TaskCard.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-11T01:38:21.445Z"
-  },
-  "SharedComponents/Managers/Person/PersonManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-11T01:38:21.440Z"
-  },
-  "SharedComponents/Managers/Task/TaskManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-10T01:38:36.280Z"
-  },
-  "SharedComponents/Managers/Tasks/TasksManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2022-12-22T06:52:30.766Z"
-  },
-  "SharedComponents/Managers/TasksGroupsTree/TasksGroupsTreeManager.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-03-25T04:56:38.383Z"
-  },
-  "SharedComponents/OnePerPage/Header/Header.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-08-29T07:35:45.192Z"
-  },
-  "SharedComponents/Viewers/People/PeopleViewer.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-10T01:38:38.863Z"
-  },
-  "SharedComponents/Viewers/Tasks/TasksViewer.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-04-10T01:38:33.490Z"
-  },
-  "SharedComponents/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-06-22T02:51:16.046Z"
-  },
-  "SharedComponents/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-04-07T08:26:58.566Z"
-  },
-  "SharedComponents/Viewers/Calendar/Month/MonthViewer.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2023-05-31T06:08:57.903Z"
-  },
-  "SharedComponents/Controls/TasksFilteringPanel/TasksFilteringPanel.pug": {
-    "issues": [],
-    "modificationDatetime__ISO_8601": "2024-02-26T00:21:30.879Z"
+  "files": {
+    "SharedComponents/SharedComponents.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2023-09-18T03:48:28.027Z"
+    },
+    "StaticPreview/StaticPreviewAnywherePage.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-10T02:05:01.212Z"
+    },
+    "StaticPreview/_Requirements.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:32:53.065Z"
+    },
+    "Layouts/Main/MainLayout.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-10T01:37:29.065Z"
+    },
+    "Pages/Calendar/CalendarPage.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:50:30.330Z"
+    },
+    "SharedComponents/NavigationMenu/NavigationMenu.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:50:30.340Z"
+    },
+    "StaticPreview/_Requirements/BusinessRules.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2023-07-27T03:11:04.958Z"
+    },
+    "StaticPreview/_Requirements/Functions.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2023-06-06T02:42:16.702Z"
+    },
+    "Pages/Person/Management/PeopleManagementPage.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:50:30.335Z"
+    },
+    "Pages/Task/Management/TasksManagementPage.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:48:42.618Z"
+    },
+    "SharedComponents/Cards/Person/PersonCard.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-03T02:26:40.001Z"
+    },
+    "SharedComponents/Cards/Task/TaskCard.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-20T03:02:46.894Z"
+    },
+    "SharedComponents/Controls/TasksFilteringPanel/TasksFilteringPanel.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-30T02:25:04.726Z"
+    },
+    "SharedComponents/Managers/Person/PersonManager.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-11T01:38:21.440Z"
+    },
+    "SharedComponents/Managers/Task/TaskManager.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-20T03:02:46.896Z"
+    },
+    "SharedComponents/OnePerPage/Header/Header.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2023-08-29T07:35:45.192Z"
+    },
+    "SharedComponents/Viewers/People/PeopleViewer.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-10T01:38:38.863Z"
+    },
+    "SharedComponents/Viewers/Tasks/TasksViewer.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-04-20T03:02:46.898Z"
+    },
+    "SharedComponents/Cards/Person/LoadingPlaceholder/PersonCardLoadingPlaceholder.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2023-06-22T02:51:16.046Z"
+    },
+    "SharedComponents/Cards/Task/LoadingPlaceholder/TaskCardLoadingPlaceholder.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2023-04-07T08:26:58.566Z"
+    },
+    "SharedComponents/Viewers/Calendar/Month/MonthViewer.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:39:41.935Z"
+    },
+    "StaticPreview/_Requirements/RoutingForStaticPreview.pug": {
+      "issues": [],
+      "modificationDateTime__ISO_8601": "2024-05-29T08:34:29.505Z"
+    }
   }
 }

@@ -1,9 +1,9 @@
 ﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Styles production building" type="js.build_tools.npm">
+  <configuration default="false" name="Build Styles For Interactive Implementation" type="js.build_tools.npm" nameIsGenerated="true">
     <package-json value="$PROJECT_DIR$/Implementation/Elements/Client/package.json" />
     <command value="run" />
     <scripts>
-      <script value="Production building" />
+      <script value="Build Styles For Interactive Implementation" />
     </scripts>
     <node-interpreter value="project" />
     <envs />

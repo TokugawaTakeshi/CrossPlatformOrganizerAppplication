@@ -35,25 +35,25 @@ projectBuilding:
 
       StaticPreview:
 
-        topDirectoryRelativePath: StaticPreview
+        sourceFilesTopDirectoryRelativePath: StaticPreview
         partialsRecognition:
           excludeSubdirectoriesWithPrefixes: "_"
           excludeFilesWithPrefixes: "_"
 
         buildingModeDependent:
           STATIC_PREVIEW:
-            outputTopDirectoryRelativePath: StaticPreview/.Build
+            outputTopDirectoryRelativePath: StaticPreview/Build
 
       Pages:
 
-        topDirectoryRelativePath: Pages
+        sourceFilesTopDirectoryRelativePath: Pages
         partialsRecognition:
           excludeSubdirectoriesWithPrefixes: "_"
           excludeFilesWithPrefixes: "_"
 
         buildingModeDependent:
           STATIC_PREVIEW:
-            outputTopDirectoryRelativePath: StaticPreview/.Build
+            outputTopDirectoryRelativePath: StaticPreview/Build
 
 
   stylesProcessing:
@@ -62,14 +62,14 @@ projectBuilding:
 
       All:
 
-        topDirectoryRelativePath: Resources/Styles
+        sourceFilesTopDirectoryRelativePath: Resources/Styles
         partialsRecognition:
           excludeSubdirectoriesWithPrefixes: "_"
           excludeFilesWithPrefixes: "_"
 
         buildingModeDependent:
           STATIC_PREVIEW:
-            outputTopDirectoryRelativePath: StaticPreview/.Build
+            outputTopDirectoryRelativePath: StaticPreview/Build
           LOCAL_DEVELOPMENT:
             outputTopDirectoryRelativePath: wwwroot
             revisioning: { disable: true }
@@ -87,7 +87,18 @@ projectBuilding:
 
         localServer:
 
-          rootDirectoryRelativePath: StaticPreview/.Build
+          rootDirectoryRelativePath: StaticPreview/Build
           customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
           
         openInBrowsers: chrome
+
+  filesWatching:
+    
+    relativePathsOfExcludeDirectories:
+      - Data
+      - LocalDatabase
+      - Platforms
+      - Properties
+      - Services
+      - SharedState
+      - wwwroot
