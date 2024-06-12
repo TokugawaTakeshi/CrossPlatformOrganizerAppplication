@@ -87,12 +87,12 @@ public abstract class TaskGateway
     if (filtering.OnlyTasksWithAssociatedDate == true)
     {
       workpiece = workpiece.Where(
-        task => task.associatedDate is not null
+        task => task.deadlineDate is not null
       ).ToArray();
     } else if (filtering.OnlyTasksWithAssociatedDateTime == true)
     {
       workpiece = workpiece.Where(
-        task => task.associatedDateTime is not null
+        task => task.deadlineDateTime is not null
       ).ToArray();
     }
 
@@ -122,8 +122,8 @@ public abstract class TaskGateway
   {
     return tasks.
         OrderBy((CommonSolution.Entities.Task task) => task.isComplete).
-        ThenByDescending((CommonSolution.Entities.Task task) => task.associatedDateTime is not null).
-        ThenByDescending((CommonSolution.Entities.Task task) => task.associatedDate is not null).
+        ThenByDescending((CommonSolution.Entities.Task task) => task.deadlineDateTime is not null).
+        ThenByDescending((CommonSolution.Entities.Task task) => task.deadlineDate is not null).
         ToArray();
   }
   
@@ -140,8 +140,6 @@ public abstract class TaskGateway
       public string? Description { get; init; }
       public bool IsComplete { get; init; }
       public string[]? SubtasksIDs { get; init; }
-      public string? AssociatedDateTime__ISO8601 { get; init; }
-      public string? AssociatedDate__ISO8601 { get; init; }
       public CommonSolution.Entities.Location? AssociatedLocation { get; init; }
     }
 
@@ -160,8 +158,6 @@ public abstract class TaskGateway
       public string? Description { get; init; }
       public bool IsComplete { get; init; }
       public string[]? SubtasksIDs { get; init; }
-      public string? AssociatedDateTime__ISO8601 { get; init; }
-      public string? AssociatedDate__ISO8601 { get; init; }
       public CommonSolution.Entities.Location? AssociatedLocation { get; init; }
     }
   }

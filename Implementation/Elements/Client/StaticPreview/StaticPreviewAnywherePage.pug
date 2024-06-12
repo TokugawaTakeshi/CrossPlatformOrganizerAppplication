@@ -4,13 +4,17 @@ extends ../node_modules/@yamato-daiwa/frontend/PagesTemplates/StaticPreviewAnywh
 block append Metadata
 
   -
-    HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "Experimental Application - Static Preview Anywhere Page";
+
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: "Experimental Application - Static Preview Anywhere Page",
+      }
+    });
 
 
 block append TableOfContents
 
-  h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
+  h1.AnywherePage-TopHeading= RegularWebPageTemplate__YDF.metadata.title
 
   +PageLink({
     label: "Calendar",

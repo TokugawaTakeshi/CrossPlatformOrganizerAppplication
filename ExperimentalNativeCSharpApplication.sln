@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDataSource", "Implementation\Elements\MockDataSource\MockDataSource.csproj", "{E8646560-666E-40A0-A61E-353ECE805A53}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Implementation\Elements\Client\Client.csproj", "{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{539580C9-A381-47FA-AA59-961D89488E0A} = {539580C9-A381-47FA-AA59-961D89488E0A}
@@ -12,12 +10,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Implementation\El
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonSolution", "CommonSolution\CommonSolution.csproj", "{539580C9-A381-47FA-AA59-961D89488E0A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyDataForStaticPreviewPreparator", "Automation\DummyDataForStaticPreviewPreparator\DummyDataForStaticPreviewPreparator.csproj", "{DDEE6C26-C5D3-46D3-B683-A07A33FFEDE2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{539580C9-A381-47FA-AA59-961D89488E0A} = {539580C9-A381-47FA-AA59-961D89488E0A}
-		{E8646560-666E-40A0-A61E-353ECE805A53} = {E8646560-666E-40A0-A61E-353ECE805A53}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Incubators\Utils\Utils.csproj", "{3F2D2656-BFFE-405D-BFB9-E5E2C9584CA9}"
 EndProject
@@ -30,7 +22,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework", "Implemen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientAndFrontServer", "Implementation\Interactions\ClientAndFrontServer\ClientAndFrontServer.csproj", "{E4EF405B-CC51-4976-8056-E40F7A49644E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontServer", "Implementation\Elements\FrontServer\FrontServer.csproj", "{4AC6636C-3A0B-4887-9FE1-AC97DC16A83B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontServer", "Implementation\Elements\FrontServer\FrontServer.csproj", "{4AC6636C-3A0B-4887-9FE1-AC97DC16A83B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDataSource", "Implementation\Reusables\MockDataSource\MockDataSource.csproj", "{84433689-DC2C-49EE-B168-9766958DA79B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorOfAssetsForStaticPreview", "Automation\GeneratorOfAssetsForStaticPreview\GeneratorOfAssetsForStaticPreview.csproj", "{20B0D391-D360-47FD-B37F-96A34B58721F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +34,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8646560-666E-40A0-A61E-353ECE805A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8646560-666E-40A0-A61E-353ECE805A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8646560-666E-40A0-A61E-353ECE805A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8646560-666E-40A0-A61E-353ECE805A53}.Release|Any CPU.Build.0 = Release|Any CPU
 		{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{244CB2FE-C0F9-4F72-8855-87D62A18BA5D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -52,10 +44,6 @@ Global
 		{539580C9-A381-47FA-AA59-961D89488E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{539580C9-A381-47FA-AA59-961D89488E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{539580C9-A381-47FA-AA59-961D89488E0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDEE6C26-C5D3-46D3-B683-A07A33FFEDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDEE6C26-C5D3-46D3-B683-A07A33FFEDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDEE6C26-C5D3-46D3-B683-A07A33FFEDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDEE6C26-C5D3-46D3-B683-A07A33FFEDE2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F2D2656-BFFE-405D-BFB9-E5E2C9584CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F2D2656-BFFE-405D-BFB9-E5E2C9584CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F2D2656-BFFE-405D-BFB9-E5E2C9584CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,6 +64,14 @@ Global
 		{4AC6636C-3A0B-4887-9FE1-AC97DC16A83B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AC6636C-3A0B-4887-9FE1-AC97DC16A83B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AC6636C-3A0B-4887-9FE1-AC97DC16A83B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84433689-DC2C-49EE-B168-9766958DA79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84433689-DC2C-49EE-B168-9766958DA79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84433689-DC2C-49EE-B168-9766958DA79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84433689-DC2C-49EE-B168-9766958DA79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B0D391-D360-47FD-B37F-96A34B58721F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B0D391-D360-47FD-B37F-96A34B58721F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B0D391-D360-47FD-B37F-96A34B58721F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B0D391-D360-47FD-B37F-96A34B58721F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

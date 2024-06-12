@@ -37,82 +37,60 @@ mixin TaskCard(properties)
 
     .TaskCard-Title= task.title
 
-    case getRandomInteger({ minimalValue: 1, maximalValue: 2 })
+    -
       
-      when 1
+      const badgesFlags = {
+        deadlineDateTime: isNeitherUndefinedNorNull(task.deadlineDateTime),
+        deadlineDate: isNeitherUndefinedNorNull(task.deadlineDate),
+        associatedDate: task.areStartingAndEndingDatesAreDefinedAndEven,
+        priority: isNeitherUndefinedNorNull(task.priority)
+      };
+      
+    if Object.values(badgesFlags).includes(true)
 
-        .TaskCard-BadgesFlow
-          
+      .TaskCard-BadgesFlow
+      
+        if badgesFlags.deadlineDateTime
+    
           +Badge--YDF({
-            key: "Date and Time",
-            value: "12 Sep 12:30",
-            decorativeVariation: Badge__YDF.DecorativeVariations.veryCatchyBright
+            key: "Deadline",
+            value: new Date(task.deadlineDateTime).toLocaleString(),
+            decorativeVariation: task.hasDeadlineDefinedAndExpired ? 
+                Badge__YDF.DecorativeVariations.veryCatchyBright : Badge__YDF.DecorativeVariations.catchyBright 
           }): +Calendar__Time--YDF_Icon.Badge--YDF-SVG_Icon
+      
+        if badgesFlags.deadlineDate
+
+          +Badge--YDF({
+            key: "Deadline",
+            value: new Date(task.deadlineDate).toLocaleDateString(),
+            decorativeVariation: task.hasDeadlineDefinedAndExpired ? 
+                Badge__YDF.DecorativeVariations.veryCatchyBright : Badge__YDF.DecorativeVariations.catchyBright
+          }): +Calendar__Time--YDF_Icon.Badge--YDF-SVG_Icon
+      
+        if badgesFlags.associatedDate
+
+          - const formattedLocalDate = new Date(task.startingDate ?? task.startingDateTime).toLocaleDateString();
           
-      when 2
-
-        .TaskCard-BadgesFlow
-
           +Badge--YDF({
             key: "Date",
-            value: "13 Sep",
+            value: formattedLocalDate,
             decorativeVariation: Badge__YDF.DecorativeVariations.catchyBright
           }): +Calendar--YDF_Icon.Badge--YDF-SVG_Icon
-          
-      //-
       
-        when 3
-  
-          .TaskCard-BadgesFlow
-        
-            +Badge--YDF({
-              key: "場所",
-              value: "品川駅",
-              decorativeVariation: Badge__YDF.DecorativeVariations.neutralPastel
-            }): +Location__BottomCircle--YDF_Icon.Badge--YDF-SVG_Icon
-        
-            
-        when 4
-  
-          .TaskCard-BadgesFlow
-          
-            +Badge--YDF({
-              key: "定期繰り返し",
-              value: "週に1回",
-              decorativeVariation: Badge__YDF.DecorativeVariations.modestlyCatchyPastel
-            }): +Calendar__Repeat--YDF_Icon.Badge--YDF-SVG_Icon
-            
-        when 5
-  
-          .TaskCard-BadgesFlow
-          
-            +Badge--YDF({
-              key: "計画",
-              value: "〇〇アプリケーション開発",
-              decorativeVariation: Badge__YDF.DecorativeVariations.achromaticPastel
-            }): +Folder__Stationery--YDF_Icon.Badge--YDF-SVG_Icon
-            
-            
-        when 6
-  
-          .TaskCard-BadgesFlow
-            
-            +Badge--YDF({
-              value: "本日",
-              decorativeVariation: Badge__YDF.DecorativeVariations.veryCatchyPastel
-            }): +Calendar__Date--YDF_Icon.Badge--YDF-SVG_Icon
-          
-          
-        when 7
-  
-          .TaskCard-BadgesFlow
-            
-            +Badge--YDF({
-              key: "他人に依存",
-              value: "田中博",
-              decorativeVariation: Badge__YDF.DecorativeVariations.modestlyCatchyPastel
-            }): +Person__Clock__Rectangled__Filled--YDF_Icon.Badge--YDF-SVG_Icon
-        
+        if badgesFlags.priority
+
+          +Badge--YDF({
+            key: "Priority",
+            value: String(task.priority),
+            decorativeVariation: (() => {
+              switch (task.priority) {
+                case 1: return Badge__YDF.DecorativeVariations.veryCatchyBright
+                case 2: return Badge__YDF.DecorativeVariations.catchyBright
+                default: return Badge__YDF.DecorativeVariations.modestlyCatchyBright
+              }
+            })()
+          })
 
     if task.description
 

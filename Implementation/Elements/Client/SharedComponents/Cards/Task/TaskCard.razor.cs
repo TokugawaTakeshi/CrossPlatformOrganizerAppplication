@@ -67,8 +67,8 @@ public partial class TaskCard : Microsoft.AspNetCore.Components.ComponentBase
 
 
   /* ━━━ Auxiliary Getters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private string? dateBadgeLabel => this.targetTask.associatedDate?.ToString();
-  private string? dateTimeBadgeLabel => this.targetTask.associatedDateTime?.ToString();
+  private string? dateBadgeLabel => this.targetTask.deadlineDate?.ToString();
+  private string? dateTimeBadgeLabel => this.targetTask.deadlineDateTime?.ToString();
 
   private bool hasAtLeastOneBadge => this.dateBadgeLabel is not null || this.dateTimeBadgeLabel is not null;
   

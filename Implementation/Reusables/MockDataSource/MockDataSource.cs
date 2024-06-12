@@ -7,7 +7,6 @@ using MockDataSource.SamplesRepositories;
 using MockDataSource.AdditionalStructures;
 
 using System.Diagnostics;
-using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
 
 
@@ -72,8 +71,8 @@ public class MockDataSource
       {
         NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
             mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-        WithNames = new []
-        {
+        WithNames =
+        [
           new PersonNameData
           {
             FamilyName = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
@@ -82,30 +81,32 @@ public class MockDataSource
             GivenNameSpell = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
             IsGivenNameForMales = true
           }
-        },
+        ],
         Quantity = 1
       }
     }).ToList();
 
     this.Locations = LocationSamplesRepository.Locations.ToList();
     
-    this.Tasks = TasksCollectionsMocker.Generate(
-      new TasksCollectionsMocker.Subset[] {
-        new()
-        {
-          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
-          Quantity = 10
+    this.Tasks = SampleTasksRepository.Tasks.Concat(
+      TasksCollectionsMocker.Generate(
+        new TasksCollectionsMocker.Subset[] {
+          new()
+          {
+            NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
+            Quantity = 10
+          },
+          new()
+          {
+            NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
+            Quantity = 5
+          }
         },
-        new()
+        new TasksCollectionsMocker.Dependencies
         {
-          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-          Quantity = 5
+          Locations = this.Locations.ToArray()
         }
-      },
-      new TasksCollectionsMocker.Dependencies
-      {
-        Locations = this.Locations.ToArray()
-      }
+      )
     ).ToList();
 
   }
@@ -196,10 +197,10 @@ public class MockDataSource
         isComplete = requestData.IsComplete,
         subtasks = requestData.SubtasksIDs == null ? 
           null : Tasks.FindAll(task => requestData.SubtasksIDs.Any(task.ID.Contains)),
-        associatedDateTime = requestData.AssociatedDate__ISO8601 is not null ? 
-            DateTimeExtensions.CreateDateTimeFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
-        associatedDate = requestData.AssociatedDate__ISO8601 is not null ?
-            DateOnlyExtensions.CreateDateOnlyFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
+        // associatedDateTime = requestData.AssociatedDate__ISO8601 is not null ? 
+        //     DateTimeExtensions.CreateDateTimeFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
+        // associatedDate = requestData.AssociatedDate__ISO8601 is not null ?
+        //     DateOnlyExtensions.CreateDateOnlyFromISO8601_String(requestData.AssociatedDate__ISO8601) : null,
         associatedLocation = requestData.AssociatedLocation
       },
       new TaskMocker.Dependencies
@@ -238,8 +239,8 @@ public class MockDataSource
       targetTask.subtasks = Tasks.FindAll(task => requestData.SubtasksIDs.Any(task.ID.Contains));
     }
 
-    targetTask.associatedDateTime = targetTask.associatedDateTime;
-    targetTask.associatedDate = targetTask.associatedDate;
+    targetTask.deadlineDateTime = targetTask.deadlineDateTime;
+    targetTask.deadlineDate = targetTask.deadlineDate;
 
     targetTask.associatedLocation = targetTask.associatedLocation;
 

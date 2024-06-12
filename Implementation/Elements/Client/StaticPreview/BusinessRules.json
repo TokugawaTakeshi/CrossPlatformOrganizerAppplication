@@ -1,0 +1,15 @@
+{
+  "Task": {
+    "Title": {
+      "IS_REQUIRED": true,
+      "MINIMAL_CHARACTERS_COUNT": 2,
+      "MAXIMAL_CHARACTERS_COUNT": 255
+    }
+  },
+  "Person": {
+    "FamilyName": {
+      "IS_REQUIRED": true,
+      "MINIMAL_CHARACTERS_COUNT": 255
+    }
+  }
+}

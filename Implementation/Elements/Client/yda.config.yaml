@@ -30,6 +30,8 @@ projectBuilding:
 
         - importedVariableName: DummyData
           fileRelativePath: StaticPreview/StaticPreviewDummyData.json
+        - importedVariableName: BusinessRules
+          fileRelativePath: StaticPreview/BusinessRules.json
 
     entryPointsGroups:
 

@@ -63,8 +63,8 @@ internal abstract class TaskMocker
     bool isComplete = preDefines?.isComplete ?? YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomBoolean();
 
     
-    DateTime? associatedDateTime = null; 
-    DateOnly? associatedDate = null;
+    DateTime? deadlineDateTime = null; 
+    DateOnly? deadlineDate = null;
     
     switch (options.NullablePropertiesDecisionStrategy)
     {
@@ -72,7 +72,7 @@ internal abstract class TaskMocker
       case DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll:
       {
         
-        associatedDateTime = DataMocking.DecideOptionalValue(
+        deadlineDateTime = DataMocking.DecideOptionalValue(
           new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
           {
             PreDefinedValue = preDefines?.associatedDateTime,
@@ -84,10 +84,10 @@ internal abstract class TaskMocker
           }
         );
 
-        if (associatedDateTime is null)
+        if (deadlineDateTime is null)
         {
             
-          associatedDate = DataMocking.DecideOptionalValue(
+          deadlineDate = DataMocking.DecideOptionalValue(
             new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
             {
               PreDefinedValue = preDefines?.associatedDate,
@@ -110,7 +110,7 @@ internal abstract class TaskMocker
         bool mustGenerateEitherAssociatedDateTimeOrDateOnly = YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.
           GetRandomBoolean();
         
-        associatedDateTime = DataMocking.DecideOptionalValue(
+        deadlineDateTime = DataMocking.DecideOptionalValue(
           new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
           {
             PreDefinedValue = preDefines?.associatedDateTime,
@@ -122,10 +122,10 @@ internal abstract class TaskMocker
           }
         );
 
-        if (associatedDateTime is null)
+        if (deadlineDateTime is null)
         {
     
-          associatedDate = DataMocking.DecideOptionalValue(
+          deadlineDate = DataMocking.DecideOptionalValue(
             new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
             {
               PreDefinedValue = preDefines?.associatedDate,
@@ -149,8 +149,8 @@ internal abstract class TaskMocker
       case DataMocking.NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined:
       {
         
-        associatedDateTime = preDefines?.associatedDateTime;
-        associatedDate = preDefines?.associatedDate;
+        deadlineDateTime = preDefines?.associatedDateTime;
+        deadlineDate = preDefines?.associatedDate;
         
         break;
         
@@ -176,10 +176,119 @@ internal abstract class TaskMocker
       description = description,
       isComplete = isComplete,
       subtasks = preDefines?.subtasks ?? [],
-      associatedDateTime = associatedDateTime,
-      associatedDate = associatedDate,
+      deadlineDateTime = deadlineDateTime,
+      deadlineDate = deadlineDate,
       associatedLocation = associatedLocation
     };
+
+  }
+
+
+  private static (DateTime? deadlineDateTime, DateOnly? deadlineDate) generateDeadlineFields(
+    PreDefines? preDefines, Options options
+  )
+  {
+   
+    DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow.Date);
+    DateOnly oneYearLater = DateOnly.FromDateTime(DateTime.Today).AddYears(1);
+    
+    DateTime? deadlineDateTime = null; 
+    DateOnly? deadlineDate = null;
+    
+    switch (options.NullablePropertiesDecisionStrategy)
+    {
+
+      case DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll:
+      {
+        
+        deadlineDateTime = DataMocking.DecideOptionalValue(
+          new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
+          {
+            PreDefinedValue = preDefines?.associatedDateTime,
+            RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDateTime(
+              earliestDate: today, latestDate: oneYearLater
+            ),
+            Strategy = DataMocking.NullablePropertiesDecisionStrategies.
+              mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined
+          }
+        );
+
+        if (deadlineDateTime is null)
+        {
+            
+          deadlineDate = DataMocking.DecideOptionalValue(
+            new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
+            {
+              PreDefinedValue = preDefines?.associatedDate,
+              RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDate(
+                earliestDate: today, latestDate: oneYearLater
+              ),
+              Strategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll
+            }
+          );
+      
+        }
+        
+        break;
+        
+      }
+
+      case DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined:
+      {
+
+        bool mustGenerateEitherAssociatedDateTimeOrDateOnly = YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.
+          GetRandomBoolean();
+        
+        deadlineDateTime = DataMocking.DecideOptionalValue(
+          new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateTime?>
+          {
+            PreDefinedValue = preDefines?.associatedDateTime,
+            RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDateTime(
+              earliestDate: today, latestDate: oneYearLater
+            ),
+            Strategy = DataMocking.NullablePropertiesDecisionStrategies.
+                mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined
+          }
+        );
+
+        if (deadlineDateTime is null)
+        {
+    
+          deadlineDate = DataMocking.DecideOptionalValue(
+            new DataMocking.NullablePropertiesDecisionSourceDataAndOptions<DateOnly?>
+            {
+              PreDefinedValue = preDefines?.associatedDate,
+              RandomValueGenerator = () => YamatoDaiwa.CSharpExtensions.RandomValuesGenerator.GetRandomDate(
+                earliestDate: today, latestDate: oneYearLater
+              ),
+              Strategy = mustGenerateEitherAssociatedDateTimeOrDateOnly ? 
+                  DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll :
+                  DataMocking.NullablePropertiesDecisionStrategies.
+                      mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined
+            }
+          );
+      
+        }
+       
+        break;
+        
+      }
+
+
+      case DataMocking.NullablePropertiesDecisionStrategies.mustSkipIfHasNotBeenPreDefined:
+      {
+        
+        deadlineDateTime = preDefines?.associatedDateTime;
+        deadlineDate = preDefines?.associatedDate;
+        
+        break;
+        
+      }
+      
+    }
+
+
+    return (deadlineDateTime: deadlineDateTime, deadlineDate: deadlineDate);
 
   }
   

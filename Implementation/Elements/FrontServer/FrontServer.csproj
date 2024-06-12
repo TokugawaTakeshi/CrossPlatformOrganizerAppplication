@@ -18,7 +18,7 @@
     <ProjectReference Include="..\..\..\CommonSolution\CommonSolution.csproj" />
     <ProjectReference Include="..\..\Interactions\ClientAndFrontServer\ClientAndFrontServer.csproj" />
     <ProjectReference Include="..\..\Reusables\EntityFramework\EntityFramework.csproj" />
-    <ProjectReference Include="..\MockDataSource\MockDataSource.csproj" />
+    <ProjectReference Include="..\..\Reusables\MockDataSource\MockDataSource.csproj" />
   </ItemGroup>
 
 </Project>

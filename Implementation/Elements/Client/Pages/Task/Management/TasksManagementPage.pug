@@ -23,9 +23,12 @@ block append Metadata
 
   -
 
-    HTML_PAGE_TITLE = "Tasks management — Experimental CSharp Application";
-
-    styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: "Tasks management — Experimental CSharp Application"
+      },
+      stylesSheetsURIs: [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ]
+    });
 
     RoutingEmulator.setCurrentRoute("tasksManagement");
 
@@ -46,7 +49,7 @@ block append SpecificContent
         targetTask: getRandomArrayElement(DummyData.Tasks),
         activationGuidance: "Click or tap the task card to view details or edit the dedicated task."
       },
-      { editingMode: false }
+      { editingMode: true }
     ).TasksManagementPage-TaskManager&attributes({
       class: TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens ?
           [ "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" ] : 

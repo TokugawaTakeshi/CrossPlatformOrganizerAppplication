@@ -38,10 +38,12 @@ block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "People Management — Experimental CSharp Application";
-
-    styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: "Tasks management — Experimental CSharp Application"
+      },
+      stylesSheetsURIs: ["@All/Primer", "@All/ExternalComponents", "@All/Internals"]
+    });
 
     RoutingEmulator.setCurrentRoute("calendar");
 

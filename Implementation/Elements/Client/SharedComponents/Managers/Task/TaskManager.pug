@@ -96,7 +96,9 @@ mixin TaskManager(properties, statesSimulations)
 
         +TextBox--YDF({
           label: "Title",
-          guidance: "Please input **1~25** characters.",
+          guidance: 
+              `Please input **${ Task.Title.MINIMAL_CHARACTERS_COUNT }~${ Task.Title.MAXIMAL_CHARACTERS_COUNT }** characters.`, 
+          required: Task.Title.IS_REQUIRED,
           value: targetTask ? targetTask.title : ""
         }).TaskManager-Control
         

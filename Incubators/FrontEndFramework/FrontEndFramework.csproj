@@ -54,4 +54,9 @@
     <UpToDateCheckInput Remove="Components\Controls\CompoundControlShell\CompoundControlShell.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InputtedValueValidation\PreMadeRules\Arrayed\" />
+    <Folder Include="InputtedValueValidation\PreMadeRules\Numeric\" />
+  </ItemGroup>
+
 </Project>
