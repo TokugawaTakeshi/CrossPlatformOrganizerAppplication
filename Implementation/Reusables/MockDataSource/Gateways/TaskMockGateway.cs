@@ -1,5 +1,6 @@
 ﻿using CommonSolution.Gateways;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
+using Task = CommonSolution.Entities.Task.Task;
 
 
 namespace MockDataSource.Gateways;
@@ -14,9 +15,9 @@ public class TaskMockGateway : TaskGateway
   private static readonly bool NO_ITEMS_SIMULATION_MODE = false;
   
   
-  public override System.Threading.Tasks.Task<CommonSolution.Entities.Task[]> RetrieveAll()
+  public override System.Threading.Tasks.Task<Task[]> RetrieveAll()
   {
-    return MockGatewayHelper.SimulateDataRetrieving<object?, CommonSolution.Entities.Task[]>(
+    return MockGatewayHelper.SimulateDataRetrieving<object?, Task[]>(
       requestParameters: null,
       getResponseData: mockDataSource.RetrieveAllTasks,
       new MockGatewayHelper.SimulationOptions
@@ -50,7 +51,7 @@ public class TaskMockGateway : TaskGateway
         }
 
 
-        CommonSolution.Entities.Task[] arrangedTasksSelection = TaskGateway.Arrange(
+        Task[] arrangedTasksSelection = TaskGateway.Arrange(
           TaskGateway.Filter(mockDataSource.Tasks.ToArray(), requestParameters)
         ); 
         
@@ -76,7 +77,7 @@ public class TaskMockGateway : TaskGateway
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(
+  public override System.Threading.Tasks.Task<Task> Add(
     TaskGateway.Adding.RequestData requestData
   )
   {
@@ -96,7 +97,7 @@ public class TaskMockGateway : TaskGateway
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(
+  public override System.Threading.Tasks.Task<Task> Update(
     TaskGateway.Updating.RequestData requestData
   )
   {
@@ -121,7 +122,7 @@ public class TaskMockGateway : TaskGateway
       getResponseData: () =>
       {
         
-        CommonSolution.Entities.Task targetTask = this.mockDataSource.
+        Task targetTask = this.mockDataSource.
             RetrieveAllTasks().
             Single(task => task.ID == targetTaskID);
         

@@ -4,19 +4,6 @@ extends ../../../Layouts/Main/MainLayout.pug
 block append Requirements
 
   include ../../../StaticPreview/_Requirements.pug
-
-  -
-
-    class TasksManagementPage {
-
-      static mustDisplayTaskManagerAtNarrowScreens = true;
-
-      static displayTaskManagerAtNarrowScreens() {
-        TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
-        return PeopleManagementPage;
-      }
-
-    }
     
 
 block append Metadata
@@ -33,9 +20,35 @@ block append Metadata
     RoutingEmulator.setCurrentRoute("tasksManagement");
 
 
+block StatesSimulations
+  
+  -
+  
+    class TasksManagementPage {
+    
+      static mustDisplayTaskManagerAtNarrowScreens = false;
+    
+      static displayTaskManagerAtNarrowScreens() {
+        TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
+        return PeopleManagementPage;
+      }
+    
+    }
+    
+
 block append SpecificContent
 
-  .TasksManagementPage-SpecificContent.MainLayout-SpecificContentFillingElement
+  -
+
+    /**
+     * @type { object }
+     * @property { string } filteringModalDialog.title
+     * @property { string } taskManagerActivationGuidance
+     * */
+    const $pageStringResources = $stringResources.$english.pages.task.management;
+
+  
+  .TasksManagementPage-ContainerQueryingComposition.MainLayout-VerticallyFillingSpecificContentDescendant
 
     +TasksViewer({
       loading: TasksManagementPageStatesSimulations.loading,
@@ -47,7 +60,7 @@ block append SpecificContent
     +TaskManager(
       {
         targetTask: getRandomArrayElement(DummyData.Tasks),
-        activationGuidance: "Click or tap the task card to view details or edit the dedicated task."
+        activationGuidance: $pageStringResources.taskManagerActivationGuidance
       },
       { editingMode: true }
     ).TasksManagementPage-TaskManager&attributes({
@@ -65,6 +78,6 @@ block FloatingAndFixedContent
       https://stackoverflow.com/a/52937920/4818123
      
   +ModalDialog--YDF(
-    { title: "Filter Tasks" },
+    { title: $pageStringResources.filteringModalDialog.title },
     { mustDisplay: false }
   ): +TasksFilteringPanel

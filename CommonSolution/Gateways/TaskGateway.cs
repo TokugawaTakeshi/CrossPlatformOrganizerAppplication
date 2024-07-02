@@ -1,11 +1,13 @@
-﻿namespace CommonSolution.Gateways;
+﻿using Task = CommonSolution.Entities.Task.Task;
+
+namespace CommonSolution.Gateways;
 
 
 public abstract class TaskGateway
 {
  
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public abstract System.Threading.Tasks.Task<CommonSolution.Entities.Task[]> RetrieveAll();
+  public abstract System.Threading.Tasks.Task<Task[]> RetrieveAll();
   
   public abstract Task<SelectionRetrieving.ResponseData> RetrieveSelection(
     SelectionRetrieving.RequestParameters requestParameters
@@ -70,19 +72,19 @@ public abstract class TaskGateway
     {
       public required uint TotalItemsCount { get; init; }
       public required uint TotalItemsCountInSelection { get; init; }
-      public required CommonSolution.Entities.Task[] Items { get; init; }
+      public required Task[] Items { get; init; }
     }
     
   }
 
   
   /* ─── Filtering & Arranging ────────────────────────────────────────────────────────────────────────────────────── */
-  public static CommonSolution.Entities.Task[] Filter(
-    CommonSolution.Entities.Task[] tasks, SelectionRetrieving.RequestParameters filtering
+  public static Task[] Filter(
+    Task[] tasks, SelectionRetrieving.RequestParameters filtering
   )
   {
 
-    CommonSolution.Entities.Task[] workpiece = tasks;
+    Task[] workpiece = tasks;
     
     if (filtering.OnlyTasksWithAssociatedDate == true)
     {
@@ -100,7 +102,7 @@ public abstract class TaskGateway
     {
       workpiece = workpiece.
           Where(
-            (CommonSolution.Entities.Task task) => 
+            (Task task) => 
                 task.title.Contains(filtering.SearchingByFullOrPartialTitleOrDescription) ||
                 (task.description?.Contains(filtering.SearchingByFullOrPartialTitleOrDescription) ?? false)
           ).
@@ -112,24 +114,24 @@ public abstract class TaskGateway
   }
 
   public static bool IsTaskSatisfyingToFilteringConditions(
-    CommonSolution.Entities.Task task, SelectionRetrieving.RequestParameters filtering
+    Task task, SelectionRetrieving.RequestParameters filtering
   )
   {
     return TaskGateway.Filter([ task ], filtering).Length == 1;
   }
   
-  public static CommonSolution.Entities.Task[] Arrange(CommonSolution.Entities.Task[] tasks)
+  public static Task[] Arrange(Task[] tasks)
   {
     return tasks.
-        OrderBy((CommonSolution.Entities.Task task) => task.isComplete).
-        ThenByDescending((CommonSolution.Entities.Task task) => task.deadlineDateTime is not null).
-        ThenByDescending((CommonSolution.Entities.Task task) => task.deadlineDate is not null).
+        OrderBy((Task task) => task.isComplete).
+        ThenByDescending((Task task) => task.deadlineDateTime is not null).
+        ThenByDescending((Task task) => task.deadlineDate is not null).
         ToArray();
   }
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public abstract System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(Adding.RequestData requestData);
+  public abstract System.Threading.Tasks.Task<Task> Add(Adding.RequestData requestData);
 
   public abstract class Adding
   {
@@ -147,7 +149,7 @@ public abstract class TaskGateway
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public abstract System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(Updating.RequestData requestData);
+  public abstract System.Threading.Tasks.Task<Task> Update(Updating.RequestData requestData);
   
   public abstract class Updating
   {

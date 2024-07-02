@@ -28,14 +28,14 @@ internal record TaskManagerJapaneseLocalization : TaskManagerLocalization
     taskTitle = new SharedStaticStrings.ControlWithLabelAndGuidance
     {
       label = "見出し",
-      guidance = $"見出しを**{ CommonSolution.Entities.Task.Title.MINIMAL_CHARACTERS_COUNT }~" + 
-          $"{ CommonSolution.Entities.Task.Title.MAXIMAL_CHARACTERS_COUNT }**文字内入力して下さい。" 
+      guidance = $"見出しを**{ CommonSolution.Entities.Task.Task.Title.MINIMAL_CHARACTERS_COUNT }~" + 
+          $"{ CommonSolution.Entities.Task.Task.Title.MAXIMAL_CHARACTERS_COUNT }**文字内入力して下さい。" 
           
     },
     taskDescription = new SharedStaticStrings.ControlWithLabelAndGuidance
     {
       label = "記述",
-      guidance = $"詳細を**{ CommonSolution.Entities.Task.Description.MINIMAL_CHARACTERS_COUNT }文字以上**" + 
+      guidance = $"詳細を**{ CommonSolution.Entities.Task.Task.Description.MINIMAL_CHARACTERS_COUNT }文字以上**" + 
           "入力して下さい。" 
     }
   };

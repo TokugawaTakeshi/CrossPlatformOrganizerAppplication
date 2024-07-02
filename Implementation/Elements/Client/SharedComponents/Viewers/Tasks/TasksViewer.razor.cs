@@ -11,6 +11,7 @@ using FrontEndFramework.Components.Snackbar;
 
 using System.Diagnostics;
 using System.Globalization;
+using Task = CommonSolution.Entities.Task.Task;
 
 
 namespace Client.SharedComponents.Viewers.Tasks;
@@ -48,7 +49,7 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
 
   /* ━━━ Actions Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   /* ─── Task Selecting ───────────────────────────────────────────────────────────────────────────────────────────── */
-  private void onSelectTask(CommonSolution.Entities.Task targetTask)
+  private void onSelectTask(Task targetTask)
   {
     TasksSharedState.currentlySelectedTask = targetTask;
   }
@@ -93,7 +94,7 @@ public partial class TasksViewer : Microsoft.AspNetCore.Components.ComponentBase
 
   
   /* ─── Toggling of Task Completion ──────────────────────────────────────────────────────────────────────────────── */
-  private async void onToggleTaskCompletion(CommonSolution.Entities.Task targetTask)
+  private async void onToggleTaskCompletion(Task targetTask)
   {
 
     BlockingLoadingOverlayService.displayBlockingLoadingOverlay();

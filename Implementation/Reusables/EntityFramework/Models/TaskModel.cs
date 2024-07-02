@@ -3,7 +3,8 @@
 
 namespace EntityFramework.Models;
 
-[System.ComponentModel.DataAnnotations.Schema.Table("Tasks")]
+
+[System.ComponentModel.DataAnnotations.Schema.Table("tasks")]
 [Microsoft.EntityFrameworkCore.EntityTypeConfiguration(typeof(TaskModel.Configuration))]
 public class TaskModel
 {
@@ -13,14 +14,14 @@ public class TaskModel
   [System.ComponentModel.DataAnnotations.MaxLength(36)]
   public string ID { get; set; } = Guid.NewGuid().ToString();
 
-  [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Task.Title.MAXIMAL_CHARACTERS_COUNT)]
+  [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Task.Task.Title.MAXIMAL_CHARACTERS_COUNT)]
   public string Title { get; set; } = null!;
 
   public string? Description { get; set; }
 
   public bool IsComplete { get; set; }
 
-  /* ━━━ < TODO Next versions (GUI is aspirational) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ━━━ < TODO Next versions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   // [System.ComponentModel.DataAnnotations.Required]
   // public List<TaskModel> Subtasks { get; set; } = null!;
   
@@ -31,9 +32,9 @@ public class TaskModel
   /* ━━━ TODO > ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   
   
-  public CommonSolution.Entities.Task ToBusinessRulesEntity()
+  public CommonSolution.Entities.Task.Task ToBusinessRulesEntity()
   {
-    return new CommonSolution.Entities.Task
+    return new CommonSolution.Entities.Task.Task
     {
       ID = this.ID,
       title = this.Title,
@@ -55,15 +56,15 @@ public class TaskModel
 
       builder.
           Property(taskModel => taskModel.Title).
-          IsRequired(CommonSolution.Entities.Task.Title.IS_REQUIRED);
+          IsRequired(CommonSolution.Entities.Task.Task.Title.IS_REQUIRED);
       
       builder.
           Property(taskModel => taskModel.Description).
-          IsRequired(CommonSolution.Entities.Task.Description.IS_REQUIRED);
+          IsRequired(CommonSolution.Entities.Task.Task.Description.IS_REQUIRED);
       
       builder.
           Property(taskModel => taskModel.IsComplete).
-          IsRequired(CommonSolution.Entities.Task.IsComplete.IS_REQUIRED);
+          IsRequired(CommonSolution.Entities.Task.Task.IsComplete.IS_REQUIRED);
 
     }
     

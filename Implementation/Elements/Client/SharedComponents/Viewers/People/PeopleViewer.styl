@@ -7,7 +7,7 @@
       {block}
 
   NarrowContainersConfiguration()
-    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
       {block}
   
   
@@ -84,7 +84,7 @@
     
     centerHorizontallyWithoutWrapper({ 
       targetElementType: HorizontalCenteringWithoutWrapper.TargetElementTypes.block,
-      maximalWidth: 2*NARROWEST_SCREEN_WIDTH_UNIT,
+      maximalWidth: 2*NARROWEST_SCREEN_WIDTH_UNIT--YDF,
       horizontalSpaceBetweenSelfAndParent: 20px 
     })
 

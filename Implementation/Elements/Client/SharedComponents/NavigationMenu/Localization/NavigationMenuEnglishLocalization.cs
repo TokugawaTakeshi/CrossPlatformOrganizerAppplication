@@ -7,7 +7,7 @@ internal record NavigationMenuEnglishLocalization : NavigationMenuLocalization
   internal override Links links { get; } = new()
   {
     tasks = "Tasks",
-    people = "People",
+    people = "People"
   };
   
 }

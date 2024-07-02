@@ -34,7 +34,7 @@ public static class JsonExtensions
 
     
     throw new ArgumentNullException(
-      nameof(targetObject), $"Expected a JsonObject at path '{firstSegment}', but found null."
+      nameof(targetObject), $"Expected a JsonObject at path \"{ firstSegment }\", but found null."
     );
 
   }

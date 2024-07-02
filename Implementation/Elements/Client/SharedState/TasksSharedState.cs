@@ -2,6 +2,7 @@
 using CommonSolution.Gateways;
 using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.CSharpExtensions.Exceptions;
+using Task = CommonSolution.Entities.Task.Task;
 
 
 namespace Client.SharedState;
@@ -20,12 +21,12 @@ internal abstract class TasksSharedState
 
 
   /* ━━━ Selecting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static CommonSolution.Entities.Task? _currentlySelectedTask = null;
+  private static Task? _currentlySelectedTask = null;
   
-  public delegate void OnSelectedTaskHasChanged(CommonSolution.Entities.Task newTask);
+  public delegate void OnSelectedTaskHasChanged(Task newTask);
   public static OnSelectedTaskHasChanged? onSelectedTaskHasChanged;
   
-  public static CommonSolution.Entities.Task? currentlySelectedTask
+  public static Task? currentlySelectedTask
   {
     get => TasksSharedState._currentlySelectedTask;
     set
@@ -45,8 +46,8 @@ internal abstract class TasksSharedState
   
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static List<CommonSolution.Entities.Task> _tasksSelection = [];
-  public static List<CommonSolution.Entities.Task> tasksSelection
+  private static List<Task> _tasksSelection = [];
+  public static List<Task> tasksSelection
   {
     get => TasksSharedState._tasksSelection;
     private set
@@ -238,13 +239,13 @@ internal abstract class TasksSharedState
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public static async System.Threading.Tasks.Task<CommonSolution.Entities.Task> addTask(
+  public static async System.Threading.Tasks.Task<Task> addTask(
     CommonSolution.Gateways.TaskGateway.Adding.RequestData requestData,
     bool mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions
   )
   {
 
-    CommonSolution.Entities.Task newTask;
+    Task newTask;
     
     try
     {
@@ -334,7 +335,7 @@ internal abstract class TasksSharedState
     }
     
     
-    CommonSolution.Entities.Task targetTask = TasksSharedState.tasksSelection.Single(task => task.ID == requestData.ID);
+    Task targetTask = TasksSharedState.tasksSelection.Single(task => task.ID == requestData.ID);
 
     targetTask.title = requestData.Title;
     targetTask.description = requestData.Description;
@@ -359,7 +360,7 @@ internal abstract class TasksSharedState
     }
     
 
-    CommonSolution.Entities.Task targetTask = TasksSharedState.tasksSelection.Single(task => task.ID == targetTaskID);
+    Task targetTask = TasksSharedState.tasksSelection.Single(task => task.ID == targetTaskID);
     targetTask.isComplete = !targetTask.isComplete; 
     
     TasksSharedState.NotifyStateChanged();

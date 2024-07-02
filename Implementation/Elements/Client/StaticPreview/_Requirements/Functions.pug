@@ -12,3 +12,14 @@
             `${ phoneNumber__digitsOnly.slice(SECOND_N_DASH_POSITION) }`;
     
   }
+
+
+  function generateStringFromTemplate(template, variables) {
+
+    for (const [variableName, variableValue] of Object.entries(variables)) {
+      template = template.replaceAll(new RegExp(`\\{\\{\\s*${ variableName }\\s*\\}\\}`, "gu"), variableValue);
+    }
+
+    return template;
+
+  }

@@ -20,7 +20,7 @@ public partial class TasksManagementPageContent : Microsoft.AspNetCore.Component
 {
 
   /* ━━━ Fields ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private CommonSolution.Entities.Task? activeTask = null;
+  private CommonSolution.Entities.Task.Task? activeTask = null;
 
   private string taskManagerAdditionalCSS_Class =>
       this.activeTask is not null ? "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" : "";
@@ -45,7 +45,7 @@ public partial class TasksManagementPageContent : Microsoft.AspNetCore.Component
 
   /* ━━━ Actions Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   /* ─── Task Selecting ───────────────────────────────────────────────────────────────────────────────────────────── */
-  private void onTaskHasBeenSelected(CommonSolution.Entities.Task newTask)
+  private void onTaskHasBeenSelected(CommonSolution.Entities.Task.Task newTask)
   {
     this.activeTask = newTask;
   }
@@ -67,7 +67,7 @@ public partial class TasksManagementPageContent : Microsoft.AspNetCore.Component
     
     BlockingLoadingOverlayService.displayBlockingLoadingOverlay();
 
-    CommonSolution.Entities.Task newTask;
+    CommonSolution.Entities.Task.Task newTask;
     
     try
     {

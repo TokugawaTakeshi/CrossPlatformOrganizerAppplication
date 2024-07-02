@@ -32,6 +32,8 @@ projectBuilding:
           fileRelativePath: StaticPreview/StaticPreviewDummyData.json
         - importedVariableName: BusinessRules
           fileRelativePath: StaticPreview/BusinessRules.json
+        - importedVariableName: $stringResources
+          fileRelativePath: StaticPreview/StringResourcesForStaticPreview.json
 
     entryPointsGroups:
 

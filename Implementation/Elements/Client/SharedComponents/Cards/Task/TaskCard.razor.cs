@@ -13,16 +13,16 @@ public partial class TaskCard : Microsoft.AspNetCore.Components.ComponentBase
 
   /* ━━━ Component Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter]
-  public required CommonSolution.Entities.Task targetTask { get; set; }
+  public required CommonSolution.Entities.Task.Task targetTask { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.EventCallback<
-    CommonSolution.Entities.Task
+    CommonSolution.Entities.Task.Task
   > onClickRootElementEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.EventCallback<
-    CommonSolution.Entities.Task
+    CommonSolution.Entities.Task.Task
   > onClickCheckBoxEventHandler { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter]

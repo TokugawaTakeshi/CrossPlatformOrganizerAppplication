@@ -4,10 +4,10 @@
 public abstract class SampleTasksRepository
 {
 
-  public static IEnumerable<CommonSolution.Entities.Task> Tasks => new[]
-  {
-    
-    new CommonSolution.Entities.Task
+  public static IEnumerable<CommonSolution.Entities.Task.Task> Tasks =>
+  [
+
+    new()
     {
       ID = Guid.NewGuid().ToString(),
       title = "Full",
@@ -16,7 +16,7 @@ public abstract class SampleTasksRepository
       deadlineDate = DateOnly.FromDateTime(DateTime.Today.AddDays(1))
     },
     
-    new CommonSolution.Entities.Task
+    new()
     {
       ID = Guid.NewGuid().ToString(),
       title = "Has non-expired Deadline Date",
@@ -24,7 +24,7 @@ public abstract class SampleTasksRepository
       priority = 1
     },
     
-    new CommonSolution.Entities.Task
+    new ()
     {
       ID = Guid.NewGuid().ToString(),
       title = "Has non-expired Deadline Date & Time",
@@ -32,42 +32,42 @@ public abstract class SampleTasksRepository
       priority = 2
     },
     
-    new CommonSolution.Entities.Task
+    new ()
     {
       ID = Guid.NewGuid().ToString(),
       title = "Has Expired Deadline Date",
       deadlineDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1))
     },
     
-    new CommonSolution.Entities.Task
+    new ()
     {
       ID = Guid.NewGuid().ToString(),
       title = "Has Expired Deadline Date & Time",
       deadlineDateTime = DateTime.Today.AddDays(-1)
     },
     
-    new CommonSolution.Entities.Task
+    new ()
     {
       ID = Guid.NewGuid().ToString(),
       title = "With Starting Date but Without Ending Date (& Time)",
       startingDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1))
     },
 
-    new CommonSolution.Entities.Task
+    new ()
     {
       ID = Guid.NewGuid().ToString(),
       title = "With Starting Date & Time but Without Ending Date (& Time)",
       startingDateTime = DateTime.Today.AddDays(-1)
     },
     
-    new CommonSolution.Entities.Task
+    new ()
     {
       ID = Guid.NewGuid().ToString(),
       title = "With Same Starting Date and Ending Date",
       startingDateTime = DateTime.Today,
       endingDateTime = DateTime.Today
-    },
-    
-  };
+    }
+
+  ];
 
 }

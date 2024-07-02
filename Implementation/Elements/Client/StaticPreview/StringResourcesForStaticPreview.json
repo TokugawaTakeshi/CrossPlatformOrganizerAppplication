@@ -1,0 +1,76 @@
+{
+  "$english": {
+    "pages": {
+      "task": {
+        "management": {
+          "filteringModalDialog": {
+            "title": "Filter Tasks"
+          },
+          "taskManagerActivationGuidance": "Click or tap the task card to view details or edit the dedicated task."
+        }
+      }
+    },
+    "components": {
+      "viewers": {
+        "tasks": {
+          "searchBox": {
+            "placeholder": "Search by Title or Description",
+            "accessibilityGuidance": "Search by task title or description"
+          }
+        }
+      }
+    },
+    "$components": {
+      "controls": {
+        "tasksFilteringPanel": {
+          "titles": {
+            "summary": "Summary",
+            "custom": "Custom"
+          },
+          "summaryCategories": {
+            "all": "Custom",
+            "associatedWithDateAndTime": "Custom",
+            "associatedWithDate": "Custom"
+          }
+        }
+      }
+    }
+  },
+  "$japanese": {
+    "pages": {
+      "task": {
+        "management": {
+          "filteringModalDialog": {
+            "title": "課題の絞り込み"
+          },
+          "taskManagerActivationGuidance": "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        }
+      }
+    },
+    "components": {
+      "viewers": {
+        "tasks": {
+          "searchBox": {
+            "placeholder": "課題の見出しや記述で検索",
+            "accessibilityGuidance": "課題の見出しや記述で検索"
+          }
+        }
+      }
+    },
+    "$components": {
+      "controls": {
+        "tasksFilteringPanel": {
+          "titles": {
+            "summary": "まとめ",
+            "custom": "カスタム"
+          },
+          "summaryCategories": {
+            "all": "カスタム",
+            "associatedWithDateAndTime": "カスタム",
+            "associatedWithDate": "カスタム"
+          }
+        }
+      }
+    }
+  }
+}

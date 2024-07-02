@@ -1,8 +1,20 @@
 mixin TasksFilteringPanel
 
+  -
+
+    /**
+     * @typedef {Object} TasksFilteringPanelStringResources
+     * @property { string } titles.summary
+     * @property { string } titles.custom
+     * @property { string } summaryCategories.all
+     * @property { string } summaryCategories.associatedWithDateAndTime
+     * @property { string } summaryCategories.associatedWithDate
+     */
+    const $componentStringResources = $stringResources.$english.$components.controls.tasksFilteringPanel;
+    
   .TasksFilteringPanel&attributes(attributes)
 
-    .TasksFilteringPanel-Title Summary
+    .TasksFilteringPanel-Title= $componentStringResources.summaryCategories.summary
 
     ul.TasksFilteringPanel-List
 

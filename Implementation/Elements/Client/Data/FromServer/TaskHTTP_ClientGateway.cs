@@ -20,7 +20,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
   
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task[]> RetrieveAll()
+  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task.Task[]> RetrieveAll()
   {
 
     HttpResponseMessage response = await this.HTTP_Client.GetAsync(
@@ -29,7 +29,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
     
     if (response.IsSuccessStatusCode)
     {
-      return JsonSerializer.Deserialize<CommonSolution.Entities.Task[]>(
+      return JsonSerializer.Deserialize<CommonSolution.Entities.Task.Task[]>(
         await response.Content.ReadAsStringAsync(), this.serializerOptions
       )!;
     }
@@ -86,7 +86,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(
+  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task.Task> Add(
     TaskGateway.Adding.RequestData requestData
   )
   {
@@ -108,7 +108,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
 
     if (response.IsSuccessStatusCode)
     {
-      return JsonSerializer.Deserialize<CommonSolution.Entities.Task>(
+      return JsonSerializer.Deserialize<CommonSolution.Entities.Task.Task>(
         await response.Content.ReadAsStringAsync(),
         this.serializerOptions
       );
@@ -121,7 +121,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(
+  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task.Task> Update(
     Updating.RequestData requestData
   )
   {
@@ -143,7 +143,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
     
     if (response.IsSuccessStatusCode)
     {
-      return JsonSerializer.Deserialize<CommonSolution.Entities.Task>(
+      return JsonSerializer.Deserialize<CommonSolution.Entities.Task.Task>(
         await response.Content.ReadAsStringAsync(),
         this.serializerOptions
       );

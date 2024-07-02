@@ -7,16 +7,16 @@
       {block}
 
   NarrowContainersConfiguration()
-    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
       {block}
 
 
-  &-SpecificContent
+  &-ContainerQueryingComposition
 
     +WideContainersConfiguration()
 
       display grid
-      grid-template-columns minmax(0, 1fr) NARROWEST_SCREEN_WIDTH_UNIT
+      grid-template-columns minmax(0, 1fr) NARROWEST_SCREEN_WIDTH_UNIT--YDF
 
 
     +NarrowContainersConfiguration()
@@ -26,11 +26,11 @@
 
   &-TasksViewer
 
-    height 100% //** [ Theory ] `max-height 100%` will not work, but `height 100%` will. */
+    //* [ Theory ] `max-height 100%` will not work, but `height 100%` will. */
+    height 100%       
     
     padding 8px
-
-    overflow-y hidden //**　[ Theory ]　In this case, it only limits the maximal height */ 
+    overflow-y hidden  
 
 
   &-TaskManager
@@ -38,7 +38,8 @@
     max-height 100%
     padding 8px
 
-    overflow-y hidden //**　[ Theory ]　In this case, it only limits the maximal height */
+    //*　[ Theory ]　In this case, it only limits the maximal height. */
+    overflow-y hidden 
 
     
     +WideContainersConfiguration()

@@ -55,8 +55,8 @@
     // TODO YDA上対応が出来たら、「and」を「or」（※構文が違う！）に置き換える。https://stackoverflow.com/a/11404776
     NarrowContainersConfiguration()
       @media container and\
-      (max-width: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1) and\
-      (max-height: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_HEIGHT - 1)
+      (max-width: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF) and\
+      (max-height: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_HEIGHT - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
         {block}
 
 

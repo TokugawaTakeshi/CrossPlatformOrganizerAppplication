@@ -7,51 +7,58 @@
       {block}
 
   NarrowContainersConfiguration()
-    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
       {block}
   
 
   container-type inline-size
 
   
-  &-VariableComposition
-  
+  &-ContainerQueryingComposition
+
     height 100%
     
     
     +WideContainersConfiguration()
-  
+    
+      //* [ Theory ] `height: 100%` is not required while `grid-template-rows` includes `minmax(0, 1fr)` */
+    
       display grid
-      grid-template-areas "SIDEBAR TOP_ACTION_BAR" "SIDEBAR MAIN_SECTION"
+      grid-template-areas\
+          "SIDEBAR_FOR_WIDE_CONTAINERS TOP_ACTION_BAR"\
+          "SIDEBAR_FOR_WIDE_CONTAINERS ACTIVE_TASKS_SECTION"\
+          "SIDEBAR_FOR_WIDE_CONTAINERS COMPLETED_TASKS_SECTION"
+    
       grid-template-columns 200px minmax(0, 1fr)
-      grid-template-rows auto 1fr
-      row-gap 6px
+
+      //* [ Approach ] The height of last row will be set by specifying of maximal height of element. */
+      grid-template-rows auto 1fr auto
       column-gap 12px
   
     
     +NarrowContainersConfiguration()
+
+      //* [ Theory ] If add `overflow: hidden` the shadows of the cards will become truncated. */
     
       display flex
       flex-direction column
-      overflow hidden
   
-  
-  &-Sidebar
+    
+  &-SidebarForWideContainers
 
     +WideContainersConfiguration()
     
-      grid-area SIDEBAR
+      grid-area SIDEBAR_FOR_WIDE_CONTAINERS
     
     
     +NarrowContainersConfiguration()
     
       display none
-    
-    
+
+
   &-TopActionBar
 
     display flex
-    align-items center
     
     
     +WideContainersConfiguration()
@@ -69,7 +76,7 @@
 
       flex-grow 1
       
-
+    
     &-ButtonForWideContainers
 
       +WideContainersConfiguration()
@@ -80,42 +87,47 @@
       +NarrowContainersConfiguration()
 
         display none !important
-    
-    
+
+
   &-CardsFlow
 
-    VERTICAL_SPACING_AFTER_TOP_ACTION_BAR = 6px
-    
     display grid
     grid-template-columns repeat(auto-fit, minmax(280px, 1fr))
-    row-gap 12px
-    align-content start
+    gap 12px
     
     overflow-y auto
     
-    margin-top: "calc(%s - %s)" % (VERTICAL_SPACING_AFTER_TOP_ACTION_BAR TaskCard.shadowThickness)
-    
-
-    // [ Approach ] `margin-top` already used, while `:before` will be a child of the grid, so both are not available. 
+    //* [ Approach ] `margin-top` already used, while `:before` will be a child of the grid, so both are not available. */ 
     provideClippedShadowsAndOutlinesVisibility({
       requiredHorizontalSymmetricSpace: TaskCard.shadowThickness,
       requiredVerticalSymmetricSpace: TaskCard.shadowThickness,
-      noCompensatingNegativeTopMargins: true
+      noCompensatingNegativeTopMargins: true,
+      noCompensatingNegativeBottomMargins: true
     })
+    
+    
+    &__ActiveTasks
 
+      align-content start
+      
+      margin-top: 10px - TaskCard.shadowThickness
 
-    +WideContainersConfiguration()
+      
+      +WideContainersConfiguration()
 
-      column-gap 12px
-    
-      grid-area MAIN_SECTION
-    
-    
-    +NarrowContainersConfiguration()
-    
-      flex-grow 1
+        grid-area ACTIVE_TASKS_SECTION
+
+      
+      +NarrowContainersConfiguration()
+  
+        flex-grow 1
 
     
+    &__CompletedTasks
+
+      +WideContainersConfiguration()
+
+        grid-area COMPLETED_TASKS_SECTION
   &-AdmonitionBlock
 
     margin-top 24px
@@ -124,7 +136,7 @@
 
     +WideContainersConfiguration()
 
-      grid-area MAIN_SECTION
+      grid-area ACTIVE_TASKS_SECTION
       align-self start
 
       overflow-y auto
@@ -134,11 +146,19 @@
 
       centerHorizontallyWithoutWrapper({ 
         targetElementType: HorizontalCenteringWithoutWrapper.TargetElementTypes.block,
-        maximalWidth: 2*NARROWEST_SCREEN_WIDTH_UNIT,
+        maximalWidth: 2*NARROWEST_SCREEN_WIDTH_UNIT--YDF,
         horizontalSpaceBetweenSelfAndParent: 20px 
       })
 
 
+  &-CompletedTasksSection    
+    
+    +WideContainersConfiguration()
+
+      grid-area COMPLETED_TASKS_SECTION
+      margin-top 6px
+  
+    
   &-BottomActionBarForNarrowContainers
 
     +WideContainersConfiguration()

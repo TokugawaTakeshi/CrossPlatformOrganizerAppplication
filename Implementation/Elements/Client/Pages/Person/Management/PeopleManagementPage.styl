@@ -7,7 +7,7 @@
       {block}
 
   NarrowContainersConfiguration()
-    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - 1)
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
       {block}
   
   
@@ -16,7 +16,7 @@
     +WideContainersConfiguration()
     
       display grid
-      grid-template-columns minmax(0, 1fr) NARROWEST_SCREEN_WIDTH_UNIT
+      grid-template-columns minmax(0, 1fr) NARROWEST_SCREEN_WIDTH_UNIT--YDF
     
     
     +NarrowContainersConfiguration()

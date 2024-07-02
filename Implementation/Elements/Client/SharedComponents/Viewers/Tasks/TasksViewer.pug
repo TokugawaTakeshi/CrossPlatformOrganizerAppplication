@@ -1,6 +1,7 @@
 ﻿mixin TasksViewer(statesSimulations)
 
   -
+    
     /**
      * @type { object }
      * @property { boolean } loading
@@ -8,28 +9,38 @@
      * @property { boolean } noItems
      * @property { boolean } noSearchResults
      */  
-    statesSimulations = statesSimulations ?? {}
- 
+    statesSimulations = statesSimulations ?? {};
+
+    /**
+     * @type { object }
+     * @property { string } searchBox.placeholder
+     * @property { string } searchBox.accessibilityGuidance
+     * */
+    const $componentStringResources = $stringResources.$english.components.viewers.tasks;
+    
+
   .TasksViewer&attributes(attributes)
     
-    //- [ Additional container adding reason ] Usage of container queries
-    .TasksViewer-VariableComposition
-    
-      +TasksFilteringPanel.TasksViewer-Sidebar
-        
+    .TasksViewer-ContainerQueryingComposition
+
+      +TasksFilteringPanel.TasksViewer-SidebarForWideContainers
+      
       .TasksViewer-TopActionBar
   
         +SearchBox--YDF({
-          placeholder: "Search by Title or Description"
+          placeholder: $componentStringResources.searchBox.placeholder,
+          accessibilityGuidance: $componentStringResources.searchBox.accessibilityGuidance
         }).TasksViewer-TopActionBar-SearchBox
   
         +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers
           +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
           span.Button--YDF-Label Add Task
-        
+      
       if statesSimulations.loading
   
-        .TasksViewer-CardsFlow
+        .TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks(
+          role="presentation"
+        )
   
           each cardNumber in Array.from(new Array(12).keys())
   
@@ -78,7 +89,7 @@
   
       else
 
-        ul.TasksViewer-CardsFlow
+        ul.TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks
   
           each task in DummyData.Tasks
   
@@ -86,6 +97,22 @@
               task,
               rootElementTag: "li"
             })
+
+      +Accordion--YDF({ 
+        title: "Completed tasks",
+        initiallyExpanded: false,
+        panelAdditionalCSS_Classes: [ "TasksViewer-CardsFlow", "TasksViewer-CardsFlow__CompletedTasks" ]
+      }).TasksViewer-CompletedTasksSection
+
+        //-
+          ul.TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks(
+            role="presentation"
+          )
+      
+        each cardNumber in Array.from(new Array(12).keys())
+
+          +TaskCardLoadingPlaceholder
+        
               
       .TasksViewer-BottomActionBarForNarrowContainers
   

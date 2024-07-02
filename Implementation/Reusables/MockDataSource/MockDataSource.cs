@@ -8,6 +8,7 @@ using MockDataSource.AdditionalStructures;
 
 using System.Diagnostics;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
+using Task = CommonSolution.Entities.Task.Task;
 
 
 namespace MockDataSource;
@@ -18,7 +19,7 @@ public class MockDataSource
 
   /* ━━━ Data ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public readonly List<Person> People;
-  public readonly List<CommonSolution.Entities.Task> Tasks;
+  public readonly List<Task> Tasks;
   public readonly List<Location> Locations;
 
 
@@ -181,15 +182,15 @@ public class MockDataSource
   
   
   /* ━━━ Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public CommonSolution.Entities.Task[] RetrieveAllTasks()
+  public Task[] RetrieveAllTasks()
   {
     return Tasks.Select(task => task.clone()).ToArray();
   }
 
-  public CommonSolution.Entities.Task AddTask(TaskGateway.Adding.RequestData requestData)
+  public Task AddTask(TaskGateway.Adding.RequestData requestData)
   {
 
-    CommonSolution.Entities.Task newTask = TaskMocker.Generate(
+    Task newTask = TaskMocker.Generate(
       new TaskMocker.PreDefines
       {
         title = requestData.Title,
@@ -220,10 +221,10 @@ public class MockDataSource
 
   }
 
-  public CommonSolution.Entities.Task UpdateTask(TaskGateway.Updating.RequestData requestData)
+  public Task UpdateTask(TaskGateway.Updating.RequestData requestData)
   {
 
-    CommonSolution.Entities.Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
+    Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
 
     if (targetTask == null)
     {

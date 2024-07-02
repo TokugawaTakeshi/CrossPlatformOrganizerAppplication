@@ -10,14 +10,14 @@
 @using FrontEndFramework.Components.ModalDialogs.Common
 
 
-<div class="TasksManagementPage-SpecificContent MainLayout-SpecificContentFillingElement">
+<div class="TasksManagementPage-ContainerQueryingComposition MainLayout-VerticallyFillingSpecificContentDescendant">
 
 	<TasksViewer 
 		rootElementModifierCSS_Class="TasksManagementPage-TasksViewer"
 		onClickTaskAddingButtonEventHandler=@onClickStartingOfNewTaskInputtingButton
 	/>
   
-	<TaskManager 
+	<TaskManager
 		rootElementModifierCSS_Class=@($"TasksManagementPage-TaskManager { taskManagerAdditionalCSS_Class }")
 		activationGuidance=@localization.taskManagerActivationGuidance
 		targetTask=@activeTask
@@ -28,6 +28,7 @@
 	/>
 	
 </div>
+
 
 <SectionContent SectionName="FloatingAndFixedContent">
 	

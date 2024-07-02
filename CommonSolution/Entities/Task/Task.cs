@@ -1,7 +1,7 @@
-﻿namespace CommonSolution.Entities;
+﻿namespace CommonSolution.Entities.Task;
 
 
-public class Task
+public partial class Task
 {
 
   public required string ID { get; init; }
@@ -307,5 +307,5 @@ public class Task
       associatedLocation = this.associatedLocation
     };
   }
-
+  
 }

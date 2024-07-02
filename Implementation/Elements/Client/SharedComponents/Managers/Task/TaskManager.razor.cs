@@ -19,7 +19,7 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
   
   /* ━━━ Component parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Components.Parameter] 
-  public CommonSolution.Entities.Task? targetTask { get; set; }
+  public CommonSolution.Entities.Task.Task? targetTask { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter]
   [Microsoft.AspNetCore.Components.EditorRequired]
@@ -36,7 +36,7 @@ public partial class TaskManager : Microsoft.AspNetCore.Components.ComponentBase
   [Microsoft.AspNetCore.Components.Parameter] 
   [Microsoft.AspNetCore.Components.EditorRequired]
   public required Microsoft.AspNetCore.Components.EventCallback<
-    CommonSolution.Entities.Task
+    CommonSolution.Entities.Task.Task
   > onDeleteTaskEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter]

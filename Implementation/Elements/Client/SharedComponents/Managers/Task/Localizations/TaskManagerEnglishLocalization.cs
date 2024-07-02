@@ -28,14 +28,14 @@ internal record TaskManagerEnglishLocalization : TaskManagerLocalization
     taskTitle = new SharedStaticStrings.ControlWithLabelAndGuidance
     {
       label = "Title",
-      guidance = $"Please input **{ CommonSolution.Entities.Task.Title.MINIMAL_CHARACTERS_COUNT } - " + 
-          $"{ CommonSolution.Entities.Task.Title.MAXIMAL_CHARACTERS_COUNT }** characters." 
+      guidance = $"Please input **{ CommonSolution.Entities.Task.Task.Title.MINIMAL_CHARACTERS_COUNT } - " + 
+          $"{ CommonSolution.Entities.Task.Task.Title.MAXIMAL_CHARACTERS_COUNT }** characters." 
           
     },
     taskDescription = new SharedStaticStrings.ControlWithLabelAndGuidance
     {
       label = "Description",
-      guidance = $"Please input **at least { CommonSolution.Entities.Task.Description.MINIMAL_CHARACTERS_COUNT }**" + 
+      guidance = $"Please input **at least { CommonSolution.Entities.Task.Task.Description.MINIMAL_CHARACTERS_COUNT }**" + 
           "characters" 
     }
   };

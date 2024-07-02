@@ -1,5 +1,5 @@
 ﻿using CommonSolution.Entities;
-using Task = CommonSolution.Entities.Task;
+using Task = CommonSolution.Entities.Task.Task;
 
 using MockDataSource.Entities;
 using YamatoDaiwa.CSharpExtensions.DataMocking;

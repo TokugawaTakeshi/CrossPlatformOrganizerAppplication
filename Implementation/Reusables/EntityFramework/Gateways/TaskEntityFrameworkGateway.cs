@@ -2,6 +2,7 @@
 using EntityFramework.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Task = CommonSolution.Entities.Task.Task;
 
 
 namespace EntityFramework.Gateways;
@@ -20,7 +21,7 @@ public class TaskEntityFrameworkGateway : TaskGateway
 
 
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override System.Threading.Tasks.Task<CommonSolution.Entities.Task[]> RetrieveAll()
+  public override System.Threading.Tasks.Task<Task[]> RetrieveAll()
   {
     return System.Threading.Tasks.Task.FromResult(
       this.databaseContext.TasksModels.Select(taskModel => taskModel.ToBusinessRulesEntity()).ToArray()
@@ -32,14 +33,14 @@ public class TaskEntityFrameworkGateway : TaskGateway
   )
   {
 
-    CommonSolution.Entities.Task[] allTasks = this.databaseContext.
+    Task[] allTasks = this.databaseContext.
         TasksModels.
         Select(taskModel => taskModel.ToBusinessRulesEntity()).
         ToArray();
 
     uint totalItemsCount = Convert.ToUInt32(allTasks.Length);
     
-    CommonSolution.Entities.Task[] arrangedTasksSelection = 
+    Task[] arrangedTasksSelection = 
         TaskGateway.Arrange(
           TaskGateway.Filter(allTasks, requestParameters)
         ); 
@@ -57,7 +58,7 @@ public class TaskEntityFrameworkGateway : TaskGateway
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(
+  public override async System.Threading.Tasks.Task<Task> Add(
     TaskGateway.Adding.RequestData requestData
   )
   {
@@ -79,7 +80,7 @@ public class TaskEntityFrameworkGateway : TaskGateway
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(
+  public override async System.Threading.Tasks.Task<Task> Update(
     TaskGateway.Updating.RequestData requestData
   )
   {

@@ -1,6 +1,6 @@
 .MainLayout
 
-  WIDE_SCREENS_CONFIGURATION_MINIMAL_WIDTH = 500px
+  WIDE_SCREENS_CONFIGURATION_MINIMAL_WIDTH = 2*NARROWEST_SCREEN_WIDTH_UNIT--YDF
 
   WideScreensConfiguration()
     @media screen and (min-width: WIDE_SCREENS_CONFIGURATION_MINIMAL_WIDTH)
@@ -63,7 +63,7 @@
     overflow-y hidden
 
 
-  &-SpecificContentFillingElement
+  &-VerticallyFillingSpecificContentDescendant
 
     height 100%
 
@@ -85,7 +85,7 @@
 
   &-Drawer
 
-    max-width NARROWEST_SCREEN_WIDTH_UNIT
+    max-width NARROWEST_SCREEN_WIDTH_UNIT--YDF
     width 80%
     height 100%
 
