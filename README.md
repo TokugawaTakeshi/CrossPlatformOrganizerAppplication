@@ -4,7 +4,7 @@
 
 ![image](https://github.com/user-attachments/assets/71e5b704-fd79-427f-8697-e8b068eb1d41)
 
-## Screenshots (Actual for "Master Branch")
+## Screenshots (Actual for "master" Branch)
 
 ![329415765-cd0c17e0-a4dc-4d2a-b73b-20077559581a](https://github.com/user-attachments/assets/6e6ee337-aa06-4724-8a3d-0ff719756250)
 
