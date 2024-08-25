@@ -27,6 +27,8 @@ block append Metadata
 
     styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
 
+    RoutingEmulator.setCurrentRoute("tasksManagement");
+
 
 block append SpecificContent
 
@@ -44,7 +46,7 @@ block append SpecificContent
         targetTask: getRandomArrayElement(DummyData.Tasks),
         activationGuidance: "Click or tap the task card to view details or edit the dedicated task."
       },
-      { editingMode: true }
+      { editingMode: false }
     ).TasksManagementPage-TaskManager&attributes({
       class: TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens ?
           [ "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" ] : 

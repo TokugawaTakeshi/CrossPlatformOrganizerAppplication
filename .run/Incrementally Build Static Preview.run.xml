@@ -1,9 +1,9 @@
 ﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Static preview building" type="js.build_tools.npm" nameIsGenerated="true">
+  <configuration default="false" name="Incrementally Build Static Preview" type="js.build_tools.npm" nameIsGenerated="true">
     <package-json value="$PROJECT_DIR$/Implementation/Elements/Client/package.json" />
     <command value="run" />
     <scripts>
-      <script value="Static preview building" />
+      <script value="Incrementally Build Static Preview" />
     </scripts>
     <node-interpreter value="project" />
     <envs />

@@ -73,7 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StaticPreview\.Build" />
+    <Folder Include="StaticPreview\Build\" />
   </ItemGroup>
 
   <ItemGroup>
