@@ -10,19 +10,14 @@ block Data
       monthOverview: {
         tabHTML_ID: "MONTH_OVERVIEW--TAB",
         panelHTML_ID: "MONTH_OVERVIEW--TAB_PANEL",
-        isInitiallySelected: true,
+        isInitiallySelected: false,
         label: "Month"
       },
-      weekOverview: {
-        tabHTML_ID: "WEEK_OVERVIEW--TAB",
-        panelHTML_ID: "WEEK_OVERVIEW--TAB_PANEL",
-        isInitiallySelected: false,
-        label: "Week"
-      },
+
       dayOverview: {
         tabHTML_ID: "DAY_OVERVIEW--TAB",
         panelHTML_ID: "DAY_OVERVIEW--TAB_PANEL",
-        isInitiallySelected: false,
+        isInitiallySelected: true,
         label: "Day"
       }
       
@@ -40,12 +35,13 @@ block append Metadata
 
     RegularWebPageTemplate__YDF.configure({
       metadata: {
-        title: "Tasks management — Experimental CSharp Application"
+        title: "Tasks management — Experimental CSharp Application",
+        locale: $$HTML_TAG_LANG_ATTRIBUTE_VALUE
       },
-      stylesSheetsURIs: ["@All/Primer", "@All/ExternalComponents", "@All/Internals"]
+      stylesSheetsURIs: [ "@Shared/Primer", "@ExternalSharedGUI_Components", "@Shared/Internals" ]
     });
 
-    RoutingEmulator.setCurrentRoute("calendar");
+    YDF.RoutingEmulator.setCurrentRoute("calendar");
 
 
 block append SpecificContent
@@ -54,24 +50,12 @@ block append SpecificContent
     
     +TabsList--YDF({ accessibilityGuidance: "Select View" }).CalendarPage-TabsList
       +Tab--YDF(tabsData.monthOverview)
-      +Tab--YDF(tabsData.weekOverview)
       +Tab--YDF(tabsData.dayOverview)
       
     +TabPanel--YDF(tabsData.monthOverview).CalendarPage-TabPanel
 
       +MonthViewer.CalendarPage-MonthViewer
-    //- === TODO =======================================================================================================
-    +TabPanel--YDF(tabsData.weekOverview)
-    
-      //-
-        
       
-    +TabPanel--YDF(tabsData.dayOverview)
+    +TabPanel--YDF(tabsData.dayOverview).CalendarPage-TabPanel
 
-      //-
-        h1.CalendarPage-SpecificContent 日付閲覧
-        h2.CalendarPage-SpecificContent 時間連想課題
-                
-        h2.CalendarPage-SpecificContent 時間に結び付ていない課題
-      
-      //- ul.CalendarPage-SpecificContent
+      +DayViewer()

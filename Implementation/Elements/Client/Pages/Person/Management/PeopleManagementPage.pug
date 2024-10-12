@@ -9,8 +9,23 @@ block append Requirements
 
     class PeopleManagementPage {
 
+      /**
+       * @type { object }
+       * @property { string } pageTitle
+       * @property { string } personManagerActivationGuidance
+       * */
+      static localizedStringResources = $$localizedStringResources.pages.person.management;
+      
+      /** 
+       * @private
+       * @type boolean
+       * */
       static mustDisplayPersonManagerAtNarrowScreens = false;
 
+      /** 
+       * @public
+       * @return { typeof TasksManagementPage } 
+       * */
       static displayPersonManagerAtNarrowScreens() {
         PeopleManagementPage.mustDisplayPersonManagerAtNarrowScreens = true;
         return PeopleManagementPage;
@@ -25,12 +40,13 @@ block append Metadata
 
     RegularWebPageTemplate__YDF.configure({
       metadata: {
-        title: "Tasks management — Experimental CSharp Application"
+        title: PeopleManagementPage.localizedStringResources.personManagerActivationGuidance,
+        locale: $$HTML_TAG_LANG_ATTRIBUTE_VALUE
       },
-      stylesSheetsURIs: ["@All/Primer", "@All/ExternalComponents", "@All/Internals"]
+      stylesSheetsURIs: [ "@Shared/Primer", "@ExternalSharedGUI_Components", "@Shared/Internals" ]
     });
     
-    RoutingEmulator.setCurrentRoute("peopleManagement");
+    YDF.RoutingEmulator.setCurrentRoute("peopleManagement");
 
 
 block append SpecificContent
@@ -38,18 +54,18 @@ block append SpecificContent
   .PeopleManagementPage-SpecificContent.MainLayout-VerticallyFillingSpecificContentDescendant
 
     +PeopleViewer({
-      loading: PeopleManagementPageStatesSimulations.loading,
-      error: PeopleManagementPageStatesSimulations.error,
-      noItems: PeopleManagementPageStatesSimulations.noItems,
-      noSearchResults: PeopleManagementPageStatesSimulations.noSearchResults
+      loading: $peopleManagementPageStatesSimulations.loading,
+      error: $peopleManagementPageStatesSimulations.error,
+      noItems: $peopleManagementPageStatesSimulations.noItems,
+      noSearchResults: $peopleManagementPageStatesSimulations.noSearchResults
     }).PeopleManagementPage-PeopleViewer
 
     +PersonManager(
       {
-        targetPerson: getRandomArrayElement(DummyData.People),
-        activationGuidance: "Click or tap the person card to view details or edit the dedicated person data."
+        targetPerson: YDF.getRandomArrayElement($mockData.people),
+        activationGuidance: PeopleManagementPage.localizedStringResources.personManagerActivationGuidance
       },
-      { editingMode: true }
+      { editingMode: false }
     ).PeopleManagementPage-PersonManager&attributes({
       class: PeopleManagementPage.mustDisplayPersonManagerAtNarrowScreens ? 
           [ "PeopleManagementPage-PersonManager__VisibleAtNarrowScreens" ] : 

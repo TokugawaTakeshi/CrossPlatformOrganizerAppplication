@@ -1,4 +1,4 @@
-﻿using CommonSolution.Gateways;
+﻿using CommonSolution.Gateways.Task;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
 using Task = CommonSolution.Entities.Task.Task;
 
@@ -8,29 +8,11 @@ namespace MockDataSource.Gateways;
 
 public class TaskMockGateway : TaskGateway
 {
-  
-  private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
 
   /* [ Usage ] Intended to be changed manually for testing purposes. */
   private static readonly bool NO_ITEMS_SIMULATION_MODE = false;
   
   
-  public override System.Threading.Tasks.Task<Task[]> RetrieveAll()
-  {
-    return MockGatewayHelper.SimulateDataRetrieving<object?, Task[]>(
-      requestParameters: null,
-      getResponseData: mockDataSource.RetrieveAllTasks,
-      new MockGatewayHelper.SimulationOptions
-      {
-        MinimalPendingPeriod__Seconds = 1,
-        MaximalPendingPeriod__Seconds = 2,
-        MustSimulateError = false,
-        GatewayName = nameof(TaskMockGateway),
-        TransactionName = "RetrievingOfAll"
-      }
-    );
-  }
-
   public override System.Threading.Tasks.Task<TaskGateway.SelectionRetrieving.ResponseData> RetrieveSelection(
     TaskGateway.SelectionRetrieving.RequestParameters requestParameters
   )
@@ -44,22 +26,22 @@ public class TaskMockGateway : TaskGateway
         {
           return new TaskGateway.SelectionRetrieving.ResponseData
           {
-            Items = [],
-            TotalItemsCountInSelection = 0,
-            TotalItemsCount = 0
+            items = [],
+            totalItemsCountInSelection = 0,
+            totalItemsCountWithForcedFiltering = 0
           };
         }
 
 
         Task[] arrangedTasksSelection = TaskGateway.Arrange(
-          TaskGateway.Filter(mockDataSource.Tasks.ToArray(), requestParameters)
+          TaskGateway.Filter(MockDataSource.Tasks.ToArray(), requestParameters)
         ); 
         
         return new TaskGateway.SelectionRetrieving.ResponseData
         {
-          Items = arrangedTasksSelection,
-          TotalItemsCountInSelection = Convert.ToUInt32(arrangedTasksSelection.Length),
-          TotalItemsCount = Convert.ToUInt32(mockDataSource.Tasks.Count)
+          items = arrangedTasksSelection,
+          totalItemsCountInSelection = Convert.ToUInt32(arrangedTasksSelection.Length),
+          totalItemsCountWithForcedFiltering = Convert.ToUInt32(MockDataSource.Tasks.Count)
         };
         
       },
@@ -83,7 +65,7 @@ public class TaskMockGateway : TaskGateway
   {
     return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
-      getResponseData: () => mockDataSource.AddTask(requestData),
+      getResponseData: () => MockDataSource.AddTask(requestData),
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
@@ -103,7 +85,7 @@ public class TaskMockGateway : TaskGateway
   {
     return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
-      getResponseData: () => mockDataSource.UpdateTask(requestData),
+      getResponseData: () => MockDataSource.UpdateTask(requestData),
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
@@ -122,11 +104,11 @@ public class TaskMockGateway : TaskGateway
       getResponseData: () =>
       {
         
-        Task targetTask = this.mockDataSource.
+        Task targetTask = MockDataSource.
             RetrieveAllTasks().
             Single(task => task.ID == targetTaskID);
         
-        targetTask.isComplete = !targetTask.isComplete;
+        targetTask.isCompleted = !targetTask.isCompleted;
         
         return null;
         
@@ -150,7 +132,7 @@ public class TaskMockGateway : TaskGateway
       targetTaskID,
       getResponseData: () =>
       {
-        this.mockDataSource.DeleteTask(targetTaskID);
+        MockDataSource.DeleteTask(targetTaskID);
         return null;
       },
       new MockGatewayHelper.SimulationOptions

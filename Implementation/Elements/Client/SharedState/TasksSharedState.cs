@@ -1,204 +1,330 @@
-﻿using System.Diagnostics;
-using CommonSolution.Gateways;
+﻿using Task = CommonSolution.Entities.Task.Task;
+using CommonSolution.Gateways.Task;
 using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.CSharpExtensions.Exceptions;
-using Task = CommonSolution.Entities.Task.Task;
 
 
 namespace Client.SharedState;
 
 
-internal abstract class TasksSharedState
+internal class TasksSharedState
 {
+  
+  /* ━━━ Reactivity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ┅┅┅ Common State ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal static event Action? onCommonStateChanged;
+  private static void NotifyCommonStateChanged() => TasksSharedState.onCommonStateChanged?.Invoke();
+  
 
-  public static event Action? onStateChanged;
-  private static void NotifyStateChanged() => TasksSharedState.onStateChanged?.Invoke();
+  /* ┅┅┅ Instance State ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal event Action? onInstanceStateChanged;
+  private void NotifyInstanceStateChanged() => this.onInstanceStateChanged?.Invoke();
+  
 
+  /* ━━━ Data Source ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private static TaskGateway? _taskGateway;
   private static TaskGateway taskGateway => 
       TasksSharedState._taskGateway ??= 
-      ClientDependencies.Injector.gateways().Task;
-
-
-  /* ━━━ Selecting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static Task? _currentlySelectedTask = null;
+      ClientDependencies.Injector.gateways.Task;
   
-  public delegate void OnSelectedTaskHasChanged(Task newTask);
-  public static OnSelectedTaskHasChanged? onSelectedTaskHasChanged;
   
-  public static Task? currentlySelectedTask
+  /* ━━━ Instances Management ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ┅┅┅ Creating & Retrieving ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal enum InstancesIDs
   {
-    get => TasksSharedState._currentlySelectedTask;
+    Incompleted,
+    Completed
+  }
+  
+  private readonly InstancesIDs instancesID;
+  
+  private TasksSharedState(InstancesIDs instanceID)
+  {
+    this.instancesID = instanceID;
+  }
+  
+  private static readonly Dictionary<TasksSharedState.InstancesIDs, TasksSharedState> instances = new();
+  
+  internal static TasksSharedState getInstanceByID(TasksSharedState.InstancesIDs instanceID)
+  {
+    
+    TasksSharedState.instances.TryGetValue(instanceID, out TasksSharedState? instance);
+    
+    if (instance is null)
+    {
+      instance = new TasksSharedState(instanceID);
+      TasksSharedState.instances.Add(instanceID, instance);
+    }
+    
+    return instance;
+    
+  }
+  
+
+  /* ┅┅┅ Disposing ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal static void disposeInstance(TasksSharedState.InstancesIDs instancesIDs)
+  {
+    TasksSharedState.instances.Remove(instancesIDs);
+  } 
+
+  
+  /* ━━━ Data Exchange ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ┅┅┅ Selecting ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  /* [ Specification ] Only one task can be selected even if there are some instances. */
+  private static CommonSolution.Entities.Task.Task? _selectedTask = null;
+  
+  internal delegate void OnSelectedTaskHasChanged(CommonSolution.Entities.Task.Task newTask);
+  internal static OnSelectedTaskHasChanged? onSelectedTaskHasChanged;
+  
+  internal static CommonSolution.Entities.Task.Task? selectedTask
+  {
+    get => TasksSharedState._selectedTask;
     set
     {
       
-      TasksSharedState._currentlySelectedTask = value;
+      TasksSharedState._selectedTask = value;
 
       if (value is not null)
       {
         TasksSharedState.onSelectedTaskHasChanged?.Invoke(value);
       }
       
-      TasksSharedState.NotifyStateChanged();
+      TasksSharedState.NotifyCommonStateChanged();
       
     }
   }
   
-  
-  /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static List<Task> _tasksSelection = [];
-  public static List<Task> tasksSelection
+
+  /* ┅┅┅ Retrieving ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  /* ╍╍╍ Tasks Selection ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+  internal List<CommonSolution.Entities.Task.Task> tasksSelection
   {
-    get => TasksSharedState._tasksSelection;
+    get;
     private set
     {
-      TasksSharedState._tasksSelection = value;
-      TasksSharedState.NotifyStateChanged();
+      field = value;
+      this.NotifyInstanceStateChanged();
     }
+  } = [];
+
+
+  /* ┅┅┅ Total Forcedly Filtered Tasks Count ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal uint totalForcedlyFilteredTasksCount
+  {
+    get;
+    private set
+    {
+      field = value;
+      TasksSharedState.NotifyCommonStateChanged();
+    }
+  } = 0;
+
+
+  /* ┅┅┅ Total Tasks Count In Selection ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal uint totalTasksCountInSelection
+  {
+    get;
+    private set
+    {
+      field = value;
+      TasksSharedState.NotifyCommonStateChanged();
+    }
+  } = 0;
+
+
+  /* ┅┅┅ Loading ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  /* [ Theory ]
+   * Not replaceable with struct.
+   * 1. The will required logically useless empty contractor in struct case
+   * 2. It will become unable to change the separate properties because of "Property 'N' access returns temporary value.
+   *    Cannot modify struct member when accessed struct is not classified as a variable" error. */
+  internal class Loading
+  {
+    
+    /* ╍╍╍ Is Waiting For Tasks Selection Retrieving ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+    internal bool isWaitingForTasksSelectionRetrieving
+    {
+      get;
+      set
+      {
+        field = value;
+        TasksSharedState.NotifyCommonStateChanged();
+      }
+    } = true;
+
+
+    /* ╍╍╍ Is Tasks Selection Being Retrieved Now ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+    internal bool isTasksSelectionBeingRetrievedNow
+    {
+      get;
+      set
+      {
+        field = value;
+        TasksSharedState.NotifyCommonStateChanged();
+      }
+    } = false;
+
+
+    /* ╍╍╍ Has Tasks Selection Retrieving Error Occurred ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+
+    internal bool hasTasksSelectionRetrievingErrorOccurred
+    {
+      get;
+      set
+      {
+        field = value;
+        TasksSharedState.NotifyCommonStateChanged();
+      }
+    } = false;
+
+
+    /* ╍╍╍ Computed ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+    internal bool isTasksRetrievingInProgressOrNotStartedYet => 
+        this.isWaitingForTasksSelectionRetrieving || this.isTasksSelectionBeingRetrievedNow;
+    
   }
 
-  
-  private static uint _totalTasksCountInDataSource = 0;
-  public static uint totalTasksCountInDataSource
+  internal Loading loading
   {
-    get => TasksSharedState._totalTasksCountInDataSource;
+    get;
     private set
     {
-      TasksSharedState._totalTasksCountInDataSource = value;
-      TasksSharedState.NotifyStateChanged();
+      field = value;
+      TasksSharedState.NotifyCommonStateChanged();
     }
-  }
-  
-  private static uint _totalTasksCountInSelection = 0;
-  public static uint totalTasksCountInSelection
+  } = new();
+
+
+  /* ━━━ Action ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* [ Theory ]
+   * Not replaceable with struct.
+   * 1. The will required logically useless empty contractor in struct case
+   * 2. It will become unable to change the separate properties because of "Property 'N' access returns temporary value.
+   *    Cannot modify struct member when accessed struct is not classified as a variable" error. */
+  internal class Filtering
   {
-    get => TasksSharedState._totalTasksCountInSelection;
-    private set
+    
+    /* ┅┅┅ Searching by Full or Partial Title or Description ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+    internal string? searchingByFullOrPartialTitleOrDescription
     {
-      TasksSharedState._totalTasksCountInSelection = value;
-      TasksSharedState.NotifyStateChanged();
-    }
-  }
-  
-  private static string? _searchingByFullOrPartialTitleOrDescription = null;
-  public static string? searchingByFullOrPartialTitleOrDescription
-  {
-    get => TasksSharedState._searchingByFullOrPartialTitleOrDescription;
-    private set
+      get;
+      set
+      {
+        field = value;
+        TasksSharedState.NotifyCommonStateChanged();
+      }
+    } = null;
+
+    /* ┅┅┅ Earliest Starting Date ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+    internal DateOnly? earliestStartingDate
     {
-      TasksSharedState._searchingByFullOrPartialTitleOrDescription = value;
-      TasksSharedState.NotifyStateChanged();
-    }
+      get;
+      set
+      {
+        field = value;
+        TasksSharedState.NotifyCommonStateChanged();
+      }
+    } = null;
+
+
+    /* ┅┅┅ Latest Starting Date ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+    internal DateOnly? latestStartingDate
+    {
+      get;
+      set
+      {
+        field = value;
+        TasksSharedState.NotifyCommonStateChanged();
+      }
+    } = null;
+
+
+    /* ╍╍╍ Computed ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+    internal bool isActive =>
+        this.searchingByFullOrPartialTitleOrDescription is not null ||
+        this.earliestStartingDate is not null ||
+        this.latestStartingDate is not null;
+
+    
+    /* ╍╍╍ Constructor ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
+    /* [ Theory ] Logically meaningless but must be declared due to C# limitations. */
+    public Filtering() {}
+    
   }
 
-  public static bool _onlyTasksWithAssociatedDate = false;
-  public static bool onlyTasksWithAssociatedDate
-  {
-    get => TasksSharedState._onlyTasksWithAssociatedDate;
-    private set
-    {
-      TasksSharedState._onlyTasksWithAssociatedDate = value;
-      TasksSharedState.NotifyStateChanged();
-    }
-  }
-  
-  public static bool _onlyTasksWithAssociatedDateTime = false;
-  public static bool onlyTasksWithAssociatedDateTime
-  {
-    get => TasksSharedState._onlyTasksWithAssociatedDateTime;
-    private set
-    {
-      TasksSharedState._onlyTasksWithAssociatedDateTime = value;
-      TasksSharedState.NotifyStateChanged();
-    }
-  }
-  
 
-  private static bool _isWaitingForTasksSelectionRetrieving = true;
-  public static bool isWaitingForTasksSelectionRetrieving
+  internal Filtering filtering
   {
-    get => TasksSharedState._isWaitingForTasksSelectionRetrieving;
-    private set
+    get;
+    set
     {
-      TasksSharedState._isWaitingForTasksSelectionRetrieving = value;
-      TasksSharedState.NotifyStateChanged();
+      field = value;
+      TasksSharedState.NotifyCommonStateChanged();
     }
-  }
-  
-  private static bool _isTasksSelectionBeingRetrievedNow = false;
-  public static bool isTasksSelectionBeingRetrievedNow
-  {
-    get => TasksSharedState._isTasksSelectionBeingRetrievedNow;
-    private set
-    {
-      TasksSharedState._isTasksSelectionBeingRetrievedNow = value;
-      TasksSharedState.NotifyStateChanged();
-    }
-  }
-  
-  private static bool _hasTasksSelectionRetrievingErrorOccurred = false;
-  public static bool hasTasksSelectionRetrievingErrorOccurred
-  {
-    get => TasksSharedState._hasTasksSelectionRetrievingErrorOccurred;
-    private set
-    {
-      TasksSharedState._hasTasksSelectionRetrievingErrorOccurred = value;
-      TasksSharedState.NotifyStateChanged();
-    }
-  }
+  } = new();
 
-  public static bool isTasksRetrievingInProgressOrNotStartedYet => 
-      TasksSharedState.isWaitingForTasksSelectionRetrieving || TasksSharedState.isTasksSelectionBeingRetrievedNow;
+
+  /* ┅┅┅ Selection Retrieving ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
+  internal abstract record SelectionRetrieving
+  {
+    internal record Options
+    {
+      
+      internal bool mustResetFiltering { get; init; }
+      
+      internal string? searchingByFullOrPartialTitleOrDescription { get; init; }
+      internal bool mustResetSearchingByFullOrPartialTitleOrDescription { get; init; } = false;
+      
+      internal DateOnly earliestStartingDate { get; init; }
+      internal bool mustResetEarliestStartingDate { get; init; } = false;
+      
+      internal DateOnly latestStartingDate { get; init; }
+      internal bool mustResetLatestStartingDate { get; init; } = false;
+      
+    }
+  }
   
-  public static async System.Threading.Tasks.Task retrieveTasksSelection(
-    TaskGateway.SelectionRetrieving.RequestParameters? requestParameters = null,
-    bool mustResetSearchingByFullOrPartialTitleOrDescription = false,
-    bool mustResetFilteringByAssociatedDate = false,
-    bool mustResetFilteringByAssociatedDateTime = false
+  internal async System.Threading.Tasks.Task retrieveTasksSelection(
+    TasksSharedState.SelectionRetrieving.Options? options = null
   )
   {
 
-    if (TasksSharedState.isTasksSelectionBeingRetrievedNow)
+    if (this.loading.isTasksSelectionBeingRetrievedNow)
     {
+      System.Diagnostics.Debug.WriteLine(
+        "`tasksSharedState.retrieveTasksSelection` has been invoked during tasks retrieving. " +
+        "If it is intentionally, the controls initiating the tasks retrieving should be blocked during the data retrieving. " +
+        "If it is unintentionally, it means the lack of control on data flow thus should be investigated and prevented. "
+      );
       return;      
     }
 
 
-    TasksSharedState.currentlySelectedTask = null;
-    TasksSharedState.isWaitingForTasksSelectionRetrieving = false;
-    TasksSharedState.isTasksSelectionBeingRetrievedNow = true;
-    TasksSharedState.hasTasksSelectionRetrievingErrorOccurred = false;
+    string? initiallySelectedTaskID = TasksSharedState.selectedTask?.ID; 
+    TasksSharedState.selectedTask = null;
 
-    if (mustResetSearchingByFullOrPartialTitleOrDescription)
+    this.loading = new Loading
     {
-      TasksSharedState.searchingByFullOrPartialTitleOrDescription = null;
-    }
-    else
+      isWaitingForTasksSelectionRetrieving = false,
+      isTasksSelectionBeingRetrievedNow = true,
+      hasTasksSelectionRetrievingErrorOccurred = false
+    };
+    
+    this.filtering = new Filtering
     {
-      TasksSharedState.searchingByFullOrPartialTitleOrDescription =
-          requestParameters?.SearchingByFullOrPartialTitleOrDescription ??
-          TasksSharedState.searchingByFullOrPartialTitleOrDescription;
-    }
-
-    if (mustResetFilteringByAssociatedDate)
-    {
-      TasksSharedState.onlyTasksWithAssociatedDate = false;
-    }
-    else if (requestParameters?.OnlyTasksWithAssociatedDate == true)
-    {
-      TasksSharedState.onlyTasksWithAssociatedDate = true;
-      TasksSharedState.onlyTasksWithAssociatedDateTime = false;
-    }
-
-    if (mustResetFilteringByAssociatedDateTime)
-    {
-      TasksSharedState.onlyTasksWithAssociatedDateTime = false;
-    }
-    else if (requestParameters?.OnlyTasksWithAssociatedDateTime == true)
-    {
-      TasksSharedState.onlyTasksWithAssociatedDateTime = true;
-      TasksSharedState.onlyTasksWithAssociatedDate = false;
-    }
+      searchingByFullOrPartialTitleOrDescription = 
+          options?.mustResetFiltering == true || options?.mustResetSearchingByFullOrPartialTitleOrDescription == true ?
+              null : 
+              options?.searchingByFullOrPartialTitleOrDescription ?? this.filtering.searchingByFullOrPartialTitleOrDescription,
+      earliestStartingDate = 
+          options?.mustResetFiltering == true || options?.mustResetEarliestStartingDate == true ?
+              null : 
+              options?.earliestStartingDate ?? this.filtering.earliestStartingDate,
+      latestStartingDate = 
+          options?.mustResetFiltering == true || options?.mustResetLatestStartingDate == true ?
+              null : 
+              options?.latestStartingDate ?? this.filtering.latestStartingDate
+    };
 
     
     TaskGateway.SelectionRetrieving.ResponseData responseData;
@@ -209,91 +335,142 @@ internal abstract class TasksSharedState
       responseData = await TasksSharedState.taskGateway.RetrieveSelection(
         new TaskGateway.SelectionRetrieving.RequestParameters
         {
-          SearchingByFullOrPartialTitleOrDescription = TasksSharedState.searchingByFullOrPartialTitleOrDescription,
-          OnlyTasksWithAssociatedDate = TasksSharedState.onlyTasksWithAssociatedDate,
-          OnlyTasksWithAssociatedDateTime = TasksSharedState.onlyTasksWithAssociatedDateTime
+          forcedFiltering =　new TaskGateway.SelectionRetrieving.RequestParameters.ForcedFiltering
+          {
+            progressStatus = 
+                this.instancesID == TasksSharedState.InstancesIDs.Incompleted ?
+                    TaskGateway.SelectionRetrieving.RequestParameters.ForcedFiltering.ProgressStatues.uncompleted :
+                    TaskGateway.SelectionRetrieving.RequestParameters.ForcedFiltering.ProgressStatues.completed
+          },
+          optionalFiltering = new TaskGateway.SelectionRetrieving.RequestParameters.OptionalFiltering
+          {
+            searchingByFullOrPartialTitleOrDescription = this.filtering.searchingByFullOrPartialTitleOrDescription,
+            startingDate = this.filtering.earliestStartingDate,
+            endingDate = this.filtering.latestStartingDate
+          }
         }
       );
 
     }
-    catch (Exception exception)
+    catch
     {
+
+      this.loading = new Loading
+      {
+        isWaitingForTasksSelectionRetrieving = false,
+        isTasksSelectionBeingRetrievedNow = false,
+        hasTasksSelectionRetrievingErrorOccurred = true
+      };
       
-      TasksSharedState.hasTasksSelectionRetrievingErrorOccurred = true;
-      TasksSharedState.isTasksSelectionBeingRetrievedNow = false;
-      
-      Debug.WriteLine(exception);
-      
-      return;
+      throw;
       
     }
 
+    this.tasksSelection = [.. responseData.items];
+    this.totalTasksCountInSelection = responseData.totalItemsCountInSelection;
+    this.totalForcedlyFilteredTasksCount = responseData.totalItemsCountWithForcedFiltering;
 
-    TasksSharedState.tasksSelection = responseData.Items.ToList();
-    TasksSharedState.totalTasksCountInSelection = responseData.TotalItemsCountInSelection;
-    TasksSharedState.totalTasksCountInDataSource = responseData.TotalItemsCount;
+
+    if (initiallySelectedTaskID is not null)
+    {
+     
+      Task? selectedTask = this.tasksSelection.FirstOrDefault((Task task) => task.ID == initiallySelectedTaskID);
     
-    TasksSharedState.isTasksSelectionBeingRetrievedNow = false;
-
+      if (selectedTask is not null)
+      {
+        TasksSharedState.selectedTask = selectedTask;
+      }
+      
+    }
+    
+    this.loading.isTasksSelectionBeingRetrievedNow = false;
+    
   }
   
-  
+
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public static async System.Threading.Tasks.Task<Task> addTask(
-    CommonSolution.Gateways.TaskGateway.Adding.RequestData requestData,
-    bool mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions
+  private static bool _isTaskBeingAddedNow = false;
+  public static bool isTaskBeingAddedNow
+  {
+    get => TasksSharedState._isTaskBeingAddedNow;
+    private set
+    {
+      TasksSharedState._isTaskBeingAddedNow = value;
+      TasksSharedState.NotifyCommonStateChanged();
+    }
+  }
+  
+  public static async System.Threading.Tasks.Task<CommonSolution.Entities.Task.Task> addTask(
+    TaskGateway.Adding.RequestData requestData,
+    bool mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingCurrentFilteringConditions
   )
   {
 
-    Task newTask;
+    TasksSharedState.isTaskBeingAddedNow = true;
+
+    CommonSolution.Entities.Task.Task newTask;
     
     try
     {
-      newTask = await TasksSharedState.taskGateway.Add(requestData);
+
+      newTask = await TasksSharedState.taskGateway.Add(requestData);  
+      
     }
-    catch (Exception exception)
+    catch
     {
-      throw new DataSubmittingFailedException("Failed to add the new task.", exception);
+      TasksSharedState.isTaskBeingAddedNow = false;
+      throw;
     }
 
 
-    TaskGateway.SelectionRetrieving.RequestParameters currentFiltering = new()
-    {
-      SearchingByFullOrPartialTitleOrDescription = TasksSharedState.searchingByFullOrPartialTitleOrDescription,
-      OnlyTasksWithAssociatedDate = TasksSharedState.onlyTasksWithAssociatedDate,
-      OnlyTasksWithAssociatedDateTime = TasksSharedState.onlyTasksWithAssociatedDateTime
-    };
-
-    
-    TasksSharedState.totalTasksCountInDataSource++;
-    
-    if (TaskGateway.IsTaskSatisfyingToFilteringConditions(newTask, currentFiltering))
+    foreach (TasksSharedState tasksSharedState in TasksSharedState.instances.Values)
     {
       
-      TasksSharedState.tasksSelection = TaskGateway.Arrange(
-        TaskGateway.Filter(
-          TasksSharedState.tasksSelection.AddElementsToStart(newTask).ToArray(), currentFiltering
-        ) 
-      ).ToList();
-      
-      TasksSharedState.totalTasksCountInSelection++;
-
-      return newTask;
-
-    }
-
-
-    if (mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions)
-    {
-      _ = TasksSharedState.retrieveTasksSelection(
-        new TaskGateway.SelectionRetrieving.RequestParameters
+      TaskGateway.SelectionRetrieving.RequestParameters currentFiltering = new()
+      {
+        forcedFiltering =　new TaskGateway.SelectionRetrieving.RequestParameters.ForcedFiltering
         {
-          SearchingByFullOrPartialTitleOrDescription = null,
-          OnlyTasksWithAssociatedDate = null,
-          OnlyTasksWithAssociatedDateTime = null
+          progressStatus = tasksSharedState.instancesID == TasksSharedState.InstancesIDs.Incompleted ?
+              TaskGateway.SelectionRetrieving.RequestParameters.ForcedFiltering.ProgressStatues.uncompleted :
+              TaskGateway.SelectionRetrieving.RequestParameters.ForcedFiltering.ProgressStatues.completed
+        },
+        optionalFiltering = new TaskGateway.SelectionRetrieving.RequestParameters.OptionalFiltering
+        {
+          searchingByFullOrPartialTitleOrDescription = tasksSharedState.filtering.searchingByFullOrPartialTitleOrDescription,
+          startingDate = tasksSharedState.filtering.earliestStartingDate,
+          endingDate = tasksSharedState.filtering.latestStartingDate
         }
-      );
+      };
+
+      if (TaskGateway.IsTaskSatisfyingToFilteringConditions(newTask, currentFiltering))
+      {
+        
+        tasksSharedState.tasksSelection = TaskGateway.Arrange(
+          TaskGateway.Filter(
+            tasksSharedState.tasksSelection.AddElementsToStart(newTask).ToArray(), currentFiltering
+          ) 
+        ).ToList();
+        
+        // TODO
+        // this.totalTasksCountInSelection++;
+
+        return newTask;
+
+      }  
+      
     }
+    
+    // if (mustRetrieveUnfilteredTasksIfNewOneDoesNotSatisfyingTheCurrentFilteringConditions)
+    // {
+    //   _ = TasksSharedState.retrieveTasksSelection(
+    //     new TaskGateway.SelectionRetrieving.RequestParameters
+    //     {
+    //       SearchingByFullOrPartialTitleOrDescription = null,
+    //       OnlyTasksWithAssociatedDate = null,
+    //       OnlyTasksWithAssociatedDateTime = null
+    //     }
+    //   );
+    // }
 
     return newTask;
 
@@ -308,49 +485,52 @@ internal abstract class TasksSharedState
     private set
     {
       TasksSharedState._isTaskBeingUpdatedNow = value;
-      TasksSharedState.NotifyStateChanged();
+      TasksSharedState.NotifyCommonStateChanged();
     }
   }
   
-  public static async System.Threading.Tasks.Task updateTask(
-    CommonSolution.Gateways.TaskGateway.Updating.RequestData requestData
-  )
+  public static async System.Threading.Tasks.Task updateTask(TaskGateway.Updating.RequestData requestData)
   {
 
     TasksSharedState.isTaskBeingUpdatedNow = true;
-
+    
     try
     {
-      await ClientDependencies.Injector.gateways().Task.Update(requestData);
+      await TasksSharedState.taskGateway.Update(requestData);
     }
     catch (Exception exception)
     {
-      throw new DataSubmittingFailedException(
-        $"The error has occurred during the updating of task with ID \"{ requestData.ID }\"", exception
-      );
-    }
-    finally
-    {
       TasksSharedState.isTaskBeingUpdatedNow = false;
+      throw exception;
+    }
+
+
+    foreach (
+      Task targetTask in TasksSharedState.instances.Values.
+        Select(
+          (TasksSharedState tasksSharedState) => 
+            tasksSharedState.tasksSelection.
+                Single((CommonSolution.Entities.Task.Task task) => task.ID == requestData.ID)
+        )
+    )
+    {
+      targetTask.title = requestData.Title;
+      targetTask.description = requestData.Description;
+      targetTask.isCompleted = requestData.IsCompleted;
     }
     
-    
-    Task targetTask = TasksSharedState.tasksSelection.Single(task => task.ID == requestData.ID);
-
-    targetTask.title = requestData.Title;
-    targetTask.description = requestData.Description;
-    targetTask.isComplete = requestData.IsComplete;
-    
-    TasksSharedState.NotifyStateChanged();
+    TasksSharedState.NotifyCommonStateChanged();
 
   }
 
+  
+  /* ╍╍╍ Completion ╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍ */
   public static async System.Threading.Tasks.Task toggleTaskCompletion(string targetTaskID)
   {
 
     try
     {
-      await ClientDependencies.Injector.gateways().Task.ToggleCompletion(targetTaskID);
+      await TasksSharedState.taskGateway.ToggleCompletion(targetTaskID);
     }
     catch (Exception exception)
     {
@@ -359,11 +539,14 @@ internal abstract class TasksSharedState
       );
     }
     
-
-    Task targetTask = TasksSharedState.tasksSelection.Single(task => task.ID == targetTaskID);
-    targetTask.isComplete = !targetTask.isComplete; 
     
-    TasksSharedState.NotifyStateChanged();
+    foreach((InstancesIDs _, TasksSharedState instance) in Client.SharedState.TasksSharedState.instances)
+    {
+      CommonSolution.Entities.Task.Task targetTask = instance.tasksSelection.Single(task => task.ID == targetTaskID);
+      targetTask.isCompleted = !targetTask.isCompleted;
+    }
+    
+    TasksSharedState.NotifyCommonStateChanged();
 
   } 
   
@@ -372,29 +555,44 @@ internal abstract class TasksSharedState
   public static async System.Threading.Tasks.Task deleteTask(string targetTaskID)
   {
 
-    try
+    await TasksSharedState.taskGateway.Delete(targetTaskID);  
+
+    if (targetTaskID == TasksSharedState.selectedTask?.ID)
     {
-      await TasksSharedState.taskGateway.Delete(targetTaskID);  
-    } catch (Exception exception)
-    {
-      throw new DataSubmittingFailedException($"Failed to delete the task with ID \"{ targetTaskID }\"", exception);
+      TasksSharedState.selectedTask = null;
     }
 
-
-    if (targetTaskID == TasksSharedState.currentlySelectedTask?.ID)
+    
+    int indexOfTaskToRemove = -1;
+    
+    foreach(TasksSharedState instance in Client.SharedState.TasksSharedState.instances.Values)
     {
-      TasksSharedState.currentlySelectedTask = null;
-    }
+      
+      foreach ((int index, CommonSolution.Entities.Task.Task task) in instance.tasksSelection.Index())
+      {
+        if (task.ID == targetTaskID)
+        {
+          
+          instance.totalForcedlyFilteredTasksCount--;
+          instance.totalTasksCountInSelection--;
+          
+          indexOfTaskToRemove = index;
+          
+          break;
+          
+        }
+      }
 
-    TasksSharedState.totalTasksCountInDataSource--;
-
-    if (TasksSharedState.tasksSelection.Any(task => task.ID == targetTaskID))
-    {
-      TasksSharedState.totalTasksCountInSelection--;
+      if (indexOfTaskToRemove > -1)
+      {
+        instance.tasksSelection.RemoveAt(indexOfTaskToRemove);  
+      }
+    
     }
     
-    TasksSharedState.tasksSelection.RemoveAll(task => task.ID == targetTaskID);
-
   }
+  
+  // TODO IMPLEMENT
+  public static bool isDataBeingRetrievedNowInSomeInstance = false;
   
 }

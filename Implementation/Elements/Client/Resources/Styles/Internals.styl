@@ -1,29 +1,46 @@
 ﻿@require "../../node_modules/@yamato-daiwa/frontend/Functionality.styl"
-@require "../../node_modules/@yamato-daiwa/frontend/Components.styl"
+@require "../../node_modules/@yamato-daiwa/frontend/GUI_Components.styl"
 
 
-@require "../../SharedComponents/Cards/Person/PersonCard.class.styl"
-@require "../../SharedComponents/Cards/Task/TaskCard.class.styl"
+// ━━━ Resources ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+@require "../../SharedGUI_Components/Cards/Person/PersonCard.class.styl"
+@require "../../SharedGUI_Components/Cards/Task/TaskCard.class.styl"
 
 
-@require "../../SharedComponents/Controls/TasksFilteringPanel/TasksFilteringPanel.styl"
+// ━━━ GUI Components ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ┅┅┅ Cards ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/Cards/Person/PersonCard.styl"
+@require "../../SharedGUI_Components/Cards/Task/TaskCard.styl"
 
-@require "../../SharedComponents/Cards/Person/PersonCard.styl"
-@require "../../SharedComponents/Cards/Task/TaskCard.styl"
+// ┅┅┅ Controls ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/Controls/TasksFilteringPanel/TasksFilteringPanel.styl"
 
-@require "../../SharedComponents/Managers/Person/PersonManager.styl"
-@require "../../SharedComponents/Managers/Task/TaskManager.styl"
+// ┅┅┅ Lists ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/Lists/TasksFolders/TasksFoldersList.styl"
 
-@require "../../SharedComponents/NavigationMenu/NavigationMenu.styl"
+// ┅┅┅ Managers ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/Managers/Person/PersonManager.styl"
+@require "../../SharedGUI_Components/Managers/Task/TaskManager.styl"
+@require "../../SharedGUI_Components/Managers/TasksFolders/TasksFoldersManager.styl"
 
-@require "../../SharedComponents/Viewers/Calendar/Month/MonthViewer.styl"
-@require "../../SharedComponents/Viewers/People/PeopleViewer.styl"
-@require "../../SharedComponents/Viewers/Tasks/TasksViewer.styl"
+// ┅┅┅ Viewers ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/Viewers/People/PeopleViewer.styl"
+@require "../../SharedGUI_Components/Viewers/Tasks/TasksViewer.styl"
 
-@require "../../SharedComponents/OnePerPage/Header/Header.styl"
+// ┅┅┅ Calendar ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/Viewers/Calendar/Month/MonthViewer.styl"
+@require "../../SharedGUI_Components/Viewers/Calendar/Day/DayViewer.styl"
 
+// ┅┅┅ One Per Page ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+@require "../../SharedGUI_Components/OnePerPage/Header/Header.styl"
+@require "../../SharedGUI_Components/OnePerPage/NavigationMenu/NavigationMenu.styl"
+
+
+// ━━━ Layouts ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 @require "../../Layouts/Main/MainLayout.styl"
 
+
+// ━━━ Pages ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 @require "../../Pages/Calendar/CalendarPage.styl"
 @require "../../Pages/Task/Management/TasksManagementPage.styl"
 @require "../../Pages/Person/Management/PeopleManagementPage.styl"

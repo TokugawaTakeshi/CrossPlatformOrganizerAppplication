@@ -1,235 +1,117 @@
-﻿using System.Text.Json;
-using CommonSolution.Entities;
-using Task = CommonSolution.Entities.Task.Task;
-
+﻿using CommonSolution.Entities;
+using CommonSolution.Entities.Task;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization.Metadata;
-using GeneratorOfAssetsForStaticPreview.CopiedClasses.Pages.Task.Management;
-using GeneratorOfAssetsForStaticPreview.CopiedClasses.SharedComponents.Controls.TasksFilteringPanel;
-using GeneratorOfAssetsForStaticPreview.CopiedClasses.SharedComponents.Viewers.Tasks;
-using Newtonsoft.Json;
+using CommonSolution.Fundamentals;
+using GeneratorOfAssetsForStaticPreview.StringResources.Pages.Person.Management;
+using GeneratorOfAssetsForStaticPreview.StringResources.Pages.Task.Management;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Controls.TasksFilteringPanel;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Lists.TasksFolders;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Lists.TasksFolders.Item;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.Person;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.Task;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.TasksFolders;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Viewers.People;
+using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Viewers.Tasks;
+using MockDataSource;
+using MockDataSource.SamplesRepositories;
+using YamatoDaiwa.CSharpExtensions;
+using YamatoDaiwa.PugCSharpStaticPreview;
 
 
 namespace GeneratorOfAssetsForStaticPreview;
 
 
-public class GeneratorOfAssetsForStaticPreview
+internal class GeneratorOfAssetsForStaticPreview : AssetsProviderForStaticPreview
 {
 
-  private static readonly string SOLUTION_PATH = Path.GetFullPath(
-    Path.Combine(Directory.GetCurrentDirectory(), "../../../../../")
-  );
+  private GeneratorOfAssetsForStaticPreview(): base(
+    staticPreviewAbsolutePath: Path.GetFullPath(
+      Path.Combine(Directory.GetCurrentDirectory(), "../../../../../Implementation/Elements/Client/StaticPreview")
+    ),
+    businessRulesOutputFileNameWithExtension: "BusinessRules.json",
+    dataOutputFileNameWithExtension: "StaticPreviewMockData.json",
+    stringResourcesOutputFileNameWithExtension: "StringResourcesForStaticPreview.json"
+  )
+  {}
 
   
   public static void Main()
   {
-    GeneratorOfAssetsForStaticPreview.GenerateDummyData();
-    GeneratorOfAssetsForStaticPreview.GenerateBusinessRules();
-    GeneratorOfAssetsForStaticPreview.GenerateStringResources();
+    new GeneratorOfAssetsForStaticPreview().GenerateAccess();
   }
 
 
   /* ━━━ Business Rules ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static void GenerateBusinessRules()
+  protected override System.Text.Json.Nodes.JsonObject GenerateBusinessRules()
   {
-    
-    JsonObject businessRules = new();
-    
-    businessRules.SetProperty("Task.Title.IS_REQUIRED", Task.Title.IS_REQUIRED);
-    businessRules.SetProperty("Task.Title.MINIMAL_CHARACTERS_COUNT", Task.Title.MINIMAL_CHARACTERS_COUNT);
-    businessRules.SetProperty("Task.Title.MAXIMAL_CHARACTERS_COUNT", Task.Title.MAXIMAL_CHARACTERS_COUNT);
-    
-    businessRules.SetProperty("Person.FamilyName.IS_REQUIRED", Person.FamilyName.IS_REQUIRED);
-    businessRules.SetProperty(
-      "Person.FamilyName.MINIMAL_CHARACTERS_COUNT", 
-      Person.FamilyName.MAXIMAL_CHARACTERS_COUNT
+    return new JsonObject().SetProperties(
+      new Dictionary<string, object>
+      {
+        { "Genders.Male", Genders.Male },
+        { "Genders.Female", Genders.Female },
+        { "Task.Title.IS_REQUIRED", CommonSolution.Entities.Task.Task.Title.IS_REQUIRED },
+        { "Task.Title.MINIMAL_CHARACTERS_COUNT", CommonSolution.Entities.Task.Task.Title.MINIMAL_CHARACTERS_COUNT },
+        { "Task.Title.MAXIMAL_CHARACTERS_COUNT", CommonSolution.Entities.Task.Task.Title.MAXIMAL_CHARACTERS_COUNT },
+        { "Person.FamilyName.IS_REQUIRED", Person.FamilyName.IS_REQUIRED },
+        { "Person.FamilyName.MINIMAL_CHARACTERS_COUNT", Person.FamilyName.MAXIMAL_CHARACTERS_COUNT }
+      }  
     );
-    
-    StreamWriter streamWriter = new(
-      path: Path.Combine(
-        SOLUTION_PATH, 
-        "Implementation", 
-        "Elements", 
-        "Client", 
-        "StaticPreview",
-        "BusinessRules.json"
-      ), 
-      append: false
-    );
-    
-    streamWriter.Write(businessRules);
-    streamWriter.Close();
-    
   }
   
 
   /* ━━━ Dummy Data ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private record DummyData
+  private record MockData
   {
-    public required List<Person> People { get; init; }
-    public required List<Task> Tasks { get; init; }
+    public required List<Person> people { get; init; }
+    public required List<CommonSolution.Entities.Task.Task> tasks { get; init; }
+    public required SerializableHierarchicalCollectionData<TaskCustomFolder> taskCustomFolders { get; init; }
   }
 
-  private static void GenerateDummyData()
+  protected override object GenerateData()
   {
-    
-    MockDataSource.MockDataSource mockDataSource = MockDataSource.MockDataSource.GetInstance();
-    
-    DummyData dummyData = new()
+
+    MockData mockData = new()
     {
-      People = mockDataSource.People,
-      Tasks = mockDataSource.Tasks
+      people = MockDataSource.MockDataSource.People,
+      tasks = MockDataSource.MockDataSource.Tasks,
+      taskCustomFolders = new SerializableHierarchicalCollectionData<TaskCustomFolder>
+      {
+        items = SampleTasksCustomFoldersRepository.taskCustomFolders.ToArray(),
+        hierarchicalRelationshipsMap = SampleTasksCustomFoldersRepository.hierarchicalRelationshipsMap.ToPlainDictionary(),
+        ID_PROPERTY_KEY = nameof(TaskCustomFolder.ID),
+        PARENT_PROPERTY_KEY = nameof(TaskCustomFolder.parent),
+        LIST_OF_CHILDREN_PROPERTY_KEY = nameof(TaskCustomFolder.children)
+      }
     };
-    
-    StreamWriter streamWriter = new(
-      path: Path.Combine(
-        SOLUTION_PATH, 
-        "Implementation", 
-        "Elements", 
-        "Client", 
-        "StaticPreview",
-        "StaticPreviewDummyData.json"
-      ), 
-      append: false
-    );
-    
-    streamWriter.Write(JsonConvert.SerializeObject(dummyData, Formatting.Indented));
-    streamWriter.Close();
+
+    return mockData;
     
   }
   
   
   /* ━━━ String Resources ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static void GenerateStringResources()
+  protected override System.Text.Json.Nodes.JsonObject GenerateStringResources()
   {
 
     JsonObject stringResources = new();
-    
-    GeneratorOfAssetsForStaticPreview.temp1(
-      stringResources,
-      new Dictionary<string, TasksManagementPageLocalization>
-      {
-        { "$english", new TasksManagementPageEnglishLocalization() },
-        { "$japanese", new TasksManagementPageJapaneseLocalization() }
-      }
-    );
 
-    GeneratorOfAssetsForStaticPreview.temp2(
-      stringResources,
-      new Dictionary<string, TasksViewerLocalization>
-      {
-        { "$english", new TasksViewerEnglishLocalization() },
-        { "$japanese", new TasksViewerJapaneseLocalization() }
-      }
-    );
-    
-    TasksFilteringPanelLocalizationGeneratorForStaticPreview.Generate(
-      stringResources,
-      new Dictionary<string, TasksFilteringPanelLocalization>
-      {
-        { "$english", new TasksFilteringPanelEnglishLocalization() },
-        { "$japanese", new TasksFilteringPanelJapaneseLocalization() }
-      }
-    );
-    
-    // PersonCardLocalization personCardEnglishLocalization = new PersonCardEnglishLocalization();
-    // SharedStaticStrings sharedStaticEnglishStrings = SharedStaticEnglishStrings.SingleInstance;
-    //
-    // // Case 1 Simple
-    // stringResources.SetProperty(
-    //   "components.Cards.Person.$english.metadata.name", 
-    //   personCardEnglishLocalization.metadata.name
-    // );
-    //
-    // // Case 2 Template function
-    // stringResources.SetProperty(
-    //   "shared.$english.buildDataRetrievingOrSubmittingFailedPoliteMessage",
-    //   sharedStaticEnglishStrings.buildDataRetrievingOrSubmittingFailedPoliteMessage("{{ dynamicPart }}")
-    // );
-    //
-    // stringResources.SetProperty(
-    //   "shared.$english.commonWords.unknown",
-    //   sharedStaticEnglishStrings.commonWords.unknown
-    // );
-    //
-    // stringResources.SetProperty(
-    //   "shared.$english.commonWords.yearsOld",
-    //   sharedStaticEnglishStrings.commonWords.yearsOld
-    // );
+    PeopleManagementPageLocalizationGeneratorForStaticPreview.Generate(stringResources);
+    TasksManagementPageLocalizationGeneratorForStaticPreview.Generate(stringResources);
 
-    StreamWriter streamWriter = new(
-      path: Path.Combine(
-        SOLUTION_PATH, 
-        "Implementation", 
-        "Elements", 
-        "Client", 
-        "StaticPreview",
-        "StringResourcesForStaticPreview.json"
-      ), 
-      append: false
-    );
+    TasksFoldersListLocalizationGeneratorForStaticPreview.Generate(stringResources);
+    TasksFoldersListItemLocalizationGeneratorForStaticPreview.Generate(stringResources);
     
-    streamWriter.Write(
-      stringResources.ToJsonString(
-        new JsonSerializerOptions
-        {
-          Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping, 
-          TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
-          WriteIndented = true
-        }
-      )
-    );
+    TasksFilteringPanelLocalizationGeneratorForStaticPreview.Generate(stringResources);
+    TasksFoldersManagerLocalizationGeneratorForStaticPreview.Generate(stringResources);
     
-    streamWriter.Close();
-
-  }
-
-  // TODO Move 
-  private static void temp1(
-    JsonObject stringResources,
-    Dictionary<string, TasksManagementPageLocalization> languageKeysAndLocalizations
-  )
-  {
-
-    foreach (KeyValuePair<string, TasksManagementPageLocalization> entry in languageKeysAndLocalizations)
-    {
-      
-      stringResources.SetProperty(
-        $"{ entry.Key }.pages.task.management.filteringModalDialog.title", 
-        entry.Value.filteringModalDialog.title
-      );
-      
-      stringResources.SetProperty(
-        $"{ entry.Key }.pages.task.management.taskManagerActivationGuidance", 
-        entry.Value.taskManagerActivationGuidance
-      );
-      
-    }
+    TasksViewerLocalizationGeneratorForStaticPreview.Generate(stringResources);
+    PeopleViewerLocalizationGeneratorForStaticPreview.Generate(stringResources);
     
-  }
-  
-  // TODO Move
-  private static void temp2(
-    JsonObject stringResources,
-    Dictionary<string, TasksViewerLocalization> languageKeysAndLocalizations
-  )
-  {
+    TaskManagerLocalizationGeneratorForStaticPreview.Generate(stringResources);
+    PersonManagerLocalizationGeneratorForStaticPreview.Generate(stringResources);
 
-    foreach (KeyValuePair<string, TasksViewerLocalization> entry in languageKeysAndLocalizations)
-    {
-      
-      stringResources.SetProperty(
-        $"{ entry.Key }.components.viewers.tasks.searchBox.placeholder", 
-        entry.Value.searchBox.placeholder
-      );
-      
-      stringResources.SetProperty(
-        $"{ entry.Key }.components.viewers.tasks.searchBox.accessibilityGuidance", 
-        entry.Value.searchBox.accessibilityGuidance
-      );
-      
-    }
-    
+    return stringResources;
+
   }
   
 }

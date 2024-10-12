@@ -7,6 +7,7 @@ public class Location
   public required string ID { get; init; }
   
   
+  /* ━━━ Localized Name ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public required string localizedName { get; set; }
   
   public abstract class LocalizedName
@@ -16,6 +17,7 @@ public class Location
   }
   
   
+  /* ━━━ Latitude ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public required double latitude { get; set; }
   public abstract class Latitude
   {
@@ -25,6 +27,7 @@ public class Location
   }
   
   
+  /* ━━━ Longitude ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public required double longitude { get; set; }
   public abstract class Longitude
   {
@@ -34,20 +37,21 @@ public class Location
   }
 
   
+  /* ━━━ Category ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public enum Categories
+  {
+    RailwayStation,
+    MedicalFacility,
+    PostOffice,
+    Office,
+    ApartmentHouse
+  }
+  
   public Categories category { get; set; } 
   
   public abstract class Category
   {
     public const bool IS_REQUIRED = true;
-  }
-  
-  public enum Categories
-  {
-    RailwayStation,
-    MedicalFacility,
-    Mall,
-    Office,
-    ApartmentHouse
   }
   
 }

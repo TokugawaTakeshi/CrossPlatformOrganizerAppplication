@@ -1,5 +1,5 @@
-﻿using FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
-using YamatoDaiwa.Frontend.Components.Controls.Validation;
+﻿using YamatoDaiwa.Frontend.GUI_Components.Controls.Validation;
+using YamatoDaiwa.Frontend.GUI_Components.Controls.Validation.PreMadeRules.Strings;
 
 
 namespace Client.Data.FromUser.Entities.Task;
@@ -12,8 +12,9 @@ internal class TaskDescriptionInputtedDataValidation : InputtedValueValidation
     bool? isInputRequired = CommonSolution.Entities.Task.Task.Description.IS_REQUIRED,
     string? requiredValueIsMissingValidationErrorMessage = "課題の詳細は必須となります。お手数ですが、入力してください。"
   ) : base(
-    omittedValueChecker: rawValue => String.IsNullOrEmpty(rawValue as string),
-    isInputRequired: isInputRequired,
+    isValueOfSupportedType: (object? rawValue) => rawValue is string,
+    hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
+    isInputRequired,
     requiredInputIsMissingValidationErrorMessage: requiredValueIsMissingValidationErrorMessage,
     staticRules:
     [

@@ -1,4 +1,8 @@
 {
+  "Genders": {
+    "Male": 0,
+    "Female": 1
+  },
   "Task": {
     "Title": {
       "IS_REQUIRED": true,

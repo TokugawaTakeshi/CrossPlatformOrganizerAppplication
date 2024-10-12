@@ -174,7 +174,7 @@ internal abstract class TaskMocker
       ID = ID,
       title = title,
       description = description,
-      isComplete = isComplete,
+      isCompleted = isComplete,
       subtasks = preDefines?.subtasks ?? [],
       deadlineDateTime = deadlineDateTime,
       deadlineDate = deadlineDate,

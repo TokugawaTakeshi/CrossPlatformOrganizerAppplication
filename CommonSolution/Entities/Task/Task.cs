@@ -1,7 +1,7 @@
 ﻿namespace CommonSolution.Entities.Task;
 
 
-public partial class Task
+public class Task
 {
 
   public required string ID { get; init; }
@@ -28,10 +28,10 @@ public partial class Task
   }
   
   
-  /* ━━━ Is Complete ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public bool isComplete { get; set; } = false;
+  /* ━━━ Is Completed ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public bool isCompleted { get; set; } = false;
   
-  public abstract record IsComplete
+  public abstract record IsCompleted
   {
     public const bool IS_REQUIRED = true;
   }
@@ -45,36 +45,55 @@ public partial class Task
     public const bool IS_REQUIRED = false;
     public const byte MINIMAL_VALUE = 1;
     public const byte MAXIMAL_VALUE = 3;
+  }
+  
+  
+  /* ━━━ Custom Folder ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public TaskCustomFolder? customFolder { get; set; }
+
+  public abstract record CustomFolder
+  {
+    public const bool IS_REQUIRED = false;
   } 
   
-
-  /* ━━━ Subtasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  
+  /* ━━━ Relatives ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Parent ───────────────────────────────────────────────────────────────────────────────────────────────────── */
+  public Task? parent { get; set; }
+  
+  public abstract record Parent
+  {
+    public const bool IS_REQUIRED = false;
+  }
+  
+  
+  /* ─── Subtasks (Children) ──────────────────────────────────────────────────────────────────────────────────────── */
   public List<Task> subtasks { get; set; } = []; 
   
   public abstract record Subtasks
   {
     public const bool IS_REQUIRED = true;
   }
-
-
-  //- ━━━ Date & Time ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  //- ─── Deadline ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  
+  
+  /* ━━━ Date & Time ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Deadline ─────────────────────────────────────────────────────────────────────────────────────────────────── */
   protected DateTime? _deadlineDateTime;
   protected DateOnly? _deadlineDate;
 
-  //- ┄┄┄ Date & Time ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  /* ┄┄┄ Date & Time ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public DateTime? deadlineDateTime
   {
     get => this._deadlineDateTime;
     set
     {
-          
-      this._deadlineDateTime = value;
-
+      
       if (value is not null)
       {
         this._deadlineDate = null;  
       }
+      
+      this._deadlineDateTime = value;
       
     }
   }
@@ -83,9 +102,9 @@ public partial class Task
   {
     public const bool IS_REQUIRED = false;
   } 
-
   
-  //- ┄┄┄ Date Only ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  
+  /* ┄┄┄ Date Only ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public DateOnly? deadlineDate
   {
     get => this._deadlineDate;
@@ -104,11 +123,11 @@ public partial class Task
   
   public abstract record DeadlineDate
   {
-    public const bool IS_REQUIRED = true;
-  } 
+    public const bool IS_REQUIRED = false;
+  }
   
   
-  //- ┄┄┄ Computed ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  /* ┄┄┄ Computed ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public bool hasDeadlineDefinedAndExpired
   {
     get
@@ -132,12 +151,12 @@ public partial class Task
   }
 
   
-  //- ─── Starting ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  /* ─── Starting ─────────────────────────────────────────────────────────────────────────────────────────────────── */
   protected DateTime? _startingDateTime;
   protected DateOnly? _startingDate;
 
   
-  //- ┄┄┄ Date & Time ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  /* ┄┄┄ Date & Time ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public DateTime? startingDateTime
   {
     get => this._startingDateTime;
@@ -159,8 +178,8 @@ public partial class Task
     public const bool IS_REQUIRED = false;
   } 
 
-  
-  //- ┄┄┄ Date Only ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+  /* ┄┄┄ Date Only ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public DateOnly? startingDate
   {
     get => this._startingDate;
@@ -183,12 +202,12 @@ public partial class Task
   }
   
   
-  //- ─── Ending ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  /* ─── Ending ───────────────────────────────────────────────────────────────────────────────────────────────────── */
   protected DateTime? _endingDateTime;
   protected DateOnly? _endingDate;
 
 
-  //- ┄┄┄ Date & Time ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  /* ┄┄┄ Date & Time ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public DateTime? endingDateTime
   {
     get => this._endingDateTime;
@@ -211,7 +230,7 @@ public partial class Task
   } 
 
   
-  //- ┄┄┄ Date Only ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+  /* ┄┄┄ Date Only ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄ */
   public DateOnly? endingDate
   {
     get => this._endingDate;
@@ -234,7 +253,7 @@ public partial class Task
   }
   
   
-  //- ─── Getters ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  /* ─── Getters ──────────────────────────────────────────────────────────────────────────────────────────────────── */
   public bool areStartingAndEndingDatesAreDefinedAndEven
   {
     get
@@ -277,8 +296,8 @@ public partial class Task
     }
   }
   
-
-  //- ─── Localization ─────────────────────────────────────────────────────────────────────────────────────────────────
+  
+  /* ─── Location ─────────────────────────────────────────────────────────────────────────────────────────────────── */
   public CommonSolution.Entities.Location? associatedLocation { get; set; }
   
   public abstract record AssociatedLocation
@@ -287,7 +306,7 @@ public partial class Task
   }
 
 
-  //- ━━━ Methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /* ━━━ Methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public Task clone()
   {
     return new Task
@@ -295,7 +314,7 @@ public partial class Task
       ID = this.ID,
       title = this.title,
       description = this.description,
-      isComplete = this.isComplete,
+      isCompleted = this.isCompleted,
       priority = this.priority,
       subtasks = this.subtasks.Select(task => task.clone()).ToList(),
       deadlineDateTime = this.deadlineDateTime,

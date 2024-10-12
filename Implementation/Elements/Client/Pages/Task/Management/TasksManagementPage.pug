@@ -5,29 +5,28 @@ block append Requirements
 
   include ../../../StaticPreview/_Requirements.pug
     
-
-block append Metadata
-
   -
-
-    RegularWebPageTemplate__YDF.configure({
-      metadata: {
-        title: "Tasks management — Experimental CSharp Application"
-      },
-      stylesSheetsURIs: [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ]
-    });
-
-    RoutingEmulator.setCurrentRoute("tasksManagement");
-
-
-block StatesSimulations
-  
-  -
-  
-    class TasksManagementPage {
     
+    class TasksManagementPage {
+
+      /**
+       * @type { object }
+       * @property { string } pageTitle
+       * @property { string } filteringModalDialog.title
+       * @property { string } taskManagerActivationGuidance
+       * */
+      static localizedStringResources = $$localizedStringResources.pages.task.management;
+      
+      /** 
+       * @private
+       * @type boolean
+       * */
       static mustDisplayTaskManagerAtNarrowScreens = false;
     
+      /** 
+       * @public
+       * @return { typeof TasksManagementPage } 
+       * */
       static displayTaskManagerAtNarrowScreens() {
         TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
         return PeopleManagementPage;
@@ -36,48 +35,53 @@ block StatesSimulations
     }
     
 
-block append SpecificContent
+block append Metadata
 
   -
 
-    /**
-     * @type { object }
-     * @property { string } filteringModalDialog.title
-     * @property { string } taskManagerActivationGuidance
-     * */
-    const $pageStringResources = $stringResources.$english.pages.task.management;
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: TasksManagementPage.localizedStringResources.pageTitle,
+        locale: $$HTML_TAG_LANG_ATTRIBUTE_VALUE
+      },
+      stylesSheetsURIs: [ "@Shared/Primer", "@ExternalSharedGUI_Components", "@Shared/Internals" ]
+    });
 
-  
+    YDF.RoutingEmulator.setCurrentRoute("tasksManagement");
+
+
+block append SpecificContent
+
   .TasksManagementPage-ContainerQueryingComposition.MainLayout-VerticallyFillingSpecificContentDescendant
 
     +TasksViewer({
-      loading: TasksManagementPageStatesSimulations.loading,
-      error: TasksManagementPageStatesSimulations.error,
-      noItems: TasksManagementPageStatesSimulations.noItems,
-      noSearchResults: TasksManagementPageStatesSimulations.noSearchResults
+      loading: $tasksManagementPageStatesSimulations.loading,
+      error: $tasksManagementPageStatesSimulations.error,
+      noItems: $tasksManagementPageStatesSimulations.noItems,
+      noSearchResults: $tasksManagementPageStatesSimulations.noSearchResults
     }).TasksManagementPage-TasksViewer
     
     +TaskManager(
       {
-        targetTask: getRandomArrayElement(DummyData.Tasks),
-        activationGuidance: $pageStringResources.taskManagerActivationGuidance
+        targetTask: YDF.getRandomArrayElement($mockData.tasks),
+        activationGuidance: TasksManagementPage.localizedStringResources.taskManagerActivationGuidance
       },
-      { editingMode: true }
+      { editingMode: false }
     ).TasksManagementPage-TaskManager&attributes({
       class: TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens ?
           [ "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" ] : 
           [ "TasksManagementPage-TaskManager__HiddenAtNarrowScreens" ]
     })
 
-    
+
 block FloatingAndFixedContent
 
-  //- 
-    [ Theory ] Because of container queries brakes the fixed positioning, the modal dialog could not be placed inside 
+  //- [ Theory ] 
+    Because of container queries brakes the fixed positioning, the modal dialog can not be placed inside 
       the "SpecificContent" block.
-      https://stackoverflow.com/a/52937920/4818123
+    See https://stackoverflow.com/a/52937920/4818123
      
   +ModalDialog--YDF(
-    { title: $pageStringResources.filteringModalDialog.title },
+    { title: TasksManagementPage.localizedStringResources.filteringModalDialog.title },
     { mustDisplay: false }
   ): +TasksFilteringPanel

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-maccatalyst;net8.0-ios;net8.0-android</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
     <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
     <!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
     <OutputType>Exe</OutputType>
@@ -63,29 +63,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.7" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.9" />
-    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.8" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.51" />
+    <PackageReference Include="YamatoDaiwa.CSharpExtensions" Version="0.9.0" />
+    <Reference Include="YamatoDaiwa.Frontend">
+      <HintPath>D:\WebDevelopmentProjects\InHouseDevelopment\YamatoDaiwaFrontend\AdaptationsToFrameworks\Blazor\Package\bin\Debug\net10.0\YamatoDaiwa.Frontend.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StaticPreview\Build\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="SharedComponents\Cards\Person\LoadingPlaceholder\PersonCardLoadingPlaceholder.razor" />
-    <AdditionalFiles Include="SharedComponents\Cards\Person\PersonCard.razor" />
-    <AdditionalFiles Include="SharedComponents\Cards\Task\LoadingPlaceholder\TaskCardLoadingPlaceholder.razor" />
-    <AdditionalFiles Include="SharedComponents\Cards\Task\TaskCard.razor" />
-    <AdditionalFiles Include="SharedComponents\Managers\Person\PersonManager.razor" />
-    <AdditionalFiles Include="SharedComponents\Managers\Task\TaskManager.razor" />
-    <AdditionalFiles Include="SharedComponents\NavigationMenu\NavigationMenu.razor" />
-    <AdditionalFiles Include="SharedComponents\Viewers\People\PeopleViewer.razor" />
-    <AdditionalFiles Include="SharedComponents\Viewers\Tasks\TasksViewer.razor" />
+    <None Include="tsconfig.json" />
   </ItemGroup>
 
 </Project>

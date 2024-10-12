@@ -1,12 +1,23 @@
-﻿include _Requirements/BusinessRules.pug
+﻿include ../node_modules/@yamato-daiwa/pug-csharp-static-preview/Functions.pug
+
 include _Requirements/Functions.pug
-include _Requirements/RoutingForStaticPreview.pug
+include _Requirements/HierarchicalEntitiesRelationshipsInitializer.pug
+include _Requirements/GUI_ComponentsLocalizations.pug
+
   
-include ../SharedComponents/SharedComponents.pug
+include ../SharedGUI_Components/SharedGUI_Components.pug
+
 
 -
+
+  YDF.RoutingEmulator.initialize(routing);
   
   const {
     Task,
     Person
-  } = BusinessRules;
+  } = $$BusinessRules;
+
+  const $mockData = JSON.parse(JSON.stringify($$rawMockData));
+  
+  $mockData.taskCustomFolders = HierarchicalEntitiesRelationshipsInitializer.
+      initializeForSpecificEntities($mockData.taskCustomFolders);

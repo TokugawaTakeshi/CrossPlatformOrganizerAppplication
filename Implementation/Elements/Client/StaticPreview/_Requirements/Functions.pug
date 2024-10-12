@@ -1,8 +1,12 @@
 ﻿-
   
+  /** 
+  * @param { string } phoneNumber 
+  * @return { string } Formatted phone number
+  * */
   function formatJapanesePhoneNumber(phoneNumber) {
 
-    const phoneNumber__digitsOnly = removeAllSpecifiedCharacters(String(phoneNumber), "-");
+    const phoneNumber__digitsOnly = YDF.removeAllSpecifiedCharacters(String(phoneNumber), "-");
     const DIGITS_COUNT_IN_TWO_LAST_PORTIONS_DIVIDED_BY_N_DASH = 4;
     const FIRST_N_DASH_POSITION = phoneNumber__digitsOnly.length % DIGITS_COUNT_IN_TWO_LAST_PORTIONS_DIVIDED_BY_N_DASH;
     const SECOND_N_DASH_POSITION = FIRST_N_DASH_POSITION + DIGITS_COUNT_IN_TWO_LAST_PORTIONS_DIVIDED_BY_N_DASH;
@@ -11,15 +15,4 @@
             `${ phoneNumber__digitsOnly.slice(FIRST_N_DASH_POSITION, SECOND_N_DASH_POSITION) }-` +
             `${ phoneNumber__digitsOnly.slice(SECOND_N_DASH_POSITION) }`;
     
-  }
-
-
-  function generateStringFromTemplate(template, variables) {
-
-    for (const [variableName, variableValue] of Object.entries(variables)) {
-      template = template.replaceAll(new RegExp(`\\{\\{\\s*${ variableName }\\s*\\}\\}`, "gu"), variableValue);
-    }
-
-    return template;
-
   }

@@ -14,23 +14,105 @@ public class TaskModel
   [System.ComponentModel.DataAnnotations.MaxLength(36)]
   public string ID { get; set; } = Guid.NewGuid().ToString();
 
+  
+  /* ━━━ Title ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [System.ComponentModel.DataAnnotations.MaxLength(CommonSolution.Entities.Task.Task.Title.MAXIMAL_CHARACTERS_COUNT)]
   public string Title { get; set; } = null!;
 
+  
+  /* ━━━ Description ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public string? Description { get; set; }
 
-  public bool IsComplete { get; set; }
+  
+  /* ━━━ Is Completed ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public bool IsCompleted { get; set; } = false;
+  
+  
+  /* ━━━ Priority ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public byte? Priority { get; set; }
+  
+  
+  /* ━━━ Custom Folder ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* [ Theory ] Although generally the explicit specifying of navigation property is optional, it is required for seeding. */
+  /* [ Theory ] `Guid.NewGuid()` returns the string of 36 characters. See https://stackoverflow.com/a/4458925/4818123 */
+  [System.ComponentModel.DataAnnotations.MaxLength(36)]
+  public string? CustomFolderID { get; set; }
+  
+  public TaskCustomFolderModel? CustomFolder { get; set; }
+  
+  
+  /* ━━━ Relatives ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ─── Parent ───────────────────────────────────────────────────────────────────────────────────────────────────── */
+  /* [ Theory ] Although generally the explicit specifying of navigation property is optional, it is required for seeding. */
+  /* [ Theory ] `Guid.NewGuid()` return the string of 36 characters. See https://stackoverflow.com/a/4458925/4818123 */
+  [System.ComponentModel.DataAnnotations.MaxLength(36)]
+  public string? ParentID { get; set; }
+  
+  public TaskModel? Parent { get; set; }
 
-  /* ━━━ < TODO Next versions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  // [System.ComponentModel.DataAnnotations.Required]
-  // public List<TaskModel> Subtasks { get; set; } = null!;
   
-  // public DateTime? AssociatedDateTime { get; set; }
-  // public DateOnly? AssociatedDate { get; set; }
+  /* ─── Children ─────────────────────────────────────────────────────────────────────────────────────────────────── */
+  public List<TaskModel> Subtasks { get; set; } = [];
   
-  // public Location? Location { get; set; }
-  /* ━━━ TODO > ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   
+  /* ━━━ Date & Time ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  protected DateTime? _deadlineDateTime;
+  protected DateOnly? _deadlineDate;
+  
+  public DateTime? DeadlineDateTime
+  {
+    get => this._deadlineDateTime;
+    set
+    {
+      
+      if (value is not null)
+      {
+        this._deadlineDate = null;
+      }
+
+      this._deadlineDateTime = value;
+      
+    }
+  }
+
+  public DateOnly? DeadlineDate
+  {
+    get => this._deadlineDate;
+    set
+    {
+
+      if (value is not null)
+      {
+        this._deadlineDateTime = null;
+      }
+
+      this._deadlineDate = value;
+
+    }
+  }
+  
+  
+  /* ━━━ Compatibility with Business Rules ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  public static TaskModel FromBusinessRulesEntity(CommonSolution.Entities.Task.Task task)
+  {
+    return new TaskModel
+    {
+      ID = task.ID,
+      Title = task.title,
+      Description = task.description,
+      IsCompleted = task.isCompleted,
+      Priority = task.priority,
+      CustomFolderID = task.customFolder?.ID,
+      ParentID = task.parent?.ID,
+      DeadlineDateTime = task.deadlineDateTime,
+      DeadlineDate = task.deadlineDate
+    };
+  }
+  
+  public static IEnumerable<TaskModel> FromBusinessRulesEntities(IEnumerable<CommonSolution.Entities.Task.Task> tasks)
+  {
+    return tasks.Select(TaskModel.FromBusinessRulesEntity);
+  }
   
   public CommonSolution.Entities.Task.Task ToBusinessRulesEntity()
   {
@@ -39,11 +121,20 @@ public class TaskModel
       ID = this.ID,
       title = this.Title,
       description = this.Description,
-      isComplete = this.IsComplete
+      isCompleted = this.IsCompleted,
+      priority = this.Priority,
+      parent = this.Parent?.ToBusinessRulesEntity(),
+      subtasks = TaskModel.ToBusinessRuleEntities(this.Subtasks).ToList()
     };
+  }
+  
+  public static IEnumerable<CommonSolution.Entities.Task.Task> ToBusinessRuleEntities(IEnumerable<TaskModel> taskModels)
+  {
+    return taskModels.Select((TaskModel taskModel) => taskModel.ToBusinessRulesEntity());
   }
 
 
+  /* ━━━ Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public class Configuration : Microsoft.EntityFrameworkCore.IEntityTypeConfiguration<TaskModel>
   {
 
@@ -63,9 +154,41 @@ public class TaskModel
           IsRequired(CommonSolution.Entities.Task.Task.Description.IS_REQUIRED);
       
       builder.
-          Property(taskModel => taskModel.IsComplete).
-          IsRequired(CommonSolution.Entities.Task.Task.IsComplete.IS_REQUIRED);
+          Property(taskModel => taskModel.IsCompleted).
+          IsRequired(CommonSolution.Entities.Task.Task.IsCompleted.IS_REQUIRED);
+      
+      builder.
+          Property(taskModel => taskModel.Priority).
+          IsRequired(CommonSolution.Entities.Task.Task.Priority.IS_REQUIRED);
+      
+      
+      /* [ Theory ] This part could not be set via Fluent API. See https://stackoverflow.com/q/79129837/4818123
+      builder.
+          Property(taskModel => taskModel.CustomFolder).
+          IsRequired(CommonSolution.Entities.Task.Task.CustomFolder.IS_REQUIRED);
 
+      builder.
+          Property(taskModel => taskModel.Parent).
+          IsRequired(CommonSolution.Entities.Task.Task.Parent.IS_REQUIRED);
+      */
+      
+      builder.
+          Property(taskModel => taskModel.ParentID).
+          IsRequired(CommonSolution.Entities.Task.Task.Parent.IS_REQUIRED);
+      
+      /* [ Theory ] This part could not be set via Fluent API. See https://stackoverflow.com/q/79129837/4818123
+      builder.Property(taskModel => taskModel.Subtasks);
+      */
+      
+      builder.
+          Property(taskModel => taskModel.DeadlineDateTime).
+          IsRequired(CommonSolution.Entities.Task.Task.DeadlineDateTime.IS_REQUIRED).
+          HasColumnType("timestamp without time zone");
+      
+      builder.
+          Property(taskModel => taskModel.DeadlineDate).
+          IsRequired(CommonSolution.Entities.Task.Task.DeadlineDate.IS_REQUIRED);
+      
     }
     
   }

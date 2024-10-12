@@ -6,7 +6,8 @@ using MockDataSource.Collections;
 using MockDataSource.SamplesRepositories;
 using MockDataSource.AdditionalStructures;
 
-using System.Diagnostics;
+using CommonSolution.Entities.Task;
+using CommonSolution.Gateways.Task;
 using YamatoDaiwa.CSharpExtensions.DataMocking;
 using Task = CommonSolution.Entities.Task.Task;
 
@@ -14,61 +15,47 @@ using Task = CommonSolution.Entities.Task.Task;
 namespace MockDataSource;
 
 
-public class MockDataSource
+public static class MockDataSource
 {
 
   /* ━━━ Data ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public readonly List<Person> People;
-  public readonly List<Task> Tasks;
-  public readonly List<Location> Locations;
+  public static readonly List<Person> People;
+  public static readonly List<Task> Tasks;
+  public static readonly List<TaskCustomFolder> TaskCustomFolders;
+  public static readonly List<Location> Locations;
 
 
   /* ━━━ Initialization ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private static MockDataSource? selfSoleInstance;
-
-  public static MockDataSource GetInstance()
-  {
-
-    if (MockDataSource.selfSoleInstance == null)
-    {
-      MockDataSource.selfSoleInstance = new MockDataSource();
-      Debug.WriteLine("Mock data source has been initialized.");
-    }
-
-    return selfSoleInstance;
-    
-  }
-  
-  private MockDataSource()
+  static MockDataSource()
   {
     
-    this.People = PeopleCollectionsMocker.Generate(new PeopleCollectionsMocker.Subset[] {
-      new ()
+    MockDataSource.People = PeopleCollectionsMocker.Generate([
+      new PeopleCollectionsMocker.Subset
       {
         NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
             mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
         WithNames = PeopleNamesRepository.PeopleNames,
         Quantity = (uint)PeopleNamesRepository.PeopleNames.Length
       },
-      new()
+      new PeopleCollectionsMocker.Subset
       {
         NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll, 
         Quantity = 5
       },
-      new()
+      new PeopleCollectionsMocker.Subset
       {
         NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
             mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
         Quantity = 5
       },
-      new()
+      new PeopleCollectionsMocker.Subset
       {
         FamilyNamePrefix = "SEARCH_TEST-", 
         NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
             mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
         Quantity = 5
       },
-      new ()
+      new PeopleCollectionsMocker.Subset
       {
         NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
             mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
@@ -85,41 +72,48 @@ public class MockDataSource
         ],
         Quantity = 1
       }
-    }).ToList();
+    ]).ToList();
 
-    this.Locations = LocationSamplesRepository.Locations.ToList();
+    MockDataSource.Locations = LocationSamplesRepository.Locations.ToList();
     
-    this.Tasks = SampleTasksRepository.Tasks.Concat(
+    MockDataSource.Tasks = SampleTasksRepository.Tasks.Concat(
       TasksCollectionsMocker.Generate(
-        new TasksCollectionsMocker.Subset[] {
-          new()
+        [
+          new TasksCollectionsMocker.Subset
           {
             NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
             Quantity = 10
           },
-          new()
+          new TasksCollectionsMocker.Subset
           {
             NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
             Quantity = 5
           }
-        },
+        ],
         new TasksCollectionsMocker.Dependencies
         {
-          Locations = this.Locations.ToArray()
+          Locations = MockDataSource.Locations.ToArray()
         }
       )
     ).ToList();
 
+    MockDataSource.TaskCustomFolders = SampleTasksCustomFoldersRepository.taskCustomFolders;
+
   }
+  
+  public static void SetRelationships()
+  {
+    SampleTasksCustomFoldersRepository.SetRelationships();
+  } 
 
 
   /* ━━━ People ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public Person[] RetrieveAllPeople()
+  public static Person[] RetrieveAllPeople()
   {
     return People.Select(person => person.clone()).ToArray();
   }
 
-  public Person AddPerson(PersonGateway.Adding.RequestData requestData)
+  public static Person AddPerson(PersonGateway.Adding.RequestData requestData)
   {
 
     Person newPerson = PersonMocker.Generate(
@@ -149,7 +143,7 @@ public class MockDataSource
 
   }
 
-  public Person UpdatePerson(PersonGateway.Updating.RequestData requestData)
+  public static Person UpdatePerson(PersonGateway.Updating.RequestData requestData)
   {
 
     Person? targetPerson = People.Find(person => person.ID == requestData.ID);
@@ -175,19 +169,19 @@ public class MockDataSource
 
   }
 
-  public void DeletePerson(string targetPersonID)
+  public static void DeletePerson(string targetPersonID)
   {
     People.RemoveAll(person => person.ID == targetPersonID);
   }
   
   
   /* ━━━ Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public Task[] RetrieveAllTasks()
+  public static Task[] RetrieveAllTasks()
   {
     return Tasks.Select(task => task.clone()).ToArray();
   }
 
-  public Task AddTask(TaskGateway.Adding.RequestData requestData)
+  public static Task AddTask(TaskGateway.Adding.RequestData requestData)
   {
 
     Task newTask = TaskMocker.Generate(
@@ -206,7 +200,7 @@ public class MockDataSource
       },
       new TaskMocker.Dependencies
       {
-        Locations = this.Locations.ToArray()
+        Locations = MockDataSource.Locations.ToArray()
       },
       new TaskMocker.Options
       {
@@ -221,7 +215,7 @@ public class MockDataSource
 
   }
 
-  public Task UpdateTask(TaskGateway.Updating.RequestData requestData)
+  public static Task UpdateTask(TaskGateway.Updating.RequestData requestData)
   {
 
     Task? targetTask = Tasks.Find(task => task.ID == requestData.ID);
@@ -233,7 +227,7 @@ public class MockDataSource
 
     targetTask.title = requestData.Title;
     targetTask.description = requestData.Description;
-    targetTask.isComplete = requestData.IsComplete;
+    targetTask.isCompleted = requestData.IsCompleted;
     
     if (requestData.SubtasksIDs != null)
     {
@@ -249,7 +243,7 @@ public class MockDataSource
 
   }
 
-  public void DeleteTask(string targetTaskID)
+  public static void DeleteTask(string targetTaskID)
   {
     Tasks.RemoveAll(tasks => tasks.ID == targetTaskID);
   }

@@ -1,0 +1,151 @@
+﻿@using Client.SharedGUI_Components.Lists.TasksFolders.Item.Localizations
+@using FrontEndFramework.Components.Controls.MenuList
+@using FrontEndFramework.Components.Controls.Popover
+@using FrontEndFramework.Components.Controls.PopoverWithAnchor
+@using FrontEndFramework.SVG_Icons.Folder
+@using FrontEndFramework.SVG_Icons.Menu
+@using FrontEndFramework.SVG_Icons.Triangle
+@using YamatoDaiwa.CSharpExtensions
+@using Microsoft.AspNetCore.Components.Web;
+
+
+<li 
+  class=@getClassAttributeValueForRootElement(CSS_Namespace: "TasksFoldersList-Item")
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  
+  @* ━━━ Collapsing Toggle ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if(taskCustomFolder is not null && taskCustomFolder.children.Count > 0)
+  {
+
+    <button 
+      type="button"
+      aria-label=@(
+        localization.buttons.tasksFolderCollapsing.generateAccessibilityGuidance(
+          new TasksFoldersListItemLocalization.Buttons.TasksFolderCollapsing.AccessibilityGuidance.TemplateVariables
+          {
+            tasksFolderLabel = taskCustomFolder.label
+          }
+        )
+      )
+      class="TasksFoldersList-Item-CollapsingToggle"
+      @onclick="onExpandingToggleClicked"
+    >
+      
+      @if(this.isChildrenListExpanded)
+      {
+        <Triangle__Upward__Circled__Filled class="TasksFoldersList-Item-CollapsingToggle-Icon" />  
+      } else
+      {
+        <Triangle__Downward__Circled__Filled class="TasksFoldersList-Item-CollapsingToggle-Icon" />       
+      }
+      
+    </button>  
+    
+  }
+  
+  
+  @* ━━━ Interactive Label ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if(taskCustomFolder is not null)
+  {
+    
+    <button
+      type="button"
+      aria-label=@accessibilityGuidance
+      class="TasksFoldersList-Item-InteractiveLabel"
+      @ondblclick=@onInteractiveLabelClickedTwiceInViewingMode
+      @onclick=@onInteractiveLabelClickedInViewingMode
+    >
+      <FolderIcon__Filled class="TasksFoldersList-Item-InteractiveLabel-Icon" />
+      <span class="TasksFoldersList-Item-InteractiveLabel-Text">@(taskCustomFolder?.label ?? label)</span>
+    </button>
+    
+  } else if (this.isViewingMode) {
+    
+    <button 
+      type="button"
+      class="TasksFoldersList-Item-InteractiveLabel"
+      aria-label=@accessibilityGuidance
+      @onclick=@onInteractiveLabelClickedInViewingMode
+    >
+      @if (ChildContent is not null) {
+        @ChildContent
+      } else {
+        <FolderIcon__Filled class="TasksFoldersList-Item-InteractiveLabel-Icon" />
+      }
+
+      <span class="TasksFoldersList-Item-InteractiveLabel-Text">@label</span>
+      
+    </button>
+    
+  }
+  
+  
+  @* ━━━ Context Menu ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if (taskCustomFolder is not null) {
+    
+    <PopoverWithAnchor class="TasksFoldersList-Item-ContextMenu">
+      
+      <button 
+        type="button"
+        aria-label=@(
+          localization.buttons.tasksFolderExpanding.generateAccessibilityGuidance(
+            new TasksFoldersListItemLocalization.Buttons.TasksFolderExpanding.AccessibilityGuidance.TemplateVariables
+            {
+              tasksFolderLabel = taskCustomFolder.label
+            }  
+          )
+        )
+        class="TasksFoldersList-Item-ContextMenu-Toggle"
+        @onclick=@onMenuDisplayingToggleClicked
+      >
+        <Menu__ThreeDots__Vertical__Circled__Filled class="TasksFoldersList-Item-ContextMenu-Toggle-Icon"/>
+      </button>
+      
+      <Popover
+        mustDisplay=@isPopupMenuDisplaying
+      >
+        <MenuList>
+          
+          <MenuListItem
+            label=@(
+              localization.buttons.renamingOfTasksFolder.generateAccessibilityGuidance(
+                new TasksFoldersListItemLocalization.Buttons.RenamingOfTasksFolder.AccessibilityGuidance.TemplateVariables
+                {
+                  tasksFolderLabel = taskCustomFolder.label
+                }
+              )
+            )
+            onClick=@onTaskCustomFolderRenamingButtonClicked
+          />
+          
+          <MenuListItem
+            label=@(
+              localization.buttons.deletingOfTasksFolder.generateAccessibilityGuidance(
+                new TasksFoldersListItemLocalization.Buttons.DeletingOfTasksFolder.AccessibilityGuidance.TemplateVariables
+                {
+                  tasksFolderLabel = taskCustomFolder.label
+                }
+              )
+            )
+            onClick=@onTaskCustomFolderDeletingButtonClicked
+          />
+          
+        </MenuList>
+      </Popover>
+      
+    </PopoverWithAnchor>
+    
+  }
+  
+  
+  @* ━━━ Child Task Folders List ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if(taskCustomFolder is not null && taskCustomFolder.children.Count > 0 && isChildrenListExpanded)
+  {
+    <TasksFoldersList 
+      taskCustomFolders=@taskCustomFolder.children
+      onTaskCustomFolderSelected=@onSelectFolderEventHandler
+    />
+  }
+  
+</li>

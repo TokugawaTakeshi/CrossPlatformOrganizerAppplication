@@ -4,6 +4,9 @@
 internal abstract record PeopleManagementPageLocalization
 {
 
+  internal abstract string pageTitle { get; }
+  
+  
   internal abstract string personManagerActivationGuidance { get; }
   
   

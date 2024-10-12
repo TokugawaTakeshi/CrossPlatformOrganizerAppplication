@@ -113,6 +113,6 @@ public abstract class PersonGateway
   }
   
   /* ━━━ Deleting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public abstract Task Delete(string targetPersonID);
+  public abstract System.Threading.Tasks.Task Delete(string targetPersonID);
   
 }

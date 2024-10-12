@@ -1,0 +1,196 @@
+﻿-
+
+  class TaskManager {
+
+    /*  ━━━ Resources ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /**
+     * @typedef TaskManagerLocalization
+     * @property { string } heading
+     * @property { string } buttons.taskEditing.label
+     * @property { string } buttons.taskDeleting.label
+     * @property { string } buttons.saveTask.label
+     * @property { string } buttons.terminatingOfEditing.label
+     * @property { string } labels.title
+     * @property { string } labels.status
+     * @property { string } labels.priority
+     * @property { string } labels.description
+     * @property { string } taskStatuses.inProgress
+     * @property { string } taskStatuses.completed
+     * @property { string } tasksPriorities.1
+     * @property { string } tasksPriorities.2
+     * @property { string } tasksPriorities.3
+     * @property { string } controls.taskTitle.label
+     * @property { string } controls.taskTitle.guidance
+     * @property { string } controls.taskDescription.label
+     * @property { string } controls.taskDescription.guidance
+     * @property { string } taskDeletingConfirmationModalDialog.title
+     * @property { string } taskDeletingConfirmationModalDialog.question
+     */
+    
+    /** @type { TaskManagerLocalization } */
+    static localizedStringResources = $$localizedStringResources.components.managers.task;
+
+
+    /*  ━━━ IDs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /**
+     * @private
+     * @type { number }
+     * */
+    static counterForInstanceID_Generating = 0;
+
+    /**
+     * @public
+     * @return { string }
+     * */
+    static generateInstanceID() {
+      TaskManager.counterForInstanceID_Generating++;
+      return `TASK_MANAGER-${ TaskManager.counterForInstanceID_Generating }`;
+    }
+
+    /**
+     * @public
+     * @return { string }
+     * */
+    static generateHeadingHTML_ID(instanceID) {
+      return `${ instanceID }-HEADING`;
+    }
+
+  }
+
+
+mixin TaskManager(properties, statesSimulations)
+
+  -
+
+    const {
+
+      /** @type { import("CommonSolution/Entities/Task/Task.cs") | undefined } */
+      targetTask,
+
+      /** @type { string | undefined } */
+      activationGuidance
+
+    } = properties ?? {};
+
+    const {
+
+      /** @type { boolean }*/
+      editingMode: isEditingMode = false
+
+    } = statesSimulations ?? {};
+
+
+    /** @type { string } */
+    const INSTANCE_ID = TaskManager.generateInstanceID();
+
+    /** @type { string } */
+    const HEADING_HTML_ID = TaskManager.generateHeadingHTML_ID(INSTANCE_ID);
+
+    /** @type { boolean } */
+    const isViewingMode = !isEditingMode;
+
+
+  .TaskManager&attributes(attributes)
+
+    .TaskManager-Header
+
+      .TaskManager-Heading(
+        id=HEADING_HTML_ID
+      )= TaskManager.localizedStringResources.heading
+
+      +ClosingButton--YDF.TaskManager-ClosingButtonForNarrowScreens
+
+    if !targetTask && activationGuidance
+
+      +AdmonitionBlock--YDF({
+        decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+        SVG_Icon: true
+      }).TaskManager-Guidance= activationGuidance
+
+
+    //- ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    .TaskManager-ActionBar
+
+      if isViewingMode
+
+        +Button--YDF({ disabled: !targetTask })
+          +Checklist__Editing--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= TaskManager.localizedStringResources.buttons.taskEditing.label
+
+      +Button--YDF({ disabled: !targetTask })
+        +Checklist__Deleting--YDF_Icon.Button--YDF-SVG_Icon
+        span.Button--YDF-Label= TaskManager.localizedStringResources.buttons.taskDeleting.label
+
+      if isEditingMode
+
+        +Button--YDF
+          +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= TaskManager.localizedStringResources.buttons.terminatingOfEditing.label
+
+
+    //- ━━━ Viewing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if isViewingMode
+
+      dl.TaskManager-Metadata
+
+        //- ┅┅┅ Title ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+        dt= TaskManager.localizedStringResources.labels.title
+        dd= (targetTask || {}).title
+
+        //- ┅┅┅ Status ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+        dt= TaskManager.localizedStringResources.labels.status
+        dd
+          if targetTask
+            
+            +Badge--YDF({
+              valueLabel: TaskManager.localizedStringResources.taskStatuses[ targetTask.isComplete ? "completed" : "inProgress" ],
+              decorativeVariation: targetTask.isComplete ?
+                  Badge__YDF.DecorativeVariations.calmingBright : Badge__YDF.DecorativeVariations.catchyBright,
+              geometricModifiers: [ Badge__YDF.GeometricModifiers.pillShape ]
+            })
+
+        //- ┅┅┅ Priority ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅        
+        if ((targetTask || {}).priority)
+          dt= TaskManager.localizedStringResources.labels.priority
+          dd= TaskManager.localizedStringResources.tasksPriorities[targetTask.priority]
+        
+        dt= TaskManager.localizedStringResources.labels.description
+        dd= (targetTask || {}).description
+
+    else
+
+      //- ━━━ Editing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      form.TaskManager-Form(
+        aria-labelledby=headingHTML_ID
+      )
+
+        +TextBox--YDF({
+          label: TaskManager.localizedStringResources.inputs.taskTitle.label,
+          guidance: TaskManager.localizedStringResources.inputs.taskTitle.guidance,
+          required: Task.Title.IS_REQUIRED,
+          value: (targetTask || {}).taskTitle || ""
+        }).TaskManager-Control
+
+        +TextBox--YDF({
+          label: TaskManager.localizedStringResources.inputs.taskDescription.label,
+          guidance: TaskManager.localizedStringResources.inputs.taskDescription.guidance,
+          multiline: true,
+          value: (targetTask || {}).taskDescription || ""
+        }).TaskManager-Control
+        
+        +TasksFoldersManager({
+          label: "Folder"
+        }).TaskManager-Control
+        
+        .TaskManager-ActionBar
+
+          +Button--YDF({
+            HTML_Type: Button__YDF.HTML_Types.submit,
+            decorativeVariation: Button__YDF.DecorativeVariations.accented
+          })
+            +FloppyDisk--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label= TaskManager.localizedStringResources.buttons.taskSaving.label
+
+          +Button--YDF
+            +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label= TaskManager.localizedStringResources.buttons.terminatingOfEditing.label

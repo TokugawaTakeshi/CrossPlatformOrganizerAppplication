@@ -1,0 +1,84 @@
+@using Client.SharedGUI_Components.Lists.TasksFolders
+@using Client.SharedGUI_Components.Lists.TasksFolders.Item
+@using Client.SharedGUI_Components.Lists.TasksFolders.Item.LoadingPlaceholder
+@using FrontEndFramework.SVG_Icons.Checklist
+@using YamatoDaiwa.Frontend.GUI_Components.AdmonitionBlock
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain
+@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.Helpers
+
+
+<div 
+  class=@ElementClassAttribute.Generate("TasksFilteringPanel", rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+
+  @* ━━━ Summaries ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  <div
+    class="TasksFilteringPanel-Title"
+    id=@summariesTitleHTML_ID
+  >
+    @(localization.titles.summaries)
+  </div>
+  
+  <TasksFoldersList
+    class="TasksFilteringPanel-TasksFoldersList"
+    aria-labelledby=@summariesTitleHTML_ID
+  >
+    
+    @* ┅┅┅ All ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ *@
+    <TasksFoldersListItem
+      label=@localization.summaryFolders.all.title
+      accessibilityGuidance=@localization.summaryFolders.all.accessibilityGuidance
+    >
+      <ChecklistIcon class="TasksFoldersList-Item-InteractiveLabel-Icon" /> 
+    </TasksFoldersListItem>
+    
+  </TasksFoldersList>
+
+    
+  @* ━━━ Custom Folders ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  <div
+    class="TasksFilteringPanel-Title"
+    id=@customFoldersTitleHTML_ID
+  >
+    @(localization.titles.custom)
+  </div>
+  
+  @if(taskCustomFolderSharedState.loading.isTasksCustomFoldersRetrievingInProgressOrNotStartedYet)
+  {
+
+    <TasksFoldersListItemLoadingPlaceholder
+      class="TasksFilteringPanel-TasksFoldersList"
+      itemsCount=@(6)
+    />
+  
+  } else if (taskCustomFolderSharedState.loading.hasTasksCustomFoldersRetrievingErrorOccurred)
+  {
+  
+    <AdmonitionBlock
+      class="TasksFilteringPanel-AdmonitionBlock"
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.error
+    >
+  
+      <p>@(localization.errorMessages.taskCustomFoldersRetrievingFailed)</p>
+  
+      <Button
+        label=@localization.buttons.retryingOfTasksCustomFoldersRetrieving.label
+        geometricVariation=@Button.StandardGeometricVariations.small
+        onClick=@lastDataRetrieving
+        class="AdmonitionBlock--YDF-CenteredButton"
+      />
+  
+    </AdmonitionBlock>
+  
+  } else
+  {
+    <TasksFoldersList
+      class="TasksFilteringPanel-TasksFoldersList"
+      aria-labelledby=@customFoldersTitleHTML_ID
+      taskCustomFolders=@taskCustomFolderSharedState.tasksCustomFoldersTree
+    />
+  }
+
+</div>

@@ -9,8 +9,6 @@ namespace MockDataSource.Gateways;
 public class PersonMockGateway : PersonGateway
 {
 
-  private readonly MockDataSource mockDataSource = MockDataSource.GetInstance();
-  
   /* [ Usage ] Must be prenamed manually for testing purposes. */
   private static readonly bool NO_ITEMS_SIMULATION_MODE = false;
 
@@ -19,7 +17,7 @@ public class PersonMockGateway : PersonGateway
   {
     return MockGatewayHelper.SimulateDataRetrieving<object, Person[]>(
       requestParameters: null,
-      getResponseData: PersonMockGateway.NO_ITEMS_SIMULATION_MODE ? Array.Empty<Person> : mockDataSource.RetrieveAllPeople,
+      getResponseData: PersonMockGateway.NO_ITEMS_SIMULATION_MODE ? Array.Empty<Person> : MockDataSource.RetrieveAllPeople,
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 2,
@@ -58,7 +56,7 @@ public class PersonMockGateway : PersonGateway
         if (!String.IsNullOrEmpty(searchingByFullOrPartialNameOrItsSpell))
         {
 
-          filteredPeople = mockDataSource.People.
+          filteredPeople = MockDataSource.People.
               Where(
                 person => 
                     person.familyName.Contains(searchingByFullOrPartialNameOrItsSpell) ||
@@ -71,14 +69,14 @@ public class PersonMockGateway : PersonGateway
         }
         else
         {
-          filteredPeople = mockDataSource.People.ToArray();
+          filteredPeople = MockDataSource.People.ToArray();
         }
 
         return new PersonGateway.SelectionRetrieving.ResponseData
         {
           Items = filteredPeople,
           TotalItemsCountInSelection = Convert.ToUInt32(filteredPeople.Length),
-          TotalItemsCount = Convert.ToUInt32(mockDataSource.People.Count)
+          TotalItemsCount = Convert.ToUInt32(MockDataSource.People.Count)
         };
         
       },
@@ -98,7 +96,7 @@ public class PersonMockGateway : PersonGateway
   {
     return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
-      getResponseData: () => mockDataSource.AddPerson(requestData),
+      getResponseData: () => MockDataSource.AddPerson(requestData),
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
@@ -114,7 +112,7 @@ public class PersonMockGateway : PersonGateway
   {
     return MockGatewayHelper.SimulateDataSubmitting(
       requestData,
-      getResponseData: () => mockDataSource.UpdatePerson(requestData),
+      getResponseData: () => MockDataSource.UpdatePerson(requestData),
       new MockGatewayHelper.SimulationOptions
       {
         MinimalPendingPeriod__Seconds = 1,
@@ -132,7 +130,7 @@ public class PersonMockGateway : PersonGateway
       targetPersonID,
       getResponseData: () =>
       {
-        this.mockDataSource.DeleteTask(targetPersonID);
+        MockDataSource.DeleteTask(targetPersonID);
         return null;
       },
       new MockGatewayHelper.SimulationOptions

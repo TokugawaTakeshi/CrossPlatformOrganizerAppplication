@@ -16,7 +16,7 @@ internal abstract class PeopleSharedState
   private static PersonGateway? _personGateway = null;
   private static PersonGateway personGateway => 
       PeopleSharedState._personGateway ??= 
-      ClientDependencies.Injector.gateways().Person;
+      ClientDependencies.Injector.gateways.Person;
 
 
   /* ━━━ Selecting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -259,7 +259,7 @@ internal abstract class PeopleSharedState
 
     try
     {
-      await ClientDependencies.Injector.gateways().Person.Update(requestData);
+      await ClientDependencies.Injector.gateways.Person.Update(requestData);
     }
     catch (Exception exception)
     {
@@ -295,7 +295,7 @@ internal abstract class PeopleSharedState
 
     try
     {
-      await ClientDependencies.Injector.gateways().Person.Delete(targetPersonID);
+      await ClientDependencies.Injector.gateways.Person.Delete(targetPersonID);
     }
     catch (Exception exception)
     {

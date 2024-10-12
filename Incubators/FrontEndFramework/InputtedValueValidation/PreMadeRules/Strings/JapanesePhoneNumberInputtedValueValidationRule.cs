@@ -3,7 +3,7 @@
 namespace FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
-public class JapanesePhoneNumberInputtedValueValidationRule : YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule
+public class JapanesePhoneNumberInputtedValueValidationRule : YamatoDaiwa.Frontend.GUI_Components.Controls.Validation.InputtedValueValidation.IRule
 {
   
   public interface ILocalization
@@ -32,7 +32,7 @@ public class JapanesePhoneNumberInputtedValueValidationRule : YamatoDaiwa.Fronte
   public string? ErrorMessage { get; init; }
   
   
-  public YamatoDaiwa.Frontend.Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
+  public YamatoDaiwa.Frontend.GUI_Components.Controls.Validation.InputtedValueValidation.IRule.CheckingResult Check(object rawValue) =>
       new()
       {
         ErrorMessage = rawValue is String stringValue && JapanesePhoneNumber.IsValid(stringValue) ?
