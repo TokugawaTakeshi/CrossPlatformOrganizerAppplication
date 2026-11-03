@@ -1,0 +1,16 @@
+﻿@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
+@using YamatoDaiwa.CSharpExtensions
+
+
+<li
+  class=@this.getClassAttributeValueForRootElement(CSS_Namespace: "MenuList--YDF-Item")
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  <Button
+    label=@label
+    class="MenuList--YDF-Button"
+    geometricModifiers=@([ Button.GeometricModifiers.noRoundings ])
+    decorativeModifiers=@([ Button.DecorativeModifiers.bordersDisguising, Button.DecorativeModifiers.noBackgroundInDefaultState ])
+    onClick=@this.onClick
+  />
+</li>

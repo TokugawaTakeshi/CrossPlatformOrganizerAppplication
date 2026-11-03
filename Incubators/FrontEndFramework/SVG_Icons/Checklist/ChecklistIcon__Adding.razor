@@ -1,13 +1,13 @@
-﻿@using YamatoDaiwa.Frontend.Components.Abstractions
+﻿@using YamatoDaiwa.CSharpExtensions
 
-
-@implements ISupportsFlexibleExternalCSS_ClassesSpecifyingForRootElement
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough
 
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 15.58 20"
-  class=@rootElementModifierCSS_Class
+  class=@(rootElementHTML_Attributes?.TryGetValue("class", out object? classValue) == true ? classValue : null)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
 >
   <path d="M6.86 1.61c.26 0 .48-.21.48-.48S7.13.65 6.86.65s-.48.21-.48.48.21.48.48.48Z" style="fill:none;"></path>
   <path d="M13.72 3.7c0-.9-.73-1.62-1.62-1.62h-1.43v.91c0 .11-.01.22-.03.32h1.62c.18 0 .32.15.32.32v8.41c.4.04.78.12 1.14.26V3.7ZM7.64 16.49H1.47a.32.32 0 0 1-.32-.32V3.63c0-.18.15-.32.32-.32h1.62c-.02-.1-.03-.21-.03-.32v-.91H1.63C.73 2.08 0 2.8 0 3.7v12.77c0 .89.73 1.62 1.62 1.62h6.32c-.19-.5-.3-1.03-.3-1.59v-.01ZM4.59 3.96h4.54c.54 0 .97-.44.97-.97v-.97a.97.97 0 0 0-.97-.97H7.9a1.04 1.04 0 0 0-2.08 0H4.59a.97.97 0 0 0-.97.97v.97c0 .54.44.97.97.97ZM6.86.66c.26 0 .48.21.48.48s-.21.48-.48.48-.48-.21-.48-.48.21-.48.48-.48Z"></path>
@@ -17,13 +17,7 @@
 
 @code {
 
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? rootElementModifierCSS_Class { get; set; } = null;
-
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string[]? rootElementModifierCSS_Classes { get; set; } = null;
-
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? rootElementSpaceSeparatedModifierCSS_Classes { get; set; } = null;
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
 
 }

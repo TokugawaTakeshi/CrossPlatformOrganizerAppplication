@@ -1,0 +1,16 @@
+﻿mixin TasksFoldersListItemLoadingPlaceholder(options)
+
+  .TasksFoldersList-Item&attributes(attributes)(
+    aria-hidden="true"
+  )
+
+    .TasksFoldersList-Item-InteractiveLabel
+      
+      +Folder__Filled--YDF_Icon.TasksFoldersList-Item-InteractiveLabel-Icon
+      
+      .TasksFoldersList-Item-InteractiveLabel-Text.TasksFoldersList-Item-InteractiveLabel-Text__LoadingPlaceholder
+      
+    .TasksFoldersList-Item-ContextMenu
+    
+      .TasksFoldersList-Item-ContextMenu-Toggle
+        +Menu__ThreeDots__Vertical__Circled__Filled--YDF_Icon.TasksFoldersList-Item-ContextMenu-Toggle-Icon

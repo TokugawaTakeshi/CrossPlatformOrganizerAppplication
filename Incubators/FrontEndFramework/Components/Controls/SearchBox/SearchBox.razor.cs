@@ -1,33 +1,37 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-
-using Button = FrontEndFramework.Components.Controls.Buttons.Plain.Button;
-
+using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
 using YamatoDaiwa.CSharpExtensions;
-using Utils;
+using YamatoDaiwa.Frontend.Helpers;
 
 
 namespace FrontEndFramework.Components.Controls.SearchBox;
 
 
-public partial class SearchBox : ComponentBase
+public partial class SearchBox : 
+    Microsoft.AspNetCore.Components.ComponentBase,
+    YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough
 {
 
-  [Parameter] public required EventCallback<string?> onNewSearchRequest { get; set; }
+  public const string CSS_NAMESPACE = "SearchBox--YDF";
   
-  [Parameter] public byte minimalCharactersCountForSearchRequest { get; set; } = 1;
+  [Microsoft.AspNetCore.Components.Parameter] 
+  public required EventCallback<string?> onNewSearchRequestEventHandler { get; set; }
   
-  [Parameter] public string? placeholder { get; set; }
-  [Parameter] public string? accessibilityGuidance { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter] 
+  public byte minimalCharactersCountForSearchRequest { get; set; } = 1;
   
-  [Parameter] public bool disabled { get; set; } = false;
+  [Microsoft.AspNetCore.Components.Parameter] public string? placeholder { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter] public string? accessibilityGuidance { get; set; }
   
-  [Parameter] public bool ableToSubmitRequestByEnterKey { get; set; } = false;
-  [Parameter] public bool emptySearchRequestAsResetting { get; set; } = false;
+  [Microsoft.AspNetCore.Components.Parameter] public bool disabled { get; set; } = false;
+  
+  [Microsoft.AspNetCore.Components.Parameter] public bool ableToSubmitRequestByEnterKey { get; set; } = false;
+  [Microsoft.AspNetCore.Components.Parameter] public bool emptySearchRequestAsResetting { get; set; } = false;
 
   protected string? _mustSynchronizeDisplayingSearchRequestWith = null;
   
-  [Parameter]
+  [Microsoft.AspNetCore.Components.Parameter]
   public string? mustSynchronizeDisplayingSearchRequestWith
   {
     get => _mustSynchronizeDisplayingSearchRequestWith;
@@ -37,6 +41,9 @@ public partial class SearchBox : ComponentBase
       this.inputtedSearchRequest = this._mustSynchronizeDisplayingSearchRequestWith ?? "";
     }
   }
+  
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
   
   
   protected Button searchingRequestEmittingButton = null!;
@@ -52,7 +59,7 @@ public partial class SearchBox : ComponentBase
 
     if (this.inputtedSearchRequest.Length == 0 && this.emptySearchRequestAsResetting)
     {
-      await this.onNewSearchRequest.InvokeAsync(null);
+      await this.onNewSearchRequestEventHandler.InvokeAsync(null);
       return;
     }
 
@@ -72,7 +79,7 @@ public partial class SearchBox : ComponentBase
     }
 
     
-    await this.onNewSearchRequest.InvokeAsync(this.inputtedSearchRequest);
+    await this.onNewSearchRequestEventHandler.InvokeAsync(this.inputtedSearchRequest);
 
   }
 
@@ -103,15 +110,19 @@ public partial class SearchBox : ComponentBase
   {
 
     this.inputtedSearchRequest = "";
-    await this.onNewSearchRequest.InvokeAsync(null);
+    await this.onNewSearchRequestEventHandler.InvokeAsync(null);
   }
   
   
   /* ─── CSS classes ──────────────────────────────────────────────────────────────────────────────────────────────── */
-  [Parameter] public string? spaceSeparatedAdditionalCSS_Classes { get; set; }
-  
-  private string rootElementModifierSpaceSeparatedClasses => new List<string>().
-      AddElementToEndIf("SearchBox--YDF__DisabledState", _ => this.disabled).
-      StringifyEachElementAndJoin(" ");
+  private string classAttributeValueForRootElement => YDF_ComponentsHelper.GenerateClassAttributeValueForRootElement(
+    new YDF_ComponentsHelper.SettingsForGeneratingOfClassAttributeValueForRootElement
+    {
+      CSS_Namespace = SearchBox.CSS_NAMESPACE,
+      rootElementHTML_Attributes = this.rootElementHTML_Attributes,
+      otherInternalCSS_Classes = new List<string>().
+          AddElementToEndIf("SearchBox--YDF__DisabledState", this.disabled)
+    }
+  );
   
 }

@@ -1,0 +1,41 @@
+﻿@using FrontEndFramework.SVG_Icons.Folder
+@using FrontEndFramework.SVG_Icons.Menu
+@using YamatoDaiwa.Frontend.Helpers
+@using YamatoDaiwa.CSharpExtensions
+
+
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough;
+
+
+<div
+  class=@ElementClassAttribute.Generate("TasksFoldersList-Item", this.rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+  aria-hidden="true"
+>
+
+  <div class="TasksFoldersList-Item-InteractiveLabel">
+
+    <FolderIcon__Filled class="TasksFoldersList-Item-InteractiveLabel-Icon"/>
+
+    <div class="TasksFoldersList-Item-InteractiveLabel-Text TasksFoldersList-Item-InteractiveLabel-Text__LoadingPlaceholder"></div>
+
+  </div>
+  
+  <div class="TasksFoldersList-Item-ContextMenu">
+    <div class="TasksFoldersList-Item-ContextMenu-Toggle">
+      <Menu__ThreeDots__Vertical__Circled__Filled 
+        class="TasksFoldersList-Item-ContextMenu-Toggle-Icon" 
+      />
+    </div>
+  </div>
+
+</div>
+
+
+@code
+{
+  
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
+  
+}

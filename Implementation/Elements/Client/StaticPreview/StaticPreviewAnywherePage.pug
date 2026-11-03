@@ -1,43 +1,142 @@
-extends ../node_modules/@yamato-daiwa/frontend/PagesTemplates/StaticPreviewAnywherePage.pug
+extends ../node_modules/@yamato-daiwa/frontend/PagesTemplates/StaticPreviewAnywherePageTemplate.pug
 
 
 block append Metadata
 
   -
-    HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = "Experimental Application - Static Preview Anywhere Page";
+
+    StaticPreviewAnywherePage__YDF.configure({
+
+      metadata: {
+        title: "Experimental Application - Static Preview Anywhere Page"
+      },
+
+      topHeading: "Experimental Application - Static Preview Anywhere Page",
+
+      tableOfContents: [
+
+        {
+
+          pages: [
+
+            {
+              
+              title: "Tasks Management",
+              progressStatus: StaticPreviewAnywherePage__YDF.PageDevelopmentProgressStatuses.implementationInProgress,
+
+              linksTable: [
+
+                {
+                  rowLabel: "Normal Displaying",
+                  columns: [
+                    { label: "English", URI: "@Pages/Task/Management/TasksManagementPage.english" },
+                    { label: "Japanese", URI: "@Pages/Task/Management/TasksManagementPage.japanese" }
+                  ]
+                },
+
+                {
+                  rowLabel: "Loading in Progress",
+                  columns: [
+                    { label: "English", URI: "@Pages/Task/Management/TasksManagementPage__Loading.english" },
+                    { label: "Japanese", URI: "@Pages/Task/Management/TasksManagementPage__Loading.japanese" }
+                  ]
+                },
+                      
+                {
+                  rowLabel: "Error",
+                  columns: [
+                    { label: "English", URI: "@Pages/Task/Management/TasksManagementPage__Error.english" },
+                    { label: "Japanese", URI: "@Pages/Task/Management/TasksManagementPage__Error.japanese" }
+                  ]
+                },
 
 
-block append TableOfContents
+                {
+                  rowLabel: "No Items",
+                  columns: [
+                    { label: "English", URI: "@Pages/Task/Management/TasksManagementPage__NoItems.english" },
+                    { label: "Japanese", URI: "@Pages/Task/Management/TasksManagementPage__NoItems.japanese" }
+                  ]
+                },
 
-  h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
+                {
+                  rowLabel: "No Search Results",
+                  columns: [
+                    { label: "English", URI: "@Pages/Task/Management/TasksManagementPage__NoSearchResults.english" },
+                    { label: "Japanese", URI: "@Pages/Task/Management/TasksManagementPage__NoSearchResults.japanese" }
+                  ]
+                }
 
-  +PageLink({
-    label: "Calendar",
-    URI: "@Pages/Calendar/CalendarPage",
-    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
-  })
-  
-  +PageLinksGroup({
-    title: "Tasks Management",
-    linksData: [
-      { label: "Normal Displaying", URI: "@Pages/Task/Management/TasksManagementPage" },
-      { label: "Loading Displaying", URI: "@Pages/Task/Management/TasksManagementPage__Loading" },
-      { label: "Error Displaying", URI: "@Pages/Task/Management/TasksManagementPage__Error" },
-      { label: "No Items Displaying", URI: "@Pages/Task/Management/TasksManagementPage__NoItems" },
-      { label: "No Search Results Displaying", URI: "@Pages/Task/Management/TasksManagementPage__NoSearchResults" }
-    ],
-    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
-  })
+              ]
+              
+            },
+                  
+            {
+              
+              title: "People Management",
+              progressStatus: StaticPreviewAnywherePage__YDF.PageDevelopmentProgressStatuses.implementationInProgress,
 
-  +PageLinksGroup({
-    title: "People (Contacts) Management",
-    linksData: [
-      { label: "Normal Displaying", URI: "@Pages/Person/Management/PeopleManagementPage" },
-      { label: "Loading Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__Loading" },
-      { label: "Error Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__Error" },
-      { label: "No Items Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__NoItems" },
-      { label: "No Search Results Displaying", URI: "@Pages/Person/Management/PeopleManagementPage__NoSearchResults" }
-    ],
-    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
-  })
+              linksTable: [
+                      
+                {
+                  rowLabel: "Normal Displaying",
+                  columns: [
+                    { label: "English", URI: "@Pages/Person/Management/PeopleManagementPage.english" },
+                    { label: "Japanese", URI: "@Pages/Person/Management/PeopleManagementPage.japanese" },
+                  ]
+                },
+                      
+                {
+                  rowLabel: "Loading Displaying",
+                  columns: [
+                    { label: "English", URI: "@Pages/Person/Management/PeopleManagementPage__Loading.english" },
+                    { label: "Japanese", URI: "@Pages/Person/Management/PeopleManagementPage__Loading.japanese" }
+                  ]
+                },
+                      
+                {
+                  rowLabel: "Error Displaying",
+                  columns: [
+                    { label: "English", URI: "@Pages/Person/Management/PeopleManagementPage__Error.english" },
+                    { label: "Japanese", URI: "@Pages/Person/Management/PeopleManagementPage__Error.japanese" }
+                  ]
+                },
+                      
+                {
+                  rowLabel: "No Items Displaying",
+                  columns: [
+                    { label: "English", URI: "@Pages/Person/Management/PeopleManagementPage__NoItems.english" },
+                    { label: "Japanese", URI: "@Pages/Person/Management/PeopleManagementPage__NoItems.japanese" }
+                  ]
+                },
+                      
+                {
+                  rowLabel: "No Search Results Displaying",
+                  columns: [
+                    { label: "English", URI: "@Pages/Person/Management/PeopleManagementPage__NoSearchResults.english" },
+                    { label: "Japanese", URI: "@Pages/Person/Management/PeopleManagementPage__NoSearchResults.japanese" }
+                  ]
+                }
+                
+              ]
+              
+            },
+                  
+            {
+              
+              title: "Calendar",
+              progressStatus: StaticPreviewAnywherePage__YDF.PageDevelopmentProgressStatuses.implementationInProgress,
+              
+              linksList: [
+                { label: "English", URI: "@Pages/Calendar/CalendarPage.english" },
+                { label: "Japanese", URI: "@Pages/Calendar/CalendarPage.japanese" }
+              ]
+              
+            }
+
+          ]
+
+        }
+
+      ]
+    });

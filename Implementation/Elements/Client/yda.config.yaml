@@ -1,104 +1,148 @@
-projectBuilding:
+$projectBuilding:
 
-  commonSettings:
+  $commonSettings:
 
-    selectiveExecutions:
+    $selectiveExecutions:
 
       StaticPreview:
 
-        tasksAndSourceFilesSelection:
+        $tasksAndSourceFilesSelection:
 
-          markupProcessing: [ StaticPreview, Pages ]
-          stylesProcessing: [ All ]
+          $markupProcessing: [ StaticPreview, Pages ]
+          $stylesProcessing: [ Shared, ExternalSharedGUI_Components ]
 
-        browserLiveReloadingSetupID: StaticPreview
+        $browserLiveReloadingSetupID: StaticPreview
+        
+        $processingOnDemand:
+          $enabled: true
+          $fullInitialBuilding: true
 
       Application:
 
-        tasksAndSourceFilesSelection:
+        $tasksAndSourceFilesSelection:
 
-          stylesProcessing: [ All ]
+          $stylesProcessing: [ Shared, ExternalSharedGUI_Components ]
+
+    $filesWatching:
+    
+      $relativePathsOfExcludeDirectories:
+        - Data
+        - LocalDatabase
+        - Platforms
+        - Properties
+        - Services
+        - SharedState
+        - wwwroot
 
 
-  markupProcessing:
+  $markupProcessing:
 
-    staticPreview:
+    $staticPreview:
 
-      stateDependentPagesVariationsSpecificationFileRelativePath: StaticPreview/PagesStateDependentVariations.yaml
+      $stateDependentPagesVariations:
 
-      importsFromStaticDataFiles:
+        $specificationFileRelativePath: StaticPreview/PagesStateDependentVariations.yaml
+      
+      $importsFromStaticDataFiles:
 
-        - importedVariableName: DummyData
-          fileRelativePath: StaticPreview/StaticPreviewDummyData.json
+        - $importedVariableName: $$rawMockData
+          $fileRelativePath: StaticPreview/StaticPreviewMockData.json
+        - $importedVariableName: $$BusinessRules
+          $fileRelativePath: StaticPreview/BusinessRules.json
 
-    entryPointsGroups:
+    $entryPointsGroups:
 
       StaticPreview:
 
-        sourceFilesTopDirectoryRelativePath: StaticPreview
-        partialsRecognition:
-          excludeSubdirectoriesWithPrefixes: "_"
-          excludeFilesWithPrefixes: "_"
+        $sourceFilesTopDirectoryRelativePath: StaticPreview
+        $sourceFilesSelection:
+          $prefixesOfExcludedSubdirectories: "_"
+          $prefixesOfExcludeFiles: "_"
 
-        buildingModeDependent:
-          STATIC_PREVIEW:
-            outputTopDirectoryRelativePath: StaticPreview/Build
+        $buildingModeDependent:
+          $staticPreview:
+            $outputTopDirectoryRelativePath: StaticPreview/Build
 
       Pages:
 
-        sourceFilesTopDirectoryRelativePath: Pages
-        partialsRecognition:
-          excludeSubdirectoriesWithPrefixes: "_"
-          excludeFilesWithPrefixes: "_"
+        $sourceFilesTopDirectoryRelativePath: Pages
+        
+        $sourceFilesSelection:
+          $prefixesOfExcludedSubdirectories: "_"
+          $prefixesOfExcludeFiles: "_"
 
-        buildingModeDependent:
-          STATIC_PREVIEW:
-            outputTopDirectoryRelativePath: StaticPreview/Build
+        $buildingModeDependent:
+          $staticPreview:
+            $outputTopDirectoryRelativePath: StaticPreview/Build
+            
+        $localization:
+
+          $localeConstantName: $$LOCALE
+          $stringResourcesFileRelativePath: StaticPreview/StringResourcesForStaticPreview.json
+          $localizedStringResourcesConstantName: $$localizedStringResources
+          $nameOfConstantForInterpolationToLangHTML_Attribute: $$HTML_TAG_LANG_ATTRIBUTE_VALUE
+
+          $locales:
+
+            english:
+
+              $localeConstantValue: ENGLISH
+              $outputFileInterimNameExtensionWithoutDot: english
+              $keyInLocalizedStringResourcesObject: $$english
+              $valueOfConstantForInterpolationToLangHTML_Attribute: "en"
+
+            japanese:
+
+              $localeConstantValue: JAPANESE
+              $outputFileInterimNameExtensionWithoutDot: japanese
+              $keyInLocalizedStringResourcesObject: $$japanese
+              $valueOfConstantForInterpolationToLangHTML_Attribute: "ja"
+            
+    $routing:
+
+      $specificationFileRelativePath: StaticPreview/Routing/Routing.yaml
+      $variable: routing
+      $localizations:
+        english: StaticPreview/Routing/Routing.english.yaml
+        japanese: StaticPreview/Routing/Routing.japanese.yaml
+
+  $stylesProcessing:
+
+    $entryPointsGroups:
+
+      Shared:
+
+        $sourceFilesTopDirectoryRelativePath: Resources/Styles
+        $sourceFilesSelection:
+          $prefixesOfExcludedSubdirectories: "_"
+          $prefixesOfExcludeFiles: "_"
+
+        $buildingModeDependent:
+          $staticPreview:
+            $outputTopDirectoryRelativePath: StaticPreview/Build
+          $production:
+            $outputTopDirectoryRelativePath: wwwroot
+            $revisioning: { $disable: true }
+            
+      ExternalSharedGUI_Components:
+      
+        $singleEntryPointSourceFileRelativePath: SharedGUI_Components/External/ExternalSharedGUI_Components.styl
+        $buildingModeDependent:
+          $staticPreview: { $outputTopDirectoryRelativePath: StaticPreview/Build }
+          $production:
+            $outputTopDirectoryRelativePath: wwwroot
+            $revisioning: { $disable: true }
 
 
-  stylesProcessing:
+  $browserLiveReloading:
 
-    entryPointsGroups:
-
-      All:
-
-        sourceFilesTopDirectoryRelativePath: Resources/Styles
-        partialsRecognition:
-          excludeSubdirectoriesWithPrefixes: "_"
-          excludeFilesWithPrefixes: "_"
-
-        buildingModeDependent:
-          STATIC_PREVIEW:
-            outputTopDirectoryRelativePath: StaticPreview/Build
-          LOCAL_DEVELOPMENT:
-            outputTopDirectoryRelativePath: wwwroot
-            revisioning: { disable: true }
-
-          PRODUCTION:
-            outputTopDirectoryRelativePath: wwwroot
-            revisioning: { disable: true }
-
-
-  browserLiveReloading:
-
-    setups:
+    $setups:
 
       StaticPreview:
 
-        localServer:
+        $localServer:
 
-          rootDirectoryRelativePath: StaticPreview/Build
-          customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
+          $rootDirectoryRelativePath: StaticPreview/Build
+          $customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
           
-        openInBrowsers: chrome
-
-  filesWatching:
-    
-    relativePathsOfExcludeDirectories:
-      - Data
-      - LocalDatabase
-      - Platforms
-      - Properties
-      - Services
-      - SharedState
-      - wwwroot
+        $openInBrowsers: chrome

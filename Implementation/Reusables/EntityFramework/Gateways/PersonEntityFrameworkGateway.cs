@@ -8,24 +8,21 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace EntityFramework.Gateways;
 
 
-public class PersonEntityFrameworkGateway : PersonGateway
+public class PersonEntityFrameworkGateway(
+  Microsoft.EntityFrameworkCore.IDbContextFactory<DatabaseContext> contextFactory
+) : PersonGateway
 {
-
-  private readonly DatabaseContext databaseContext;
-
-  
-  public PersonEntityFrameworkGateway(DatabaseContext databaseContext)
-  {
-    this.databaseContext = databaseContext;
-  }
-  
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public override System.Threading.Tasks.Task<Person[]> RetrieveAll()
   {
+    
+    using DatabaseContext databaseContext = contextFactory.CreateDbContext();
+    
     return System.Threading.Tasks.Task.FromResult(
-      this.databaseContext.PeopleModels.Select(personModel => personModel.ToBusinessRulesEntity()).ToArray()
+      databaseContext.PeopleModels.Select(personModel => personModel.ToBusinessRulesEntity()).ToArray()
     );
+    
   }
   
   public override Task<SelectionRetrieving.ResponseData> RetrieveSelection(
@@ -33,7 +30,9 @@ public class PersonEntityFrameworkGateway : PersonGateway
   )
   {
     
-    Person[] allPeople = this.databaseContext.
+    using DatabaseContext databaseContext = contextFactory.CreateDbContext();
+    
+    Person[] allPeople = databaseContext.
         PeopleModels.
         Select(personModel => personModel.ToBusinessRulesEntity()).
         ToArray();
@@ -58,7 +57,9 @@ public class PersonEntityFrameworkGateway : PersonGateway
   public override async System.Threading.Tasks.Task<Person> Add(Adding.RequestData requestData)
   {
     
-    EntityEntry<PersonModel> newPerson = this.databaseContext.PeopleModels.Add(
+    await using DatabaseContext databaseContext = await contextFactory.CreateDbContextAsync();
+    
+    EntityEntry<PersonModel> newPerson = databaseContext.PeopleModels.Add(
       new PersonModel
       {
         FamilyName = requestData.FamilyName,
@@ -74,7 +75,7 @@ public class PersonEntityFrameworkGateway : PersonGateway
       }
     );
 
-    await this.databaseContext.SaveChangesAsync();
+    await databaseContext.SaveChangesAsync();
 
     return newPerson.Entity.ToBusinessRulesEntity();
 
@@ -87,7 +88,9 @@ public class PersonEntityFrameworkGateway : PersonGateway
   )
   {
     
-    PersonModel targetPersonModel = this.databaseContext.PeopleModels.
+    await using DatabaseContext databaseContext = await contextFactory.CreateDbContextAsync();
+    
+    PersonModel targetPersonModel = databaseContext.PeopleModels.
       First(personModel => personModel.ID == requestData.ID);
     
     targetPersonModel.FamilyName = requestData.FamilyName;
@@ -111,9 +114,10 @@ public class PersonEntityFrameworkGateway : PersonGateway
 
   
   /* ━━━ Deleting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override System.Threading.Tasks.Task Delete(string targetPersonID)
+  public override async System.Threading.Tasks.Task Delete(string targetPersonID)
   {
-    return this.databaseContext.PeopleModels.Where(personModel => personModel.ID == targetPersonID).ExecuteDeleteAsync();
+    await using DatabaseContext databaseContext = await contextFactory.CreateDbContextAsync();
+    await databaseContext.PeopleModels.Where(personModel => personModel.ID == targetPersonID).ExecuteDeleteAsync();
   }
   
 }

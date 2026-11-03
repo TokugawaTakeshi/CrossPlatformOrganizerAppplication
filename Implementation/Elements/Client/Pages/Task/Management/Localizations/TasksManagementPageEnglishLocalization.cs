@@ -10,6 +10,8 @@ namespace Client.Pages.Task.Management.Localizations;
 internal record TasksManagementPageEnglishLocalization : TasksManagementPageLocalization
 {
 
+  internal override string pageTitle { get; } = "Tasks Management — Experimental CSharp Application";
+  
   internal override FilteringModalDialog filteringModalDialog { get; init; } = new()
   {
     title = "Filter Tasks"
@@ -27,11 +29,11 @@ internal record TasksManagementPageEnglishLocalization : TasksManagementPageLoca
   
   internal override ErrorMessages errorMessages { get; init; } = new()
   {
-    taskAddingFailed = SharedStaticEnglishStrings.SingleInstance.
+    taskAddingFailed = CommonEnglishStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during adding of new task."),
-    taskUpdatingFailed = SharedStaticEnglishStrings.SingleInstance.
+    taskUpdatingFailed = CommonEnglishStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during updating of task."),
-    taskDeletingFailed = SharedStaticEnglishStrings.SingleInstance.
+    taskDeletingFailed = CommonEnglishStringResources.SingleInstance.
       buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during deleting of task.")
   };
 

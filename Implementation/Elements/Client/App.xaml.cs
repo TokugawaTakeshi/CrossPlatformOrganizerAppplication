@@ -24,9 +24,8 @@ public partial class App : Application
         gateways = new ClientDependencies.Gateways
         {
           Person = new PersonMockGateway(),
-          Task = new TaskHTTP_ClientGateway()
-          // Task = new TaskMockGateway()
-          // Task = new TaskHTTP_ClientGateway()
+          Task = new TaskHTTP_ClientGateway(),
+          TaskCustomFolder = new TaskCustomFolderHTTP_ClientGateway()
         }
       }
     );

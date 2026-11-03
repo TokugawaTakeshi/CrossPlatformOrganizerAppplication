@@ -1,0 +1,148 @@
+﻿-
+
+  class TasksFoldersListItem {
+    
+    /**
+     * @typedef TasksFoldersListItemLocalization
+     * @property { string } buttons.tasksFolderCollapsing.accessibilityGuidance.template
+     *   `type TemplateVariables = { tasksFolderLabel: string; }`
+     * @property { string } buttons.tasksFolderExpanding.accessibilityGuidance.template
+     *   `type TemplateVariables = { tasksFolderLabel: string; }`
+     * @property { string } buttons.retrievingOfTasksOfSpecificCustomFolder.accessibilityGuidance.template
+     *   `type TemplateVariables = { tasksFolderLabel: string; }`
+     * @property { string } buttons.renamingOfTasksFolder.accessibilityGuidance.template
+     *   `type TemplateVariables = { tasksFolderLabel: string; }`
+     * @property { string } buttons.deletingOfTasksFolder.accessibilityGuidance.template
+     *   `type TemplateVariables = { tasksFolderLabel: string; }`
+     */
+    
+    /** @type { TasksFoldersListItemLocalization } */
+    static localizedStringResources = $$localizedStringResources.components.lists.tasksFolders.item;
+    
+  }
+
+
+mixin TasksFoldersList-Item(properties, statesSimulations)
+
+  - 
+
+    const {
+      
+      /** @type { string | undefined } */
+      label,
+      
+      /** @type { string | undefined } */
+      accessibilityGuidance,
+      
+      /** @type { Readonly<Pick<TaskCustomFolder, "label" | "children">> } */
+      taskCustomFolder = {
+        label: "",
+        children: []
+      },
+      
+      /** @type { boolean } */
+      menu
+          
+    } = properties ?? {};
+    
+    const {
+      
+      /** @type { boolean } */
+      isSelected = false,
+      
+      /** @type { boolean } */
+      editingMode: isEditingMode = false
+      
+    } = statesSimulations ?? {};
+    
+    
+    const isViewingMode /** @type { boolean } */ = !isEditingMode;
+    
+    
+  li.TasksFoldersList-Item&attributes(attributes)(
+    class=(isSelected ? "TasksFoldersList-Item__Selected": null)
+  )
+  
+    if taskCustomFolder.children.length > 0
+    
+      button.TasksFoldersList-Item-CollapsingToggle(
+        type="button"
+        aria-label=YamatoDaiwaPugCSharpStaticPreview.generateStringFromTemplate(
+          TasksFoldersListItem.localizedStringResources.buttons.tasksFolderCollapsing.accessibilityGuidance.template,
+          { tasksFolderLabel: taskCustomFolder.label || label }
+        )
+      ): +Triangle__Upward__Circled__Filled--YDF_Icon.TasksFoldersList-Item-CollapsingToggle-Icon
+
+    
+    if isViewingMode
+
+      button.TasksFoldersList-Item-InteractiveLabel(
+        type="button"
+        aria-label=accessibilityGuidance
+      )   
+        
+        if block
+        
+          block
+          
+        else
+        
+          +Folder__Filled--YDF_Icon.TasksFoldersList-Item-InteractiveLabel-Icon
+        
+        span.TasksFoldersList-Item-InteractiveLabel-Text= taskCustomFolder.label || label
+
+    else
+
+      .TasksFoldersList-Item-InteractiveLabel
+      
+        if block
+                        
+          block
+          
+        else
+        
+          +Folder__Filled--YDF_Icon.TasksFoldersList-Item-InteractiveLabel-Icon
+          
+        +TextBox--YDF({
+          accessibilityGuidance: TasksFoldersListItem.localizedStringResources.textBoxes.tasksFolderAdding.accessibilityGuidance,
+          required: true,
+          value: taskCustomFolder.label,
+          geometricVariation: TextBox__YDF.GeometricVariations.small
+        }).TasksFoldersList-Item-TextBox
+    
+    if menu
+          
+      +PopoverWithAnchor--YDF.TasksFoldersList-Item-ContextMenu
+                    
+        button.TasksFoldersList-Item-ContextMenu-Toggle(
+          type="button"
+          aria-label=YamatoDaiwaPugCSharpStaticPreview.generateStringFromTemplate(
+            TasksFoldersListItem.localizedStringResources.buttons.tasksFolderExpanding.accessibilityGuidance.template,
+            { tasksFolderLabel: taskCustomFolder.label }
+          )
+        ): +Menu__ThreeDots__Vertical__Circled__Filled--YDF_Icon.TasksFoldersList-Item-ContextMenu-Toggle-Icon
+        
+        +Popover--YDF({ displaying: mustDisplayPopover })
+                          
+          +MenuList--YDF
+          
+            +MenuList-Item--YDF({ 
+              label: YamatoDaiwaPugCSharpStaticPreview.generateStringFromTemplate(
+                TasksFoldersListItem.localizedStringResources.buttons.renamingOfTasksFolder.accessibilityGuidance.template,
+                { tasksFolderLabel: taskCustomFolder.label }
+              )
+            })
+            
+            +MenuList-Item--YDF({ 
+              label: YamatoDaiwaPugCSharpStaticPreview.generateStringFromTemplate(
+                TasksFoldersListItem.localizedStringResources.buttons.deletingOfTasksFolder.accessibilityGuidance.template,
+                { tasksFolderLabel: taskCustomFolder.label }
+              ) 
+            })
+      
+    
+    if taskCustomFolder.children.length > 0
+    
+      +TasksFoldersList({
+        taskCustomFolders: taskCustomFolder.children 
+      })

@@ -4,7 +4,8 @@ using ClientAndFrontServer;
 
 using System.Text;
 using System.Text.Json;
-using Utils;
+using ClientAndFrontServer.Transactions.Task;
+using CommonSolution.Gateways.Task;
 using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.CSharpExtensions.Exceptions;
 
@@ -16,29 +17,10 @@ public class TaskHTTP_ClientGateway : TaskGateway
 {
   
   private readonly HTTP_Client HTTP_Client = HTTP_Client.getSoleInstance();
-  private readonly JsonSerializerOptions serializerOptions = new() { PropertyNamingPolicy = null };
+  private readonly System.Text.Json.JsonSerializerOptions serializerOptions = new() { PropertyNamingPolicy = null };
   
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task[]> RetrieveAll()
-  {
-
-    HttpResponseMessage response = await this.HTTP_Client.GetAsync(
-      new Uri(String.Format(TasksTransactions.RetrievingOfAll.URN_PATH))
-    );
-    
-    if (response.IsSuccessStatusCode)
-    {
-      return JsonSerializer.Deserialize<CommonSolution.Entities.Task[]>(
-        await response.Content.ReadAsStringAsync(), this.serializerOptions
-      )!;
-    }
-    
-    
-    throw new Exception(response.ReasonPhrase);        
-    
-  }
-  
   public override async System.Threading.Tasks.Task<TaskGateway.SelectionRetrieving.ResponseData> RetrieveSelection(
     TaskGateway.SelectionRetrieving.RequestParameters requestParameters
   )
@@ -51,19 +33,22 @@ public class TaskHTTP_ClientGateway : TaskGateway
           origin = ClientToFrontServerConnection.ORIGIN,
           path = TasksTransactions.RetrievingOfSelection.URN_PATH,
           queryParameters = new Dictionary<string, object>().
-              SetPairIf(
-                TasksTransactions.RetrievingOfSelection.QueryParameters.onlyTasksWithAssociatedDateTime, 
-                true,
-                requestParameters.OnlyTasksWithAssociatedDateTime is true
+              SetPair(
+                TasksTransactions.RetrievingOfSelection.QueryParameters.ForcedFiltering.ProgressStatus.FULL_QUALIFIED_NAME, 
+                requestParameters.forcedFiltering.progressStatus
               ).
-              SetPairIf(
-                TasksTransactions.RetrievingOfSelection.QueryParameters.onlyTasksWithAssociatedDate, 
-                true,
-                requestParameters.OnlyTasksWithAssociatedDate is true
+              SetPairIfValueIsNotNull(
+                TasksTransactions.RetrievingOfSelection.QueryParameters.OptionalFiltering.StartingDate.FULL_QUALIFIED_NAME,
+                requestParameters.optionalFiltering?.startingDate
               ).
-              SetPairIfValueNotIsNull(
-                TasksTransactions.RetrievingOfSelection.QueryParameters.searchingByFullOrPartialTitleOrDescription, 
-                requestParameters.SearchingByFullOrPartialTitleOrDescription
+              SetPairIfValueIsNotNull(
+                TasksTransactions.RetrievingOfSelection.QueryParameters.OptionalFiltering.EndingDate.FULL_QUALIFIED_NAME, 
+                requestParameters.optionalFiltering?.endingDate
+              ).
+              SetPairIfValueIsNotNull(
+                TasksTransactions.RetrievingOfSelection.QueryParameters.OptionalFiltering.
+                      SearchingByFullOrPartialTitleOrDescription.FULL_QUALIFIED_NAME, 
+                requestParameters.optionalFiltering?.searchingByFullOrPartialTitleOrDescription
               )
         }
       )
@@ -71,22 +56,21 @@ public class TaskHTTP_ClientGateway : TaskGateway
     
     if (response.IsSuccessStatusCode)
     {
-      return JsonSerializer.Deserialize<TaskGateway.SelectionRetrieving.ResponseData>(
-        await response.Content.ReadAsStringAsync(),
-        this.serializerOptions
-      );
+      return await response.Content.ReadExpectedToBeNonEmptyFromJsonAsync<TaskGateway.SelectionRetrieving.ResponseData>();
     }
 
     
     throw new DataRetrievingFailedException(
-      $"Failed to retrieve tasks selection.\n{ response.ReasonPhrase }"
+      "Failed to retrieve tasks selection.", 
+      response,
+      await DataRetrievingFailedException.TryToExtractResponseDataForLogging(response)
     );
 
   }
   
   
   /* ━━━ Adding ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task> Add(
+  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task.Task> Add(
     TaskGateway.Adding.RequestData requestData
   )
   {
@@ -108,7 +92,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
 
     if (response.IsSuccessStatusCode)
     {
-      return JsonSerializer.Deserialize<CommonSolution.Entities.Task>(
+      return JsonSerializer.Deserialize<CommonSolution.Entities.Task.Task>(
         await response.Content.ReadAsStringAsync(),
         this.serializerOptions
       );
@@ -121,7 +105,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
   
   
   /* ━━━ Updating ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task> Update(
+  public override async System.Threading.Tasks.Task<CommonSolution.Entities.Task.Task> Update(
     Updating.RequestData requestData
   )
   {
@@ -143,7 +127,7 @@ public class TaskHTTP_ClientGateway : TaskGateway
     
     if (response.IsSuccessStatusCode)
     {
-      return JsonSerializer.Deserialize<CommonSolution.Entities.Task>(
+      return JsonSerializer.Deserialize<CommonSolution.Entities.Task.Task>(
         await response.Content.ReadAsStringAsync(),
         this.serializerOptions
       );

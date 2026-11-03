@@ -10,6 +10,8 @@ namespace Client.Pages.Person.Management.Localizations;
 internal record PeopleManagementPageJapaneseLocalization : PeopleManagementPageLocalization
 {
 
+  internal override string pageTitle { get; } = "連絡先管理 ｜ Experimental CSharp Application";
+  
   internal override string personManagerActivationGuidance { get; } = 
       "人の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。";
   
@@ -22,11 +24,11 @@ internal record PeopleManagementPageJapaneseLocalization : PeopleManagementPageL
   
   internal override ErrorMessages errorMessages { get; init; } = new()
   {
-    personAddingFailed = SharedStaticJapaneseStrings.SingleInstance.
+    personAddingFailed = CommonJapaneseStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("新規人の追加中不具合が発生しました。"),
-    personUpdatingFailed = SharedStaticJapaneseStrings.SingleInstance.
+    personUpdatingFailed = CommonJapaneseStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("人の更新中不具合が発生しました。"),
-    personDeletingFailed = SharedStaticJapaneseStrings.SingleInstance.
+    personDeletingFailed = CommonJapaneseStringResources.SingleInstance.
       buildDataRetrievingOrSubmittingFailedPoliteMessage("人の削除中不具合が発生しました。")
   };
   

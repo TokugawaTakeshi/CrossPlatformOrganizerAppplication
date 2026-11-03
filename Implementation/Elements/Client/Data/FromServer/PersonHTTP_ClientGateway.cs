@@ -4,8 +4,8 @@ using ClientAndFrontServer;
 
 using System.Text;
 using System.Text.Json;
+using ClientAndFrontServer.Transactions;
 using CommonSolution.Entities;
-using Utils;
 using YamatoDaiwa.CSharpExtensions;
 using YamatoDaiwa.CSharpExtensions.Exceptions;
 
@@ -50,7 +50,7 @@ public class PersonHTTP_ClientGateway : PersonGateway
           origin = ClientToFrontServerConnection.ORIGIN,
           path = PeopleTransactions.RetrievingOfSelection.URN_PATH,
           queryParameters = new Dictionary<string, object>().
-              SetPairIfValueNotIsNull(
+              SetPairIfValueIsNotNull(
                 PeopleTransactions.RetrievingOfSelection.QueryParameters.searchingByFullOrPartialNameOrItsSpell, 
                 requestParameters?.SearchingByFullOrPartialNameOrItsSpell
               )

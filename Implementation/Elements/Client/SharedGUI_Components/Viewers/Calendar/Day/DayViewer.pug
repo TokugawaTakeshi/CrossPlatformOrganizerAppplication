@@ -1,0 +1,50 @@
+﻿mixin DayViewer(properties)
+
+  .DayViewer&attributes(attributes)
+
+    .DayViewer-TopHeading 2025年12月30日　火曜日
+    
+    .DayViewer-ScrollView
+    
+      //- ━━━ Deadline ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      .DayViewer-ListHeading 期限
+      
+      ul.DayViewer-List.DayViewer-List__Deadline
+
+        each index in Array.from(new Array(4).keys())
+      
+          li.DayViewer-List-Item
+           
+            a.DayViewer-List-Item-Link(href="#")
+          
+              .DayViewer-List-Item-IconDecorativeWrapper(
+                role="presentation"
+              )
+              
+                +Calendar__Time--YDF_Icon.DayViewer-List-Item-Icon
+            
+              .DayViewer-List-Item-Title= `Deadline Task ${ index + 1 }`
+            
+              .DayViewer-List-Item-Description= `The description of deadline task ${ index + 1 }`
+
+
+      //- ━━━ Deadline ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      .DayViewer-ListHeading 本日終了予定
+                  
+      ul.DayViewer-List.DayViewer-List__EndingToday
+
+        each index in Array.from(new Array(6).keys())
+      
+          li.DayViewer-List-Item
+           
+            a.DayViewer-List-Item-Link(href="#")
+          
+              .DayViewer-List-Item-IconDecorativeWrapper(
+                role="presentation"
+              )
+              
+                +Calendar__Time--YDF_Icon.DayViewer-List-Item-Icon
+            
+              .DayViewer-List-Item-Title= `Ending Today Task ${ index + 1 }`
+            
+              .DayViewer-List-Item-Description= `The description of ending today task ${ index + 1 }`
