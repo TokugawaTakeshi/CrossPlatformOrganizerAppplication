@@ -1,12 +1,12 @@
-﻿@using FrontEndFramework.Components.Controls.Buttons.Plain
-@using YamatoDaiwa.Frontend.Components.Controls.CompoundControlShell
+﻿@using YamatoDaiwa.Frontend.GUI_Components.Controls.ValidatableControlShell
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain
 @using FrontEndFramework.SVG_Icons.File
 
 
-@inherits FrontEndFramework.Components.Controls.InputtableControl
+@inherits YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.InputtableControl
 
 
-<CompoundControlShell
+<ValidatableControlShell
   spaceSeparatedAdditionalCSS_Classes="@string.Concat("FilesUploader--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)"
   label=@label
   guidance=@guidance
@@ -23,7 +23,7 @@
   @if (!noButton)
   {
     <Button
-      spaceSeparatedAdditionalCSS_Classes="FilesUploader--YDF-FilePickingButton"
+      rootElementModifierCSS_Class="FilesUploader--YDF-FilePickingButton"
       label="ファイルを選択"
       onClick=@onClickFilesPickingButton
       @ref=@filesPickingButton
@@ -75,7 +75,7 @@
           </div>
           
           <Button
-            spaceSeparatedAdditionalCSS_Classes="FilesUploader--YDF-PreviewCard-Button"
+            rootElementModifierCSS_Class="FilesUploader--YDF-PreviewCard-Button"
             label="削除"
             onClick=@onClickDeleteFileButton
           />
@@ -96,4 +96,4 @@
     id=@INPUT_ELEMENT_HTML_ID
   >
   
-</CompoundControlShell>
+</ValidatableControlShell>

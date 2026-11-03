@@ -4,6 +4,8 @@
 internal abstract record TasksManagementPageLocalization
 {
 
+  internal abstract string pageTitle { get; }
+  
   internal record FilteringModalDialog
   {
     internal required string title { get; init; }

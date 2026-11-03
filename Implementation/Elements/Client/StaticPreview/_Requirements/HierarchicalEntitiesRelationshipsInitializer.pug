@@ -1,0 +1,103 @@
+﻿-
+  
+  //- TODO Это тоже в Pug/CShar Static Preview
+  class HierarchicalEntitiesRelationshipsInitializer {
+    
+    /** 
+     * @public
+     * @template Item
+     * @param items { ReadonlyArray<Item> }
+     * @param hierarchicalRelationshipsMap { object }
+     * @param ID_PROPERTY_KEY { string }
+     * @param PARENT_PROPERTY_KEY { string }
+     * @param LIST_OF_CHILDREN_PROPERTY_KEY { string }
+     * @return { Item }
+     */
+    static initializeForSpecificEntities(
+      {
+        items,
+        hierarchicalRelationshipsMap,
+        ID_PROPERTY_KEY,
+        PARENT_PROPERTY_KEY,
+        LIST_OF_CHILDREN_PROPERTY_KEY
+      }
+    ) {
+     
+      /** @type Array<Item> */
+      const itemsTree = [];
+      
+      /** @type Set<string> */
+      const IDsOfMentionedItems = new Set();
+      
+      for (const [ parentID, childrenRelationships ] of Object.entries(hierarchicalRelationshipsMap)) {
+
+        /** @type Item */
+        const parent = HierarchicalEntitiesRelationshipsInitializer.initializeBranch({
+          items,
+          parentID,
+          childrenRelationships,
+          IDsOfMentionedItems,
+          ID_PROPERTY_KEY,
+          PARENT_PROPERTY_KEY,
+          LIST_OF_CHILDREN_PROPERTY_KEY
+        }); 
+        
+        itemsTree.push(parent);
+                
+      }
+      
+      for (const item of items) {
+        if (!IDsOfMentionedItems.has(item.ID)) {
+          itemsTree.unshift(item);
+        }
+      }
+      
+      return itemsTree;
+      
+    }
+    
+    /**
+     * @private
+     */
+    static initializeBranch(
+      {
+        items,
+        parentID,
+        childrenRelationships,
+        IDsOfMentionedItems,
+        ID_PROPERTY_KEY,
+        PARENT_PROPERTY_KEY,
+        LIST_OF_CHILDREN_PROPERTY_KEY
+      }
+    ) {
+     
+      const parent = items.find(item => item[ID_PROPERTY_KEY] === parentID);
+      const children = Object.keys(childrenRelationships).
+          map(childID => items.find(item => item[ID_PROPERTY_KEY] === childID));
+        
+      IDsOfMentionedItems.add(parent[ID_PROPERTY_KEY])
+      
+      parent[LIST_OF_CHILDREN_PROPERTY_KEY] = children;
+  
+      for (const child of children) {
+        child[PARENT_PROPERTY_KEY] = parent;
+        IDsOfMentionedItems.add(child[ID_PROPERTY_KEY])
+      }
+      
+      for (const childRelationships of Object.entries(childrenRelationships)) {
+        HierarchicalEntitiesRelationshipsInitializer.initializeBranch({
+          items,
+          parentID: childRelationships[0],
+          childrenRelationships: childRelationships[1],
+          IDsOfMentionedItems,
+          ID_PROPERTY_KEY,
+          PARENT_PROPERTY_KEY,
+          LIST_OF_CHILDREN_PROPERTY_KEY
+        });
+      }
+      
+      return parent;
+      
+    }
+    
+  }

@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Full-Stack Launch",
+    "Projects": [
+      {
+        "Path": "Implementation\\Elements\\FrontServer\\FrontServer.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "Implementation\\Elements\\Client\\Client.csproj",
+        "Action": "Start",
+        "DebugTarget": "Windows Machine"
+      }
+    ]
+  }
+]

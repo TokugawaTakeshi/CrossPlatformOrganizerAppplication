@@ -4,18 +4,34 @@ extends ../../../Layouts/Main/MainLayout.pug
 block append Requirements
 
   include ../../../StaticPreview/_Requirements.pug
-
+    
   -
-
+    
     class TasksManagementPage {
 
-      static mustDisplayTaskManagerAtNarrowScreens = true;
-
+      /**
+       * @type { object }
+       * @property { string } pageTitle
+       * @property { string } filteringModalDialog.title
+       * @property { string } taskManagerActivationGuidance
+       * */
+      static localizedStringResources = $$localizedStringResources.pages.task.management;
+      
+      /** 
+       * @private
+       * @type boolean
+       * */
+      static mustDisplayTaskManagerAtNarrowScreens = false;
+    
+      /** 
+       * @public
+       * @return { typeof TasksManagementPage } 
+       * */
       static displayTaskManagerAtNarrowScreens() {
         TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
         return PeopleManagementPage;
       }
-
+    
     }
     
 
@@ -23,43 +39,49 @@ block append Metadata
 
   -
 
-    HTML_PAGE_TITLE = "Tasks management — Experimental CSharp Application";
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: TasksManagementPage.localizedStringResources.pageTitle,
+        locale: $$HTML_TAG_LANG_ATTRIBUTE_VALUE
+      },
+      stylesSheetsURIs: [ "@Shared/Primer", "@ExternalSharedGUI_Components", "@Shared/Internals" ]
+    });
 
-    styleSheetsURIs = [ "@All/Primer", "@All/ExternalComponents", "@All/Internals" ];
+    YDF.RoutingEmulator.setCurrentRoute("tasksManagement");
 
 
 block append SpecificContent
 
-  .TasksManagementPage-SpecificContent.MainLayout-SpecificContentFillingElement
+  .TasksManagementPage-ContainerQueryingComposition.MainLayout-VerticallyFillingSpecificContentDescendant
 
     +TasksViewer({
-      loading: TasksManagementPageStatesSimulations.loading,
-      error: TasksManagementPageStatesSimulations.error,
-      noItems: TasksManagementPageStatesSimulations.noItems,
-      noSearchResults: TasksManagementPageStatesSimulations.noSearchResults
+      loading: $tasksManagementPageStatesSimulations.loading,
+      error: $tasksManagementPageStatesSimulations.error,
+      noItems: $tasksManagementPageStatesSimulations.noItems,
+      noSearchResults: $tasksManagementPageStatesSimulations.noSearchResults
     }).TasksManagementPage-TasksViewer
     
     +TaskManager(
       {
-        targetTask: getRandomArrayElement(DummyData.Tasks),
-        activationGuidance: "Click or tap the task card to view details or edit the dedicated task."
+        targetTask: YDF.getRandomArrayElement($mockData.tasks),
+        activationGuidance: TasksManagementPage.localizedStringResources.taskManagerActivationGuidance
       },
-      { editingMode: true }
+      { editingMode: false }
     ).TasksManagementPage-TaskManager&attributes({
       class: TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens ?
           [ "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" ] : 
           [ "TasksManagementPage-TaskManager__HiddenAtNarrowScreens" ]
     })
 
-    
+
 block FloatingAndFixedContent
 
-  //- 
-    [ Theory ] Because of container queries brakes the fixed positioning, the modal dialog could not be placed inside 
+  //- [ Theory ] 
+    Because of container queries brakes the fixed positioning, the modal dialog can not be placed inside 
       the "SpecificContent" block.
-      https://stackoverflow.com/a/52937920/4818123
+    See https://stackoverflow.com/a/52937920/4818123
      
   +ModalDialog--YDF(
-    { title: "Filter Tasks" },
+    { title: TasksManagementPage.localizedStringResources.filteringModalDialog.title },
     { mustDisplay: false }
   ): +TasksFilteringPanel

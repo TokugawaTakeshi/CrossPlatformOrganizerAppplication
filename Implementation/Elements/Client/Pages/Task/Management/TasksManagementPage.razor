@@ -1,0 +1,41 @@
+﻿@page "/"
+
+@using TasksSharedState = Client.SharedState.TasksSharedState;
+@using TasksFilteringModalDialogService = Client.Pages.Task.Management.ModalDialogs.TasksFilteringModalDialogService;
+@using Client.SharedGUI_Components.Controls.TasksFilteringPanel
+@using Client.SharedGUI_Components.Managers.Task
+@using Client.SharedGUI_Components.Viewers.Tasks
+@using FrontEndFramework.Components.ModalDialogs.Common
+@using Microsoft.AspNetCore.Components.Sections
+
+
+<div class="TasksManagementPage-ContainerQueryingComposition MainLayout-VerticallyFillingSpecificContentDescendant">
+
+	<TasksViewer 
+		class="TasksManagementPage-TasksViewer"
+		onNewTaskAddingSessionRequestedEventHandler=@onNewTaskAddingSessionRequested
+	/>
+  
+	<TaskManager
+    class=@($"TasksManagementPage-TaskManager { taskManagerAdditionalCSS_Class }")
+		activationGuidance=@localization.taskManagerActivationGuidance
+		targetTask=@TasksSharedState.selectedTask
+		onSaveNewTaskEventHandler=@onSaveNewTask
+		onSaveUpdatedTaskEventHandler=@onSaveUpdatedTask
+		onDeleteSelectedTaskEventHandler=@onDeleteSelectedTask
+		@ref=@taskManager
+	/>
+	
+</div>
+
+
+<SectionContent SectionName="FloatingAndFixedContent">
+	
+	<ModalDialog
+		title=@localization.filteringModalDialog.title
+		onInitializedEventCallback=@TasksFilteringModalDialogService.initialize
+	>
+		<TasksFilteringPanel />
+	</ModalDialog>
+	
+</SectionContent>

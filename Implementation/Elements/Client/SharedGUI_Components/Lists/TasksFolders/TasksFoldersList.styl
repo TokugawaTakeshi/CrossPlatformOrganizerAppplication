@@ -1,0 +1,31 @@
+﻿.TasksFoldersList
+
+  &-Item
+
+    retireFromElementWithSameSelector--YDF({ y: 2px })
+    
+    
+  &-NewFolderAddingButtonValidityWrapper
+  
+    margin-left 12px
+    margin-top 2px
+    
+    
+  /.TasksFoldersList-Item:has(.TasksFoldersList) + .TasksFoldersList-NewFolderAddingButtonValidityWrapper  
+  
+    margin-top 6px
+    margin-left 8px
+    
+    
+  &--LoadingPlaceholder
+  
+    &-AccessibilityGuidance
+    
+      width 0
+      height 0
+      overflow hidden
+      
+      position absolute
+     
+
+@require "Item/TasksFoldersListItem.styl"

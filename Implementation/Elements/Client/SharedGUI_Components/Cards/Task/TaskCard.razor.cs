@@ -1,0 +1,105 @@
+﻿using System.Diagnostics;
+using Client.SharedGUI_Components.Cards.Task.Localizations;
+using CommonSolution.Restrictions;
+using YamatoDaiwa.CSharpExtensions;
+
+namespace Client.SharedGUI_Components.Cards.Task;
+
+
+public partial class TaskCard : Microsoft.AspNetCore.Components.ComponentBase
+{
+
+  /* ━━━ Component Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required CommonSolution.Entities.Task.Task targetTask { get; set; }
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Entities.Task.Task
+  > onClickRootElementEventHandler { get; set; }
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  public required Microsoft.AspNetCore.Components.EventCallback<
+    CommonSolution.Entities.Task.Task
+  > onClickCheckBoxEventHandler { get; set; }
+
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string rootElementTag { get; set; } = "div";
+  
+  [Microsoft.AspNetCore.Components.Parameter]
+  public bool disabled { get; set; } = false;
+
+
+  /* ━━━ Events Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private async System.Threading.Tasks.Task onClickRootElement()
+  {
+    if (this.onClickRootElementEventHandler.HasDelegate)
+    {
+      try
+      {
+        await this.onClickRootElementEventHandler.InvokeAsync(this.targetTask);
+      }
+      catch (Exception exception)
+      {
+        Debug.WriteLine(exception);
+        throw;
+      }
+    }
+  }
+
+  private async System.Threading.Tasks.Task onClickCheckbox()
+  {
+    if (this.onClickRootElementEventHandler.HasDelegate)
+    {
+      try
+      {
+        await this.onClickCheckBoxEventHandler.InvokeAsync(this.targetTask);
+      }
+      catch (Exception exception)
+      {
+        Debug.WriteLine(exception);
+        throw;
+      }
+    }
+  }
+
+
+  /* ━━━ Auxiliary Getters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private string? dateBadgeLabel => this.targetTask.deadlineDate?.ToString();
+  private string? dateTimeBadgeLabel => this.targetTask.deadlineDateTime?.ToString();
+
+  private bool hasAtLeastOneBadge => this.dateBadgeLabel is not null || this.dateTimeBadgeLabel is not null;
+  
+  
+  /* ━━━ CSS Classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Parameter]
+  public string? rootElementModifierCSS_Class { get; set; } = null;
+  
+  private string rootElementModifierCSS_Classes => new List<string>().
+    
+      AddElementToEndIf("TaskCard__DisabledState", this.disabled).
+      AddElementToEndIf(
+        this.rootElementModifierCSS_Class ?? "", String.IsNullOrEmpty(this.rootElementModifierCSS_Class)
+      ).
+          
+      StringifyEachElementAndJoin(" ");
+  
+  private string composeClassAttributeValueForRootElement(string namespaceCSS_Class) => new List<string?> { namespaceCSS_Class }.
+
+      AddElementToEndIf("TaskCard__DisabledState", this.disabled).
+      
+      AddElementToEndIfNotNull(this.rootElementModifierCSS_Class).
+
+      StringifyEachElementAndJoin(" ");
+  
+  
+  /* ━━━ Localizations ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private readonly TaskCardLocalization localization = 
+      ClientConfigurationRepresentative.GetBCP_47_Tag_OfSupportedLocale() switch
+          {
+            SupportedCultures.BCP_47_Tags.JAPANESE => new TaskCardJapaneseLocalization(),
+            SupportedCultures.BCP_47_Tags.ENGLISH__UNITED_KINGDOM => new TaskCardEnglishLocalization(),
+            _ => throw new ArgumentOutOfRangeException()
+          };
+  
+}

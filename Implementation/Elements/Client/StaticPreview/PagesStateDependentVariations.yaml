@@ -1,8 +1,8 @@
 Pages/Task/Management/TasksManagementPage:
 
-  stateObjectTypeVariableName: "TasksManagementPageStatesSimulations"
+  $stateObjectTypeVariableName: "$tasksManagementPageStatesSimulations"
 
-  variations:
+  $stateDependentVariations:
 
     __Loading: { loading: true }
     __Error: { error: true }
@@ -12,9 +12,9 @@ Pages/Task/Management/TasksManagementPage:
 
 Pages/Person/Management/PeopleManagementPage:
 
-  stateObjectTypeVariableName: "PeopleManagementPageStatesSimulations"
+  $stateObjectTypeVariableName: "$peopleManagementPageStatesSimulations"
 
-  variations:
+  $stateDependentVariations:
 
     __Loading: { loading: true }
     __Error: { error: true }

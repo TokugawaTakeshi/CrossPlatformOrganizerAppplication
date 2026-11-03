@@ -11,6 +11,7 @@ public class Person
 
   
   /* ━━━ Name ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  /* ┅┅┅ Family Name ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public required string familyName { get; set; }
 
   public abstract class FamilyName
@@ -21,6 +22,7 @@ public class Person
   }
 
 
+  /* ┅┅┅ Given Name ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public string? givenName { get; set; }
 
   public abstract class GivenName
@@ -31,9 +33,11 @@ public class Person
   }
 
   
+  /* ┅┅┅ Full Name ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public string fullName => this.familyName + (this.givenName ?? "");
   
   
+  /* ┅┅┅ Full Name Spell ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public string? familyNameSpell { get; set; }
   
   public abstract class FamilyNameSpell
@@ -44,6 +48,7 @@ public class Person
   }
   
   
+  /* ┅┅┅ Given Name Spell ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public string? givenNameSpell { get; set; }
   
   public abstract class GivenNameSpell
@@ -54,6 +59,7 @@ public class Person
   }
 
 
+  /* ┅┅┅ Full Name Spell ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public string? fullNameSpell
   {
     get
@@ -86,21 +92,14 @@ public class Person
   }
   
   
-  /* ━━━ Avatar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  // TODO Planned in following versions
-  /*
-  public string? avatarURI { get; set; }
-
-  public abstract class AvatarURI
-  {
-    public const bool IS_REQUIRED = false;
-    public const byte MINIMAL_CHARACTERS_COUNT = 10;
-  }
-  */
-
+  
   /* ━━━ Birth Date / Age ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  /* [ Theory ] To notify use about someone's birthday, it is enough to know just the birth month and birth day,
-  *     however to compute the age, the birth year also required. */
+  
+  /* [ Theory ] Age Computing
+   *  To notify use about someone's birthday, it is enough to know just the birth month and birthday;
+   *    however, to compute the age, the birth year also required. */
+  
+  /* ┅┅┅ Birth Year ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public ushort? birthYear { get; set; }
 
   public abstract class BirthYear
@@ -111,6 +110,7 @@ public class Person
   }
 
   
+  /* ┅┅┅ Birth Month ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public byte? birthMonthNumber__numerationFrom1 { get; set; }
 
   public abstract class BirthMonthNumber__NumerationFrom1
@@ -121,6 +121,7 @@ public class Person
   }
 
   
+  /* ┅┅┅ Birth Day of Month ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public byte? birthDayOfMonth__numerationFrom1 { get; set; }
   
   public abstract class BirthDayOfMonth__NumerationFrom1
@@ -131,6 +132,7 @@ public class Person
   }
 
   
+  /* ┅┅┅ Birth Date ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public DateOnly? birthDate =>
     this.birthYear is not null &&
     this.birthMonthNumber__numerationFrom1 is not null &&
@@ -143,6 +145,7 @@ public class Person
         : null;
 
   
+  /* ┅┅┅ Age ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅ */
   public byte? age
   {
     get

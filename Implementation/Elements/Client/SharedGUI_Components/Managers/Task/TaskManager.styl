@@ -1,0 +1,107 @@
+﻿.TaskManager
+
+  display flex
+  flex-direction column
+  
+  
+  &-Header
+  
+    display flex
+    justify-content space-between
+    align-items center
+    column-gap 8px
+    
+    
+  &-Heading
+
+    applyTextGeometryWithoutExtraSpaceCausedByLineHeight--YDF({
+      fontSize: 24px,
+      lineSpacing: 1.2px
+    })
+    
+    
+  &-ClosingButtonForNarrowScreens
+  
+    flex-shrink 0
+
+
+  &-Guidance
+
+    margin-top 4px
+
+    flex-shrink 0
+
+
+  &-ActionBar
+
+    display flex
+    flex-direction row-reverse
+    column-gap 8px
+
+    flex-shrink 0
+    retireFrom--YDF({ definitions: (".TaskManager-Header" { y: 8px }) (".TaskManager-Guidance" { y: 6px }) })
+
+
+  &-Metadata
+
+    display grid
+    grid-template-columns 1fr minmax(0, 3fr)
+    gap 12px 10px
+    align-items baseline
+
+    retireFrom--YDF({ definitions: (".TaskManager-ActionBar" { y: 12px }) (".TaskManager-Breadcrumb" { y: 10px }) })
+
+
+    dt
+
+      applyTextGeometryWithoutExtraSpaceCausedByLineHeight--YDF({
+        fontSize: 14px,
+        lineSpacing: 4px,
+        mustAllowWordsBreakingAnywhere: true,
+        mustApplyNegativeMarginsToRootElement: true
+      })
+      
+      text-align right
+      
+      font-weight bold
+      color: W3C_39_ShadesOfGray--YDF[16]
+      
+
+    dd
+
+      applyTextGeometryWithoutExtraSpaceCausedByLineHeight--YDF({
+        fontSize: 14px,
+        lineSpacing: 4px,
+        mustAllowWordsBreakingAnywhere: true,
+        mustApplyNegativeMarginsToRootElement: true
+      })
+
+
+  &-Form
+
+    display flex
+    flex-direction column
+    
+    margin-top 16px
+    pushTargetFromSelf--YDF({ targetElementSelector: ".TaskManager-ActionBar", y: 12px })
+
+    overflow hidden
+    
+    
+    .TaskManager-ActionBar
+
+      margin-top 12px
+
+
+  &-Control
+
+    retireFromElementWithSameSelector--YDF({ y: 8px })
+    pushTargetFromSelf--YDF({ targetElementSelector: ".TaskManager-ActionBar", y: 8px })
+
+    
+    
+TaskManager-HiddenButtonForNarrowScreens()
+
+  .TaskManager-ClosingButtonForNarrowScreens
+    
+    display none

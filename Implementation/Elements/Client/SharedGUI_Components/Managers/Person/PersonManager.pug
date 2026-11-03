@@ -1,0 +1,316 @@
+﻿-
+  
+  class PersonManager {
+    
+    /*  ━━━ Resources ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /**
+     * @typedef PersonManagerLocalization
+     * @property { string } heading
+     * @property { string } buttons.personEditing.label
+     * @property { string } buttons.personDeleting.label
+     * @property { string } buttons.personSaving.label
+     * @property { string } buttons.terminatingOfEditing.label
+     * @property { string } metadataKeys.name
+     * @property { string } metadataKeys.nameSpell
+     * @property { string } metadataKeys.gender
+     * @property { string } metadataKeys.birthDate
+     * @property { string } metadataKeys.emailAddress
+     * @property { string } metadataKeys.phoneNumber
+     * @property { string } controls.familyName.label
+     * @property { string } controls.familyName.guidance
+     * @property { string } controls.givenName.label
+     * @property { string } controls.givenName.guidance
+     * @property { string } controls.familyNameSpell.label
+     * @property { string } controls.familyNameSpell.guidance
+     * @property { string } controls.givenNameSpell.label
+     * @property { string } controls.givenNameSpell.guidance
+     * @property { string } controls.gender.label
+     * @property { string } controls.gender.optionsLabels.male
+     * @property { string } controls.gender.optionsLabels.female
+     * @property { string } controls.emailAddress
+     * @property { string } controls.phoneNumber
+     * @property { string } personDeletingConfirmationModalDialog.title
+     * @property { string } personDeletingConfirmationModalDialog.question
+     */
+    
+    /** @type { PersonManagerLocalization } */
+    static localizedStringResources = $$localizedStringResources.components.managers.person;
+    
+    
+    /*  ━━━ IDs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /**
+     * @private
+     * @type { number }
+     * */
+    static counterForInstanceID_Generating = 0;
+    
+    /**
+     * @public
+     * @return { string }
+     * */
+    static generateInstanceID() {
+      PersonManager.counterForInstanceID_Generating++;
+      return `PERSON_MANAGER-${ PersonManager.counterForInstanceID_Generating }`;
+    }
+    
+  }
+  
+
+mixin PersonManager(properties, statesSimulations)
+
+  - 
+
+    const {
+      
+      /** @type { import("CommonSolution/Entities/Person.cs") | null } */
+      targetPerson = null,
+      
+      /** @type { string | undefined } */
+      activationGuidance
+      
+    } = properties ?? {};
+ 
+    const {
+      
+      /** @type { boolean } */
+      editingMode = false
+      
+    } = statesSimulations ?? {};
+    
+    
+    /** @type { string } */
+    const INSTANCE_ID = PersonManager.generateInstanceID();
+    
+    /** @type { string } */
+    const HEADING_HTML_ID = `${ INSTANCE_ID }-Heading`;
+    
+    /** @type { boolean } */
+    const viewingMode = !editingMode;
+    
+    
+  .PersonManager&attributes(attributes)
+
+    .PersonManager-Heading(
+      id=HEADING_HTML_ID
+    )= PersonManager.localizedStringResources.heading
+      
+    if !targetPerson && activationGuidance
+      
+      +AdmonitionBlock--YDF({
+        decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+        SVG_Icon: true
+      }).PersonManager-Guidance= activationGuidance
+      
+
+    //- ━━━ Top action bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    .PersonManager-ActionBar
+
+      if viewingMode
+      
+        +Button--YDF({
+          disabled: !targetPerson
+        })
+          +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= PersonManager.localizedStringResources.buttons.personEditing
+        
+      +Button--YDF({
+        disabled: !targetPerson
+      })
+        +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
+        span.Button--YDF-Label= PersonManager.localizedStringResources.buttons.personDeleting
+        
+      if editingMode
+
+        +Button--YDF
+          +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= PersonManager.localizedStringResources.buttons.terminatingOfEditing
+        
+      
+    //- ━━━ Viewing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if viewingMode
+      
+      if targetPerson
+      
+        if targetPerson.avatarURI
+          
+          .PersonManager-Avatar(
+            role="img"
+            style=`background-image: url(${ targetPerson.avatarURI });`
+            aria-label=targetPerson.fullName
+          )
+          
+        else
+  
+          case targetPerson.gender
+  
+            when $$BusinessRules.Genders.Male
+              +Person__Male--YDF_Icon.PersonManager-AvatarPlaceholder
+  
+            when $$BusinessRules.Genders.Female
+              +Person__Female--YDF_Icon.PersonManager-AvatarPlaceholder
+  
+            default
+              +Person--YDF_Icon.PersonManager-AvatarPlaceholder
+      
+      dl.PersonManager-Metadata
+      
+        dt= PersonManager.localizedStringResources.metadataKeys.name
+        dd= targetPerson ? `${ targetPerson.familyName }${ targetPerson.givenName }` : ""
+        
+        dt= PersonManager.localizedStringResources.metadataKeys.nameSpell
+        dd
+          if targetPerson && targetPerson.fullNameSpell  
+            | #{ targetPerson.fullNameSpell }
+
+        dt= PersonManager.localizedStringResources.metadataKeys.gender
+        dd
+          if targetPerson
+            if targetPerson.gender
+
+              - 
+                const value = PersonManager.localizedStringResources.controls.gender.
+                    optionsLabels[targetPerson.gender === $$BusinessRules.Genders.Male ? "male" : "female"]
+                    
+              | #{ value } 
+          
+        dt Birth Date
+        dd
+          if targetPerson
+            if targetPerson.birthYear
+              | #{ targetPerson.birthYear }.
+            if targetPerson.birthMonthNumber__numerationFrom1
+              | #{ targetPerson.birthMonthNumber__numerationFrom1 }.
+            if targetPerson.birthDayOfMonth__numerationFrom1
+              | #{ targetPerson.birthDayOfMonth__numerationFrom1 }
+            if targetPerson.age
+              | (Age: #{ targetPerson.age })
+            
+        dt= PersonManager.localizedStringResources.metadataKeys.emailAddress
+        dd
+          if targetPerson && targetPerson.emailAddress 
+            a(href=`mailto:${ targetPerson.emailAddress }`)= targetPerson.emailAddress
+            
+        dt= PersonManager.localizedStringResources.metadataKeys.phoneNumber
+        dd
+          if targetPerson && targetPerson.phoneNumber
+            a(
+              href=YDF.buildPhoneNumberLinkHrefAttributeValue(targetPerson.phoneNumber__digitsOnly)
+            )= targetPerson.phoneNumber__digitsOnly
+      
+    else
+
+      //- ━━━ Editing mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      form.PersonManager-Form(
+        aria-labelledby=HEADING_HTML_ID
+      )
+
+        .PersonManager-ScrollableGrid
+        
+          +TextBox--YDF({
+            label: PersonManager.localizedStringResources.controls.familyName.label,
+            guidance: PersonManager.localizedStringResources.controls.familyName.guidance,
+            value: targetPerson ? targetPerson.familyName : "",
+            required: true
+          }).PersonManager-Control.PersonManager-Control__Small
+          
+          +TextBox--YDF({
+            label: PersonManager.localizedStringResources.controls.givenName.label,
+            guidance: PersonManager.localizedStringResources.controls.givenName.guidance,
+            value: targetPerson ? YDF.nullToEmptyString(targetPerson.givenName) : ""
+          }).PersonManager-Control.PersonManager-Control__Small
+          
+          +TextBox--YDF({
+            label: PersonManager.localizedStringResources.controls.familyNameSpell.label,
+            guidance: PersonManager.localizedStringResources.controls.familyNameSpell.guidance,
+            value: targetPerson ? YDF.nullToEmptyString(targetPerson.familyNameSpell) : "",
+            required: true
+          }).PersonManager-Control.PersonManager-Control__Small
+          
+          +TextBox--YDF({
+            label: PersonManager.localizedStringResources.controls.givenNameSpell.label,
+            guidance: PersonManager.localizedStringResources.controls.givenNameSpell.guidance,
+            value: targetPerson ? YDF.nullToEmptyString(targetPerson.givenNameSpell) : "",
+            required: true
+          }).PersonManager-Control.PersonManager-Control__Small
+          
+          +RadioButtonsGroup--YDF({
+            label: PersonManager.localizedStringResources.controls.gender.label,
+            selectingOptions: [
+              { key: "MALE", label: PersonManager.localizedStringResources.controls.gender.optionsLabels.male },
+              { key: "FEMALE", label: PersonManager.localizedStringResources.controls.gender.optionsLabels.female }
+            ]
+          })
+            
+          //-
+            +FilesUploader--YDF(
+              {
+                label: "Photo",
+                guidance: "Please upload the proto of this person",
+                noDragAndDropArea: true,
+                maximalFilesCount: 1
+              },
+              {
+                singleImagePreview: true
+              }
+            ).PersonManager-Control.PersonManager-Control__Big
+          
+          //-
+            fieldset.PersonManager-Fieldset
+            
+              legend Birthdate
+              
+              +AdmonitionBlock--YDF({
+                decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+                SVG_Icon: true
+              }).PersonManager-Fieldset-Guidance.
+                To receive the birthday notifications, it is enough to input only month and day, but to compute the age
+                  the birth year also will required.
+    
+              +TextBox--YDF({
+                label: "Year",
+                HTML_Type: TextBox__YDF.HTML_Types.number,
+                value: targetPerson ? YDF.nullToEmptyString(targetPerson.birthYear) : "",
+                required: true
+              }).PersonManager-Fieldset-TextBox
+              
+              +TextBox--YDF({
+                label: "Month",
+                HTML_Type: TextBox__YDF.HTML_Types.number,
+                value: targetPerson ? YDF.nullToEmptyString(targetPerson.birthMonthNumber__numerationFrom1) : "",
+                required: true
+              }).PersonManager-Fieldset-TextBox
+              
+              +TextBox--YDF({
+                label: "Day",
+                HTML_Type: TextBox__YDF.HTML_Types.number,
+                value: targetPerson ? YDF.nullToEmptyString(targetPerson.birthDayOfMonth__numerationFrom1) : "",
+                required: true
+              }).PersonManager-Fieldset-TextBox
+              
+            +TextBox--YDF({
+              label: "Email Address",
+              HTML_Type: TextBox__YDF.HTML_Types.emailAddress,
+              value: targetPerson ? YDF.nullToEmptyString(targetPerson.emailAddress) : ""
+            }).PersonManager-Control.PersonManager-Control__Big
+    
+            +TextBox--YDF({
+              label: "Phone Number",
+              HTML_Type: TextBox__YDF.HTML_Types.phoneNumber__digitsOnly,
+              value: targetPerson ? YDF.nullToEmptyString(targetPerson.phoneNumber__digitsOnly) : ""
+            }).PersonManager-Control.PersonManager-Control__Big
+      
+        
+        .PersonManager-ActionBar
+    
+          +Button--YDF({
+            HTML_Type: Button__YDF.HTML_Types.submit,
+            decorativeVariation: Button__YDF.DecorativeVariations.accented
+          })
+            +FloppyDisk--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label= PersonManager.localizedStringResources.buttons.personSaving.label
+          
+          +Button--YDF
+            +MultiplicationSign--YDF_Icon.Button--YDF-SVG_Icon
+            span.Button--YDF-Label= PersonManager.localizedStringResources.buttons.terminatingOfEditing.label
+
+        //- +HighDummy

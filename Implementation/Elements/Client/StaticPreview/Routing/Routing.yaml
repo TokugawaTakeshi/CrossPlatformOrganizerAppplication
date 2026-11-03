@@ -1,0 +1,14 @@
+﻿calendar:
+
+  $heading: `calendar.$heading`
+  $URI: `@Pages/Calendar/CalendarPage.${ fileNameLocalizationExtensions }`
+
+tasksManagement:
+
+  $heading: `tasksManagement.$heading`
+  $URI: `@Pages/Task/Management/TasksManagementPage.${ fileNameLocalizationExtensions }`
+
+peopleManagement:
+
+  $heading: `peopleManagement.$heading`
+  $URI: `@Pages/Person/Management/PeopleManagementPage.${ fileNameLocalizationExtensions }`

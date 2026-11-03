@@ -10,6 +10,8 @@ namespace Client.Pages.Task.Management.Localizations;
 internal record TasksManagementPageJapaneseLocalization : TasksManagementPageLocalization
 {
 
+  internal override string pageTitle { get; } = "課題管理 ｜ Experimental CSharp Application";
+  
   internal override FilteringModalDialog filteringModalDialog { get; init; } = new()
   {
     title = "課題の絞り込み"
@@ -27,11 +29,11 @@ internal record TasksManagementPageJapaneseLocalization : TasksManagementPageLoc
   
   internal override ErrorMessages errorMessages { get; init; } = new()
   {
-    taskAddingFailed = SharedStaticJapaneseStrings.SingleInstance.
+    taskAddingFailed = CommonJapaneseStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("新規課題の追加中不具合が発生しました。"),
-    taskUpdatingFailed = SharedStaticJapaneseStrings.SingleInstance.
+    taskUpdatingFailed = CommonJapaneseStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("課題の更新中不具合が発生しました。"),
-    taskDeletingFailed = SharedStaticJapaneseStrings.SingleInstance.
+    taskDeletingFailed = CommonJapaneseStringResources.SingleInstance.
       buildDataRetrievingOrSubmittingFailedPoliteMessage("課題の削除中不具合が発生しました。")
   };
 

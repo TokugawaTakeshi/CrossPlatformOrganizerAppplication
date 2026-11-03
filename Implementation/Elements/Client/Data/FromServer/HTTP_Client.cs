@@ -1,7 +1,7 @@
 ﻿namespace Client.Data.FromServer;
 
 
-public class HTTP_Client : HttpClient
+public class HTTP_Client : System.Net.Http.HttpClient
 {
 
   private static HTTP_Client? selfSoleInstance = null;

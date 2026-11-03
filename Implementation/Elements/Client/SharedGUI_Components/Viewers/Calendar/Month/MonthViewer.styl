@@ -1,0 +1,255 @@
+﻿.MonthViewer
+
+  table-layout fixed
+
+
+  td:not(:first-child),
+  th:not(:first-child)
+
+    border-left-width 1px
+  
+    border-left-style solid
+    border-left-color: W3C_39_ShadesOfGray--YDF[32]
+
+    
+  tbody
+  
+    tr
+    
+      height percentage(1/6)
+      border-top-width 1px
+      
+      border-top-style solid
+      border-top-color: W3C_39_ShadesOfGray--YDF[32]
+
+
+  &-DayTitleCell
+
+    WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 85px
+
+    WideContainersConfiguration()
+      @media container and (min-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
+        {block}
+  
+    NarrowContainersConfiguration()
+      @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
+        {block}
+
+
+    width percentage(1/7)
+
+    font-size 14px
+
+    text-align center
+    color W3C_39_ShadesOfGray--YDF[8]
+
+
+    &__Holiday
+      
+      color #C65151
+
+
+    &-ContainerQueryProvider
+    
+      container-type inline-size
+      
+      Paddings--YDF({
+        verticalSymmetric: 4px,
+        verticalUpwardShifting: 1px
+      })
+      
+    
+    for iterationData in ("en" 85px) ("ja" 50px)
+      
+      locale = iterationData[0]
+      wideContainersConfigurationMinimalWidth = iterationData[1]
+      
+      /[lang=\"{ locale }\"] &
+    
+        @media container and (min-width: wideContainersConfigurationMinimalWidth)
+    
+          &-ShortLabel
+        
+            display none
+          
+          
+        @media container and (max-width: wideContainersConfigurationMinimalWidth - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
+      
+          &-LongLabel
+        
+            display none
+  
+
+  &-DayCell
+
+    LARGE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 100px
+    LARGE_CONTAINERS_CONFIGURATION_MINIMAL_HEIGHT = 100px
+
+    WideContainersConfiguration()
+
+      @media container and \
+        (min-width: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH) and\
+        (min-height: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_HEIGHT)
+          
+          {block}
+
+    NarrowContainersConfiguration()
+    
+      @media container and (max-width: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF),\
+      container and (max-height: LARGE_CONTAINERS_CONFIGURATION_MINIMAL_HEIGHT - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
+        
+        {block}
+
+    
+    //* [ Theory ] 
+    //  Zero effect will be if set `container-type` to `td` element, addition container required to use container 
+    //    queries feature. */
+    &-ContainerQueryProvider
+
+      display flex
+      flex-direction column
+
+      container-type size
+
+      //* [ Theory ] If no set height explicitly to this element, the height computing will brake. */ 
+      height 100%
+
+      background-color aliceblue
+    
+
+    &-Title
+
+      font-size 14px
+      text-align center
+
+      font-weight bold
+      color: W3C_39_ShadesOfGray--YDF[16]
+
+      flex-shrink 0
+      
+      
+      +WideContainersConfiguration()
+      
+        margin-top: 4px
+        
+        
+      +NarrowContainersConfiguration()
+      
+        margin-top: 2px
+
+
+    &-ScrollViewForLargeContainers
+
+      padding-inline 6px
+
+      overflow-y auto
+
+      flex-grow 1
+      margin-top 6px
+
+      whenItGoingLast--YDF({ verticalSpaceBelow: 12px })
+
+
+      +NarrowContainersConfiguration()
+
+        display none
+
+
+      &-Title
+
+        applyTextGeometryWithoutExtraSpaceCausedByLineHeight--YDF({
+          fontSize: 14px,
+          lineSpacing: 4px,
+          mustAllowWordsBreakingAnywhere: true
+        })
+
+        font-weight bold
+        color: W3C_39_ShadesOfGray--YDF[12]
+    
+
+      &-List
+
+        margin-top 6px
+
+        pushTargetFromSelf--YDF({ targetElementSelector: ".MonthViewer-DayCell-ScrollViewForLargeContainers-Title", y: 12px })
+
+
+        &-Item
+
+          display flex
+          align-items center
+          column-gap 4px
+
+          retireFromElementWithSameSelector--YDF({ y: 4px })
+
+
+        &-IconDecorativeWrapper
+
+          border-radius 50%
+          padding 6px
+
+          flex-shrink 0
+
+          /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificTime &
+
+            background-color: YDF_ColorPalette.red.light
+
+
+          /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificDate &
+
+            background-color: YDF_ColorPalette.deepYellow.light
+
+
+          /.MonthViewer-DayCell-ScrollViewForLargeContainers-List__DocumentsAssociatedWithSpecificTime &
+
+            background-color: YDF_ColorPalette.mint.light
+
+
+        &-Icon
+
+          display block // [ Theory ] Removing of extra space below self
+
+          width 16px
+          height 16px
+
+          fill: W3C_39_ShadesOfGray--YDF[16]
+
+
+        &-Label
+
+          applyTextGeometryWithoutExtraSpaceCausedByLineHeight--YDF({
+            fontSize: 14px,
+            lineSpacing: 4px,
+            mustAllowWordsBreakingAnywhere: true
+          })
+
+
+    //&-ButtonForSmallContainers
+    //
+    //  ButtonLikeElementsPrimer--YDF()
+    //
+    //  display flex
+    //  flex-wrap wrap
+    //  row-gap 2px
+    //  column-gap 4px
+    //  justify-content center
+    //
+    //  Paddings--YDF({
+    //    verticalSymmetric: 4px,
+    //    verticalUpwardShifting: 1px
+    //  })
+    //
+    //  flex-grow 1
+    //
+    //
+    //  +WideContainersConfiguration()
+    //
+    //    display none
+    //
+    //
+    //  &-Icon
+    //
+    //    width 16px
+    //    height 16px
+    //
+    //    fill: W3C_39_ShadesOfGray--YDF[16]

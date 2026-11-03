@@ -4,10 +4,10 @@
 namespace Client.Pages.Task.Management.ModalDialogs;
 
 
-public class TasksFilteringModalDialogService
+public static class TasksFilteringModalDialogService
 {
  
-  protected static ModalDialog? modalDialogInstance = null;
+  private static ModalDialog? modalDialogInstance = null;
 
   
   public static void initialize(ModalDialog modalDialogInstance)

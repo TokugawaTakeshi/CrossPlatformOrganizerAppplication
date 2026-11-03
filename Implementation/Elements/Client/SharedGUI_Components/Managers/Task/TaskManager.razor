@@ -1,0 +1,151 @@
+﻿@using Task = CommonSolution.Entities.Task.Task
+
+@using YamatoDaiwa.Frontend.GUI_Components.AdmonitionBlock
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
+
+@using FrontEndFramework.SVG_Icons.Checklist
+@using FrontEndFramework.SVG_Icons.FloppyDisk
+@using FrontEndFramework.SVG_Icons.MultiplicationSign
+@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.TextBox
+@using YamatoDaiwa.Frontend.Helpers
+
+
+<div
+  class=@ElementClassAttribute.Generate("TasksViewer", this.rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  
+  <div 
+    class="TaskManager-Heading"
+    id=@HEADING_ID
+  >
+    @(localization.heading)
+  </div>
+
+  @if (targetTask is null && !String.IsNullOrEmpty(activationGuidance))
+  {
+    <AdmonitionBlock
+      class="TaskManager-Guidance"
+      decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+      hasPrependedSVG_Icon
+    >
+      <p>@(activationGuidance)</p>
+    </AdmonitionBlock>
+  }
+
+  
+  @* ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  <div class="TaskManager-ActionBar">
+  
+    @if (isViewingMode)
+    {
+      <Button
+        label=@localization.buttons.taskEditing.label
+        disabled=@(targetTask is null)
+        onClick=@startEditionOfSelectedTask
+      >
+        <PrependedSVG_Icon>
+          <ChecklistIcon__Editing class="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button>
+    }
+    
+    <Button
+      label=@localization.buttons.taskDeleting.label
+      disabled=@(targetTask is null)
+      onClick=@displayTaskDeletingConfirmationDialog
+    >
+      <PrependedSVG_Icon>
+        <ChecklistIcon__Deleting class="Button--YDF-SVG_Icon" />  
+      </PrependedSVG_Icon>
+    </Button>
+
+    @if (isEditingMode)
+    {
+      <Button
+        label=@localization.buttons.terminatingOfEditing.label
+        onClick=@utilizeTaskEditingSession
+      >
+        <PrependedSVG_Icon>
+          <MultiplicationSignIcon class="Button--YDF-SVG_Icon" />  
+        </PrependedSVG_Icon>
+      </Button> 
+    }
+  
+  </div>
+  
+  
+  @* ━━━ Veiwing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  @if (isViewingMode)
+  {
+  
+    <dl class="TaskManager-Metadata">
+    
+      <dt>@( localization.labels.title )</dt>
+      <dd>@(targetTask?.title ?? "" )</dd>
+    
+      <dt>@( localization.labels.description )</dt>
+      <dd>@(targetTask?.description ?? "")</dd>
+    
+    </dl>
+    
+  }
+
+  @* ━━━ Editing Mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+  else
+  {
+  
+    <form
+      class="TaskManager-Form"
+      aria-labelledby=@HEADING_ID
+    >
+        
+      <TextBox
+        label=@localization.inputs.taskTitle.label
+        guidance=@localization.inputs.taskTitle.guidance
+        payload=@taskControlsPayload.title
+        validityHighlightingActivationMode=@validityHighlightingActivationMode
+        @ref=@titleTextBox
+        class="TaskManager-Control"
+      />
+      
+      <TextBox
+        label=@localization.inputs.taskDescription.label
+        guidance=@localization.inputs.taskDescription.guidance
+        multiline
+        payload=@taskControlsPayload.description
+        validityHighlightingActivationMode=@validityHighlightingActivationMode
+        @ref=@descriptionTextBox
+        class="TaskManager-Control"
+      />
+      
+      <div class="TaskManager-ActionBar">
+        
+        <Button
+          label=@localization.buttons.taskSaving.label
+          HTML_Type=@Button.HTML_Types.submit
+          onClick=@onTaskDataSavingButtonClicked
+          decorativeVariation=Button.StandardDecorativeVariations.accented
+        >
+          <PrependedSVG_Icon>
+            <FloppyDiskIcon class="Button--YDF-SVG_Icon" />
+          </PrependedSVG_Icon>
+        </Button>
+        
+        <Button
+          label=@localization.buttons.terminatingOfEditing.label
+          onClick=@utilizeTaskEditingSession
+        >
+          <PrependedSVG_Icon>
+            <MultiplicationSignIcon class="Button--YDF-SVG_Icon" />  
+          </PrependedSVG_Icon>
+        </Button>
+        
+      </div>
+      
+    </form>
+    
+  }
+  
+</div>

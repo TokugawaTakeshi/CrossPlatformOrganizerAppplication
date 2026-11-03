@@ -1,10 +1,12 @@
-﻿@using FrontEndFramework.Components.Controls.Buttons.Plain
+﻿@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
 @using FrontEndFramework.SVG_Icons.MultiplicationSign
 @using FrontEndFramework.SVG_Icons.MagnifyingGlass
+@using YamatoDaiwa.CSharpExtensions
 
 
 <div 
-  class="SearchBox--YDF @rootElementModifierSpaceSeparatedClasses @spaceSeparatedAdditionalCSS_Classes"
+  class=@classAttributeValueForRootElement
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
   role="search"
 >
   
