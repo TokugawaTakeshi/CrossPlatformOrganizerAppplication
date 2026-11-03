@@ -1,1 +1,1 @@
-﻿wsl tree -I 'obj\|bin\|.yda\|.git\|.idea\|.vs\|node_modules\|*.log\|*.csproj.user\|*.DotSettings.user\|Build'
+﻿wsl tree -I 'Automation\|obj\|bin\|.yda\|.git\|.idea\|.vs\|node_modules\|*.log\|*.csproj.user\|*.DotSettings.user\|Build'
