@@ -1,4 +1,4 @@
-extends ../../../Layouts/Main/MainLayout.pug
+extends ../../../Layouts/Main/MainLayout.static.pug
 
 
 block append Requirements
@@ -29,7 +29,7 @@ block append Requirements
        * */
       static displayTaskManagerAtNarrowScreens() {
         TasksManagementPage.mustDisplayTaskManagerAtNarrowScreens = true;
-        return PeopleManagementPage;
+        return TasksManagementPage;
       }
     
     }

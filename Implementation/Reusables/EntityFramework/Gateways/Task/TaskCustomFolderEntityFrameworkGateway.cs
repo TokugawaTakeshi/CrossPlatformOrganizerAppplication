@@ -23,12 +23,15 @@ public class TaskCustomFolderEntityFrameworkGateway(
     List<TaskCustomFolderModel> taskCustomFoldersModels = await databaseContext.TaskCustomFoldersModels.ToListAsync();
     
     taskCustomFoldersModels.RemoveAll(
-    (TaskCustomFolderModel taskCustomFoldersModel) => taskCustomFoldersModel.ParentID != null
+      (TaskCustomFolderModel taskCustomFoldersModel) => taskCustomFoldersModel.ParentID != null
     );
     
-    return taskCustomFoldersModels.
-        Select((TaskCustomFolderModel taskCustomFolderModel) => taskCustomFolderModel.ToBusinessRulesEntity()).
-        ToArray(); 
+    return
+    [
+      .. taskCustomFoldersModels.Select(
+        (TaskCustomFolderModel taskCustomFolderModel) => taskCustomFolderModel.ToBusinessRulesEntity()
+      )
+    ]; 
     
   }
   

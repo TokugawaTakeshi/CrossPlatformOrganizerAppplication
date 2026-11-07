@@ -1,9 +1,9 @@
 ﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build Styles For Interactive Implementation" type="js.build_tools.npm" nameIsGenerated="true">
+  <configuration default="false" name="Incrementally build static preview" type="js.build_tools.npm" nameIsGenerated="true">
     <package-json value="$PROJECT_DIR$/Implementation/Elements/Client/package.json" />
     <command value="run" />
     <scripts>
-      <script value="Build Styles For Interactive Implementation" />
+      <script value="Incrementally build static preview" />
     </scripts>
     <node-interpreter value="project" />
     <envs />

@@ -10,7 +10,6 @@ namespace GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components
 internal abstract record TasksFoldersListLocalization
 {
  
-  // TODO Устранить неоднородность
   /* ━━━ Buttons ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   internal abstract Buttons buttons { get; init; }
   

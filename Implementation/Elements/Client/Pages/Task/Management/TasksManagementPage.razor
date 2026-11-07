@@ -11,31 +11,31 @@
 
 <div class="TasksManagementPage-ContainerQueryingComposition MainLayout-VerticallyFillingSpecificContentDescendant">
 
-	<TasksViewer 
-		class="TasksManagementPage-TasksViewer"
-		onNewTaskAddingSessionRequestedEventHandler=@onNewTaskAddingSessionRequested
-	/>
+  <TasksViewer 
+    class="TasksManagementPage-TasksViewer"
+	  onNewTaskAddingSessionRequestedEventHandler=@onNewTaskAddingSessionRequested
+  />
   
-	<TaskManager
-    class=@($"TasksManagementPage-TaskManager { taskManagerAdditionalCSS_Class }")
-		activationGuidance=@localization.taskManagerActivationGuidance
+  <TaskManager
+    class=@CSS_Class.Join("TasksManagementPage-TaskManager", TasksManagementPage.taskManagerAdditionalCSS_Class)
+    activationGuidance=@localization.taskManagerActivationGuidance
 		targetTask=@TasksSharedState.selectedTask
 		onSaveNewTaskEventHandler=@onSaveNewTask
 		onSaveUpdatedTaskEventHandler=@onSaveUpdatedTask
 		onDeleteSelectedTaskEventHandler=@onDeleteSelectedTask
 		@ref=@taskManager
-	/>
+  />
 	
 </div>
 
 
 <SectionContent SectionName="FloatingAndFixedContent">
 	
-	<ModalDialog
-		title=@localization.filteringModalDialog.title
-		onInitializedEventCallback=@TasksFilteringModalDialogService.initialize
-	>
-		<TasksFilteringPanel />
-	</ModalDialog>
+  <ModalDialog
+    title=@localization.filteringModalDialog.title
+	onInitializedEventCallback=@TasksFilteringModalDialogService.initialize
+  >
+    <TasksFilteringPanel />
+  </ModalDialog>
 	
 </SectionContent>

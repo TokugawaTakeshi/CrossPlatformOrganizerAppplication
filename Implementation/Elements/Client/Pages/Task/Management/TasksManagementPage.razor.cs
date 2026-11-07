@@ -13,16 +13,14 @@ public partial class TasksManagementPage : Microsoft.AspNetCore.Components.Compo
 {
 
   /* ━━━ Fields ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private readonly TasksSharedState incompletedTasksSharedState = TasksSharedState.
-      getInstanceByID(TasksSharedState.InstancesIDs.Incompleted);
+  private readonly TasksSharedState incompletedTasksSharedState = 
+      TasksSharedState.getInstanceByID(TasksSharedState.InstancesIDs.Incompleted);
   
-  private string taskManagerAdditionalCSS_Class =>
-      TasksSharedState.selectedTask is not null ? "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" : "";
+  private static string? taskManagerAdditionalCSS_Class =>
+      TasksSharedState.selectedTask is not null ? "TasksManagementPage-TaskManager__VisibleAtNarrowScreens" : null;
 
   private TaskManager taskManager = null!;
   
-  
-  /* ━━━ Localization ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private readonly TasksManagementPageLocalization localization = 
       ClientConfigurationRepresentative.GetBCP_47_Tag_OfSupportedLocale() switch
           {
@@ -132,7 +130,7 @@ public partial class TasksManagementPage : Microsoft.AspNetCore.Components.Compo
 
     if (TasksSharedState.selectedTask is null)
     {
-      throw new Exception("\"onDeleteTask\" method has been called while \"activeTask\" is still \"null\".");
+      throw new Exception("`onDeleteTask` method has been called while `TasksSharedState.selectedTask` is still `null`.");
     }
     
     
@@ -140,7 +138,9 @@ public partial class TasksManagementPage : Microsoft.AspNetCore.Components.Compo
 
     try
     {
+      
       await TasksSharedState.deleteTask(TasksSharedState.selectedTask.ID);
+      
     } catch (Exception exception)
     {
       

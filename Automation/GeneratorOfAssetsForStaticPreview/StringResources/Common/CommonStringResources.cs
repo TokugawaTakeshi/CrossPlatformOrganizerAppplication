@@ -39,28 +39,28 @@ internal abstract class CommonStringResources
   /* ━━━ Clickables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   internal abstract record Clickable;
   
-  // TODO YDFから取る
+  // TODO Get from YDF
   internal interface IClickableWithStaticLabel
   {
     internal string label { get; init; }
   }
   
-  // TODO YDFから取る
+  // TODO Get from YDF
   internal interface IClickableWithStaticAccessibilityGuidance
   {
     internal string accessibilityGuidance { get; init; }
   }
 
-  // TODO YDFから取る
-  internal interface IClickableWithDynamicAccessibilityGuidance<TemplateVariables>
+  // TODO Get from YDF
+  internal interface IClickableWithDynamicAccessibilityGuidance<TTemplateVariables>
   {
-    internal Func<TemplateVariables, string> generateAccessibilityGuidance { get; init; }
+    internal Func<TTemplateVariables, string> generateAccessibilityGuidance { get; init; }
   }
   
   
-  internal struct IconButtonWithDynamicAccessibilityGuidance<TemplateVariables>
+  internal struct IconButtonWithDynamicAccessibilityGuidance<TTemplateVariables>
   {
-    internal required Func<TemplateVariables, string> generateAccessibilityGuidance { get; init; }
+    internal required Func<TTemplateVariables, string> generateAccessibilityGuidance { get; init; }
   }
   
   
@@ -75,9 +75,9 @@ internal abstract class CommonStringResources
     internal string accessibilityGuidance { get; init; }
   }
   
-  internal interface IInputtableWithDynamicAccessibilityGuidance<TemplateVariables>
+  internal interface IInputtableWithDynamicAccessibilityGuidance<TTemplateVariables>
   {
-    internal Func<TemplateVariables, string> generateAccessibilityGuidance { get; init; }
+    internal Func<TTemplateVariables, string> generateAccessibilityGuidance { get; init; }
   }
   
   

@@ -21,6 +21,7 @@ $projectBuilding:
 
         $tasksAndSourceFilesSelection:
 
+          $markupProcessing: [ RazorPages, RazorLayouts, RazorGUI_Components ]
           $stylesProcessing: [ Shared, ExternalSharedGUI_Components ]
 
     $filesWatching:
@@ -36,6 +37,11 @@ $projectBuilding:
 
 
   $markupProcessing:
+
+    $common:
+      $buildingModeDependent:
+        $localDevelopment: { $mustResolveResourcesPointersToRelativePaths: true }
+        $production: { $mustResolveResourcesPointersToRelativePaths: true }
 
     $staticPreview:
 
@@ -68,6 +74,8 @@ $projectBuilding:
         $sourceFilesTopDirectoryRelativePath: Pages
         
         $sourceFilesSelection:
+          # TODO 一時的に
+          $penultimateNamesExtensionsOfExcludedFiles__withOrWithoutLeadingDots: "razor"
           $prefixesOfExcludedSubdirectories: "_"
           $prefixesOfExcludeFiles: "_"
 
@@ -97,6 +105,49 @@ $projectBuilding:
               $outputFileInterimNameExtensionWithoutDot: japanese
               $keyInLocalizedStringResourcesObject: $$japanese
               $valueOfConstantForInterpolationToLangHTML_Attribute: "ja"
+              
+      RazorPages:
+      
+        $sourceFilesTopDirectoryRelativePath: Pages
+        $sourceFilesSelection:
+          $onlyWithPenultimateFileNamesExtensions__withOrWithoutLeadingDots: "razor"
+          $prefixesOfExcludedSubdirectories: "_"
+          $prefixesOfExcludeFiles: "_"
+
+        $outputFormat: razor
+
+        $buildingModeDependent:
+          $localDevelopment:
+            $outputTopDirectoryRelativePath: Pages
+
+      RazorLayouts:
+
+        $sourceFilesTopDirectoryRelativePath: Layouts
+        $sourceFilesSelection:
+          $onlyWithPenultimateFileNamesExtensions__withOrWithoutLeadingDots: "razor"
+          $prefixesOfExcludedSubdirectories: "_"
+          $prefixesOfExcludeFiles: "_"
+
+        $outputFormat: razor
+
+        $buildingModeDependent:
+          $localDevelopment:
+            $outputTopDirectoryRelativePath: Layouts
+
+      RazorGUI_Components:
+
+        $sourceFilesTopDirectoryRelativePath: SharedGUI_Components
+        $sourceFilesSelection:
+          $onlyWithPenultimateFileNamesExtensions__withOrWithoutLeadingDots: "razor"
+          $namesOfExcludeSubdirectories: External
+          $prefixesOfExcludedSubdirectories: "_"
+          $prefixesOfExcludeFiles: "_"
+
+        $outputFormat: razor
+
+        $buildingModeDependent:
+          $localDevelopment:
+            $outputTopDirectoryRelativePath: SharedGUI_Components
             
     $routing:
 
@@ -118,8 +169,11 @@ $projectBuilding:
           $prefixesOfExcludeFiles: "_"
 
         $buildingModeDependent:
-          $staticPreview:
-            $outputTopDirectoryRelativePath: StaticPreview/Build
+          $staticPreview: { $outputTopDirectoryRelativePath: StaticPreview/Build }
+          $localDevelopment:
+            $outputTopDirectoryRelativePath: wwwroot
+            $sourcemaps: false
+            $revisioning: { $disable: true }
           $production:
             $outputTopDirectoryRelativePath: wwwroot
             $revisioning: { $disable: true }
@@ -129,6 +183,10 @@ $projectBuilding:
         $singleEntryPointSourceFileRelativePath: SharedGUI_Components/External/ExternalSharedGUI_Components.styl
         $buildingModeDependent:
           $staticPreview: { $outputTopDirectoryRelativePath: StaticPreview/Build }
+          $localDevelopment:
+            $outputTopDirectoryRelativePath: wwwroot
+            $sourcemaps: false
+            $revisioning: { $disable: true }
           $production:
             $outputTopDirectoryRelativePath: wwwroot
             $revisioning: { $disable: true }

@@ -1,15 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "Incrementally Build Static Preview": "rimraf StaticPreview/Build && yda build --selectiveExecution StaticPreview --mode STATIC_PREVIEW",
-    "Build Styles For Interactive Implementation": "yda build --selectiveExecution Application --mode PRODUCTION",
-    "String Resources Copying": "yd-pcsp automation-alpha-1.config.yaml"
+    "Incrementally build static preview": "rimraf StaticPreview/Build && yda build --selectiveExecution StaticPreview --mode STATIC_PREVIEW",
+    "Incrementally build assets for interactive implementation": "yda build --selectiveExecution Application --mode LOCAL_DEVELOPMENT",
+    "Build assets for production": "yda build --selectiveExecution Application --mode PRODUCTION",
+    "Copy string resources to automation directory": "yd-pcsp automation-alpha-1.config.yaml"
   },
   "dependencies": {
     "@yamato-daiwa/frontend": "../../../../../../WebDevelopmentProjects/InHouseDevelopment/YamatoDaiwaFrontend/Main/Core"
   },
   "devDependencies": {
-    "@yamato-daiwa/pug-csharp-static-preview": "0.1.0",
+    "@yamato-daiwa/pug-csharp-static-preview": "0.1.1",
     "@yamato-daiwa/automation": "0.10.0",
     "@yamato-daiwa/style_guides": "0.16.1",
     "rimraf": "6.1.3"

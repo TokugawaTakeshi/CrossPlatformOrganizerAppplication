@@ -29,73 +29,79 @@ public static class MockDataSource
   static MockDataSource()
   {
     
-    MockDataSource.People = PeopleCollectionsMocker.Generate([
-      new PeopleCollectionsMocker.Subset
-      {
-        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
-            mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-        WithNames = PeopleNamesRepository.PeopleNames,
-        Quantity = (uint)PeopleNamesRepository.PeopleNames.Length
-      },
-      new PeopleCollectionsMocker.Subset
-      {
-        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll, 
-        Quantity = 5
-      },
-      new PeopleCollectionsMocker.Subset
-      {
-        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
-            mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-        Quantity = 5
-      },
-      new PeopleCollectionsMocker.Subset
-      {
-        FamilyNamePrefix = "SEARCH_TEST-", 
-        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
-            mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-        Quantity = 5
-      },
-      new PeopleCollectionsMocker.Subset
-      {
-        NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.
-            mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-        WithNames =
-        [
-          new PersonNameData
-          {
-            FamilyName = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
-            FamilyNameSpell = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
-            GivenName = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
-            GivenNameSpell = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
-            IsGivenNameForMales = true
-          }
-        ],
-        Quantity = 1
-      }
-    ]).ToList();
+    MockDataSource.People =
+    [
+      .. PeopleCollectionsMocker.Generate([
+        new PeopleCollectionsMocker.Subset
+        {
+          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies
+            .mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
+          WithNames = PeopleNamesRepository.PeopleNames,
+          Quantity = (uint) PeopleNamesRepository.PeopleNames.Length
+        },
+        new PeopleCollectionsMocker.Subset
+        {
+          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
+          Quantity = 5
+        },
+        new PeopleCollectionsMocker.Subset
+        {
+          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies
+            .mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
+          Quantity = 5
+        },
+        new PeopleCollectionsMocker.Subset
+        {
+          FamilyNamePrefix = "SEARCH_TEST-",
+          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies
+            .mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
+          Quantity = 5
+        },
+        new PeopleCollectionsMocker.Subset
+        {
+          NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies
+            .mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
+          WithNames =
+          [
+            new PersonNameData
+            {
+              FamilyName = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
+              FamilyNameSpell = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
+              GivenName = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
+              GivenNameSpell = "OverflowTest:ÀÇĤfhjgpjklbĜiEstosTreMalfacileEnvolverLaVicoAbcdefghijklmnopqrstuvwxyza",
+              IsGivenNameForMales = true
+            }
+          ],
+          Quantity = 1
+        }
+      ])
+    ];
 
     MockDataSource.Locations = LocationSamplesRepository.Locations.ToList();
     
-    MockDataSource.Tasks = SampleTasksRepository.Tasks.Concat(
-      TasksCollectionsMocker.Generate(
+    MockDataSource.Tasks =
         [
-          new TasksCollectionsMocker.Subset
-          {
-            NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
-            Quantity = 10
-          },
-          new TasksCollectionsMocker.Subset
-          {
-            NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
-            Quantity = 5
-          }
-        ],
-        new TasksCollectionsMocker.Dependencies
-        {
-          Locations = MockDataSource.Locations.ToArray()
-        }
-      )
-    ).ToList();
+          .. SampleTasksRepository.Tasks,
+          .. TasksCollectionsMocker.Generate(
+            [
+              new TasksCollectionsMocker.Subset
+              {
+                NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies.mustGenerateAll,
+                Quantity = 10
+              },
+              new TasksCollectionsMocker.Subset
+              {
+                NullablePropertiesDecisionStrategy = DataMocking.NullablePropertiesDecisionStrategies
+                  .mustGenerateWith50PercentageProbabilityIfHasNotBeenPreDefined,
+                Quantity = 5
+              }
+            ],
+            new TasksCollectionsMocker.Dependencies
+            {
+              Locations = [ .. MockDataSource.Locations ]
+            }
+          )
+        ];
 
     MockDataSource.TaskCustomFolders = SampleTasksCustomFoldersRepository.taskCustomFolders;
 
@@ -110,7 +116,7 @@ public static class MockDataSource
   /* ━━━ People ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public static Person[] RetrieveAllPeople()
   {
-    return People.Select(person => person.clone()).ToArray();
+    return [ .. People.Select(person => person.clone()) ];
   }
 
   public static Person AddPerson(PersonGateway.Adding.RequestData requestData)
@@ -178,7 +184,7 @@ public static class MockDataSource
   /* ━━━ Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   public static Task[] RetrieveAllTasks()
   {
-    return Tasks.Select(task => task.clone()).ToArray();
+    return [ .. Tasks.Select(task => task.clone()) ];
   }
 
   public static Task AddTask(TaskGateway.Adding.RequestData requestData)
@@ -200,7 +206,7 @@ public static class MockDataSource
       },
       new TaskMocker.Dependencies
       {
-        Locations = MockDataSource.Locations.ToArray()
+        Locations = [ .. MockDataSource.Locations ]
       },
       new TaskMocker.Options
       {

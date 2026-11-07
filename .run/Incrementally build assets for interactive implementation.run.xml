@@ -1,0 +1,12 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Incrementally build assets for interactive implementation" type="js.build_tools.npm" nameIsGenerated="true">
+    <package-json value="$PROJECT_DIR$/Implementation/Elements/Client/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="Incrementally build assets for interactive implementation" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>
