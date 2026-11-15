@@ -30,10 +30,7 @@ internal abstract class CommonStringResources
   internal abstract Genders genders { get; }
   
   
-  internal struct ButtonWithVisibleLabel
-  {
-    internal required string label { get; init; }
-  }
+  internal record ButtonWithVisibleLabel(string label);
   
   
   /* ━━━ Clickables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -81,11 +78,11 @@ internal abstract class CommonStringResources
   }
   
   
-  internal struct MessageWithTitleAndDescription
-  {
-    internal required string title { get; init; }
-    internal required string description { get; init; }
-  }
+  internal record MessageWithTitleAndDescription
+  (
+    string title,
+    string description
+  );
 
   internal record ControlWithLabelAndGuidance
   {

@@ -18,23 +18,24 @@ public record PeopleViewerEnglishLocalization : PeopleViewerLocalization
   
   internal override Buttons buttons { get; init; } = new()
   {
-    personAdding = new CommonStringResources.ButtonWithVisibleLabel { label = "Add Person" },
-    retryingOfDataRetrieving = new CommonStringResources.ButtonWithVisibleLabel { label = "Retry to Retrieve" },
-    immediateAddingOfFirstPerson = new CommonStringResources.ButtonWithVisibleLabel { label = "Let add the first one" },
-    resettingOfFiltering = new CommonStringResources.ButtonWithVisibleLabel { label = "Reset Filtering" },
-    peopleFiltering = new CommonStringResources.ButtonWithVisibleLabel { label = "Filter People" }
+    personAdding = new CommonStringResources.ButtonWithVisibleLabel (label: "Add Person"),
+    retryingOfDataRetrieving = new CommonStringResources.ButtonWithVisibleLabel (label: "Retry to Retrieve"),
+    immediateAddingOfFirstPerson = new CommonStringResources.ButtonWithVisibleLabel (label: "Let add the first one"),
+    resettingOfFiltering = new CommonStringResources.ButtonWithVisibleLabel (label: "Reset Filtering"),
+    peopleFiltering = new CommonStringResources.ButtonWithVisibleLabel (label: "Filter People"),
   };
 
   internal override Errors errors { get; init; } = new()
   {
-    peopleRetrieving = new CommonStringResources.MessageWithTitleAndDescription
-    {
-      title = "People Retrieving Failure",
-      description = CommonEnglishStringResources.SingleInstance.
-        buildDataRetrievingOrSubmittingFailedPoliteMessage(
-          "The people selection retrieving has failed."
+    peopleRetrieving = 
+        new CommonStringResources.MessageWithTitleAndDescription
+        (
+          title: "People Retrieving Failure",
+          description: 
+              CommonEnglishStringResources.SingleInstance.buildDataRetrievingOrSubmittingFailedPoliteMessage(
+                "The people selection retrieving has failed."
+              )
         )
-    }
   };
   
   internal override Guidances guidances { get; init; } = new()

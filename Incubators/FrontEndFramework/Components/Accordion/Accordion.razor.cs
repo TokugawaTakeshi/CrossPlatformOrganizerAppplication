@@ -1,4 +1,4 @@
-﻿using YamatoDaiwa.Frontend.Animations;
+﻿// using YamatoDaiwa.Frontend.Animations;
 using YamatoDaiwa.Frontend.GUI_Components.Abstractions;
 using YamatoDaiwa.Frontend.Helpers;
 
@@ -10,8 +10,8 @@ namespace FrontEndFramework.Components.Accordion;
 public partial class Accordion : 
     Microsoft.AspNetCore.Components.ComponentBase, 
     IHTML_AttributesFallthrough,
-    IFlexibleExternalCSS_ClassesSpecifyingForRootElement,
-    IAsyncDisposable
+    IFlexibleExternalCSS_ClassesSpecifyingForRootElement
+    // IAsyncDisposable
 {
 
   public const string CSS_NAMESPACE = "Accordion--YDF";
@@ -49,7 +49,7 @@ public partial class Accordion :
   
   protected Microsoft.AspNetCore.Components.ElementReference rootElement;
   
-  protected CollapsingAnimation? collapsingAnimation;
+  // protected CollapsingAnimation? collapsingAnimation;
   
   protected bool isExpanded = false;
   
@@ -61,24 +61,24 @@ public partial class Accordion :
   protected async Task onClickButton()
   {
 
-    if (this.collapsingAnimation is null)
-    {
-      return;  
-    }
-    
+    // if (this.collapsingAnimation is null)
+    // {
+    //   return;  
+    // }
+    //
 
     if (this.isExpanded)
     {
 
       await this.onCollapsingStartedEventHandler.InvokeAsync();
       
-      await this.collapsingAnimation.Animate(
-        new CollapsingAnimation.CompoundParameter
-        {
-          animatedElement = this.rootElement,
-          duration__seconds = 1
-        }
-      );
+      // await this.collapsingAnimation.Animate(
+      //   new CollapsingAnimation.CompoundParameter
+      //   {
+      //     animatedElement = this.rootElement,
+      //     duration__seconds = 1
+      //   }
+      // );
       
       await this.onCollapsingEndedEventHandler.InvokeAsync();
       
@@ -273,19 +273,18 @@ public partial class Accordion :
   
   
   /* ━━━ Lifecycle Hooks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected override void OnInitialized()
-  {
-    base.OnInitialized();
-    this.collapsingAnimation = new CollapsingAnimation(this.javaScriptRuntime);
-  }
+  // protected override void OnInitialized()
+  // {
+  //   base.OnInitialized();
+  //   this.collapsingAnimation = new CollapsingAnimation(this.javaScriptRuntime);
+  // }
 
-  public async ValueTask DisposeAsync()
-  {
-    if (this.collapsingAnimation is not null)
-    {
-      await this.collapsingAnimation.DisposeAsync();
-    }
-  }
+  // public async ValueTask DisposeAsync()
+  // {
+  //   if (this.collapsingAnimation is not null)
+  //   {
+  //     await this.collapsingAnimation.DisposeAsync();
+  //   }
+  // }
   
 }
-

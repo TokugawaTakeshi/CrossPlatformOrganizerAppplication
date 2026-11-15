@@ -3,19 +3,12 @@
 namespace Client.SharedGUI_Components.Lists.TasksFolders.Localizations;
 
 
-internal abstract record TasksFoldersListLocalization
+internal abstract record TasksFoldersListLocalization(
+  TasksFoldersListLocalization.Buttons buttons,
+  string loadingStateAccessibilityGuidance
+)
 {
- 
-  /* ━━━ Buttons ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal abstract Buttons buttons { get; init; }
   
-  internal record Buttons
-  {
-    internal required CommonStringResources.ButtonWithVisibleLabel addingOfNewTaskFolder { get; init;  }
-  }
-  
-  
-  /* ━━━ Accessibility Guidancs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal abstract string loadingStateAccessibilityGuidance { get; init; }
+  internal record Buttons(CommonStringResources.ButtonWithVisibleLabel addingOfNewTaskFolder);
   
 }

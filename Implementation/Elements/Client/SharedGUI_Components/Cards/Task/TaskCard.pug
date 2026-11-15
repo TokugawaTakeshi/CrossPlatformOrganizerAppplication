@@ -3,14 +3,21 @@ mixin TaskCard(properties)
   -
 
     const {
+      
+      /** @type { Task } */
       task,
+      
+      /** @type { string } */
       rootElementTag = "div",
+      
+      /** @type { boolean } */
       disabled = false
+      
     } = properties;
 
     if (rootElementTag === "a") {
       throw new Error(
-        "The \"a\" could not be the root element of \"TaskCard\" component because it has the internal links while " +
+        "The \"a\" can not be the root element of \"TaskCard\" component because it has the internal links while " +
           "the nested links are not allowed by HTML5 standard."
       )
     }
@@ -39,6 +46,19 @@ mixin TaskCard(properties)
 
     -
       
+      /**
+       * @type {
+       *   Readonly<{
+       *     [ 
+       *       keys in
+       *         "deadlineDateTime" |
+       *         "deadlineDate" |
+       *         "associatedDate" |
+       *         "priority"
+       *     ]: boolean;
+       *   }>
+       * }
+        * */
       const badgesFlags = {
         deadlineDateTime: YDF.isNeitherUndefinedNorNull(task.deadlineDateTime),
         deadlineDate: YDF.isNeitherUndefinedNorNull(task.deadlineDate),
@@ -70,7 +90,9 @@ mixin TaskCard(properties)
       
         if badgesFlags.associatedDate
 
-          - const formattedLocalDate = new Date(task.startingDate ?? task.startingDateTime).toLocaleDateString();
+          - 
+            /** @type { string } */
+            const formattedLocalDate = new Date(task.startingDate ?? task.startingDateTime).toLocaleDateString();
           
           +Badge--YDF({
             keyLabel: "Date",

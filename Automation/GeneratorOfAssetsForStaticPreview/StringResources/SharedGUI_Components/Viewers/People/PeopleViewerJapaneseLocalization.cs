@@ -18,23 +18,24 @@ public record PeopleViewerJapaneseLocalization : PeopleViewerLocalization
   
   internal override Buttons buttons { get; init; } = new()
   {
-    personAdding = new CommonStringResources.ButtonWithVisibleLabel { label = "人を追加" },
-    retryingOfDataRetrieving = new CommonStringResources.ButtonWithVisibleLabel { label = "取得再試験" },
-    immediateAddingOfFirstPerson = new CommonStringResources.ButtonWithVisibleLabel { label = "一名目の人を追加しましょう" },
-    resettingOfFiltering = new CommonStringResources.ButtonWithVisibleLabel { label = "絞り込みを解除" },
-    peopleFiltering = new CommonStringResources.ButtonWithVisibleLabel { label = "課題をフィルタリング" }
+    personAdding = new CommonStringResources.ButtonWithVisibleLabel (label: "人を追加"),
+    retryingOfDataRetrieving = new CommonStringResources.ButtonWithVisibleLabel (label: "取得再試験" ),
+    immediateAddingOfFirstPerson = new CommonStringResources.ButtonWithVisibleLabel (label: "一名目の人を追加しましょう" ),
+    resettingOfFiltering = new CommonStringResources.ButtonWithVisibleLabel (label: "絞り込みを解除" ),
+    peopleFiltering = new CommonStringResources.ButtonWithVisibleLabel (label: "課題をフィルタリング" )
   };
   
   internal override Errors errors { get; init; } = new()
   {
-    peopleRetrieving = new CommonStringResources.MessageWithTitleAndDescription
-    {
-      title = "人一覧取得失敗",
-      description = CommonJapaneseStringResources.SingleInstance.
-        buildDataRetrievingOrSubmittingFailedPoliteMessage(
-          "人一覧取得中、不具合が発生しました。"
+    peopleRetrieving = 
+        new CommonStringResources.MessageWithTitleAndDescription
+        (
+          title: "人一覧取得失敗",
+          description: 
+              CommonJapaneseStringResources.SingleInstance.buildDataRetrievingOrSubmittingFailedPoliteMessage(
+                "人一覧取得中、不具合が発生しました。"
+              )
         )
-    }
   };
   
   internal override Guidances guidances { get; init; } = new()

@@ -8,7 +8,7 @@
   name=@rootElementTag
   attributes=@(
     new Dictionary<string, object> {
-      { "class", composeClassAttributeValueForRootElement("TaskCard") },
+      { "class", composeClassAttributeValueForRootElement(namespaceCSS_Class: "TaskCard") },
       { "tabindex", "0" },
       { "onclick", (object)this.onClickRootElement }
     }

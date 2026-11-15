@@ -7,20 +7,13 @@ using GeneratorOfAssetsForStaticPreview.StringResources.Common;
 namespace GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Lists.TasksFolders;
 
 
-internal record TasksFoldersListJapaneseLocalization : TasksFoldersListLocalization
-{
+internal record TasksFoldersListJapaneseLocalization() : TasksFoldersListLocalization(
   
-  /* ━━━ ボタン ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal override Buttons buttons { get; init; } = new()
-  {
-    addingOfNewTaskFolder = new CommonStringResources.ButtonWithVisibleLabel
-    {
-      label = "新規フォルダー"
-    }
-  };
+  buttons: 
+      new TasksFoldersListLocalization.Buttons(
+        addingOfNewTaskFolder: new CommonStringResources.ButtonWithVisibleLabel(label: "新規フォルダー")
+      ),
   
-  
-  /* ━━━ アクセシビリティ案内 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal override string loadingStateAccessibilityGuidance { get; init; } = "課題カスタムフォルダーはロード中です。暫くお待ち下さい。";
-  
-}
+  loadingStateAccessibilityGuidance: "課題カスタムフォルダーはロード中です。暫くお待ち下さい。"
+      
+);

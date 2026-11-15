@@ -14,10 +14,10 @@ internal record PersonManagerEnglishLocalization : PersonManagerLocalization
   
   internal override Buttons buttons { get; init; } = new()
   {
-    personEditing = new CommonStringResources.ButtonWithVisibleLabel { label = "Edit Person"},
-    personDeleting = new CommonStringResources.ButtonWithVisibleLabel { label = "Delete Person"},
-    personSaving = new CommonStringResources.ButtonWithVisibleLabel { label = "Save Person"},
-    terminatingOfEditing = new CommonStringResources.ButtonWithVisibleLabel { label = "Cancel Editing"}
+    personEditing = new CommonStringResources.ButtonWithVisibleLabel(label: "Edit Person"),
+    personDeleting = new CommonStringResources.ButtonWithVisibleLabel(label: "Delete Person"),
+    personSaving = new CommonStringResources.ButtonWithVisibleLabel(label: "Save Person"),
+    terminatingOfEditing = new CommonStringResources.ButtonWithVisibleLabel(label: "Cancel Editing" )
   };
 
   internal override MetadataKeys metadataKeys { get; } = new()

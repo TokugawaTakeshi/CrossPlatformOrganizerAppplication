@@ -7,68 +7,45 @@ using GeneratorOfAssetsForStaticPreview.StringResources.Common;
 namespace GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.Task;
 
 
-internal abstract record TaskManagerLocalization
+internal abstract record TaskManagerLocalization(
+  string heading,
+  TaskManagerLocalization.Buttons buttons,
+  TaskManagerLocalization.Labels labels,
+  TaskManagerLocalization.TaskStatuses taskStatuses,
+  TaskManagerLocalization.TasksPriorities tasksPriorities,
+  TaskManagerLocalization.Inputs inputs,
+  CommonStringResources.ModalDialog taskDeletingConfirmationModalDialog
+)
 {
   
-  internal abstract string heading { get; }
+  internal record Buttons(
+    CommonStringResources.ButtonWithVisibleLabel taskEditing,
+    CommonStringResources.ButtonWithVisibleLabel taskDeleting,
+    CommonStringResources.ButtonWithVisibleLabel taskSaving,
+    CommonStringResources.ButtonWithVisibleLabel terminatingOfEditing
+  );
   
+  internal record Labels(
+    string title,
+    string status,
+    string priority,
+    string description
+  );
   
-  /* ━━━ Buttons ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record Buttons
-  {
-    internal required CommonStringResources.ButtonWithVisibleLabel taskEditing { get; init; }
-    internal required CommonStringResources.ButtonWithVisibleLabel taskDeleting { get; init; }
-    internal required CommonStringResources.ButtonWithVisibleLabel taskSaving { get; init; }
-    internal required CommonStringResources.ButtonWithVisibleLabel terminatingOfEditing { get; init; }
-  }
-  
-  internal abstract Buttons buttons { get; init; }
+  internal record TaskStatuses(
+    string inProgress,
+    string completed
+  );
 
+  internal record TasksPriorities(
+    string one,
+    string two,
+    string three
+  );
   
-  /* ━━━ Labels ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record Labels
-  {
-    internal required string title { get; init; }
-    internal required string status { get; init; }
-    internal required string priority { get; init; }
-    internal required string description { get; init; }
-  }
-  
-  internal abstract Labels labels { get; init; }
-  
-
-  /* ━━━ Tasks Statuses ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record TaskStatuses
-  {
-    internal required string inProgress { get; init; }
-    internal required string completed { get; init; }
-  }
-  
-  internal abstract TaskStatuses taskStatuses { get; init; }
-  
-
-  /* ━━━ Tasks Priorities ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record TasksPriorities
-  {
-    internal required string one { get; init; }
-    internal required string two { get; init; }
-    internal required string three { get; init; }
-  }
-  
-  internal abstract TasksPriorities tasksPriorities { get; init; }
-  
-  
-  /* ━━━ Inputs ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record Inputs
-  {
-    internal required CommonStringResources.ControlWithLabelAndGuidance taskTitle { get; init; }
-    internal required CommonStringResources.ControlWithLabelAndGuidance taskDescription { get; init; }
-  }
-  
-  internal abstract Inputs inputs { get; }
-  
-  
-  /* ━━━ Task Deleting Confirmation Modal Dialog ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal abstract CommonStringResources.ModalDialog taskDeletingConfirmationModalDialog { get; init; }
+  internal record Inputs(
+    CommonStringResources.ControlWithLabelAndGuidance taskTitle,
+    CommonStringResources.ControlWithLabelAndGuidance taskDescription
+  );
   
 }

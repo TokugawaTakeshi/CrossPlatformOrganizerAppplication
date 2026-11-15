@@ -5,13 +5,13 @@
 namespace GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Cards.Task;
 
 
-internal record TaskCardJapaneseLocalization : TaskCardLocalization
-{
-
-  internal override Badges badges { get; init; } = new()
-  {
-    date = "日付",
-    dateTime = "日時"
-  };
-
-}
+internal record TaskCardJapaneseLocalization() : TaskCardLocalization(
+  
+  badges:
+  
+      new TaskCardLocalization.Badges(
+        date: "日付",
+        dateTime: "日時"
+      )
+  
+);

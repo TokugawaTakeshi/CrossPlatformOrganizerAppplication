@@ -7,56 +7,46 @@ using GeneratorOfAssetsForStaticPreview.StringResources.Common;
 namespace GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Controls.TasksFilteringPanel;
 
 
-internal abstract record TasksFilteringPanelLocalization
+internal abstract record TasksFilteringPanelLocalization (
+  TasksFilteringPanelLocalization.Titles titles,
+  TasksFilteringPanelLocalization.SummaryFolders summaryFolders,
+  TasksFilteringPanelLocalization.Buttons buttons,
+  TasksFilteringPanelLocalization.ErrorMessages errorsMessages
+) 
 {
   
   /* ━━━ Titles ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record Titles
-  {
-    internal required string summaries { get; init; }
-    internal required string custom { get; init; }
-  }
-  
-  internal abstract Titles titles { get; init; }
+  internal record Titles (
+    string summaries,
+    string custom
+  );
 
 
   /* ━━━ Summary Folders ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record SummaryFolder
-  {
-    internal required string title { get; init; }
-    internal required string accessibilityGuidance { get; init; }
-  }
+  internal record SummaryFolder(
+    string title,
+    string accessibilityGuidance
+  );
   
-  internal record SummaryFolders
-  {
-    internal required SummaryFolder all { get; init; }
-    internal required SummaryFolder today { get; init; }
-    internal required SummaryFolder overdue { get; init; }
-    internal required SummaryFolder byDatesAndTimes { get; init; }
-    internal required SummaryFolder byDates { get; init; }
-    internal required SummaryFolder byLocations { get; init; }
-    internal required SummaryFolder repeating { get; init; }
-  }
-  
-  internal abstract SummaryFolders summaryFolders { get; init; }
+  internal record SummaryFolders(
+    TasksFilteringPanelLocalization.SummaryFolder all,
+    TasksFilteringPanelLocalization.SummaryFolder today,
+    TasksFilteringPanelLocalization.SummaryFolder overdue,
+    TasksFilteringPanelLocalization.SummaryFolder byDatesAndTimes,
+    TasksFilteringPanelLocalization.SummaryFolder byDates,
+    TasksFilteringPanelLocalization.SummaryFolder byLocations,
+    TasksFilteringPanelLocalization.SummaryFolder repeating
+  );
 
   
   /* ━━━ Buttons ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal abstract Buttons buttons { get; init; }
-  
-  internal record Buttons
-  {
-    internal required CommonStringResources.ButtonWithVisibleLabel retryingOfTasksCustomFoldersRetrieving { get; init;  }
-    internal required CommonStringResources.ButtonWithVisibleLabel addingOfFirstTaskCustomFolder { get; init;  }
-  }
+  internal record Buttons(
+    CommonStringResources.ButtonWithVisibleLabel retryingOfTasksCustomFoldersRetrieving,
+    CommonStringResources.ButtonWithVisibleLabel addingOfFirstTaskCustomFolder
+  );
   
   
   /* ━━━ Errors Messages ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  internal record ErrorMessages
-  {
-    internal required string taskCustomFoldersRetrievingFailed { get; init; }
-  }
-  
-  internal abstract ErrorMessages errorMessages { get; init; }
+  internal record ErrorMessages(string taskCustomFoldersRetrievingFailed);
 
 }

@@ -14,10 +14,10 @@ internal record PersonManagerJapaneseLocalization : PersonManagerLocalization
   
   internal override Buttons buttons { get; init; } = new()
   {
-    personEditing = new CommonStringResources.ButtonWithVisibleLabel { label = "人を編集"},
-    personDeleting = new CommonStringResources.ButtonWithVisibleLabel { label = "人を削除"},
-    personSaving = new CommonStringResources.ButtonWithVisibleLabel { label = "人を保存"},
-    terminatingOfEditing = new CommonStringResources.ButtonWithVisibleLabel { label = "編集停止"}
+    personEditing = new CommonStringResources.ButtonWithVisibleLabel(label: "人を編集"),
+    personDeleting = new CommonStringResources.ButtonWithVisibleLabel(label: "人を削除"),
+    personSaving = new CommonStringResources.ButtonWithVisibleLabel(label: "人を保存"),
+    terminatingOfEditing = new CommonStringResources.ButtonWithVisibleLabel(label: "編集停止"),
   };
   
   internal override MetadataKeys metadataKeys { get; } = new()
@@ -30,7 +30,7 @@ internal record PersonManagerJapaneseLocalization : PersonManagerLocalization
     phoneNumber = "電話番号"
   };
   
-  internal override CommonStringResources.ModalDialog personDeletingConfirmationModalDialog { get; init; } = new CommonStringResources.ModalDialog()
+  internal override CommonStringResources.ModalDialog personDeletingConfirmationModalDialog { get; init; } = new()
   {
     title = "削除確認",
     question = "この課題の削除で宜しいでしょうか。"
