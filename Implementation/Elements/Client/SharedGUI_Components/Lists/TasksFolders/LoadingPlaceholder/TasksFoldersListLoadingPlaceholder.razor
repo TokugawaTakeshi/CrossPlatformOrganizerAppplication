@@ -1,0 +1,61 @@
+﻿@using Client.SharedGUI_Components.Lists.TasksFolders.Item.LoadingPlaceholder
+@using Client.SharedGUI_Components.Lists.TasksFolders.Localizations
+@using CommonSolution.Restrictions
+@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.Helpers
+
+
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough;
+
+
+<div 
+  class=@this.getClassAttributeValueForRootElement(CSS_Namespace: "TasksFilteringPanel")
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  
+  <p class="TasksFoldersList--LoadingPlaceholder-AccessibilityGuidance">
+    @(this.localization.loadingStateAccessibilityGuidance)
+  </p>
+  
+  @for (uint itemNumber = 0; itemNumber < this.itemsCount; itemNumber++)
+  {
+    <TasksFoldersListItemLoadingPlaceholder />
+  }
+  
+</div>
+
+
+@code
+{
+  
+  /* ━━━ Blazor Component Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
+    
+  [Microsoft.AspNetCore.Components.Parameter]
+  public byte itemsCount { get; set; }
+  
+  
+  /* ━━━ Localization ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private readonly TasksFoldersListLocalization localization = 
+      ClientConfigurationRepresentative.GetBCP_47_Tag_OfSupportedLocale() switch
+          {
+            SupportedCultures.BCP_47_Tags.JAPANESE => new TasksFoldersListJapaneseLocalization(),
+            SupportedCultures.BCP_47_Tags.ENGLISH__UNITED_KINGDOM => new TasksFoldersListEnglishLocalization(),
+            _ => throw new ArgumentOutOfRangeException()
+          };
+
+
+  /* ━━━ Rendering ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private string getClassAttributeValueForRootElement(string CSS_Namespace)
+  {
+    return YDF_ComponentsHelper.GenerateClassAttributeValueForRootElement(
+      new YDF_ComponentsHelper.SettingsForGeneratingOfClassAttributeValueForRootElement
+      {
+        CSS_Namespace = CSS_Namespace,
+        rootElementHTML_Attributes = this.rootElementHTML_Attributes
+      }
+    );
+  }
+  
+}

@@ -1,0 +1,48 @@
+﻿@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
+@using FrontEndFramework.SVG_Icons.Triangle;
+
+
+<div 
+  class=@classAttributeValueForRootElement
+  @attributes=@rootElementHTML_Attributes
+  @ref=@rootElement
+>
+
+  <div class="Accordion--YDF-Header">
+
+    <Button
+      label=@title
+      aria-expanded=@isExpanded
+      aria-controls=@PANEL_HTML_ID
+      id=@BUTTON_HTML_ID
+      onClick=@onClickButton
+      class="Accordion--YDF-Button"
+    >
+      <PrependedSVG_Icon>
+        @if (isExpanded)
+        {
+          <Triangle__Rightward__Filled class="Button--YDF-SVG_Icon" />
+        }
+        else
+        {
+          <Triangle__Downward__Filled class="Button--YDF-SVG_Icon"/>   
+        }
+      </PrependedSVG_Icon>
+    </Button>
+
+  </div>
+  
+  <div
+    class=@composePanelSpaceSeparatedCSS_Classes("Accordion--YDF-Panel")
+    role="region"
+    id=@PANEL_HTML_ID
+    hidden=@(!isExpanded)
+    aria-labelledby=@BUTTON_HTML_ID
+  >
+    @if (isExpanded)
+    {
+      @ChildContent 
+    }
+  </div>
+  
+</div>

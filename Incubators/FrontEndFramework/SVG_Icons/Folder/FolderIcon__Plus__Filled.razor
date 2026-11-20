@@ -1,0 +1,22 @@
+﻿@using YamatoDaiwa.CSharpExtensions
+
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough
+
+
+<svg 
+  xmlns="http://www.w3.org/2000/svg" 
+  viewBox="0 0 20 17.27"
+  class=@(rootElementHTML_Attributes?.TryGetValue("class", out object? classValue) == true ? classValue : null)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  <path d="M1.82 3.64H0v11.81c0 1 .82 1.82 1.82 1.82h15.45v-1.82H1.82V3.64Z" />
+  <path d="M18.18 1.82h-6.36L10 0H5.45c-1 0-1.81.82-1.81 1.82v10c0 1 .81 1.82 1.81 1.82h12.73c1 0 1.82-.82 1.82-1.82V3.64c0-1-.82-1.82-1.82-1.82Zm.2 6.77h-2.45v2.45h-1.64V8.59h-2.45V6.95h2.45V4.5h1.64v2.45h2.45v1.64Z"></path>
+</svg>
+
+
+@code {
+
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
+
+}

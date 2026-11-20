@@ -1,4 +1,5 @@
 using CommonSolution.Gateways;
+using CommonSolution.Gateways.Task;
 
 
 namespace Client;
@@ -8,9 +9,10 @@ internal class ClientDependencies {
 
   public required Gateways gateways { get; init; }
 
-  public struct Gateways {
+  public record Gateways {
     public required PersonGateway Person { get; init; }
     public required TaskGateway Task { get; init; }
+    public required TaskCustomFolderGateway TaskCustomFolder { get; init; }  
   }
   
   public abstract class Injector {
@@ -36,9 +38,7 @@ internal class ClientDependencies {
       
     }
 
-    public static Gateways gateways() {
-      return getDependencies().gateways;
-    }
+    public static Gateways gateways => getDependencies().gateways;
     
   }
   

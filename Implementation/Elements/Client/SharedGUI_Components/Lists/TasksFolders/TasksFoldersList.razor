@@ -1,0 +1,47 @@
+﻿@using Client.SharedGUI_Components.Lists.TasksFolders.Item
+@using CommonSolution.Entities.Task
+@using FrontEndFramework.SVG_Icons.Folder
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
+@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.Helpers
+
+
+<ul 
+  class=@ElementClassAttribute.Generate("TasksFoldersList", this.rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+
+  @if (this.ChildContent is not null)
+  {
+    
+    @this.ChildContent
+    
+  } else
+  {
+    
+    @foreach(TaskCustomFolder taskCustomFolder in this.taskCustomFolders)
+    {
+      <TasksFoldersListItem
+        taskCustomFolder=@taskCustomFolder
+        isSelected=@(taskCustomFolder.ID == selectedTaskCustomFolderID)
+        onSelectFolderEventHandler=@onSelectFolderEventHandler
+      />
+    }
+    
+    <li class="TasksFoldersList-NewFolderAddingButtonValidityWrapper">
+    
+      <Button
+        label=@localization.buttons.addingOfNewTaskFolder.label
+        geometricVariation=@Button.StandardGeometricVariations.small
+        class="TasksViewer-TopActionBar-ButtonForWideContainers"
+      >
+        <PrependedSVG_Icon>
+          <FolderIcon__Plus__Filled class="Button--YDF-SVG_Icon"/>
+        </PrependedSVG_Icon>
+      </Button>
+    
+    </li>
+    
+  }
+  
+</ul>

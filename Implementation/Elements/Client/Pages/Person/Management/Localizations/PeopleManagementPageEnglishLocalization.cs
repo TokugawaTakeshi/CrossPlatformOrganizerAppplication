@@ -1,7 +1,6 @@
 ﻿// ReSharper disable ReplaceAutoPropertyWithComputedProperty
 // To avoid generating a backing field https://stackoverflow.com/a/77935080/4818123
 
-
 using Client.Resources.Localizations;
 
 
@@ -11,6 +10,8 @@ namespace Client.Pages.Person.Management.Localizations;
 internal record PeopleManagementPageEnglishLocalization : PeopleManagementPageLocalization
 {
 
+  internal override string pageTitle { get; } = "People Management — Experimental CSharp Application";
+  
   internal override string personManagerActivationGuidance { get; } = 
       "Click or tap the person card to view details or edit the dedicated person data.";
   
@@ -23,11 +24,11 @@ internal record PeopleManagementPageEnglishLocalization : PeopleManagementPageLo
   
   internal override ErrorMessages errorMessages { get; init; } = new()
   {
-    personAddingFailed = SharedStaticEnglishStrings.SingleInstance.
+    personAddingFailed = CommonEnglishStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during adding of new person."),
-    personUpdatingFailed = SharedStaticEnglishStrings.SingleInstance.
+    personUpdatingFailed = CommonEnglishStringResources.SingleInstance.
         buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during updating of person."),
-    personDeletingFailed = SharedStaticEnglishStrings.SingleInstance.
+    personDeletingFailed = CommonEnglishStringResources.SingleInstance.
       buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during deleting of person.")
   };
   

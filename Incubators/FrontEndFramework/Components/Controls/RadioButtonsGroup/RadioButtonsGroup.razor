@@ -1,10 +1,10 @@
-﻿@using YamatoDaiwa.Frontend.Components.Controls.CompoundControlShell
+﻿@using YamatoDaiwa.Frontend.GUI_Components.Controls.ValidatableControlShell
 
 
-@inherits FrontEndFramework.Components.Controls.InputtableControl
+@inherits YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.InputtableControl
 
 
-<CompoundControlShell
+<ValidatableControlShell
   spaceSeparatedAdditionalCSS_Classes="@string.Concat("TextBox--YDF ", rootElementModifierCSS_Classes, " ", spaceSeparatedAdditionalCSS_Classes)"
   label=@label
   guidance=@guidance
@@ -37,4 +37,4 @@
     
   </div>
   
-</CompoundControlShell>
+</ValidatableControlShell>

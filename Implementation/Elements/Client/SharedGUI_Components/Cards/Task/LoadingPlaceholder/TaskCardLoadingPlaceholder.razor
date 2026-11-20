@@ -1,0 +1,21 @@
+﻿@using YamatoDaiwa.Frontend.GUI_Components.Badge.LoadingPlaceholder
+
+
+<div 
+  class="TaskCard TaskCard__LoadingPlaceholder"
+  aria-hidden="true"
+>
+  
+  <div class="TaskCard-Checkbox TaskCard-Checkbox__LoadingPlaceholder"></div>
+  <div class="TaskCard-Title TaskCard-Title__LoadingPlaceholder"></div>
+  
+  <div class="TaskCard-BadgesFlow">
+    @foreach (uint unused in new uint[2])
+    {
+      <BadgeLoadingPlaceholder/>
+    }
+  </div>
+  
+  <div class="TaskCard-Description TaskCard-Description__LoadingPlaceholder"></div>
+  
+</div>

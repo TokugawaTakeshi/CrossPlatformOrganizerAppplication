@@ -1,0 +1,209 @@
+﻿-
+
+  class MonthViewer {
+    
+    static localizedStringResources = {
+
+      dayTitlesCells: [
+        {
+          longLabel: "Sunday",
+          shortLabel: "SUN"
+        },
+        {
+          longLabel: "Monday",
+          shortLabel: "MON"
+        },
+        {
+          longLabel: "Tuesday",
+          shortLabel: "TUE"
+        },
+        {
+          longLabel: "Wednesday",
+          shortLabel: "WED"
+        },
+        {
+          longLabel: "Thursday",
+          shortLabel: "THU"
+        },
+        {
+          longLabel: "Friday",
+          shortLabel: "FRI"
+        },
+        {
+          longLabel: "Saturday",
+          shortLabel: "SAT"
+        }
+      ]
+      
+    }
+    
+  }
+
+
+mixin MonthViewer(properties, statesSimulations)
+
+  - 
+
+    const {
+    
+    } = properties ?? {};
+ 
+    const {
+    
+    } = statesSimulations ?? {};
+    
+    
+  table.MonthViewer&attributes(attributes)
+
+    thead: tr
+    
+      each cellData, index in MonthViewer.localizedStringResources.dayTitlesCells
+      
+        th.MonthViewer-DayTitleCell(
+          scope="col"
+          class=[ [ 0, 6].includes(index) ? "MonthViewer-DayTitleCell__Holiday" : null ]
+        )
+          .MonthViewer-DayTitleCell-ContainerQueryProvider
+            span.MonthViewer-DayTitleCell-LongLabel= cellData.longLabel
+            span.MonthViewer-DayTitleCell-ShortLabel= cellData.shortLabel
+
+    tbody
+
+      -
+
+        /** @type ReadonlyArray<ReadonlyArray<CalendarBuilder.CalendarCellData>> */
+        const weekRowsData = 
+            YDF.CalendarBuilder.generateDataFor6x7DaysMatrix({
+              targetYear: 2023,
+              targetMonthNumber__numerationFrom1: 1,
+              firstDayOfWeek__numerationFrom0ForSunday: 0
+            });
+
+      each weekRowData in weekRowsData
+
+        tr
+        
+          each dayCellData in weekRowData
+            
+            //- 【 Theory 】 "container-type: size" does now work on "td", additional child must be added.
+            td.MonthViewer-DayCell: .MonthViewer-DayCell-ContainerQueryProvider
+
+              span.MonthViewer-DayCell-Title= dayCellData.dayOfMonth
+  
+              -
+
+                /** @type boolean */
+                const hasOneOrMoreTasksAssociatedWithTime = YDF.getRandomBoolean();
+                
+                /** @type boolean */
+                const hasOneOrMoreTasksAssociatedWithDate = YDF.getRandomBoolean();
+                
+                /** @type boolean */
+                const hasOneOrMoreDocumentsAssociatedWithDate = YDF.getRandomBoolean();
+
+                /** @type string */
+                const ITEMS_RELATED_WITH_TIME_TITLE_HTML_ID = `ITEMS_RELATED_WITH_TIME--TITLE-${ dayCellData.year }-` +
+                    `${ dayCellData.monthNumber__numerationFrom1 }-${ dayCellData.dayOfMonth }`
+                    
+                /** @type string */
+                const ITEMS_RELATED_WITH_DATE_TITLE_HTML_ID = `ITEMS_RELATED_WITH_DATE--TITLE-${ dayCellData.year }-` +
+                    `${ dayCellData.monthNumber__numerationFrom1 }-${ dayCellData.dayOfMonth }`
+                    
+                /** @type string */
+                const DOCUMENTS_RELATED_WITH_DATE_TITLE_HTML_ID = `DOCUMENTS_RELATED_WITH_DATE--TITLE-${ dayCellData.year }-` +
+                    `${ dayCellData.monthNumber__numerationFrom1 }-${ dayCellData.dayOfMonth }`
+  
+              .MonthViewer-DayCell-ScrollViewForLargeContainers
+                
+                if hasOneOrMoreTasksAssociatedWithTime
+                
+                  .MonthViewer-DayCell-ScrollViewForLargeContainers-Title(
+                    id=ITEMS_RELATED_WITH_TIME_TITLE_HTML_ID
+                  ) Schedule
+
+                  ul.MonthViewer-DayCell-ScrollViewForLargeContainers-List(
+                    aria-labelledby=ITEMS_RELATED_WITH_TIME_TITLE_HTML_ID
+                    class="MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificTime"
+                  )
+                    each index in Array.from(new Array(5).keys())
+                      li.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Item
+                        .MonthViewer-DayCell-ScrollViewForLargeContainers-List-IconDecorativeWrapper
+                          +Calendar__Time--YDF_Icon.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Icon(
+                            aria-label="Today's task"
+                          )
+                        span.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Label
+                          | #{ index === 3 ? textOverflowSafetyTest : `Meeting ${ index + 1 }` }                  
+              
+                if hasOneOrMoreTasksAssociatedWithTime
+                  
+                  .MonthViewer-DayCell-ScrollViewForLargeContainers-Title(
+                    id=ITEMS_RELATED_WITH_DATE_TITLE_HTML_ID
+                  ) Today
+
+                  ul.MonthViewer-DayCell-ScrollViewForLargeContainers-List(
+                    aria-labelledby=ITEMS_RELATED_WITH_DATE_TITLE_HTML_ID
+                    class="MonthViewer-DayCell-ScrollViewForLargeContainers-List__ActionAssociatedWithSpecificDate"
+                  )
+                    each index in Array.from(new Array(5).keys())
+                      li.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Item
+                        .MonthViewer-DayCell-ScrollViewForLargeContainers-List-IconDecorativeWrapper
+                          +Calendar__Date--YDF_Icon.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Icon(
+                            aria-label="Today's task"
+                          )
+                        span.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Label
+                          | #{ index === 3 ? textOverflowSafetyTest : `Buy ${ index + 1 }` }
+                        
+                if hasOneOrMoreDocumentsAssociatedWithDate
+
+                  .MonthViewer-DayCell-ScrollViewForLargeContainers-Title(
+                    id=DOCUMENTS_RELATED_WITH_DATE_TITLE_HTML_ID
+                  ) Today's Documents 
+
+                  ul.MonthViewer-DayCell-ScrollViewForLargeContainers-List(
+                    aria-labelledby=DOCUMENTS_RELATED_WITH_DATE_TITLE_HTML_ID
+                    class="MonthViewer-DayCell-ScrollViewForLargeContainers-List__DocumentsAssociatedWithSpecificTime"
+                  )
+                    each index in Array.from(new Array(5).keys())
+                      li.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Item
+                        .MonthViewer-DayCell-ScrollViewForLargeContainers-List-IconDecorativeWrapper
+                          +Folder__Stationery--YDF_Icon.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Icon(
+                            aria-label="Today's document"
+                          )
+                        span.MonthViewer-DayCell-ScrollViewForLargeContainers-List-Label
+                          | #{ index === 3 ? textOverflowSafetyTest : `Doc. ${ index + 1 }` }
+                
+              //-
+                if hasOneOrMoreTasksAssociatedWithDate
+    
+                  .MonthViewer-DayCell-ButtonForSmallContainers-TitleWithIconGroup
+                    +Calendar__Time--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon
+                    span.MonthViewer-DayCell-ButtonForSmallContainers-Icon 日時関連
+    
+                if hasOneOrMoreDocumentsAssociatedWithDate
+    
+                  .MonthViewer-DayCell-ButtonForSmallContainers-TitleWithIconGroup
+                    +Folder__Stationery--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon
+                    span.MonthViewer-DayCell-ButtonForSmallContainers-Icon 関連資料
+
+              //-
+                button.MonthViewer-DayCell-ButtonForSmallContainers(
+                  type="button"
+                )
+  
+                  if hasOneOrMoreTasksAssociatedWithTime
+  
+                    +Calendar__Date--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon(
+                      aria-label="日が特定された行動"
+                    )
+  
+                  if hasOneOrMoreTasksAssociatedWithDate
+  
+                    +Calendar__Time--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon(
+                      aria-label="時が特定された行動"
+                    )
+  
+                  if hasOneOrMoreDocumentsAssociatedWithDate
+  
+                    +Folder__Stationery--YDF_Icon.MonthViewer-DayCell-ButtonForSmallContainers-Icon(
+                      aria-label="日を特定した情報"
+                    )

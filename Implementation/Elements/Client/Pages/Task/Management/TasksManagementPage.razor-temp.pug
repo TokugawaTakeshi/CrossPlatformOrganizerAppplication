@@ -1,0 +1,39 @@
+﻿include ../../../node_modules/razor-by-pug/Mixins.pug
+
++page("/")
+
+
++using([
+  [ "TasksSharedState", "Client.SharedState.TasksSharedState" ],
+  [ "TasksFilteringModalDialogService","Client.Pages.Task.Management.ModalDialogs.TasksFilteringModalDialogService" ],
+  "Client.SharedGUI_Components.Controls.TasksFilteringPanel",
+  "Client.SharedGUI_Components.Managers.Task",
+  "Client.SharedGUI_Components.Viewers.Tasks",
+  "FrontEndFramework.Components.ModalDialogs.Common",
+  "Microsoft.AspNetCore.Components.Sections"
+])
+
+
+.TasksManagementPage-ContainerQueryingComposition.MainLayout-VerticallyFillingSpecificContentDescendant
+
+  TasksViewer.TasksManagementPage-TasksViewer(
+    onNewTaskAddingSessionRequestedEventHandler="@onNewTaskAddingSessionRequested"
+  )
+
+  TaskManager(
+    class="@CSS_Class.Join(\"TasksManagementPage-TaskManager\", TasksManagementPage.taskManagerAdditionalCSS_Class)"
+    activationGuidance="@localization.taskManagerActivationGuidance"
+    targetTask="@TasksSharedState.selectedTask"
+    onSaveNewTaskEventHandler="@onSaveNewTask"
+    onSaveUpdatedTaskEventHandler="@onSaveUpdatedTask"
+    onDeleteSelectedTaskEventHandler="@onDeleteSelectedTask"
+    @ref="@taskManager"
+  )
+  
+SectionContent(SectionName="FloatingAndFixedContent")
+
+  ModalDialog(
+    title="@localization.filteringModalDialog.title"
+    onInitializedEventCallback="@TasksFilteringModalDialogService.initialize"
+  )
+    TasksFilteringPanel

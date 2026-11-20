@@ -1,0 +1,13 @@
+fileNameLocalizationExtensions: "english"
+
+calendar:
+
+  $heading: "Calendar"
+  
+tasksManagement:
+
+  $heading: "Tasks"
+  
+peopleManagement:
+
+  $heading: "People"

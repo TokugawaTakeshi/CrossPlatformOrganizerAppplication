@@ -1,0 +1,13 @@
+fileNameLocalizationExtensions: "japanese"
+
+calendar:
+
+  $heading: "日読み"
+
+tasksManagement:
+
+  $heading: "課題"
+
+peopleManagement:
+
+  $heading: "人脈"

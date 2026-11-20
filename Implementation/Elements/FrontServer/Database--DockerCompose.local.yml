@@ -4,7 +4,7 @@ services:
 
   Database:
 
-    image: postgres
+    image: postgres:17.5
     container_name: ExperimentalCSharpApplication-Local-Database
     ports: [ "5432:5432" ]
 

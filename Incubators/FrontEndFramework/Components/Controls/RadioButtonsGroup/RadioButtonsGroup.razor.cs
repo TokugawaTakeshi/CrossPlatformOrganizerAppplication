@@ -1,6 +1,7 @@
-﻿using FrontEndFramework.ValidatableControl;
+﻿using YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.ValidatableControl;
 using YamatoDaiwa.Frontend.Helpers;
 using YamatoDaiwa.CSharpExtensions;
+using YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables;
 
 
 namespace FrontEndFramework.Components.Controls.RadioButtonsGroup;
@@ -21,10 +22,10 @@ public partial class RadioButtonsGroup : InputtableControl, IValidatableControl
   
   /* ━━━ Payload ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   protected SelectingOption? currentlySelectedOption = null;
-  protected ValidatableControl.Payload _payload;
+  protected YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.ValidatableControl.Payload _payload;
   
   [Microsoft.AspNetCore.Components.Parameter]
-  public required ValidatableControl.Payload payload
+  public required YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.ValidatableControl.Payload payload
   {
     get => _payload;
     set

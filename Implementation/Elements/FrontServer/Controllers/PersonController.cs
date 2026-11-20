@@ -1,23 +1,22 @@
 ﻿using Person = CommonSolution.Entities.Person;
 using CommonSolution.Gateways;
-using ClientAndFrontServer;
+using ClientAndFrontServer.Transactions;
 
 
 namespace FrontServer.Controllers;
 
 
 [Microsoft.AspNetCore.Mvc.ApiController]
-public class PersonController : Microsoft.AspNetCore.Mvc.ControllerBase
+public class PersonController(
+  PersonGateway personGateway
+) : Microsoft.AspNetCore.Mvc.ControllerBase
 {
-
-  private readonly PersonGateway personGateway = FrontServerDependencies.Injector.gateways().Person;
-  
   
   /* ━━━ Retrieving ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Mvc.HttpGet(PeopleTransactions.RetrievingOfAll.URN_PATH)]
   public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Person[]>> RetrieveAllPeople()
   {
-    return base.Ok(await this.personGateway.RetrieveAll());
+    return base.Ok(await personGateway.RetrieveAll());
   }
   
   [Microsoft.AspNetCore.Mvc.HttpGet(PeopleTransactions.RetrievingOfSelection.URN_PATH)]
@@ -31,7 +30,7 @@ public class PersonController : Microsoft.AspNetCore.Mvc.ControllerBase
     ] string? searchingByFullOrPartialNameOrItsSpell
   ) {
     return base.Ok(
-      await this.personGateway.RetrieveSelection(
+      await personGateway.RetrieveSelection(
       new PersonGateway.SelectionRetrieving.RequestParameters
       {
         SearchingByFullOrPartialNameOrItsSpell = searchingByFullOrPartialNameOrItsSpell
@@ -47,7 +46,7 @@ public class PersonController : Microsoft.AspNetCore.Mvc.ControllerBase
     [Microsoft.AspNetCore.Mvc.FromBody] PersonGateway.Adding.RequestData requestData
   ) {
     return base.Ok(
-      await this.personGateway.Add(requestData)
+      await personGateway.Add(requestData)
     );
   }
   
@@ -58,7 +57,7 @@ public class PersonController : Microsoft.AspNetCore.Mvc.ControllerBase
     [Microsoft.AspNetCore.Mvc.FromBody] PersonGateway.Updating.RequestData requestData
   ) {
     return base.Ok(
-      await this.personGateway.Update(requestData)
+      await personGateway.Update(requestData)
     );
   }
 
@@ -66,7 +65,7 @@ public class PersonController : Microsoft.AspNetCore.Mvc.ControllerBase
   /* ━━━ Deleting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   [Microsoft.AspNetCore.Mvc.HttpDelete(PeopleTransactions.Deleting.URN_PATH_TEMPLATE)]
   public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> Delete(string targetPersonID) {
-    await this.personGateway.Delete(targetPersonID);
+    await personGateway.Delete(targetPersonID);
     return base.Ok();
   }
   

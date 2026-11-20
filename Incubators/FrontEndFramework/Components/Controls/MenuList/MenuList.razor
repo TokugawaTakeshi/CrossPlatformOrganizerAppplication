@@ -1,0 +1,9 @@
+﻿@using YamatoDaiwa.CSharpExtensions
+
+
+<ul 
+  class=@this.getClassAttributeValueForRootElement(CSS_Namespace: "MenuList--YDF")
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  @ChildContent
+</ul>

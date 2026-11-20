@@ -1,10 +1,9 @@
-﻿using System.Diagnostics;
-using FrontEndFramework.Components.Controls.Buttons.Plain;
-using FrontEndFramework.ValidatableControl;
+﻿using YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.ValidatableControl;
 using Microsoft.JSInterop;
-using Utils;
 using YamatoDaiwa.Frontend.Helpers;
 using YamatoDaiwa.CSharpExtensions;
+using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain;
+using YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables;
 
 namespace FrontEndFramework.Components.Controls.FilesUploader;
 
@@ -13,10 +12,10 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
 {
 
   /* ━━━ Payload ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  protected ValidatableControl.Payload _payload;
+  protected YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.ValidatableControl.Payload _payload;
   
   [Microsoft.AspNetCore.Components.Parameter]
-  public required ValidatableControl.Payload payload
+  public required YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.ValidatableControl.Payload payload
   {
     get => _payload;
     set => this._payload = value;
@@ -82,9 +81,6 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   [Microsoft.AspNetCore.Components.Parameter]
   public bool noDragAndDropArea { get; set; } = false;
   
-  /* ━━━ Other flags ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]
-  public bool @readonly { get; set; } = false;
   
   
   /* ━━━ Children components/elements ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -105,7 +101,6 @@ public partial class FilesUploader : InputtableControl, IValidatableControl
   
   public IValidatableControl Focus()
   {
-    // TODO 非同期呼び出し始末
     JSRuntime.InvokeVoidAsync("putFocusOnElement", this.nativeInputElement);
     return this;
   }

@@ -1,0 +1,290 @@
+﻿@using Client.Pages.Task.Management.ModalDialogs
+@using Client.SharedGUI_Components.Cards.Task
+@using Client.SharedGUI_Components.Cards.Task.LoadingPlaceholder
+@using Client.SharedGUI_Components.Controls.TasksFilteringPanel
+@using Client.SharedState
+
+@using YamatoDaiwa.Frontend.GUI_Components.AdmonitionBlock
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain
+
+@using FrontEndFramework.Components.Accordion
+@using FrontEndFramework.Components.Controls.SearchBox
+
+@using FrontEndFramework.SVG_Icons.Checklist
+@using FrontEndFramework.SVG_Icons.Filtering
+@using YamatoDaiwa.Frontend.Helpers;
+@using YamatoDaiwa.CSharpExtensions;
+
+
+<div 
+  class=@ElementClassAttribute.Generate("TasksViewer", rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+
+  <div class="TasksViewer-ContainerQueryingComposition">
+    
+    @* ━━━ Tasks Filtering Panel ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+    <TasksFilteringPanel class="TasksViewer-SidebarForWideContainers" />
+    
+    
+    @* ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+    <div class="TasksViewer-TopActionBar">
+
+      <SearchBox
+        placeholder=@localization.searchBox.placeholder
+        accessibilityGuidance=@localization.searchBox.accessibilityGuidance
+        mustSynchronizeDisplayingSearchRequestWith=@incompletedTasksSharedState.filtering.searchingByFullOrPartialTitleOrDescription
+        disabled=@TasksSharedState.isDataBeingRetrievedNowInSomeInstance
+        onNewSearchRequestEventHandler=@onNewTaskSearchingByFullOrPartialTitleOrDescriptionButtonClicked
+        class="TasksViewer-TopActionBar-SearchBox"
+      />
+      
+      <Button
+        label=@localization.buttons.taskAdding.label
+        onClick=@onStartingOfNewTaskAddingSessionButtonClicked
+        class="TasksViewer-TopActionBar-ButtonForWideContainers"
+      >
+        <PrependedSVG_Icon>
+          <ChecklistIcon__Adding class="Button--YDF-SVG_Icon" />
+        </PrependedSVG_Icon>
+      </Button>
+
+    </div>
+    
+    
+    @* ━━━ Incompleted Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+    @if (incompletedTasksSharedState.loading.isTasksRetrievingInProgressOrNotStartedYet)
+    {
+    
+      <div
+        class="TasksViewer-VisuallyHiddenAccessibilityGuidance"
+        role="alert"
+      >
+        @(localization.accessibilityGuidances.dataRetrievingInProgress)
+      </div>
+    
+      <div class="TasksViewer-CardsFlow TasksViewer-CardsFlow__ActiveTasks">
+        @for (uint cardNumber = 0; cardNumber < INCOMPLETED_TASKS_CARDS_LOADING_PLACEHOLDERS_COUNT; cardNumber++)
+        {
+          <TaskCardLoadingPlaceholder/>
+        }
+      </div>
+    
+    }
+    
+    else if (incompletedTasksSharedState.loading.hasTasksSelectionRetrievingErrorOccurred)
+    {
+      <AdmonitionBlock
+        title=@localization.errors.tasksRetrieving.title
+        decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.error
+        hasDefaultSVG_Icon
+        class="TasksViewer-AdmonitionBlock"
+      >
+    
+        <p>@(localization.errors.tasksRetrieving.description)</p>
+    
+        <Button
+          label=@localization.buttons.retryingOfDataRetrieving.label
+          onClick=@onRetryingOfIncompletedTasksSelectionRetrievingButtonClicked
+          decorativeVariation=@Button.StandardDecorativeVariations.accented
+          class="AdmonitionBlock--YDF-CenteredButton"
+        />
+    
+      </AdmonitionBlock>
+    }
+    
+    else if (incompletedTasksSharedState.totalForcedlyFilteredTasksCount == 0)
+    {
+      <AdmonitionBlock
+        decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+        hasDefaultSVG_Icon
+        class="TasksViewer-AdmonitionBlock"
+      >
+    
+        <p>@(localization.guidances.noItemsAvailable)</p>
+    
+        <Button
+          label=@localization.buttons.immediateAddingOfFirstTask.label
+          onClick=@onStartingOfNewTaskAddingSessionButtonClicked
+          class="AdmonitionBlock--YDF-CenteredButton"
+        />
+    
+      </AdmonitionBlock>
+    }
+    
+    else if (incompletedTasksSharedState.totalTasksCountInSelection == 0)
+    {
+      <AdmonitionBlock
+        decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+        hasDefaultSVG_Icon
+        class="TasksViewer-AdmonitionBlock"
+      >
+    
+        <p>@(localization.guidances.noItemsFound)</p>
+
+        <Button
+          label=@localization.buttons.resettingOfFiltering.label
+          onClick=@onTasksFilteringResettingButtonClicked
+          class="AdmonitionBlock--YDF-CenteredButton"
+        />
+    
+      </AdmonitionBlock>
+    }
+    
+    else
+    {
+      <ul class="TasksViewer-CardsFlow TasksViewer-CardsFlow__ActiveTasks">
+        @foreach (CommonSolution.Entities.Task.Task task in incompletedTasksSharedState.tasksSelection)
+        {
+          <TaskCard
+            targetTask=@task
+            rootElementTag="li"
+            onClickRootElementEventHandler=@TasksViewer.onTaskCardClicked
+            onClickCheckBoxEventHandler=@TasksViewer.onCompletionCheckboxClicked
+          />
+        }
+      </ul>
+    }
+
+    @* ━━━ Completed Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+    <Accordion
+      class="TasksViewer-CompletedTasksSection"
+      title=@localization.titles.completedTasks
+      panelAdditionalCSS_Classes=@([ "TasksViewer-CompletedTasksSection-Accordion-Panel" ])
+    >
+    
+      @if(completedTasksSharedState is not null)
+      {
+    
+        @if (completedTasksSharedState.loading.isTasksRetrievingInProgressOrNotStartedYet)
+        {
+    
+          <div class="TasksViewer-CardsFlow TasksViewer-CardsFlow__CompletedTasks">
+    
+            <div
+              class="TasksViewer-VisuallyHiddenAccessibilityGuidance"
+              role="alert"
+            >
+              @(localization.accessibilityGuidances.dataRetrievingInProgress)
+            </div>
+    
+            @for (uint cardNumber = 0; cardNumber < COMPLETED_TASKS_CARDS_LOADING_PLACEHOLDERS_COUNT; cardNumber++)
+            {
+              <TaskCardLoadingPlaceholder/>
+            }
+    
+          </div>
+    
+        }
+    
+        else if (completedTasksSharedState.loading.hasTasksSelectionRetrievingErrorOccurred)
+        {
+    
+          <AdmonitionBlock
+            title=@localization.errors.tasksRetrieving.title
+            decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.error
+            hasDefaultSVG_Icon
+            onExpandingStartedEventHandler=@onCompletedTasksAccordionExpandingStarted
+            onCollapsingEndedEventHandler=@onCompletedTasksAccordionCollapsed
+            class="TasksViewer-AdmonitionBlock"
+          >
+    
+            <p>@(localization.errors.tasksRetrieving.description)</p>
+
+            <Button
+              label=@localization.buttons.retryingOfDataRetrieving.label
+              onClick=@onRetryingOfCompletedTasksSelectionRetrievingButtonClicked
+              decorativeVariation=@Button.StandardDecorativeVariations.accented
+              class="AdmonitionBlock--YDF-CenteredButton"
+            />
+    
+          </AdmonitionBlock>
+    
+        }
+
+        else if (completedTasksSharedState.totalForcedlyFilteredTasksCount == 0)
+        {
+    
+           <AdmonitionBlock
+            decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+            hasDefaultSVG_Icon
+            class="TasksViewer-AdmonitionBlock"
+          >
+    
+            <p>@(localization.guidances.noItemsAvailable)</p>
+
+            <Button
+              label=@localization.buttons.immediateAddingOfFirstTask.label
+              onClick=@onStartingOfNewTaskAddingSessionButtonClicked
+              class="AdmonitionBlock--YDF-CenteredButton"
+            />
+    
+          </AdmonitionBlock>
+    
+        }
+    
+        else if (completedTasksSharedState.totalTasksCountInSelection == 0)
+        {
+          <AdmonitionBlock
+            decorativeVariation=@AdmonitionBlock.StandardDecorativeVariations.guidance
+            hasDefaultSVG_Icon
+            class="TasksViewer-AdmonitionBlock"
+          >
+    
+            <p>@(localization.guidances.noItemsFound)</p>
+    
+            <Button
+              label=@localization.buttons.resettingOfFiltering.label
+              onClick=@onTasksFilteringResettingButtonClicked
+              class="AdmonitionBlock--YDF-CenteredButton"
+            />
+    
+          </AdmonitionBlock>
+        }
+    
+        else
+        {
+          <ul class="TasksViewer-CardsFlow TasksViewer-CardsFlow__CompletedTasks">
+            @foreach (CommonSolution.Entities.Task.Task task in completedTasksSharedState.tasksSelection)
+            {
+              <TaskCard
+                targetTask=@task
+                rootElementTag="li"
+                onClickRootElementEventHandler=@TasksViewer.onTaskCardClicked
+                onClickCheckBoxEventHandler=@TasksViewer.onCompletionCheckboxClicked
+              />
+            }
+          </ul>
+        }
+    
+      }
+    
+    </Accordion>
+    
+    
+    @* ━━━ Bottom Action Bar for Narrow Containers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ *@
+    <div class="TasksViewer-BottomActionBarForNarrowContainers">
+    
+      <Button
+        label=@localization.buttons.taskAdding.label
+        onClick=@onStartingOfNewTaskAddingSessionButtonClicked
+      >
+        <PrependedSVG_Icon>
+          <ChecklistIcon__Adding class="Button--YDF-SVG_Icon" />
+        </PrependedSVG_Icon>
+      </Button>
+    
+      <Button
+        label="Filtering"
+        onClick=@TasksFilteringModalDialogService.displayModalDialog
+      >
+        <PrependedSVG_Icon>
+          <FilteringIcon__Outlined class="Button--YDF-SVG_Icon" />
+        </PrependedSVG_Icon>
+      </Button>
+    
+    </div>
+
+  </div>
+
+</div>

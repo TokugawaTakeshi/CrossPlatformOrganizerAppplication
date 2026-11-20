@@ -1,0 +1,189 @@
+-
+
+  class TasksFilteringPanel {
+
+    /**
+     * @typedef TasksFilteringPanelLocalization
+     * @property { string } titles.summaries
+     * @property { string } titles.custom
+     * @property { string } summaryFolders.all.title
+     * @property { string } summaryFolders.all.accessibilityGuidance
+     * @property { string } summaryFolders.today.title
+     * @property { string } summaryFolders.today.accessibilityGuidance
+     * @property { string } summaryFolders.overdue.title
+     * @property { string } summaryFolders.overdue.accessibilityGuidance
+     * @property { string } summaryFolders.byDatesAndTimes.title
+     * @property { string } summaryFolders.byDatesAndTimes.accessibilityGuidance
+     * @property { string } summaryFolders.byDates.title
+     * @property { string } summaryFolders.byDates.accessibilityGuidance
+     * @property { string } summaryFolders.byLocations.title
+     * @property { string } summaryFolders.byLocations.accessibilityGuidance
+     * @property { string } summaryFolders.repeating.title
+     * @property { string } summaryFolders.repeating.accessibilityGuidance
+     * @property { string } buttons.retryingOfTasksCustomFoldersRetrieving.label
+     * @property { string } buttons.addingOfFirstTaskCustomFolder.label
+     * @property { string } errorMessages.taskCustomFoldersRetrievingFailed
+     */
+ 
+     /** @type { TasksFilteringPanelLocalization } */
+    static localizedStringResources = $$localizedStringResources.components.controls.tasksFilteringPanel;
+    
+    /** @type { 
+     *    Readonly<{ 
+     *      customFolderLabelEditing: boolean; 
+     *      openedCustomFolderLabelMenu: boolean; 
+     *    }> 
+     *  } */
+    static stateSimulations = {
+      customFolderLabelEditing: true,
+      openedCustomFolderLabelMenu: true
+    };
+    
+    /**  
+     * @private
+     * @type { number } 
+     * */
+    static counterForHTML_ID_Generating = 0;
+
+    /**
+     * @public
+     * @return { string }
+     * */
+    static generateHTML_ID_CommonPart() {
+      TasksFilteringPanel.counterForHTML_ID_Generating++;
+      return `TASK_FILTERING_PANEL-${ TasksFilteringPanel.counterForHTML_ID_Generating }`;
+    }
+
+  }
+  
+
+mixin TasksFilteringPanel(statesSimulations)
+
+  -
+  
+    /** @type { 
+     *    Readonly<{ 
+     *      loading?: boolean;
+     *      error?: boolean;
+     *      noItems?: boolean;    
+     *      customFolderLabelEditing: boolean; 
+     *      openedCustomFolderLabelMenu: boolean; 
+     *    }> 
+     *  } */
+    statesSimulations = 
+        { ...statesSimulations, ...TasksFilteringPanel.stateSimulations } ?? 
+        TasksFilteringPanel.stateSimulations; 
+
+    /** @type { string } */
+    const HTML_ID_COMMON_PART = TasksFilteringPanel.generateHTML_ID_CommonPart();
+
+
+  .TasksFilteringPanel&attributes(attributes)
+
+    //- ━━━ Summaries ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    - 
+      /** @type { string } */
+      const summariesTitleHTML_ID = `${ HTML_ID_COMMON_PART }-TITLE-SUMMARIES`;
+
+    .TasksFilteringPanel-Title(
+      id=summariesTitleHTML_ID
+    )= TasksFilteringPanel.localizedStringResources.titles.summaries
+
+    +TasksFoldersList.TasksFilteringPanel-TasksFoldersList(
+      aria-labelledby=summariesTitleHTML_ID
+    )
+    
+      //- ┅┅┅ All ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+      +TasksFoldersList-Item({
+        label: TasksFilteringPanel.localizedStringResources.summaryFolders.all.title,
+        accessibilityGuidance: TasksFilteringPanel.localizedStringResources.summaryFolders.all.accessibilityGuidance,
+        menu: false
+      }): +Checklist--YDF_Icon.TasksFoldersList-Item-InteractiveLabel-Icon
+      
+      
+    //- ━━━ Custom Folders ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    - 
+      /** @type { string } */
+      const customFoldersTitleHTML_ID = `${ HTML_ID_COMMON_PART }-TITLE-CUSTOM_FOLDERS`;
+    
+    .TasksFilteringPanel-Title(
+      id=customFoldersTitleHTML_ID
+    )= TasksFilteringPanel.localizedStringResources.titles.custom
+
+    if statesSimulations.loading
+              
+      +TasksFoldersListLoadingPlaceholder({ itemsCount: 6 }).TasksFilteringPanel-TasksFoldersList
+      
+    else if statesSimulations.error
+
+      +AdmonitionBlock--YDF({ 
+        decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.error 
+      }).TasksFilteringPanel-AdmonitionBlock
+      
+        p= TasksFilteringPanel.localizedStringResources.errorMessages.taskCustomFoldersRetrievingFailed
+      
+        +Button--YDF({ 
+          label: TasksFilteringPanel.localizedStringResources.buttons.retryingOfTasksCustomFoldersRetrieving.label, 
+          geometricVariation: Button__YDF.GeometricVariations.small 
+        }).AdmonitionBlock--YDF-CenteredButton
+
+    else
+
+      +TasksFoldersList({
+        taskCustomFolders: statesSimulations.noItems ? [] : $mockData.taskCustomFolders
+      }).TasksFilteringPanel-TasksFoldersList(
+        aria-labelledby=customFoldersTitleHTML_ID
+      )
+
+
+  //- ━━━ Planned ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    //- ┅┅┅ Today ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅    
+    li.TasksFilteringPanel-List-Item
+      .TasksFilteringPanel-List-Item-InteractiveLabel(
+        role="button"
+        aria-label=TasksFilteringPanel.localizedStringResources.summaryFolders.today.accessibilityGuidance
+      )
+        +Calendar__Date--YDF_Icon.TasksFilteringPanel-List-Item-Icon
+        span.TasksFilteringPanel-List-Item-Label= TasksFilteringPanel.localizedStringResources.summaryFolders.today.title
+    
+    //- ┅┅┅ Planned ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+    li.TasksFilteringPanel-List-Item
+      .TasksFilteringPanel-List-Item-InteractiveLabel(
+        role="button"
+        aria-label= TasksFilteringPanel.localizedStringResources.summaryFolders.overdue.accessibilityGuidance
+      )
+        +Calendar__Time--YDF_Icon.TasksFilteringPanel-List-Item-Icon
+        span.TasksFilteringPanel-List-Item-Label= TasksFilteringPanel.localizedStringResources.summaryFolders.overdue.title
+  
+    li.TasksFilteringPanel-List-Item
+      .TasksFilteringPanel-List-Item-InteractiveLabel(
+        role="button"
+        aria-label= TasksFilteringPanel.localizedStringResources.summaryFolders.byDatesAndTimes.accessibilityGuidance
+      )
+        +Calendar__Time--YDF_Icon.TasksFilteringPanel-List-Item-Icon
+        span.TasksFilteringPanel-List-Item-Label= TasksFilteringPanel.localizedStringResources.summaryFolders.byDatesAndTimes.title
+  
+    li.TasksFilteringPanel-List-Item
+      .TasksFilteringPanel-List-Item-InteractiveLabel(
+        role="button"
+        aria-label= TasksFilteringPanel.localizedStringResources.summaryFolders.byDates.accessibilityGuidance
+      )
+        +Calendar--YDF_Icon.TasksFilteringPanel-List-Item-Icon
+        span.TasksFilteringPanel-List-Item-Label= TasksFilteringPanel.localizedStringResources.summaryFolders.byDates.title
+        
+    li.TasksFilteringPanel-List-Item
+      .TasksFilteringPanel-List-Item-InteractiveLabel(
+        role="button"
+        aria-label= TasksFilteringPanel.localizedStringResources.summaryFolders.byLocations.accessibilityGuidance
+      )
+        +Location__BottomCircle--YDF_Icon.TasksFilteringPanel-List-Item-Icon
+        span.TasksFilteringPanel-List-Item-Label= TasksFilteringPanel.localizedStringResources.summaryFolders.byLocations.title
+  
+    li.TasksFilteringPanel-List-Item
+      .TasksFilteringPanel-List-Item-InteractiveLabel(
+        role="button"
+        aria-label= TasksFilteringPanel.localizedStringResources.summaryFolders.repeating.accessibilityGuidance
+      )
+        +Calendar__Repeat--YDF_Icon.TasksFilteringPanel-List-Item-Icon
+        span.TasksFilteringPanel-List-Item-Label= TasksFilteringPanel.localizedStringResources.summaryFolders.repeating.title

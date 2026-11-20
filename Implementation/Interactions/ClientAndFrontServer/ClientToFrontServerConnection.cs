@@ -1,9 +1,9 @@
 ﻿namespace ClientAndFrontServer;
 
 
-public record ClientToFrontServerConnection
+public static class ClientToFrontServerConnection
 {
 
-  public const string ORIGIN = "http://localhost:5000";
+  public const string ORIGIN = "http://localhost:5260";
 
 }

@@ -1,0 +1,9 @@
+﻿@using YamatoDaiwa.CSharpExtensions
+
+
+<div
+  class=@this.getClassAttributeValueForRootElement(CSS_Namespace: "PopoverWithAnchor--YDF")
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+>
+  @ChildContent
+</div>

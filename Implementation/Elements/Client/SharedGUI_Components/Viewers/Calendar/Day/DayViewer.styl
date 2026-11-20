@@ -1,0 +1,136 @@
+﻿.DayViewer
+
+  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 460px
+
+  WideContainersConfiguration()
+    @media container and (min-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
+      {block}
+
+  NarrowContainersConfiguration()
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
+      {block}
+
+
+  display flex
+  flex-direction column
+  
+  padding 6px
+
+
+  &-TopHeading
+
+    font-weight bold
+    
+    flex-shrink 0
+
+
+    +WideContainersConfiguration()
+
+      font-size 32px
+      
+      
+    +NarrowContainersConfiguration()
+    
+      font-size 20px
+
+    
+  &-ScrollView
+  
+    flex-shrink 1
+
+
+  &-ListHeading
+  
+    font-weight bold
+  
+  
+    +WideContainersConfiguration()
+  
+      font-size 28px
+      margin-top 6px
+    
+    
+    +NarrowContainersConfiguration()
+    
+      font-size 18px
+      margin-top 4px
+    
+    
+  &-List
+  
+    PositionalRelationship--YDF({
+      definitions: (".DayViewer-ListHeading" { retireFromIt: { y: 8px }, pushItFromSelf: { y: 16px } })
+    })
+    
+    
+    &-Item
+    
+      retireFromElementWithSameSelector--YDF({ y: 6px }) 
+      
+      
+      &-Link
+      
+        display grid
+        grid-template-areas "ICON TITLE" "ICON DESCRIPTION"
+        grid-template-columns auto minmax(0, 1fr)
+        grid-template-rows auto minmax(0, 1fr)
+        row-gap 2px
+        column-gap 6px
+
+        border-left-width 4px
+        padding 4px
+        
+        border-left-style solid
+        
+        background white
+        box-shadow 0 0 3px 1px alpha(black, 0.25)
+        outline none
+      
+      
+        /.DayViewer-List__Deadline &
+        
+          border-left-color red
+          
+          
+        /.DayViewer-List__EndingToday &
+        
+          border-left-color orange
+      
+      
+      &-IconDecorativeWrapper
+
+        border-radius 50%
+        padding 6px
+  
+        grid-area ICON
+        align-self center
+  
+  
+        /.DayViewer-List__Deadline &
+  
+          background: linear-gradient(to bottom, #ed213a, #93291e)
+          
+          
+        /.DayViewer-List__EndingToday &
+        
+          background: linear-gradient(to bottom, #f5af19, #f12711)
+
+      &-Icon
+
+        display block //* [ Theory ] Removing of extra space below self */
+
+        width 16px
+        height 16px
+
+        fill white
+
+
+      &-Title
+      
+        font-size 16px
+        font-weight bold
+        
+        
+      &-Description
+      
+        font-size 14px

@@ -1,0 +1,20 @@
+﻿@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.GUI_Components.Controls.ValidatableControlShell
+@using YamatoDaiwa.Frontend.Helpers
+
+
+@inherits YamatoDaiwa.Frontend.GUI_Components.Controls.Validatables.InputtableControl
+
+
+<ValidatableControlShell
+  class=@ElementClassAttribute.Generate("TasksFoldersManager", rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+  label=@label
+  guidance=@guidance
+  required=@required
+  mustDisplayAppropriateBadgeIfInputIsRequired=@mustDisplayAppropriateBadgeIfInputIsRequired
+  mustDisplayAppropriateBadgeIfInputIsOptional=@mustDisplayAppropriateBadgeIfInputIsOptional
+  mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge=@mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge
+>
+
+</ValidatableControlShell>

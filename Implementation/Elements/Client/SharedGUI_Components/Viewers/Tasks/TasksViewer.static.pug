@@ -1,0 +1,203 @@
+﻿mixin TasksViewer(statesSimulations)
+
+  -
+
+    /**
+     * @type {
+     *   Readonly<{
+     *     loading?: boolean;
+     *     error?: boolean;
+     *     noItems?: boolean;
+     *     noSearchResults?: boolean;
+     *   }>
+     * }
+     */
+    statesSimulations = statesSimulations ?? {};
+
+    /**
+     * @typedef TasksViewerLocalization
+     * @property { string } searchBox.placeholder
+     * @property { string } searchBox.accessibilityGuidance
+     * @property { string } buttons.taskAdding.label
+     * @property { string } buttons.retryingOfDataRetrieving.label
+     * @property { string } buttons.immediateAddingOfFirstTask.label
+     * @property { string } buttons.resettingOfFiltering.label
+     * @property { string } buttons.tasksFiltering.label
+     * @property { string } errors.tasksRetrieving.title
+     * @property { string } errors.tasksRetrieving.description
+     * @property { string } guidances.noItemsAvailable
+     * @property { string } guidances.noItemsFound
+     * @property { string } accessibilityGuidances.dataRetrievingInProgress
+     * @property { string } titles.completedTasks
+     */
+
+    /** @type { TasksViewerLocalization } */
+    const $$componentLocalizedStringResources = $$localizedStringResources.components.viewers.tasks;
+
+
+  .TasksViewer&attributes(attributes)
+
+    .TasksViewer-ContainerQueryingComposition
+
+      +TasksFilteringPanel({
+        loading: statesSimulations.loading,
+        error: statesSimulations.error,
+        noItems: statesSimulations.noItems,
+      }).TasksViewer-SidebarForWideContainers
+
+      .TasksViewer-TopActionBar
+
+        +SearchBox--YDF({
+          placeholder: $$componentLocalizedStringResources.searchBox.placeholder,
+          accessibilityGuidance: $$componentLocalizedStringResources.searchBox.accessibilityGuidance
+        }).TasksViewer-TopActionBar-SearchBox
+
+        +Button--YDF.TasksViewer-TopActionBar-ButtonForWideContainers
+          +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= $$componentLocalizedStringResources.buttons.taskAdding.label
+
+      if statesSimulations.loading
+
+        .TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks
+
+          .TasksViewer-VisuallyHiddenAccessibilityGuidance(
+            role="alert"
+          )= $$componentLocalizedStringResources.accessibilityGuidances.dataRetrievingInProgress
+
+          each cardNumber in Array.from(new Array(12).keys())
+
+            +TaskCardLoadingPlaceholder
+
+      else if statesSimulations.error
+
+        +AdmonitionBlock--YDF({
+          title: $$componentLocalizedStringResources.errors.tasksRetrieving.title,
+          decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.error,
+          SVG_Icon: true
+        }).TasksViewer-AdmonitionBlock
+
+          p= $$componentLocalizedStringResources.errors.tasksRetrieving.description
+
+          +Button--YDF({
+            label: $$componentLocalizedStringResources.buttons.retryingOfDataRetrieving.label
+          }).AdmonitionBlock--YDF-CenteredButton
+
+      else if statesSimulations.noItems
+
+        +AdmonitionBlock--YDF({
+          decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+          SVG_Icon: true
+        }).TasksViewer-AdmonitionBlock
+
+          p= $$componentLocalizedStringResources.guidances.noItemsAvailable
+
+          +Button--YDF({
+            label: $$componentLocalizedStringResources.buttons.immediateAddingOfFirstTask.label,
+            decorativeVariation: Button__YDF.DecorativeVariations.accented
+          }).AdmonitionBlock--YDF-CenteredButton
+
+      else if statesSimulations.noSearchResults
+
+        +AdmonitionBlock--YDF({
+          decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+          SVG_Icon: true
+        }).TasksViewer-AdmonitionBlock
+
+          p= $$componentLocalizedStringResources.guidances.noItemsFound
+
+          +Button--YDF({
+            label: $$componentLocalizedStringResources.buttons.resettingOfFiltering.label
+          }).AdmonitionBlock--YDF-CenteredButton
+
+      else
+
+        ul.TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks
+
+          each task in $mockData.tasks
+
+            +TaskCard({
+              task,
+              rootElementTag: "li"
+            })
+
+
+      +Accordion--YDF({
+        title: $$componentLocalizedStringResources.titles.completedTasks,
+        panelAdditionalCSS_Classes: "TasksViewer-CompletedTasksSection-Accordion-Panel",
+        initiallyExpanded: true
+      }).TasksViewer-CompletedTasksSection
+
+        if statesSimulations.loading
+        
+          .TasksViewer-CardsFlow.TasksViewer-CardsFlow__CompletedTasks
+
+            .TasksViewer-VisuallyHiddenAccessibilityGuidance(
+              role="alert"
+            )= $$componentLocalizedStringResources.accessibilityGuidances.dataRetrievingInProgress
+
+            each cardNumber in Array.from(new Array(12).keys())
+
+              +TaskCardLoadingPlaceholder
+              
+        else if statesSimulations.error
+
+          +AdmonitionBlock--YDF({
+            title: $$componentLocalizedStringResources.errors.tasksRetrieving.title,
+            decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.error,
+            SVG_Icon: true
+          }).TasksViewer-AdmonitionBlock
+  
+            p= $$componentLocalizedStringResources.errors.tasksRetrieving.description
+  
+            +Button--YDF({
+              label: $$componentLocalizedStringResources.buttons.retryingOfDataRetrieving.label
+            }).AdmonitionBlock--YDF-CenteredButton
+            
+        else if statesSimulations.noItems
+
+          +AdmonitionBlock--YDF({
+            decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+            SVG_Icon: true
+          }).TasksViewer-AdmonitionBlock
+  
+            p= $$componentLocalizedStringResources.guidances.noItemsAvailable
+  
+            +Button--YDF({
+              label: $$componentLocalizedStringResources.buttons.immediateAddingOfFirstTask.label,
+              decorativeVariation: Button__YDF.DecorativeVariations.accented
+            }).AdmonitionBlock--YDF-CenteredButton
+
+        else if statesSimulations.noSearchResults
+  
+          +AdmonitionBlock--YDF({
+            decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.guidance,
+            SVG_Icon: true
+          }).TasksViewer-AdmonitionBlock
+  
+            p= $$componentLocalizedStringResources.guidances.noItemsFound
+  
+            +Button--YDF({
+              label: $$componentLocalizedStringResources.buttons.resettingOfFiltering.label,
+            }).AdmonitionBlock--YDF-CenteredButton
+  
+        else
+  
+          ul.TasksViewer-CardsFlow.TasksViewer-CardsFlow__CompletedTasks
+  
+            each task in $mockData.tasks
+  
+              +TaskCard({
+                task,
+                rootElementTag: "li"
+              })
+
+
+      .TasksViewer-BottomActionBarForNarrowContainers
+
+        +Button--YDF({ decorativeVariation: Button__YDF.DecorativeVariations.accented })
+          +Checklist__Adding--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= $$componentLocalizedStringResources.buttons.taskAdding.label
+
+        +Button--YDF
+          +Filtering__Outlined--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= $$componentLocalizedStringResources.buttons.tasksFiltering.label

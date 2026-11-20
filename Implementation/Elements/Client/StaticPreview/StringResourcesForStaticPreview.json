@@ -1,0 +1,618 @@
+{
+  "$$english": {
+    "pages": {
+      "person": {
+        "management": {
+          "pageTitle": "People Management — Experimental CSharp Application",
+          "taskManagerActivationGuidance": "Click or tap the person card to view details or edit the dedicated person data."
+        }
+      },
+      "task": {
+        "management": {
+          "pageTitle": "Tasks Management — Experimental CSharp Application",
+          "filteringModalDialog": {
+            "title": "Filter Tasks"
+          },
+          "taskManagerActivationGuidance": "Click or tap the task card to view details or edit the dedicated task."
+        }
+      }
+    },
+    "components": {
+      "lists": {
+        "tasksFolders": {
+          "buttons": {
+            "addingOfNewTaskFolder": {
+              "label": "New Folder"
+            }
+          },
+          "loadingStateAccessibilityGuidance": "Task custom folders are been loaded now. Please wait for a while",
+          "item": {
+            "buttons": {
+              "tasksFolderCollapsing": {
+                "accessibilityGuidance": {
+                  "template": "Collapse tasks folder \"{{ tasksFolderLabel }}\""
+                }
+              },
+              "tasksFolderExpanding": {
+                "accessibilityGuidance": {
+                  "template": "Expand tasks folder \"{{ tasksFolderLabel }}\""
+                }
+              },
+              "retrievingOfTasksOfSpecificCustomFolder": {
+                "accessibilityGuidance": {
+                  "template": "Retrieve tasks of group \"{{ tasksFolderLabel }}\""
+                }
+              },
+              "renamingOfTasksFolder": {
+                "accessibilityGuidance": {
+                  "template": "Rename the task folder \"{{ tasksFolderLabel }}\""
+                }
+              },
+              "deletingOfTasksFolder": {
+                "accessibilityGuidance": {
+                  "template": "Delete the task folder \"{{ tasksFolderLabel }}\""
+                }
+              }
+            },
+            "textBoxes": {
+              "tasksFolderAdding": {
+                "accessibilityGuidance": "Please input the tasks folder name"
+              },
+              "tasksFolderEditing": {
+                "accessibilityGuidance": {
+                  "template": "Please input new name for the tasks group previously named \"{{ tasksFolderInitialLabel }}\""
+                }
+              }
+            }
+          }
+        }
+      },
+      "controls": {
+        "tasksFilteringPanel": {
+          "titles": {
+            "summaries": "Summaries",
+            "custom": "Custom"
+          },
+          "summaryFolders": {
+            "all": {
+              "title": "All Tasks",
+              "accessibilityGuidance": "View All Tasks"
+            },
+            "today": {
+              "title": "Today",
+              "accessibilityGuidance": "View Tasks Planned to Today"
+            },
+            "overdue": {
+              "title": "Overdue",
+              "accessibilityGuidance": "View Overdue Tasks"
+            },
+            "byDatesAndTimes": {
+              "title": "By Dates and Times",
+              "accessibilityGuidance": "View Tasks by Dates and Times"
+            },
+            "byDates": {
+              "title": "By Dates",
+              "accessibilityGuidance": "View Tasks by Dates"
+            },
+            "byLocations": {
+              "title": "By Locations",
+              "accessibilityGuidance": "View Tasks by Locations"
+            },
+            "repeating": {
+              "title": "Repeating",
+              "accessibilityGuidance": "View Repeating Tasks"
+            }
+          },
+          "buttons": {
+            "retryingOfTasksCustomFoldersRetrieving": {
+              "label": "Retry"
+            },
+            "addingOfFirstTaskCustomFolder": {
+              "label": "Add the first one"
+            }
+          },
+          "errorMessages": {
+            "taskCustomFoldersRetrievingFailed": "We sincerely apologize for the inconvenience, but it seems a challenge has arisen in processing your request. The tasks custom folders retrieving failed. Our team has been alerted to this matter, and they are currently working diligently to investigate and resolve it as swiftly as possible. Thank you for your patience and understanding. We deeply regret any disruption this may have caused."
+          }
+        }
+      },
+      "managers": {
+        "tasksFolders": {
+          "buttons": {
+            "addingOfNewTaskFolder": {
+              "label": "New Folder"
+            }
+          },
+          "loadingStateAccessibilityGuidance": "Task custom folders are been loaded now. Please wait for a while"
+        },
+        "task": {
+          "heading": "Task Manager",
+          "buttons": {
+            "taskEditing": {
+              "label": "Edit Task"
+            },
+            "taskDeleting": {
+              "label": "Delete Task"
+            },
+            "taskSaving": {
+              "label": "Save Task"
+            },
+            "terminatingOfEditing": {
+              "label": "Cancel Editing"
+            }
+          },
+          "labels": {
+            "title": "Title",
+            "status": "Status",
+            "priority": "Priority",
+            "description": "Description"
+          },
+          "taskStatuses": {
+            "inProgress": "In Progress",
+            "completed": "Completed"
+          },
+          "tasksPriorities": {
+            "1": "1 (Must be Done ASAP)",
+            "2": "2 (Must be Done Right After Ones of with Priority 1)",
+            "3": "3 (May be Dome if Time Left)"
+          },
+          "inputs": {
+            "taskTitle": {
+              "label": "Title",
+              "guidance": "Please input **2 - 255** characters."
+            },
+            "taskDescription": {
+              "label": "Description",
+              "guidance": "Please input **at least 2**characters"
+            }
+          },
+          "taskDeletingConfirmationModalDialog": {
+            "title": "Deleting Confirmation",
+            "question": "Are you sure about deleting of this person?"
+          }
+        },
+        "person": {
+          "heading": "Person (Contact) Manager",
+          "buttons": {
+            "personEditing": {
+              "label": "Edit Person"
+            },
+            "personDeleting": {
+              "label": "Delete Person"
+            },
+            "personSaving": {
+              "label": "Save Person"
+            },
+            "terminatingOfEditing": {
+              "label": "Cancel Editing"
+            }
+          },
+          "metadataKeys": {
+            "name": "Name",
+            "nameSpell": "Name Spell",
+            "gender": "Gender",
+            "birthDate": "Birth Date",
+            "emailAddress": "Email Address",
+            "phoneNumber": "Phone Number"
+          },
+          "controls": {
+            "familyName": {
+              "label": "Family Name",
+              "guidance": "Please input **1 - 255** characters."
+            },
+            "givenName": {
+              "label": "Given Name",
+              "guidance": "Please input **1 - 255** characters."
+            },
+            "familyNameSpell": {
+              "label": "Family Name Spell",
+              "guidance": "Please input **1 - 255** characters."
+            },
+            "givenNameSpell": {
+              "label": "Given Name Spell",
+              "guidance": "Please input **1 - 255** characters."
+            },
+            "gender": {
+              "label": "Gender",
+              "optionsLabels": {
+                "male": "male",
+                "female": "female"
+              }
+            },
+            "emailAddress": "Email Address",
+            "phoneNumber": "Phone Number"
+          },
+          "personDeletingConfirmationModalDialog": {
+            "title": "Deleting Confirmation",
+            "question": "Are you sure about deleting of this task?"
+          }
+        }
+      },
+      "viewers": {
+        "tasks": {
+          "searchBox": {
+            "placeholder": "Search by Title or Description",
+            "accessibilityGuidance": "Search by task title or description"
+          },
+          "buttons": {
+            "taskAdding": {
+              "label": "Add Task"
+            },
+            "retryingOfDataRetrieving": {
+              "label": "Retry to Retrieve"
+            },
+            "immediateAddingOfFirstTask": {
+              "label": "Let add the first one"
+            },
+            "resettingOfFiltering": {
+              "label": "Reset Filtering"
+            },
+            "tasksFiltering": {
+              "label": "Filter Tasks"
+            }
+          },
+          "errors": {
+            "tasksRetrieving": {
+              "title": "Tasks Retrieving Failure",
+              "description": "We sincerely apologize for the inconvenience, but it seems a challenge has arisen in processing your request. The tasks selection retrieving has failed. Our team has been alerted to this matter, and they are currently working diligently to investigate and resolve it as swiftly as possible. Thank you for your patience and understanding. We deeply regret any disruption this may have caused."
+            }
+          },
+          "guidances": {
+            "noItemsAvailable": "No tasks has been added yet.",
+            "noItemsFound": "No tasks matching with filtering conditions."
+          },
+          "accessibilityGuidances": {
+            "dataRetrievingInProgress": "Data retrieving in progress. Please wait."
+          },
+          "titles": {
+            "completedTasks": "Completes Tasks"
+          }
+        },
+        "people": {
+          "searchBox": {
+            "placeholder": "Search by name or its spell",
+            "accessibilityGuidance": "Search by name or its spell"
+          },
+          "buttons": {
+            "personAdding": {
+              "label": "Add Person"
+            },
+            "retryingOfDataRetrieving": {
+              "label": "Retry to Retrieve"
+            },
+            "immediateAddingOfFirstPerson": {
+              "label": "Let add the first one"
+            },
+            "resettingOfFiltering": {
+              "label": "Reset Filtering"
+            },
+            "peopleFiltering": {
+              "label": "Filter People"
+            }
+          },
+          "errors": {
+            "peopleRetrieving": {
+              "title": "People Retrieving Failure",
+              "description": "We sincerely apologize for the inconvenience, but it seems a challenge has arisen in processing your request. The people selection retrieving has failed. Our team has been alerted to this matter, and they are currently working diligently to investigate and resolve it as swiftly as possible. Thank you for your patience and understanding. We deeply regret any disruption this may have caused."
+            }
+          },
+          "guidances": {
+            "noItemsAvailable": "No people has been added yet.",
+            "noItemsFound": "No people matching with filtering conditions."
+          },
+          "accessibilityGuidances": {
+            "dataRetrievingInProgress": "Data retrieving in progress. Please wait."
+          }
+        }
+      }
+    }
+  },
+  "$$japanese": {
+    "pages": {
+      "person": {
+        "management": {
+          "pageTitle": "連絡先管理 ｜ Experimental CSharp Application",
+          "taskManagerActivationGuidance": "人の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        }
+      },
+      "task": {
+        "management": {
+          "pageTitle": "課題管理 ｜ Experimental CSharp Application",
+          "filteringModalDialog": {
+            "title": "課題の絞り込み"
+          },
+          "taskManagerActivationGuidance": "課題の詳細を閲覧する事や編集するにはカードをクリック・タップして下さい。"
+        }
+      }
+    },
+    "components": {
+      "lists": {
+        "tasksFolders": {
+          "buttons": {
+            "addingOfNewTaskFolder": {
+              "label": "新規フォルダー"
+            }
+          },
+          "loadingStateAccessibilityGuidance": "課題カスタムフォルダーはロード中です。暫くお待ち下さい。",
+          "item": {
+            "buttons": {
+              "tasksFolderCollapsing": {
+                "accessibilityGuidance": {
+                  "template": "課題フォルダー「{{ tasksFolderLabel }}」を折りたたむ"
+                }
+              },
+              "tasksFolderExpanding": {
+                "accessibilityGuidance": {
+                  "template": "課題フォルダー「{{ tasksFolderLabel }}」を展開する"
+                }
+              },
+              "retrievingOfTasksOfSpecificCustomFolder": {
+                "accessibilityGuidance": {
+                  "template": "課題フォルダー「{{ tasksFolderLabel }}」の課題を取得する"
+                }
+              },
+              "renamingOfTasksFolder": {
+                "accessibilityGuidance": {
+                  "template": "課題フォルダー「{{ tasksFolderLabel }}」の名前を変更する"
+                }
+              },
+              "deletingOfTasksFolder": {
+                "accessibilityGuidance": {
+                  "template": "課題フォルダー「{{ tasksFolderLabel }}」を削除する"
+                }
+              }
+            },
+            "textBoxes": {
+              "tasksFolderAdding": {
+                "accessibilityGuidance": "新しいフォルダーの名前を入力して下さい。"
+              },
+              "tasksFolderEditing": {
+                "accessibilityGuidance": {
+                  "template": "以前の名前の「{{ tasksFolderInitialLabel }}」フォルダーの新しい名前を入力して下さい。"
+                }
+              }
+            }
+          }
+        }
+      },
+      "controls": {
+        "tasksFilteringPanel": {
+          "titles": {
+            "summaries": "まとめ",
+            "custom": "カスタム"
+          },
+          "summaryFolders": {
+            "all": {
+              "title": "全課題",
+              "accessibilityGuidance": "全課題を見る"
+            },
+            "today": {
+              "title": "本日",
+              "accessibilityGuidance": "本日に予定された課題を見る"
+            },
+            "overdue": {
+              "title": "期限切れ",
+              "accessibilityGuidance": "期限切れの課題を見る"
+            },
+            "byDatesAndTimes": {
+              "title": "日時別",
+              "accessibilityGuidance": "日時別の課題を見る"
+            },
+            "byDates": {
+              "title": "日付別",
+              "accessibilityGuidance": "日付別の課題を見る"
+            },
+            "byLocations": {
+              "title": "場所別",
+              "accessibilityGuidance": "場所別の課題を見る"
+            },
+            "repeating": {
+              "title": "繰り返し",
+              "accessibilityGuidance": "繰り返しの課題を見る"
+            }
+          },
+          "buttons": {
+            "retryingOfTasksCustomFoldersRetrieving": {
+              "label": "再取得"
+            },
+            "addingOfFirstTaskCustomFolder": {
+              "label": "一件目のフォルダーを追加"
+            }
+          },
+          "errorMessages": {
+            "taskCustomFoldersRetrievingFailed": "申し訳ございませんが、リクエストの処理中に問題が発生しているようです。課題フォルダーの取得中不具合が発生しました。 弊社のチームはこの問題を把握し、迅速に調査および解決に取り組んでおります。 ご不便をおかけし、誠に申し訳ございません。この件がお客様に与えた影響に深くお詫び申し上げます。"
+          }
+        }
+      },
+      "managers": {
+        "tasksFolders": {
+          "buttons": {
+            "addingOfNewTaskFolder": {
+              "label": "新規フォルダー"
+            }
+          },
+          "loadingStateAccessibilityGuidance": "課題カスタムフォルダーはロード中です。暫くお待ち下さい。"
+        },
+        "task": {
+          "heading": "タスクマネージャー",
+          "buttons": {
+            "taskEditing": {
+              "label": "課題を編集"
+            },
+            "taskDeleting": {
+              "label": "課題を削除"
+            },
+            "taskSaving": {
+              "label": "課題を保存"
+            },
+            "terminatingOfEditing": {
+              "label": "編集停止"
+            }
+          },
+          "labels": {
+            "title": "見出し",
+            "status": "状態",
+            "priority": "優先順位",
+            "description": "詳細"
+          },
+          "taskStatuses": {
+            "inProgress": "未完了",
+            "completed": "完了"
+          },
+          "tasksPriorities": {
+            "1": "1 （今直ぐやる）",
+            "2": "2 （今直ぐやる課題が終わってから）",
+            "3": "3 （時間があれば）"
+          },
+          "inputs": {
+            "taskTitle": {
+              "label": "見出し",
+              "guidance": "見出しを**2~255**文字内入力して下さい。"
+            },
+            "taskDescription": {
+              "label": "記述",
+              "guidance": "詳細を**2文字以上**入力して下さい。"
+            }
+          },
+          "taskDeletingConfirmationModalDialog": {
+            "title": "削除確認",
+            "question": "この人の削除で宜しいでしょうか。"
+          }
+        },
+        "person": {
+          "heading": "人（連絡先）詳細",
+          "buttons": {
+            "personEditing": {
+              "label": "人を編集"
+            },
+            "personDeleting": {
+              "label": "人を削除"
+            },
+            "personSaving": {
+              "label": "人を保存"
+            },
+            "terminatingOfEditing": {
+              "label": "編集停止"
+            }
+          },
+          "metadataKeys": {
+            "name": "名前",
+            "nameSpell": "名前の読み方",
+            "gender": "性別",
+            "birthDate": "生年月日",
+            "emailAddress": "メールアドレス",
+            "phoneNumber": "電話番号"
+          },
+          "controls": {
+            "familyName": {
+              "label": "性",
+              "guidance": "上の名前を**1~255文字内**入力して下さい。"
+            },
+            "givenName": {
+              "label": "名",
+              "guidance": "上の名前を**1~255文字内**入力して下さい。"
+            },
+            "familyNameSpell": {
+              "label": "性の読み方",
+              "guidance": "上の名前を**1~255文字内**入力して下さい。"
+            },
+            "givenNameSpell": {
+              "label": "名の読み方",
+              "guidance": "下の名前を**1~255文字内**入力して下さい。"
+            },
+            "gender": {
+              "label": "性別",
+              "optionsLabels": {
+                "male": "男",
+                "female": "女"
+              }
+            },
+            "emailAddress": "メールアドレス",
+            "phoneNumber": "電話番号"
+          },
+          "personDeletingConfirmationModalDialog": {
+            "title": "削除確認",
+            "question": "この課題の削除で宜しいでしょうか。"
+          }
+        }
+      },
+      "viewers": {
+        "tasks": {
+          "searchBox": {
+            "placeholder": "課題の見出しや記述で検索",
+            "accessibilityGuidance": "課題の見出しや記述で検索"
+          },
+          "buttons": {
+            "taskAdding": {
+              "label": "課題追加"
+            },
+            "retryingOfDataRetrieving": {
+              "label": "取得再試験"
+            },
+            "immediateAddingOfFirstTask": {
+              "label": "一件目の課題を追加しましょう"
+            },
+            "resettingOfFiltering": {
+              "label": "絞り込みを解除"
+            },
+            "tasksFiltering": {
+              "label": "課題をフィルタリング"
+            }
+          },
+          "errors": {
+            "tasksRetrieving": {
+              "title": "課題一覧取得失敗",
+              "description": "申し訳ございませんが、リクエストの処理中に問題が発生しているようです。課題一覧取得中、不具合が発生しました。 弊社のチームはこの問題を把握し、迅速に調査および解決に取り組んでおります。 ご不便をおかけし、誠に申し訳ございません。この件がお客様に与えた影響に深くお詫び申し上げます。"
+            }
+          },
+          "guidances": {
+            "noItemsAvailable": "現在、課題が一件も作られていません。",
+            "noItemsFound": "該当する課題が見つかりませんでした。"
+          },
+          "accessibilityGuidances": {
+            "dataRetrievingInProgress": "データが取得中です。暫くお待ち下さい。"
+          },
+          "titles": {
+            "completedTasks": "完了した課題"
+          }
+        },
+        "people": {
+          "searchBox": {
+            "placeholder": "名義や名前の読み方で検索",
+            "accessibilityGuidance": "名義や名前の読み方で検索"
+          },
+          "buttons": {
+            "personAdding": {
+              "label": "人を追加"
+            },
+            "retryingOfDataRetrieving": {
+              "label": "取得再試験"
+            },
+            "immediateAddingOfFirstPerson": {
+              "label": "一名目の人を追加しましょう"
+            },
+            "resettingOfFiltering": {
+              "label": "絞り込みを解除"
+            },
+            "peopleFiltering": {
+              "label": "課題をフィルタリング"
+            }
+          },
+          "errors": {
+            "peopleRetrieving": {
+              "title": "人一覧取得失敗",
+              "description": "申し訳ございませんが、リクエストの処理中に問題が発生しているようです。人一覧取得中、不具合が発生しました。 弊社のチームはこの問題を把握し、迅速に調査および解決に取り組んでおります。 ご不便をおかけし、誠に申し訳ございません。この件がお客様に与えた影響に深くお詫び申し上げます。"
+            }
+          },
+          "guidances": {
+            "noItemsAvailable": "現在、人が一名も登録されていません。",
+            "noItemsFound": "該当する人が見つかりませんでした。"
+          },
+          "accessibilityGuidances": {
+            "dataRetrievingInProgress": "データが取得中です。暫くお待ち下さい。"
+          }
+        }
+      }
+    }
+  }
+}

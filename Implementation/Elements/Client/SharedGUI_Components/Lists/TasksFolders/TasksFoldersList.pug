@@ -1,0 +1,67 @@
+﻿-
+
+  class TasksFoldersList {
+    
+    /**
+     * @typedef TasksFoldersListLocalization
+     * @property { string } buttons.addingOfNewTaskFolder.label
+     * @property { string } loadingStateAccessibilityGuidance
+     */
+    
+    /** @type { TasksFoldersListLocalization } */
+    static localizedStringResources = $$localizedStringResources.components.lists.tasksFolders;
+    
+  }
+
+
+mixin TasksFoldersList(properties, statesSimulations)
+
+  - 
+
+    const {
+    
+      /** @type ReadonlyArray<TaskCustomFolder> */
+      taskCustomFolders = []
+      
+    } = properties ?? {};
+ 
+    const {
+      
+      /** @type boolean */
+      editingMode = false
+      
+    } = statesSimulations ?? {};
+    
+    /** @type { number } */
+    const indexOfEditedFolder = taskCustomFolders.length > 0 && editingMode ? -1 : 0; 
+    
+    
+  ul.TasksFoldersList&attributes(attributes)
+
+    if block
+    
+      block
+      
+    else 
+    
+      each taskCustomFolder, index in taskCustomFolders
+      
+        +TasksFoldersList-Item(
+          {
+            taskCustomFolder,
+            editingMode: index === indexOfEditedFolder,
+            menu: true
+          }, 
+          { isSelected: index === 2 }
+        )
+        
+      li.TasksFoldersList-NewFolderAddingButtonValidityWrapper
+      
+        +Button--YDF({ geometricVariation: Button__YDF.GeometricVariations.small })
+          +Folder__Plus__Filled--YDF_Icon.Button--YDF-SVG_Icon
+          span.Button--YDF-Label= TasksFoldersList.localizedStringResources.buttons.addingOfNewTaskFolder.label
+
+
+include Item/TasksFoldersListItem.pug
+include LoadingPlaceholder/TasksFoldersListLoadingPlaceholder.pug
+include Item/LoadingPlaceholder/TasksFoldersListItemLoadingPlaceholder.pug

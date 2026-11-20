@@ -1,0 +1,10 @@
+﻿mixin TasksFoldersListLoadingPlaceholder(options)
+
+  .TasksFoldersList&attributes(attributes)
+  
+    .TasksFoldersList--LoadingPlaceholder-AccessibilityGuidance
+      | #{ TasksFoldersList.localizedStringResources.loadingStateAccessibilityGuidance }
+  
+    each itemNumber in YDF.createArrayOfNaturalNumbers({ elementsCount: options.itemsCount })
+    
+      +TasksFoldersListItemLoadingPlaceholder

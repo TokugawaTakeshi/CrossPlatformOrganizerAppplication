@@ -1,0 +1,18 @@
+﻿-
+
+  sourceDirectoriesRelativePaths:
+    pages: "Pages"
+    sharedComponents: "SharedGUI_Components"
+    commonStringResources: "Resources/Localizations"
+
+  outputDirectoriesRelativePaths:
+    base: "../../../Automation/GeneratorOfAssetsForStaticPreview/StringResources"
+    pages: "Pages"
+    sharedComponents: "SharedGUI_Components"
+    commonStringResources: "Common"
+
+  targetLocales:
+    - English
+    - Japanese
+    
+  outputFileCSharpNamespaceCommonPart: "GeneratorOfAssetsForStaticPreview.StringResources"

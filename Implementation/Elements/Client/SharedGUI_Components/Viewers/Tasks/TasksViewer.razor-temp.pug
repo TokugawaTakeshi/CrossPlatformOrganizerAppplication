@@ -1,0 +1,209 @@
+﻿include ../../../node_modules/razor-by-pug/Mixins.pug
+
++using([
+        
+  "Client.Pages.Task.Management.ModalDialogs",
+  "Client.SharedGUI_Components.Cards.Task",
+  "Client.SharedGUI_Components.Cards.Task.LoadingPlaceholder",
+  "Client.SharedGUI_Components.Controls.TasksFilteringPanel",
+  "Client.SharedState",
+  
+  "YamatoDaiwa.Frontend.GUI_Components.AdmonitionBlock",
+  "YamatoDaiwa.Frontend.GUI_Components.Controls.Buttons.Plain",
+  
+  "FrontEndFramework.Components.Accordion",
+  "FrontEndFramework.Components.Controls.SearchBox",
+  
+  "FrontEndFramework.SVG_Icons.Checklist",
+  "FrontEndFramework.SVG_Icons.Filtering",
+  "YamatoDaiwa.Frontend.Helpers",
+  "YamatoDaiwa.CSharpExtensions"
+  
+])
+
+
+div(
+  class="@ElementClassAttribute.Generate(\"TasksViewer\", rootElementHTML_Attributes)"
+  at-attributes="@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy(\"class\").UpdatedDictionary"
+)
+
+  .TasksViewer-ContainerQueryingComposition
+  
+    //- ━━━ Tasks Filtering Panel ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    TasksFilteringPanel.TasksViewer-SidebarForWideContainers
+    
+    
+    //- ━━━ Top Action Bar ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    .TasksViewer-TopActionBar
+    
+      SearchBox.TasksViewer-TopActionBar-SearchBox(
+        placeholder="@localization.searchBox.placeholder"
+        accessibilityGuidance="@localization.searchBox.accessibilityGuidance"
+        mustSynchronizeDisplayingSearchRequestWith="@incompletedTasksSharedState.filtering.searchingByFullOrPartialTitleOrDescription"
+        disabled="@TasksSharedState.isDataBeingRetrievedNowInSomeInstance"
+        onNewSearchRequestEventHandler="@onNewTaskSearchingByFullOrPartialTitleOrDescriptionButtonClicked"
+      )
+
+      Button.TasksViewer-TopActionBar-ButtonForWideContainers(
+        label="@localization.buttons.taskAdding.label"
+        onClick="@onStartingOfNewTaskAddingSessionButtonClicked"
+      ): PrependedSVG_Icon: ChecklistIcon__Adding.Button--YDF-SVG_Icon
+        
+        
+    //- ━━━ Incompleted Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +if("incompletedTasksSharedState.loading.isTasksRetrievingInProgressOrNotStartedYet")
+    
+      .TasksViewer-VisuallyHiddenAccessibilityGuidance(role="alert")
+        | @(localization.accessibilityGuidances.dataRetrievingInProgress)
+      
+      .TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks
+        +for("uint cardNumber = 0; cardNumber < INCOMPLETED_TASKS_CARDS_LOADING_PLACEHOLDERS_COUNT; cardNumber++")
+          TaskCardLoadingPlaceholder
+        
+    +elseIf("incompletedTasksSharedState.loading.hasTasksSelectionRetrievingErrorOccurred")
+    
+      AdmonitionBlock.TasksViewer-AdmonitionBlock(
+        title="@localization.errors.tasksRetrieving.title"
+        decorativeVariation="@AdmonitionBlock.StandardDecorativeVariations.error"
+        hasDefaultSVG_Icon=""
+      )
+      
+        p @(localization.errors.tasksRetrieving.description)
+        
+        Button.AdmonitionBlock--YDF-CenteredButton(
+          label="@localization.buttons.retryingOfDataRetrieving.label"
+          onClick="@onRetryingOfIncompletedTasksSelectionRetrievingButtonClicked"
+          decorativeVariation="@Button.StandardDecorativeVariations.accented"
+        )
+        
+    +elseIf("incompletedTasksSharedState.totalForcedlyFilteredTasksCount == 0")
+    
+      AdmonitionBlock.TasksViewer-AdmonitionBlock(
+        decorativeVariation="@AdmonitionBlock.StandardDecorativeVariations.guidance"
+        hasDefaultSVG_Icon=""
+      )
+        p @(localization.guidances.noItemsAvailable)
+        
+        Button.AdmonitionBlock--YDF-CenteredButton(
+          label="@localization.buttons.immediateAddingOfFirstTask.label"
+          onClick="@onStartingOfNewTaskAddingSessionButtonClicked"
+        )
+        
+    +elseIf("incompletedTasksSharedState.totalTasksCountInSelection == 0")
+    
+      AdmonitionBlock.TasksViewer-AdmonitionBlock(
+        decorativeVariation="@AdmonitionBlock.StandardDecorativeVariations.guidance"
+        hasDefaultSVG_Icon=""
+      )
+        
+      p @(localization.guidances.noItemsFound)
+      
+      Button.AdmonitionBlock--YDF-CenteredButton(
+        label="@localization.buttons.resettingOfFiltering.label"
+        onClick="@onTasksFilteringResettingButtonClicked"
+      )
+      
+    +else
+    
+      ul.TasksViewer-CardsFlow.TasksViewer-CardsFlow__ActiveTasks
+      
+        +forEach("CommonSolution.Entities.Task.Task task in incompletedTasksSharedState.tasksSelection")
+        
+          TaskCard(
+            targetTask="@task"
+            rootElementTag="li"
+            onClickRootElementEventHandler="@TasksViewer.onTaskCardClicked"
+            onClickCheckBoxEventHandler="@TasksViewer.onCompletionCheckboxClicked"
+          )
+          
+          
+    //- ━━━ Completed Tasks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    Accordion.TasksViewer-CompletedTasksSection(
+      title="@localization.titles.completedTasks"
+      panelAdditionalCSS_Classes="@([ \"TasksViewer-CompletedTasksSection-Accordion-Panel\" ])"
+    )
+    
+      +if("completedTasksSharedState is not null")
+      
+        +if("completedTasksSharedState.loading.isTasksRetrievingInProgressOrNotStartedYet")
+        
+          .TasksViewer-CardsFlow.TasksViewer-CardsFlow__CompletedTasks
+          
+            .TasksViewer-VisuallyHiddenAccessibilityGuidance(role="alert")
+              | @(localization.accessibilityGuidances.dataRetrievingInProgress)
+              
+            +for("uint cardNumber = 0; cardNumber < COMPLETED_TASKS_CARDS_LOADING_PLACEHOLDERS_COUNT; cardNumber++")
+              TaskCardLoadingPlaceholder
+              
+        +elseIf("completedTasksSharedState.loading.hasTasksSelectionRetrievingErrorOccurred")
+        
+          AdmonitionBlock.TasksViewer-AdmonitionBlock(
+            title="@localization.errors.tasksRetrieving.title"
+            decorativeVariation="@AdmonitionBlock.StandardDecorativeVariations.error"
+            hasDefaultSVG_Icon=""
+            onExpandingStartedEventHandler="@onCompletedTasksAccordionExpandingStarted"
+            onCollapsingEndedEventHandler="@onCompletedTasksAccordionCollapsed"
+          )
+    
+            p @(localization.errors.tasksRetrieving.description)
+  
+            Button.AdmonitionBlock--YDF-CenteredButton(
+              label="@localization.buttons.retryingOfDataRetrieving.label"
+              onClick="@onRetryingOfCompletedTasksSelectionRetrievingButtonClicked"
+              decorativeVariation="@Button.StandardDecorativeVariations.accented"
+            )
+            
+        +elseIf("completedTasksSharedState.totalForcedlyFilteredTasksCount == 0")
+                    
+          AdmonitionBlock.TasksViewer-AdmonitionBlock(
+            decorativeVariation="@AdmonitionBlock.StandardDecorativeVariations.guidance"
+            hasDefaultSVG_Icon=""
+          )
+    
+            p @(localization.guidances.noItemsAvailable)
+  
+            Button.AdmonitionBlock--YDF-CenteredButton(
+              label="@localization.buttons.immediateAddingOfFirstTask.label"
+              onClick="@onStartingOfNewTaskAddingSessionButtonClicked"
+            )
+            
+        +elseIf("completedTasksSharedState.totalTasksCountInSelection == 0")
+                        
+          AdmonitionBlock.TasksViewer-AdmonitionBlock(
+            decorativeVariation="@AdmonitionBlock.StandardDecorativeVariations.guidance"
+            hasDefaultSVG_Icon=""
+          )
+    
+            p @(localization.guidances.noItemsFound)
+    
+            Button.AdmonitionBlock--YDF-CenteredButton(
+              label="@localization.buttons.resettingOfFiltering.label"
+              onClick="@onTasksFilteringResettingButtonClicked"
+            )
+            
+        +else
+        
+          ul.TasksViewer-CardsFlow.TasksViewer-CardsFlow__CompletedTasks
+          
+            +forEach("CommonSolution.Entities.Task.Task task in completedTasksSharedState.tasksSelection")
+            
+              TaskCard(
+                targetTask="@task"
+                rootElementTag="li"
+                onClickRootElementEventHandler="@TasksViewer.onTaskCardClicked"
+                onClickCheckBoxEventHandler="@TasksViewer.onCompletionCheckboxClicked"
+              )
+        
+    
+    //- ━━━ Bottom Action Bar for Narrow Containers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    .TasksViewer-BottomActionBarForNarrowContainers
+    
+      Button(
+        label="@localization.buttons.taskAdding.label"
+        onClick="@onStartingOfNewTaskAddingSessionButtonClicked"
+      ): PrependedSVG_Icon: ChecklistIcon__Adding.Button--YDF-SVG_Icon
+    
+      Button(
+        label="Filtering"
+        onClick="@TasksFilteringModalDialogService.displayModalDialog"
+      ): PrependedSVG_Icon: FilteringIcon__Outlined.Button--YDF-SVG_Icon

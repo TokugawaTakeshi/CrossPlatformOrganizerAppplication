@@ -1,0 +1,79 @@
+extends ../../node_modules/@yamato-daiwa/frontend/PagesTemplates/RegularWebPageTemplate.pug
+
+
+block Requirements
+  
+  -
+    
+    class MainLayout {
+      
+      static mustDisplayDrawer = false;
+      
+      static displayDrawer() {
+        MainLayout.mustDisplayDrawer = true;
+        return MainLayout;
+      }
+      
+      
+      static mustDisplaySnackbar = false;
+
+      static displaySnackbar() {
+        MainLayout.mustDisplaySnackbar = true;
+        return MainLayout;
+      }
+      
+      
+      static mustDisplayBlockingLoadingOverlay = false;
+
+      static displayBlockingLoadingOverlay() {
+        MainLayout.mustDisplaySnackbar = true;
+        return MainLayout;
+      }
+      
+    }
+  
+
+block append PageContent
+
+  .MainLayout
+
+    .MainLayout-UpperFixedContentSlot
+
+      +Header({ hamburgerMenuButtonAdditionalCSS_Class: "MainLayout-HamburgerMenuButton" })
+
+      block UpperFixedContent
+
+        
+    .MainLayout-Sidebar
+
+      +NavigationMenu
+
+      
+    main.MainLayout-SpecificContent
+
+      block SpecificContent
+
+
+    if MainLayout.mustDisplayDrawer
+
+      .MainLayout-DrawerOverlay
+        
+        .MainLayout-Drawer
+          +NavigationMenu
+
+        +ClosingButton--YDF.MainLayout-ClosingDrawerButton
+
+    if MainLayout.mustDisplaySnackbar
+      
+      +Snackbar--YDF({
+        text: "Sorry, but something went wrong.",
+        decorativeVariation: Snackbar__YDF.DecorativeVariations.error
+      })
+
+    if MainLayout.mustDisplayBlockingLoadingOverlay
+      
+      +BlockingLoadingOverlay--YDF({
+        loadingIndicatorType: LoadingIndicator__YDF.Types.variableWidthArcSpinner
+      })
+
+    block FloatingAndFixedContent

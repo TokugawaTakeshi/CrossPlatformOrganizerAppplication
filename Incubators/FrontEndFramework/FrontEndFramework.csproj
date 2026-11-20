@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -12,10 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions" Version="0.0.9" />
-    <PackageReference Include="YamatoDaiwaCS_Extensions.Localizations.Japanese" Version="0.0.4" />
-    <PackageReference Include="YamatoDaiwaFrontend" Version="0.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.6" />
+    <PackageReference Include="YamatoDaiwa.CSharpExtensions" Version="0.9.0" />
+    <PackageReference Include="YamatoDaiwa.CSharpExtensions.Localizations.Japanese" Version="0.9.0" />
+    <Reference Include="YamatoDaiwa.Frontend">
+      <HintPath>D:\WebDevelopmentProjects\InHouseDevelopment\YamatoDaiwaFrontend\AdaptationsToFrameworks\Blazor\Package\bin\Debug\net10.0\YamatoDaiwa.Frontend.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -23,11 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Components\Controls\Buttons\Plain\Button.razor" />
-    <AdditionalFiles Include="Components\Controls\Buttons\Plain\LoadingPlaceholder\ButtonLoadingPlaceholder.razor" />
     <AdditionalFiles Include="Components\Controls\RadioButton\RadioButton.razor" />
     <AdditionalFiles Include="Components\Controls\SearchBox\SearchBox.razor" />
-    <AdditionalFiles Include="Components\Controls\TextBox\TextBox.razor" />
     <AdditionalFiles Include="Components\Controls\FilesUploader\FilesUploader.razor" />
     <AdditionalFiles Include="Components\ModalDialogs\Common\ModalDialog.razor" />
     <AdditionalFiles Include="SVG_Icons\Calendar\CalendarIcon__Date.razor" />
@@ -35,16 +34,10 @@
     <AdditionalFiles Include="SVG_Icons\Checkbox\CheckboxIcon__Checked.razor" />
     <AdditionalFiles Include="SVG_Icons\Folder\FolderIcon__Filled.razor" />
     <AdditionalFiles Include="SVG_Icons\Inbox\InboxIcon.razor" />
-    <AdditionalFiles Include="SVG_Icons\Lists\ChecklistIcon.razor" />
     <AdditionalFiles Include="SVG_Icons\MultiplicationSign\MultiplicationSignIcon__Boxed__Filled.razor" />
     <AdditionalFiles Include="SVG_Icons\Timeline\TimelineIcon.razor" />
+    <AdditionalFiles Include="SVG_Icons\Triangle\Triangle__Downward__Filled.razor" />
 
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Package">
-      <HintPath>C:\Users\Takeshi Tokugawa\.nuget\packages\yamatodaiwafrontend\0.0.2\lib\net8.0\Package.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +45,7 @@
     <UpToDateCheckInput Remove="SVG_Icons\ExclamationMark\ExclamationMarkIcon__Triangled__Filled.razor" />
     <UpToDateCheckInput Remove="Components\LoadingIndicator\LoadingIndicator.razor" />
     <UpToDateCheckInput Remove="Components\Controls\CompoundControlShell\CompoundControlShell.razor" />
+    <UpToDateCheckInput Remove="Components\Snackbar\Snackbar.razor" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 .MainLayout
 
-  WIDE_SCREENS_CONFIGURATION_MINIMAL_WIDTH = 500px
+  WIDE_SCREENS_CONFIGURATION_MINIMAL_WIDTH = 2*NARROWEST_SCREEN_WIDTH_UNIT--YDF
 
   WideScreensConfiguration()
     @media screen and (min-width: WIDE_SCREENS_CONFIGURATION_MINIMAL_WIDTH)
@@ -63,7 +63,7 @@
     overflow-y hidden
 
 
-  &-SpecificContentFillingElement
+  &-VerticallyFillingSpecificContentDescendant
 
     height 100%
 
@@ -76,7 +76,7 @@
     bottom 0
     left 0
     right 0
-    z-index: YDF_Configuration.zIndexes.drawers
+    z-index: Configuration--YDF.zIndexes.drawers
 
     background rgba(black, 0.25)
 
@@ -85,11 +85,11 @@
 
   &-Drawer
 
-    max-width NARROWEST_SCREEN_WIDTH_UNIT
+    max-width NARROWEST_SCREEN_WIDTH_UNIT--YDF
     width 80%
     height 100%
 
-    background ShadesOfGray__39ColorsW3C_Palette[8]
+    background-color: W3C_39_ShadesOfGray--YDF[8]
     box-shadow 0 4px 8px 4px rgba(black, 0.25)
 
     
@@ -99,4 +99,4 @@
     top 10px
     right 10px
 
-    z-index: YDF_Configuration.zIndexes.drawers + 1
+    z-index: Configuration--YDF.zIndexes.drawers + 1

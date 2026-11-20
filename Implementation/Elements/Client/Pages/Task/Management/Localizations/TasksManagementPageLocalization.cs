@@ -1,37 +1,29 @@
 ﻿namespace Client.Pages.Task.Management.Localizations;
 
 
-internal abstract record TasksManagementPageLocalization
+internal abstract record TasksManagementPageLocalization(
+  string pageTitle,
+  TasksManagementPageLocalization.FilteringModalDialog filteringModalDialog,
+  string taskManagerActivationGuidance,
+  TasksManagementPageLocalization.SuccessMessages successMessages,
+  TasksManagementPageLocalization.ErrorMessages errorMessages
+)
 {
 
-  internal record FilteringModalDialog
-  {
-    internal required string title { get; init; }
-  }
-  
-  internal abstract FilteringModalDialog filteringModalDialog { get; init; }
-  
-  
-  internal abstract string taskManagerActivationGuidance { get; }
-
+  internal record FilteringModalDialog(string title);
 
   internal record SuccessMessages
-  {
-    internal required string taskAddingSucceeded { get; init; }
-    internal required string taskUpdatingSucceeded { get; init; }
-    internal required string taskDeletingSucceeded { get; init; }
-  }
-  
-  internal abstract SuccessMessages successMessages { get; init; }
-  
+  (
+    string taskAddingSucceeded,
+    string taskUpdatingSucceeded,
+    string taskDeletingSucceeded
+  );
   
   internal record ErrorMessages
-  {
-    internal required string taskAddingFailed { get; init; }
-    internal required string taskUpdatingFailed { get; init; }
-    internal required string taskDeletingFailed { get; init; }
-  }
-  
-  internal abstract ErrorMessages errorMessages { get; init; }
+  (
+    string taskAddingFailed,
+    string taskUpdatingFailed,
+    string taskDeletingFailed
+  );
   
 }

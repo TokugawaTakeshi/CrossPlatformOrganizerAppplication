@@ -1,0 +1,10 @@
+﻿@using YamatoDaiwa.CSharpExtensions
+
+
+<div
+  class=@this.getClassAttributeValueForRootElement(CSS_Namespace: "Popover--YDF-Body")
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
+  hidden=@(!mustDisplay)
+>
+  @ChildContent
+</div>

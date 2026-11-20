@@ -1,4 +1,4 @@
-﻿using YamatoDaiwa.Frontend.Components.Controls.Validation;
+﻿using YamatoDaiwa.Frontend.GUI_Components.Controls.Validation;
 using FrontEndFramework.InputtedValueValidation.PreMadeRules.Strings;
 
 
@@ -12,8 +12,9 @@ internal class PersonPhoneNumberInputtedDataValidation : InputtedValueValidation
     bool? isInputRequired = CommonSolution.Entities.Person.PhoneNumber__DigitsOnly.IS_REQUIRED, 
     string? requiredInputIsMissingValidationErrorMessage = "電話番号は必須となります。お手数ですがメールアドレスを入力して下さい。"  
   ): base(
-    omittedValueChecker: rawValue => String.IsNullOrEmpty(rawValue as string),
-    isInputRequired: isInputRequired,
+    isValueOfSupportedType: (object? rawValue) => rawValue is string,
+    hasValueBeenOmitted: rawValue => String.IsNullOrEmpty(rawValue as string),
+    isInputRequired,
     requiredInputIsMissingValidationErrorMessage: requiredInputIsMissingValidationErrorMessage,
     staticRules:
     [

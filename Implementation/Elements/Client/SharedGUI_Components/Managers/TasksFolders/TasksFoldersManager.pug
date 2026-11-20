@@ -1,0 +1,76 @@
+mixin TasksFoldersManager(properties)
+
+  - 
+    
+    const {
+    
+      /** @type { string | undefined } */
+      label,
+
+      /** @type { string | undefined } */
+      guidance,
+      
+      /**
+       * @type { boolean }
+       * @default false
+       * */
+      required = false,
+
+      /**
+       * @type { boolean }
+       * @default false
+       * */
+      mustDisplayAppropriateBadgeIfInputIsRequired = false,
+
+      /**
+       * @type { boolean }
+       * @default false
+       * */
+      mustDisplayAppropriateBadgeIfInputIsOptional = false,
+
+      /**
+       * @type { boolean }
+       * @default false
+       * */
+      mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge = false
+      
+    } = properties ?? {};
+    
+    const {
+
+      /**
+       * @type { boolean | ReadonlyArray<string> }
+       * @default false
+       * */
+      validationErrorsMessages = false,
+
+      /**
+       * @type { boolean | ReadonlyArray<"IN_PROGRESS" | "FINISHED_BUT_INVALID" | "FINISHED_AND_VALID" | "MALFUNCTION"> }
+       * @default false
+       * */
+      asynchronousValidationsStatuses = false
+
+    } = statesSimulations ?? {};
+
+
+  +ValidatableControlShell--YDF(
+    {
+
+      label,
+      guidance,
+
+      required,
+      mustDisplayAppropriateBadgeIfInputIsRequired,
+      mustDisplayAppropriateBadgeIfInputIsOptional,
+      mustAddInvisibleBadgeForHeightEqualizingWhenNoBadge
+
+    },
+    {
+      validationErrorsMessages,
+      asynchronousValidationsStatuses
+    }
+  ).TasksFoldersManager&attributes(attributes)
+
+    +TasksFoldersList({
+      taskCustomFolders: $mockData.taskCustomFolders
+    })

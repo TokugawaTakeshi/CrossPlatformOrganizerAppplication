@@ -1,0 +1,39 @@
+/* [ !!! ATTENTION !!! ] NO MANUAL EDITING!!!       */
+/* This file is being GENERATED REPEATEDLY.         */
+/* All manual changes COULD BE LOST AT ANY MOMENT.  */
+
+// ReSharper disable ReplaceAutoPropertyWithComputedProperty
+// To avoid generating a backing field https://stackoverflow.com/a/77935080/4818123
+
+using GeneratorOfAssetsForStaticPreview.StringResources.Common;
+
+
+namespace GeneratorOfAssetsForStaticPreview.StringResources.Pages.Person.Management;
+
+
+internal record PeopleManagementPageEnglishLocalization : PeopleManagementPageLocalization
+{
+
+  internal override string pageTitle { get; } = "People Management — Experimental CSharp Application";
+  
+  internal override string personManagerActivationGuidance { get; } = 
+      "Click or tap the person card to view details or edit the dedicated person data.";
+  
+  internal override SuccessMessages successMessages { get; init; } = new()
+  {
+    personAddingSucceeded = "Person has been added.",
+    personUpdatingSucceeded = "Person has been updated",
+    personDeletingSucceeded = "Person has been deleted."
+  };
+  
+  internal override ErrorMessages errorMessages { get; init; } = new()
+  {
+    personAddingFailed = CommonEnglishStringResources.SingleInstance.
+        buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during adding of new person."),
+    personUpdatingFailed = CommonEnglishStringResources.SingleInstance.
+        buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during updating of person."),
+    personDeletingFailed = CommonEnglishStringResources.SingleInstance.
+      buildDataRetrievingOrSubmittingFailedPoliteMessage("The malfunction has occurred during deleting of person.")
+  };
+  
+}

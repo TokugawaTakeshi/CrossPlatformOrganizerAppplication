@@ -1,0 +1,201 @@
+﻿.TasksViewer
+
+  WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH = 740px
+
+  WideContainersConfiguration()
+    @media container and (min-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH)
+      {block}
+
+  NarrowContainersConfiguration()
+    @media container and (max-width: WIDE_CONTAINERS_CONFIGURATION_MINIMAL_WIDTH - SMALLEST_DIVISION_OF_CSS_PIXEL--YDF)
+      {block}
+  
+
+  container-type inline-size
+
+  
+  &-ContainerQueryingComposition
+
+    height 100%
+    
+    
+    +WideContainersConfiguration()
+    
+      //* [ Theory ] `height: 100%` is not required while `grid-template-rows` includes `minmax(0, 1fr)` */
+    
+      display grid
+      grid-template-areas\
+          "SIDEBAR_FOR_WIDE_CONTAINERS TOP_ACTION_BAR"\
+          "SIDEBAR_FOR_WIDE_CONTAINERS ACTIVE_TASKS_SECTION"\
+          "SIDEBAR_FOR_WIDE_CONTAINERS COMPLETED_TASKS_SECTION"
+    
+      grid-template-columns 200px minmax(0, 1fr)
+
+      //* [ Approach ] The height of last row will be set by specifying of maximal height of element. */
+      grid-template-rows auto minmax(0, 2fr) minmax(0, 1fr)
+      column-gap 12px
+  
+    
+    +NarrowContainersConfiguration()
+
+      //* [ Theory ] If add `overflow: hidden` the shadows of the cards will become truncated. */
+    
+      display flex
+      flex-direction column
+  
+    
+  &-SidebarForWideContainers
+
+    +WideContainersConfiguration()
+    
+      grid-area SIDEBAR_FOR_WIDE_CONTAINERS
+    
+    
+    +NarrowContainersConfiguration()
+    
+      display none
+
+
+  &-TopActionBar
+
+    display flex
+    
+    
+    +WideContainersConfiguration()
+
+      grid-area TOP_ACTION_BAR
+      column-gap 8px
+
+
+    +NarrowContainersConfiguration()
+
+      flex-shrink 0
+    
+    
+    &-SearchBox
+
+      flex-grow 1
+      
+    
+    &-ButtonForWideContainers
+
+      +WideContainersConfiguration()
+
+        flex-shrink 0
+
+
+      +NarrowContainersConfiguration()
+
+        display none !important
+
+
+  &-CardsFlow
+
+    display grid
+    grid-template-columns repeat(auto-fit, minmax(280px, 1fr))
+    gap 12px
+    
+    overflow-y auto
+    position relative
+  
+    
+    &__ActiveTasks
+
+      align-content start
+      
+      margin-top: 10px - TaskCard.shadowThickness
+      
+      //* [ Approach ] `margin-top` already used, while `:before` will be a child of the grid, so both are not available. */ 
+      provideClippedShadowsAndOutlinesVisibility--YDF({
+        requiredHorizontalSymmetricSpace: TaskCard.shadowThickness,
+        requiredVerticalSymmetricSpace: TaskCard.shadowThickness,
+        noCompensatingNegativeTopMargins: true,
+        noCompensatingNegativeBottomMargins: true
+      })
+
+      
+      +WideContainersConfiguration()
+
+        grid-area ACTIVE_TASKS_SECTION
+
+      
+      +NarrowContainersConfiguration()
+  
+        flex-grow 1
+        
+    
+    &__CompletedTasks
+    
+      max-height 100%
+      padding: TaskCard.shadowThickness
+
+      margin-top 4px
+  
+
+  &-VisuallyHiddenAccessibilityGuidance
+  
+    width 0
+    height 0
+    overflow hidden
+    
+    opacity 0
+    
+    position absolute
+
+    
+  &-AdmonitionBlock
+
+    centerHorizontallyWithoutWrapper--YDF({ 
+      targetElementType: HorizontalCenteringWithoutWrapper--YDF.TargetElementTypes.block,
+      maximalWidth: 2*NARROWEST_SCREEN_WIDTH_UNIT--YDF
+    })
+    
+    width 100% //* [ Why ?! ] Inside the grid, the block element does not take the maximal width as default. */
+    margin-top 24px
+    margin-bottom 36px
+    
+
+    +WideContainersConfiguration()
+
+      grid-area ACTIVE_TASKS_SECTION
+      align-self start
+
+      overflow-y auto
+
+
+  &-CompletedTasksSection    
+    
+    +WideContainersConfiguration()
+
+      grid-area COMPLETED_TASKS_SECTION
+      margin-top 6px
+      
+      
+    .TasksViewer-AdmonitionBlock
+    
+      margin-top: 8px      
+      
+      
+    &-Accordion
+    
+      &-Panel
+      
+        overflow-x hidden
+        overflow-y hidden
+  
+    
+  &-BottomActionBarForNarrowContainers
+
+    +WideContainersConfiguration()
+
+      display none
+
+
+    +NarrowContainersConfiguration()
+
+      display flex
+      flex-direction row-reverse
+      justify-content space-between
+
+      flex-grow 0
+      margin-top 6px
