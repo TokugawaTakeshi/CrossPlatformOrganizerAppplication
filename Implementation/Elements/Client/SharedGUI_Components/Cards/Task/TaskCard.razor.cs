@@ -17,12 +17,12 @@ public partial class TaskCard :
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.EventCallback<
     CommonSolution.Entities.Task.Task
-  > onClickRootElementEventHandler { get; set; }
+  > onRootElementClickedEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter]
   public required Microsoft.AspNetCore.Components.EventCallback<
     CommonSolution.Entities.Task.Task
-  > onClickCheckBoxEventHandler { get; set; }
+  > onCheckBoxClickedEventHandler { get; set; }
 
   [Microsoft.AspNetCore.Components.Parameter]
   public string rootElementTag { get; set; } = "div";
@@ -54,11 +54,11 @@ public partial class TaskCard :
   /* ━━━ Events Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   private async System.Threading.Tasks.Task onClickRootElement()
   {
-    if (this.onClickRootElementEventHandler.HasDelegate)
+    if (this.onRootElementClickedEventHandler.HasDelegate)
     {
       try
       {
-        await this.onClickRootElementEventHandler.InvokeAsync(this.targetTask);
+        await this.onRootElementClickedEventHandler.InvokeAsync(this.targetTask);
       }
       catch (Exception exception)
       {
@@ -75,11 +75,11 @@ public partial class TaskCard :
 
   private async System.Threading.Tasks.Task onClickCheckbox()
   {
-    if (this.onClickRootElementEventHandler.HasDelegate)
+    if (this.onRootElementClickedEventHandler.HasDelegate)
     {
       try
       {
-        await this.onClickCheckBoxEventHandler.InvokeAsync(this.targetTask);
+        await this.onCheckBoxClickedEventHandler.InvokeAsync(this.targetTask);
       }
       catch (Exception exception)
       {
@@ -96,10 +96,16 @@ public partial class TaskCard :
   
   
   /* ━━━ CSS Classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private string composeClassAttributeValueForRootElement(string namespaceCSS_Class) => new List<string?> { namespaceCSS_Class }.
+  private string composeClassAttributeValueForRootElement(string namespaceCSS_Class) => 
+    
+      new List<string?> { namespaceCSS_Class }.
 
-      AddElementToEndIf("TaskCard__DisabledState", this.disabled).
+          AddElementToEndIfNotNull(
+            this.rootElementHTML_Attributes?.TryGetValue("class", out object? CSS_Class) == true ? CSS_Class.ToString() : null
+          ).
+    
+          AddElementToEndIf("TaskCard__DisabledState", this.disabled).
 
-      StringifyEachElementAndJoin(" ");
+          StringifyEachElementAndJoin(" ");
   
 }

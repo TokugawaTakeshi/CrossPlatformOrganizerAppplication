@@ -1,15 +1,21 @@
-﻿<svg 
+﻿@using YamatoDaiwa.CSharpExtensions
+
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough
+
+
+<svg 
   xmlns="http://www.w3.org/2000/svg" 
   viewBox="0 0 20 20"
-  class=@rootElementModifierCSS_Class
+  class=@(rootElementHTML_Attributes?.TryGetValue("class", out object? classValue) == true ? classValue : null)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
 >
   <path d="M18.5 1.5v17h-17v-17h17M20 0H0v20h20V0z" />
 </svg>
 
 
 @code {
-  
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? rootElementModifierCSS_Class { get; set; }
-  
+
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
+
 }

@@ -5,13 +5,15 @@
 namespace GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Cards.Person;
 
 
-internal record PersonCardJapaneseLocalization : PersonCardLocalization
-{
-  internal override Metadata metadata { get; init; } = new()
-  {
-    name = "名前",
-    nameSpell = "名前の読み方",
-    emailAddress = "メールアドレス",
-    phoneNumber = "電話番号"
-  };
-}
+internal record PersonCardJapaneseLocalization() : PersonCardLocalization(
+  
+  tableHeadings: 
+  
+      new TableHeadings(
+        name: "名前",
+        nameSpell: "名前の読み方",
+        emailAddress: "メールアドレス",
+        phoneNumber: "電話番号"
+      )
+  
+);

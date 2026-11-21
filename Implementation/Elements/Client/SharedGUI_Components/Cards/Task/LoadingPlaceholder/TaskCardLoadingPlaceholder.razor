@@ -1,16 +1,21 @@
-﻿@using YamatoDaiwa.Frontend.GUI_Components.Badge.LoadingPlaceholder
+﻿@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.Helpers
+
+@using YamatoDaiwa.Frontend.GUI_Components.Badge.LoadingPlaceholder
+
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough
 
 
 <div 
-  class="TaskCard TaskCard__LoadingPlaceholder"
-  aria-hidden="true"
+  class=@CSS_Class.AppendOneFromHTML_AttributesIfExists("TaskCard TaskCard__LoadingPlaceholder", rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
 >
   
   <div class="TaskCard-Checkbox TaskCard-Checkbox__LoadingPlaceholder"></div>
   <div class="TaskCard-Title TaskCard-Title__LoadingPlaceholder"></div>
   
   <div class="TaskCard-BadgesFlow">
-    @foreach (uint unused in new uint[2])
+    @foreach (uint _ in new uint[2])
     {
       <BadgeLoadingPlaceholder/>
     }
@@ -19,3 +24,11 @@
   <div class="TaskCard-Description TaskCard-Description__LoadingPlaceholder"></div>
   
 </div>
+
+
+@code {
+
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
+
+}

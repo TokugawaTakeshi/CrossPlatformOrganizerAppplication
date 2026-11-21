@@ -1,14 +1,13 @@
-using System.Diagnostics;
 using Client.SharedGUI_Components.Cards.Person.Localizations;
 using CommonSolution.Restrictions;
-using YamatoDaiwa.Frontend.GUI_Components.Abstractions;
+using YamatoDaiwa.CSharpExtensions;
 
 namespace Client.SharedGUI_Components.Cards.Person;
 
 
 public partial class PersonCard : 
     Microsoft.AspNetCore.Components.ComponentBase, 
-    IFlexibleExternalCSS_ClassesSpecifyingForRootElement 
+    YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough 
 {
 
   /* ━━━ Component Parameters ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -18,7 +17,7 @@ public partial class PersonCard :
   [Microsoft.AspNetCore.Components.Parameter]
   public Microsoft.AspNetCore.Components.EventCallback<
     CommonSolution.Entities.Person
-  > onClickRootElementEventHandler { get; set; }
+  > onRootElementClickedEventHandler { get; set; }
   
   [Microsoft.AspNetCore.Components.Parameter] 
   public string rootElementTag { get; set; } = "div";
@@ -26,34 +25,8 @@ public partial class PersonCard :
   [Microsoft.AspNetCore.Components.Parameter]
   public bool disabled { get; set; } = false;
   
-  
-  /* ━━━ Events Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  private async System.Threading.Tasks.Task onClickOutermostElement()
-  {
-    if (this.onClickRootElementEventHandler.HasDelegate)
-    {
-      try
-      {
-        await this.onClickRootElementEventHandler.InvokeAsync(this.targetPerson);
-      }
-      catch (Exception exception)
-      {
-        Debug.WriteLine(exception);
-        throw;
-      }
-    }
-  }
-  
-  
-  /* ━━━ CSS Classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? rootElementModifierCSS_Class { get; set; } = null;
-
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string[]? rootElementModifierCSS_Classes { get; set; } = null;
-
-  [Microsoft.AspNetCore.Components.Parameter]
-  public string? rootElementSpaceSeparatedModifierCSS_Classes { get; set; } = null;
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
   
   
   /* ━━━ Localization ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -64,5 +37,42 @@ public partial class PersonCard :
             SupportedCultures.BCP_47_Tags.ENGLISH__UNITED_KINGDOM => new PersonCardEnglishLocalization(),
             _ => throw new ArgumentOutOfRangeException()
           };
+  
+  
+  /* ━━━ Events Handling ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private async System.Threading.Tasks.Task onClickRootElement()
+  {
+    if (this.onRootElementClickedEventHandler.HasDelegate)
+    {
+      try
+      {
+        await this.onRootElementClickedEventHandler.InvokeAsync(this.targetPerson);
+      }
+      catch (Exception exception)
+      {
+        
+        #if DEBUG
+          System.Diagnostics.Debug.WriteLine(exception);
+        #endif
+        
+        throw;
+        
+      }
+    }
+  }
+  
+  
+  /* ━━━ CSS Classes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  private string composeClassAttributeValueForRootElement(string namespaceCSS_Class) => 
+    
+      new List<string?> { namespaceCSS_Class }.
+
+          AddElementToEndIfNotNull(
+            this.rootElementHTML_Attributes?.TryGetValue("class", out object? CSS_Class) == true ? CSS_Class.ToString() : null
+          ).
+    
+          AddElementToEndIf("PersonCard__DisabledState", this.disabled).
+
+          StringifyEachElementAndJoin(" ");
 
 }

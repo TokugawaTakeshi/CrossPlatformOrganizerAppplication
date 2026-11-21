@@ -1,0 +1,34 @@
+﻿include ../../../node_modules/razor-by-pug/Mixins.pug
+
++using([
+  "YamatoDaiwa.CSharpExtensions",
+  "YamatoDaiwa.Frontend.Helpers"
+])
+
++implements("YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough")
+
+
+div(
+  class="@CSS_Class.AppendOneFromHTML_AttributesIfExists(\"PersonCard PersonCard__LoadingPlaceholder\", rootElementHTML_Attributes)"
+  at-attributes="@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy(\"class\").UpdatedDictionary"
+)
+
+  .PersonCard-Avatar.PersonCard-Avatar__LoadingPlaceholder
+
+  .PersonCard-Metadata
+
+    .PersonCard-Metadata-Value--LoadingPlaceholder-OfficialName
+      
+    .PersonCard-Metadata-Value--LoadingPlaceholder-OfficialNameSpell
+   
+    .PersonCard-Metadata-Key--LoadingPlaceholder.PersonCard-Metadata-Key--LoadingPlaceholder__Email
+    .PersonCard-Metadata-Value--LoadingPlaceholder-Email
+      
+    .PersonCard-Metadata-Key--LoadingPlaceholder.PersonCard-Metadata-Key--LoadingPlaceholder__Phone
+    .PersonCard-Metadata-Value--LoadingPlaceholder-Phone
+
+
++code.
+
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }

@@ -1,5 +1,14 @@
-﻿<div class="PersonCard PersonCard__LoadingPlaceholder @rootElementModifierCSS_Class">
-  
+﻿@using YamatoDaiwa.CSharpExtensions
+@using YamatoDaiwa.Frontend.Helpers
+
+@implements YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough
+
+
+<div
+  class=@CSS_Class.AppendOneFromHTML_AttributesIfExists("PersonCard PersonCard__LoadingPlaceholder", rootElementHTML_Attributes)
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary 
+>
+
   <div class="PersonCard-Avatar PersonCard-Avatar__LoadingPlaceholder"></div>
   
   <div class="PersonCard-Metadata">
@@ -21,7 +30,7 @@
 
 @code {
 
-  [Microsoft.AspNetCore.Components.Parameter] 
-  public string? rootElementModifierCSS_Class { get; set; }
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }
 
 }

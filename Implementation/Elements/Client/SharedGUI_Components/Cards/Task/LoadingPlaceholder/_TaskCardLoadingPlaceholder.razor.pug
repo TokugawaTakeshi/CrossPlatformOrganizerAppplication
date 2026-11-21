@@ -1,0 +1,31 @@
+﻿include ../../../node_modules/razor-by-pug/Mixins.pug
+
++using([
+  "YamatoDaiwa.CSharpExtensions",
+  "YamatoDaiwa.Frontend.Helpers",
+  "YamatoDaiwa.Frontend.GUI_Components.Badge.LoadingPlaceholder"
+])
+
++implements("YamatoDaiwa.Frontend.GUI_Components.Abstractions.IHTML_AttributesFallthrough")
+
+
+.PersonCard.PersonCard__LoadingPlaceholder(
+  class="@CSS_Class.AppendOneFromHTML_AttributesIfExists(\"PersonCard PersonCard__LoadingPlaceholder\", rootElementHTML_Attributes)"
+  at-attributes="@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy(\"class\").UpdatedDictionary"
+)
+
+  .TaskCard-Checkbox.TaskCard-Checkbox__LoadingPlaceholder
+  
+  .TaskCard-Title.TaskCard-Title__LoadingPlaceholder
+  
+  .TaskCard-BadgesFlow
+  
+  +ForEach("uint _ in new uint[2]"): BadgeLoadingPlaceholder
+  
+  .TaskCard-Description.TaskCard-Description__LoadingPlaceholder
+
+
++code.
+
+  [Microsoft.AspNetCore.Components.Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object>? rootElementHTML_Attributes { get; set; }

@@ -9,7 +9,6 @@ using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Lis
 using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Lists.TasksFolders.Item;
 using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.Person;
 using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.Task;
-using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Managers.TasksFolders;
 using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Viewers.People;
 using GeneratorOfAssetsForStaticPreview.StringResources.SharedGUI_Components.Viewers.Tasks;
 using MockDataSource;
@@ -102,7 +101,6 @@ internal class GeneratorOfAssetsForStaticPreview : AssetsProviderForStaticPrevie
     TasksFoldersListItemLocalizationGeneratorForStaticPreview.Generate(stringResources);
     
     TasksFilteringPanelLocalizationGeneratorForStaticPreview.Generate(stringResources);
-    TasksFoldersManagerLocalizationGeneratorForStaticPreview.Generate(stringResources);
     
     TasksViewerLocalizationGeneratorForStaticPreview.Generate(stringResources);
     PeopleViewerLocalizationGeneratorForStaticPreview.Generate(stringResources);

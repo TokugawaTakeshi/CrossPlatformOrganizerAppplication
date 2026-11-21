@@ -1,24 +1,21 @@
 @using CommonSolution.Fundamentals
 
-@using YamatoDaiwa.Frontend.GUI_Components.Abstractions
 @using YamatoDaiwa.Frontend.Helpers
 @using FrontEndFramework.Helpers
 @using FrontEndFramework.SVG_Icons.Person
 @using FrontEndFramework.SVG_Icons.Mail
 @using FrontEndFramework.SVG_Icons.Phone
+@using YamatoDaiwa.CSharpExtensions
 
 @using YamatoDaiwa.CSharpExtensions.OfficialLocalizations.Japanese
 
 
 <DynamicTag
   name=@rootElementTag
-  attributes=@(
-    new Dictionary<string, object> {
-      { "class", $"PersonCard { ((IExternalCSS_ClassesForRootElement)this).rootElementSpaceSeparatedExternalCSS_Classes }" },
-      { "tabindex", "0" },
-      { "onclick", (object)this.onClickOutermostElement }
-    }
-  )
+  class=@composeClassAttributeValueForRootElement("PersonCard")
+  tabindex="0"
+  onclick=@onClickRootElement
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
 >
   
   <div class="PersonCard-AvatarPlaceholder">
@@ -27,17 +24,17 @@
       
       case Genders.Male:
       
-        <PersonIcon__Male rootElementModifierCSS_Class="PersonCard-AvatarPlaceholder-Icon"/>
+        <PersonIcon__Male class="PersonCard-AvatarPlaceholder-Icon"/>
         break;
         
       case Genders.Female:
       
-        <PersonIcon__Female rootElementModifierCSS_Class="PersonCard-AvatarPlaceholder-Icon"/>
+        <PersonIcon__Female class="PersonCard-AvatarPlaceholder-Icon"/>
         break;
         
       default:
         
-        <PersonIcon rootElementModifierCSS_Class="PersonCard-AvatarPlaceholder-Icon"/>
+        <PersonIcon class="PersonCard-AvatarPlaceholder-Icon"/>
         break;
       
     }
@@ -45,17 +42,17 @@
   
   <dl class="PersonCard-Metadata">
     
-    <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__VisuallyHidden">@(localization.metadata.name)</dt>
+    <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__VisuallyHidden">@(localization.tableHeadings.name)</dt>
     <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__OfficialName">@targetPerson.fullName</dd>
     
-    <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__VisuallyHidden">@(localization.metadata.nameSpell)</dt>
+    <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__VisuallyHidden">@(localization.tableHeadings.nameSpell)</dt>
     <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__OfficialNameSpell">@(targetPerson.fullNameSpell)</dd>
     
     @if (targetPerson.emailAddress is not null)
     {
       <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__Email">
-        <MailIcon__Filled rootElementModifierCSS_Class="PersonCard-Metadata-Key-Icon" />
-        <span class="PersonCard-Metadata-Key-Label">@(localization.metadata.emailAddress)</span>
+        <MailIcon__Filled class="PersonCard-Metadata-Key-Icon" />
+        <span class="PersonCard-Metadata-Key-Label">@(localization.tableHeadings.emailAddress)</span>
       </dt>
       <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__Email">
         <a
@@ -70,8 +67,8 @@
     @if (targetPerson.phoneNumber__digitsOnly is not null)
     {
       <dt class="PersonCard-Metadata-Key PersonCard-Metadata-Key__Phone">
-        <PhoneIcon__Filled rootElementModifierCSS_Class="PersonCard-Metadata-Key-Icon" />
-        <span class="PersonCard-Metadata-Key-Label">@(localization.metadata.phoneNumber)</span>
+        <PhoneIcon__Filled class="PersonCard-Metadata-Key-Icon" />
+        <span class="PersonCard-Metadata-Key-Label">@(localization.tableHeadings.phoneNumber)</span>
       </dt>
       <dd class="PersonCard-Metadata-Value PersonCard-Metadata-Value__Phone">
         <a

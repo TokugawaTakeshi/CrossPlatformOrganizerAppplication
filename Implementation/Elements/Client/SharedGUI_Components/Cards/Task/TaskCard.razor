@@ -1,18 +1,16 @@
 ﻿@using YamatoDaiwa.Frontend.GUI_Components.Badge
 @using FrontEndFramework.SVG_Icons.Checkbox
 @using FrontEndFramework.SVG_Icons.Calendar
+@using YamatoDaiwa.CSharpExtensions
 @using YamatoDaiwa.Frontend.Helpers
 
 
 <DynamicTag
   name=@rootElementTag
-  attributes=@(
-    new Dictionary<string, object> {
-      { "class", composeClassAttributeValueForRootElement(namespaceCSS_Class: "TaskCard") },
-      { "tabindex", "0" },
-      { "onclick", (object)this.onClickRootElement }
-    }
-  )
+  class=@composeClassAttributeValueForRootElement("TaskCard")
+  tabindex="0"
+  onclick=@onClickRootElement
+  @attributes=@rootElementHTML_Attributes?.DeleteOnePairFromSwallowCopy("class").UpdatedDictionary
 >
 
   <span
@@ -26,11 +24,11 @@
 
     @if (targetTask.isCompleted)
     {
-      <CheckboxIcon__Checked rootElementModifierCSS_Class="TaskCard-Checkbox-Icon" />
+      <CheckboxIcon__Checked class="TaskCard-Checkbox-Icon" />
     }
     else
     {
-      <CheckboxIcon__Unchecked rootElementModifierCSS_Class="TaskCard-Checkbox-Icon" />
+      <CheckboxIcon__Unchecked class="TaskCard-Checkbox-Icon" />
     }
 
   </span>
@@ -49,7 +47,7 @@
           decorativeVariation=@YamatoDaiwa.Frontend.GUI_Components.Badge.Badge.StandardDecorativeVariations.veryCatchyBright
         >
           <PrependedSVG_Icon>
-            <CalendarIcon__Time rootElementModifierCSS_Class="Badge--YDF-SVG_Icon"/>
+            <CalendarIcon__Time class="Badge--YDF-SVG_Icon"/>
           </PrependedSVG_Icon>
         </Badge>  
       }
@@ -61,7 +59,7 @@
           valueLabel=@dateBadgeLabel
           decorativeVariation=@YamatoDaiwa.Frontend.GUI_Components.Badge.Badge.StandardDecorativeVariations.catchyBright>
           <PrependedSVG_Icon>
-            <CalendarIcon__Date rootElementModifierCSS_Class="Badge--YDF-SVG_Icon"/>
+            <CalendarIcon__Date class="Badge--YDF-SVG_Icon"/>
           </PrependedSVG_Icon>
         </Badge>  
       }

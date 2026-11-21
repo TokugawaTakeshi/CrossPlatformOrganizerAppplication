@@ -107,7 +107,7 @@ internal abstract class TasksFilteringPanelLocalizationGeneratorForStaticPreview
         /* ━━━ Errors Messages ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         {
           "errorMessages.taskCustomFoldersRetrievingFailed",
-          localization => localization.errorMessages.taskCustomFoldersRetrievingFailed
+          localization => localization.errorsMessages.taskCustomFoldersRetrievingFailed
         }
         
       }, 

@@ -139,8 +139,8 @@
           <TaskCard
             targetTask=@task
             rootElementTag="li"
-            onClickRootElementEventHandler=@TasksViewer.onTaskCardClicked
-            onClickCheckBoxEventHandler=@TasksViewer.onCompletionCheckboxClicked
+            onRootElementClickedEventHandler=@TasksViewer.onTaskCardClicked
+            onCheckBoxClickedEventHandler=@TasksViewer.onCompletionCheckboxClicked
           />
         }
       </ul>
@@ -250,8 +250,8 @@
               <TaskCard
                 targetTask=@task
                 rootElementTag="li"
-                onClickRootElementEventHandler=@TasksViewer.onTaskCardClicked
-                onClickCheckBoxEventHandler=@TasksViewer.onCompletionCheckboxClicked
+                onRootElementClickedEventHandler=@TasksViewer.onTaskCardClicked
+                onCheckBoxClickedEventHandler=@TasksViewer.onCompletionCheckboxClicked
               />
             }
           </ul>
